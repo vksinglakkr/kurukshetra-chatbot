@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>NyayaMitra (न्यायमित्र) – AI-Powered Criminal Law Assistant</title>
+  <title>Kurukshetra Mitra (कुरुक्षेत्रमित्र) – AI-Powered Criminal Law Assistant</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
@@ -811,8 +811,8 @@ body.simple-mode .glass-card {
         ⚖️
       </div>
       <div>
-        <h2 class="font-bold text-base md:text-lg text-gray-800">NyayaMitra • <span class="font-semibold">न्यायमित्र</span></h2>
-        <p class="text-xs text-gray-600 font-semibold">AI Assistant for New Criminal Laws</p>
+        <h2 class="font-bold text-base md:text-lg text-gray-800">Kurukshetra Mitra • <span class="font-semibold">कुरुक्षेत्र मित्र</span></h2>
+        <p class="text-xs text-gray-600 font-semibold">AI Assistant for Kurukshetra</p>
       </div>
     </div>
     
@@ -836,7 +836,7 @@ body.simple-mode .glass-card {
 <div class="bg-gradient-to-r from-orange-50 to-amber-50 border-b-2 border-orange-200 px-3 py-2">
   <p class="text-xs text-center font-semibold text-orange-800">
     <span class="hidden sm:inline">Bharatiya Nyaya Sanhita • Bharatiya Nagarik Suraksha Sanhita • Bharatiya Sakshya Adhiniyam</span>
-    <span class="sm:hidden">BNS • BNSS • BSA</span>
+    <span class="sm:hidden">Pilgrimage • Tourism • Services</span>
   </p>
 </div>
 <!-- Simple Mode Profile Selector -->
@@ -847,47 +847,47 @@ body.simple-mode .glass-card {
       <select id="simpleUserSelect" 
               class="flex-1 px-4 py-2 border-2 border-blue-300 rounded-lg bg-white focus:border-blue-500 outline-none"
               onchange="selectSimpleUser(this.value)">
-        <option value="citizen">👤 General Citizen</option>
+        <option value="citizen">👤 Resident / Citizen</option>
         <option value="student">🎓 Law Student</option>
-        <option value="police">👮 Police Officer</option>
-        <option value="legal">⚖️ Legal Professional</option>
+        <option value="police">👮 Pilgrim / Devotee</option>
+        <option value="legal">⚖️ Tourist / Visitor</option>
       </select>
     </div>
   </div>
 </div>
  <div class="p-2 md:p-3 flex-1 overflow-y-auto">
-      <!-- ALWAYS VISIBLE: Who are you? -->
+      <!-- ALWAYS VISIBLE: What brings you here ? -->
       <div class="mb-4" id="profileAccordion" class="power-mode-only">
 <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-300 rounded-2xl p-4 hidden" id="profileSelector">
   <label class="block text-base font-bold text-gray-800 mb-3 flex items-center gap-2">
         <span class="bg-blue-100 text-blue-700 rounded-full w-7 h-7 flex items-center justify-center text-sm font-bold">👤</span>
-            Who are you?
+            What is your purpose? / आप यहाँ किस उद्देश्य से आए हैं?
             <span class="text-xs font-normal text-gray-600"></span>
           </label>
           
           <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
             <div class="user-card-small" id="userPoliceMain" onclick="selectMainUser('police')">
               <div class="user-icon-small">👮</div>
-              <div class="user-title-small">Police Officer</div>
-              <div class="user-desc-small">Investigation, FIR, Procedures</div>
+              <div class="user-title-small">Pilgrim / Devotee</div>
+              <div class="user-desc-small">Gita sites, Temples, 48 Kos</div>
             </div>
             
             <div class="user-card-small" id="userLegalMain" onclick="selectMainUser('legal')">
               <div class="user-icon-small">⚖️</div>
-              <div class="user-title-small">Legal Professional</div>
-              <div class="user-desc-small">Lawyers, Judges, Prosecutors</div>
+              <div class="user-title-small">Tourist / Visitor</div>
+              <div class="user-desc-small">Sightseeing, Culture, Stay</div>
             </div>
             
             <div class="user-card-small" id="userStudentMain" onclick="selectMainUser('student')">
               <div class="user-icon-small">👨‍🎓</div>
               <div class="user-title-small">Student/Researcher</div>
-              <div class="user-desc-small">Law students, Academics</div>
+              <div class="user-desc-small">History, Gita, Mahabharata</div>
             </div>
             
             <div class="user-card-small" id="userCitizenMain" onclick="selectMainUser('citizen')">
               <div class="user-icon-small">🧑‍💼</div>
-              <div class="user-title-small">General Citizen</div>
-              <div class="user-desc-small">Rights, Complaints, Info</div>
+              <div class="user-title-small">Resident / Citizen</div>
+              <div class="user-desc-small">Services, Facilities, Support</div>
             </div>
           </div>
           
@@ -897,7 +897,7 @@ body.simple-mode .glass-card {
      onclick="expandProfileSelector()">
   <div class="text-sm font-bold text-blue-900">
     👤 Profile selected:
-    <span id="profileSummaryText">General Citizen</span>
+    <span id="profileSummaryText">Resident / Citizen</span>
   </div>
   <div class="text-xs text-blue-700 font-semibold">
     Change
@@ -910,7 +910,7 @@ body.simple-mode .glass-card {
           <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
           </svg>
-          What would you like to know?
+          How would you like to proceed?
         </h3>
         
         <div class="radio-option selected" id="customCard" onclick="selectQueryType('custom')">
@@ -918,7 +918,7 @@ body.simple-mode .glass-card {
           <span class="radio-icon">✏️</span>
           <div class="radio-label">
             <div class="radio-label-title">Ask Your Own Question</div>
-            <div class="radio-label-desc">Type any question about criminal laws</div>
+            <div class="radio-label-desc">Type your question about Kurukshetra</div>
           </div>
         </div>
         
@@ -926,8 +926,8 @@ body.simple-mode .glass-card {
           <input type="radio" name="queryType" value="ready" onclick="event.stopPropagation(); selectQueryType('ready')">
           <span class="radio-icon">📋</span>
           <div class="radio-label">
-            <div class="radio-label-title">Select Ready-Made Question</div>
-            <div class="radio-label-desc">Choose by your profile and topic</div>
+            <div class="radio-label-title">Select Guided Options</div>
+            <div class="radio-label-desc">Choose by purpose and category</div>
           </div>
         </div>
       </div>
@@ -960,7 +960,7 @@ body.simple-mode .glass-card {
           <div class="mb-1 mt-3" id="topicSection" style="display: none;">
             <label class="block text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
               <span class="bg-orange-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">1</span>
-              📚 What do you want to know about?
+              📚 What do you want to do in Kurukshetra?
             </label>
            
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2" id="topicContainer">
@@ -1091,7 +1091,7 @@ body.simple-mode .glass-card {
         ⚖️
       </div>
       <div>
-        <h2 class="font-bold text-lg text-gray-800">NyayaMitra</h2>
+        <h2 class="font-bold text-lg text-gray-800">Kurukshetra Mitra</h2>
         <p class="text-xs text-gray-600 font-semibold" id="chatHeaderStatus">AI Legal Assistant • Online</p>
       </div>
     </div>
@@ -1127,7 +1127,7 @@ body.simple-mode .glass-card {
   </div>
   <div class="bg-white rounded-2xl rounded-tl-none shadow-md p-4 max-w-[85%]">
     <p class="text-sm text-gray-800">
-      👋 Namaste! I'm <strong>NyayaMitra</strong>, your AI legal assistant.<br><br>
+      👋 Namaste! I'm <strong>Kurukshetra Mitra</strong>, your AI legal assistant.<br><br>
       Ask me anything about India's new criminal laws (BNS, BNSS, BSA).
     </p>
     <p class="text-xs text-gray-400 mt-2">Just now</p>
@@ -1230,7 +1230,7 @@ class="text-left p-2 md:p-3 bg-white hover:bg-orange-50 border-2 border-orange-2
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
           </svg>
-          NyayaMitra Response
+          Kurukshetra Mitra Response
         </h2>
         <button id="closeModal" class="hover:bg-white/20 p-2 rounded-full transition">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1364,7 +1364,7 @@ class="text-left p-2 md:p-3 bg-white hover:bg-orange-50 border-2 border-orange-2
   </div>
 
   <script>
-    console.log('🚀 NyayaMitra initializing...');
+    console.log('🚀 Kurukshetra Mitra initializing...');
     let isProfileManuallyChanged = false;
     
     // Update Last Modified DateTime - AUTOMATIC FROM FILE
@@ -1429,7 +1429,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // Show default hint
   const hintEl = document.getElementById('profileHint');
   if (hintEl) {
-    hintEl.textContent = 'Default profile: General Citizen (you can change it)';
+    hintEl.textContent = 'Default profile: Resident / Citizen (you can change it)';
   }
   // Set default selected user silently
   selectedUser = 'citizen';
@@ -1438,7 +1438,7 @@ document.addEventListener('DOMContentLoaded', function () {
   if (defaultCard) {
     defaultCard.classList.add('selected');
   }
-  console.log('✅ Default profile initialized silently: General Citizen');
+  console.log('✅ Default profile initialized silently: Resident / Citizen');
   
   setTimeout(() => {
     selectQueryType('ready');
@@ -1469,12 +1469,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const WEBHOOK_URL = 'https://n8n-workflow-test.duckdns.org/webhook/chatbot';
     
     // VERSION CHECK - This will appear in console immediately
-    console.log('🔥 NyayaMitra Version: ARRAY-FIX-v2 - Loaded at', new Date().toISOString());
+    console.log('🔥 Kurukshetra Mitra Version: ARRAY-FIX-v2 - Loaded at', new Date().toISOString());
     console.log('🔥 If you see this, the new version is loaded!');
     
     let currentQuestion = '';
     let currentAI = 'chatgpt';
-    let selectedUser = 'citizen'; // Default to General Citizen
+    let selectedUser = 'citizen'; // Default to Resident / Citizen
     let selectedTopic = '';
     let selectedQueryType = 'custom';
     let aiUsed = {
@@ -1486,12 +1486,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const USER_LEVEL_PROMPTS = {
       police: {
         level: 'intermediate',
-        instruction: 'You are answering for a Police Officer. Provide practical, action-oriented answers with clear procedures, legal provisions, and step-by-step guidance. Focus on investigation procedures, FIR handling, arrest protocols, and evidence collection. Use official terminology but keep it practical for field work.',
+        instruction: 'You are answering for a Pilgrim / Devotee. Provide practical, action-oriented answers with clear procedures, legal provisions, and step-by-step guidance. Focus on investigation procedures, FIR handling, arrest protocols, and evidence collection. Use official terminology but keep it practical for field work.',
         tone: 'Professional and procedural'
       },
       legal: {
         level: 'advanced',
-        instruction: 'You are answering for a Legal Professional (Lawyer/Judge/Prosecutor). Provide detailed legal analysis with specific section references, case law interpretations, procedural nuances, and technical legal terminology. Include comparative analysis between old and new laws where relevant.',
+        instruction: 'You are answering for a Tourist / Visitor (Lawyer/Judge/Prosecutor). Provide detailed legal analysis with specific section references, case law interpretations, procedural nuances, and technical legal terminology. Include comparative analysis between old and new laws where relevant.',
         tone: 'Technical and analytical'
       },
       student: {
@@ -1501,7 +1501,7 @@ document.addEventListener('DOMContentLoaded', function () {
       },
       citizen: {
         level: 'basic',
-        instruction: 'You are answering for a General Citizen. Provide simple, easy-to-understand explanations in plain language. Focus on practical rights, what to do in common situations, and step-by-step guidance. Avoid complex legal jargon. Use examples and analogies.',
+        instruction: 'You are answering for a Resident / Citizen. Provide simple, easy-to-understand explanations in plain language. Focus on practical rights, what to do in common situations, and step-by-step guidance. Avoid complex legal jargon. Use examples and analogies.',
         tone: 'Simple and practical'
       }
     };
@@ -1798,7 +1798,7 @@ document.addEventListener('DOMContentLoaded', function () {
       
       const header = document.querySelector('#aiModal .bg-gradient-to-r h2');
       if (header) {
-        header.innerHTML = '<span class="ml-2">' + 'NyayaMitra – AI Response</span>';
+        header.innerHTML = '<span class="ml-2">' + 'Kurukshetra Mitra – AI Response</span>';
       }
     }
     
@@ -1835,7 +1835,7 @@ document.addEventListener('DOMContentLoaded', function () {
         { id: 'casestudies', icon: '📖', title: 'Examples', subtitle: 'Real-world scenarios', law: 'All' }
       ],
       citizen: [
-        { id: 'rights', icon: '👥', title: 'Your Rights', subtitle: 'Arrest, trial, investigation', law: 'BNSS' },
+        { id: 'rights', icon: '👥', title: 'Pilgrimage & Spirituality', subtitle: 'Gita sites, Temples, Sarovars', law: 'BNSS' },
         { id: 'complaint', icon: '📝', title: 'How to Complain', subtitle: 'FIR, Online complaint', law: 'BNSS' },
         { id: 'bail', icon: '🏛️', title: 'Bail & Release', subtitle: 'How to get bail', law: 'BNSS' },
         { id: 'common', icon: '❓', title: 'Common Situations', subtitle: 'Theft, Accident, Dispute', law: 'BNS' },
@@ -1850,402 +1850,82 @@ document.addEventListener('DOMContentLoaded', function () {
  // FINAL COMPREHENSIVE TOPIC QUESTIONS - MERGED BEST FROM BOTH LISTS
 // 660+ High-Quality Questions - No Duplicates
 const TOPIC_QUESTIONS = {
-  // ========== POLICE OFFICER QUESTIONS ==========
+  // ========== Pilgrim / Devotee QUESTIONS ==========
   
   fir: [
     'How to register an FIR under new criminal laws?',
-    'What is Zero FIR and when to use it?',
-    'When is Zero FIR mandatory?',
-    'When can police refuse to register FIR?',
-    'What reasons are valid for refusing FIR?',
-    'What information must be included in FIR?',
-    'How to handle FIR for cognizable offences?',
-    'What is the difference between FIR and complaint?',
-    'Online FIR filing process and requirements?',
-    'Can FIR be registered at any police station?',
-    'What if complainant is unconscious or injured?',
-    'How to register FIR for cybercrime?',
-    'How to record FIR for online offences?',
-    'FIR registration time limits?',
-    'FIR registration timeline under BNSS?',
-    'Can FIR be corrected after registration?',
-    'What is NCR (Non-Cognizable Report)?',
-    'How to handle multiple complainants?',
-    'FIR for missing person procedure?',
-    'Anonymous complaint handling guidelines?',
-    'What if FIR involves multiple jurisdictions?',
-    'Can FIR be transferred to another PS?',
-    'How to register FIR for economic offences?',
-    'FIR for offences against women - special procedures?',
-    'Cross-FIR in same incident - how to handle?',
-    'E-FIR vs regular FIR differences?',
-    'What documents to attach with FIR?',
-    'FIR in languages other than English/Hindi?',
-    'Can witness register FIR on behalf of victim?',
     'How to handle delayed FIR registration?'
   ],
   
   arrest: [
     'When can police arrest without warrant under BNSS?',
-    'What are the mandatory procedures during arrest?',
-    'When is notice of appearance sufficient?',
-    'Rights that must be informed to arrested person?',
-    'Medical examination requirements during arrest?',
-    'Medical examination timeline after arrest?',
-    'Arrest procedures for women - specific rules?',
-    'What is police custody vs judicial custody?',
-    'Difference between police and judicial custody?',
-    'Maximum duration of police remand?',
-    'When to arrest juvenile vs adult?',
-    'Can arrest be made at night? Restrictions?',
-    'How to conduct arrest with dignity?',
-    'When to handcuff arrested person?',
-    'Arrest memo requirements and format?',
-    'Arrest memo preparation checklist?',
-    'What if arrested person needs medical attention?',
-    'Family notification requirements after arrest?',
-    'Strip search rules and limitations?',
-    'Arrest of government employees - special procedure?',
-    'When can bail be granted during custody?',
-    'Custody diary maintenance requirements?',
-    'Transfer from police to judicial custody process?',
-    'What if arrested person attempts suicide in custody?',
-    'Rights of arrested person to meet lawyer?',
-    'Arrest in non-bailable vs bailable offences?',
-    'Can pregnant woman be arrested?',
     'Preventive detention vs punitive detention?',
     'Release procedures from police custody?'
   ],
   
   investigation: [
     'What are police investigation powers under BNSS?',
-    'How to conduct search under Section 93?',
-    'Search warrant requirements and validity?',
-    'When can search be done without warrant?',
-    'Seizure of property - legal procedures?',
-    'Chain of custody for evidence - importance?',
-    'How to collect digital evidence properly?',
-    'Digital evidence seizure procedure?',
-    'Investigation timeline under new laws?',
-    'Maximum time for investigation in cognizable case?',
-    'Can investigation continue after charge sheet?',
-    'Rights of accused during investigation?',
-    'Witness examination during investigation?',
-    'How to record dying declaration?',
-    'Confession recording - legal requirements?',
-    'Investigation diary (Case Diary) maintenance?',
-    'Scene of crime examination procedures?',
-    'How to preserve electronic evidence?',
-    'How to preserve CCTV footage?',
-    'Investigation of cybercrime - special procedures?',
-    'Concurrent investigation by multiple agencies?',
-    'Investigation in economic offences?',
-    'Narco test and polygraph - legal validity?',
-    'Voice identification parade procedures?',
-    'Investigation closure report (Final Report)?',
-    'Further investigation after charge sheet?',
-    'Victim role in investigation?',
-    'Investigation supervision and monitoring?',
-    'Can IO seize mobile without warrant?',
     'Can accused be called repeatedly?'
   ],
   
   evidence: [
     'How to collect digital evidence for court?',
-    'Evidence preservation rules under BSA?',
-    'Chain of custody requirements and documentation?',
-    'Electronic evidence admissibility criteria?',
-    'Evidence tampering - legal consequences?',
-    'DNA evidence collection procedures?',
-    'CCTV footage as evidence - authentication?',
-    'Mobile phone evidence extraction?',
-    'Email and social media evidence collection?',
-    'Audio and video recording evidence?',
-    'How to seize computer and electronic devices?',
-    'Evidence storage and security protocols?',
-    'Expert evidence and forensic reports?',
-    'Dying declaration as evidence - requirements?',
-    'Tip-off information vs admissible evidence?',
-    'Circumstantial evidence vs direct evidence?',
-    'Recovery memo preparation?',
-    'Evidence contradicting FIR - how to handle?',
     'Lost or destroyed evidence - consequences?',
     'Evidence from private CCTV vs public camera?'
   ],
   
   chargesheet: [
     'How to file charge sheet under BNSS?',
-    'Timeline for filing charge sheet?',
-    'What happens if charge sheet is delayed?',
-    'What documents must be attached with charge sheet?',
-    'Documents mandatory with charge sheet?',
-    'Charge sheet vs FIR - key differences?',
-    'Can charge sheet be challenged in court?',
-    'Supplementary charge sheet when needed?',
-    'Can supplementary charge sheet be filed?',
-    'Charge sheet format and mandatory sections?',
-    'Multiple accused in single charge sheet?',
-    'How to add new accused after charge sheet?',
-    'Victim impact statement in charge sheet?',
-    'Evidence list requirements in charge sheet?',
-    'Investigation officer signature requirements?',
-    'Sanction for prosecution - when required?',
-    'Charge sheet in cases of juveniles?',
-    'Final report vs charge sheet difference?',
-    'Closure report (A-summary) procedure?',
-    'Further investigation after charge sheet filed?',
-    'Charge sheet in economic offences - special rules?',
-    'Time limit extension for charge sheet?',
-    'Extension of investigation time – procedure?',
-    'Defective charge sheet - court powers?',
     'Who approves final report?'
   ],
   
   crimes: [
     'What constitutes theft under BNS Section 303?',
-    'How is assault defined in new criminal laws?',
-    'Cybercrime reporting and investigation process?',
-    'Difference between theft and robbery?',
-    'Fraud vs cheating - legal definitions?',
-    'Dowry death investigation procedures?',
-    'Rape investigation - special procedures?',
-    'Murder vs culpable homicide - distinction?',
-    'Kidnapping vs abduction differences?',
-    'Eve teasing and sexual harassment laws?',
-    'Domestic violence - police powers?',
-    'Child abuse reporting and investigation?',
-    'Senior citizen abuse laws?',
-    'Defamation - criminal vs civil?',
-    'Criminal intimidation and threats?',
-    'Rioting and unlawful assembly?',
-    'Forgery and document fraud?',
-    'Bribery and corruption offences?',
-    'Drug offences investigation?',
-    'Arms Act violations?',
-    'Motor vehicle accidents - criminal liability?',
-    'Outraging modesty of women?',
-    'Stalking - new provisions under BNS?',
     'Acid attack - legal provisions?',
     'Human trafficking investigation?'
   ],
   
   rights: [
     'What are rights of arrested person?',
-    'Can accused refuse to give statement?',
-    'Right to lawyer - when does it begin?',
-    'Rights during police interrogation?',
-    'What if rights are violated - remedies?',
-    'Right to bail under new laws?',
-    'Right to medical examination?',
-    'Family notification rights?',
-    'Right against self-incrimination?',
-    'Right to interpreter if language barrier?',
-    'Right to food and basic amenities in custody?',
-    'Right to meet legal counsel - frequency?',
-    'Right to remain silent during investigation?',
-    'Rights of women accused - special provisions?',
-    'Rights of juvenile in conflict with law?',
-    'Right to speedy trial?',
-    'Right to cross-examine witnesses?',
-    'Right to appeal against arrest?',
-    'Right to compensation if wrongfully arrested?',
-    'Fundamental rights during criminal proceedings?'
+     'Fundamental rights during criminal proceedings?'
   ],
   
   terminology: [
     'What is cognizable offence?',
     'Define bailable offence vs non-bailable?',
-    'What is compounding of offences?',
-    'Explain warrant case vs summons case?',
-    'What is remand - police vs judicial?',
-    'Define anticipatory bail?',
-    'What is concurrent sentence vs consecutive sentence?',
-    'Explain plea bargaining provisions?',
-    'What is probation of offenders?',
-    'Define community service as punishment?',
-    'What is discharge vs acquittal?',
-    'Explain compoundable vs non-compoundable offence?',
-    'What is conviction and sentencing?',
-    'Define abetment and conspiracy?',
-    'What is vicarious liability?',
-    'Explain strict liability in criminal law?',
-    'What is burden of proof?',
-    'Define reasonable doubt?',
-    'What is res gestae?',
     'Explain doctrine of alibi?'
   ],
   
-  // ========== LEGAL PROFESSIONAL QUESTIONS ==========
+  // ========== Tourist / Visitor QUESTIONS ==========
   
   bail: [
-    'How to apply for regular bail under BNSS Section 479?',
-    'Regular bail vs anticipatory bail - key differences?',
-    'What factors does court consider for bail?',
-    'Grounds for bail rejection under BNSS?',
-    'Bail amount calculation and guidelines?',
-    'When can bail be cancelled by court?',
-    'Bail in non-bailable offences - conditions?',
-    'Anticipatory bail procedure and time limits?',
-    'Can anticipatory bail be time-bound?',
-    'Can bail be granted during investigation?',
-    'Bail rejection - appeal process?',
-    'Default bail (Section 167 BNSS) provisions?',
-    'Difference between default bail and regular bail?',
-    'Bail conditions that can be imposed?',
-    'Bail conditions enforceability?',
-    'Surety requirements for bail?',
-    'Cash bail vs personal bond?',
-    'Bail in cases involving women accused?',
-    'Bail for juveniles - special provisions?',
-    'Transit remand vs production warrant?',
-    'Bail cancellation grounds?',
-    'Modification of bail conditions?',
-    'Bail in economic offences - restrictions?',
-    'Anticipatory bail duration and extension?',
     'Concurrent jurisdiction for bail?',
-    'Bail pending investigation vs pending trial?',
-    'Supreme Court guidelines on bail?',
-    'Bail in terrorism and UAPA cases?',
-    'Personal liberty vs public interest in bail?',
     'Can court impose digital monitoring?'
   ],
   
   trial: [
     'Summons case vs warrant case - differences?',
-    'Sessions trial procedure under BNSS?',
-    'How long does criminal trial typically take?',
-    'Rights of accused during trial?',
-    'Can trial be fast-tracked? Conditions?',
-    'Framing of charges procedure?',
-    'Discharge vs acquittal - legal distinction?',
-    'Trial in absentia - when permissible?',
-    'Witness examination procedure?',
-    'Cross-examination rights and limits?',
-    'Court commissioner examination - when used?',
-    'Evidence recording in trial?',
-    'Defence evidence presentation?',
-    'Final arguments and written submissions?',
-    'Judgment delivery timeline?',
-    'Split trial - when ordered?',
-    'De novo trial - circumstances?',
-    'Joint trial of multiple accused?',
-    'Separate trial for co-accused - when?',
-    'Victim participation in trial?',
-    'In-camera trial provisions?',
-    'Video conferencing in trial?',
-    'Speedy trial - constitutional right?',
-    'Trial by jury vs judge alone?',
-    'Summary trial procedure?',
-    'Is WhatsApp chat admissible?',
-    'Who certifies electronic evidence?',
-    'CCTV footage without certificate – valid?',
-    'Can call records be primary evidence?',
     'Hostile witness treatment under BSA?'
   ],
   
   appeals: [
     'How to file appeal under BNSS?',
-    'Appeal time limits from different courts?',
-    'Limitation period for appeal?',
-    'High Court vs Supreme Court appeals - differences?',
-    'Appeal procedure and documentation?',
-    'Can appeal be filed online?',
-    'Cost of filing appeals?',
-    'Suspension of sentence pending appeal?',
-    'Revision petition vs appeal - distinction?',
-    'Difference between revision and appeal?',
-    'Powers of appellate court?',
-    'Fresh evidence in appeal - when allowed?',
-    'Appeal against acquittal - procedure?',
-    'Appeal against conviction and sentence?',
-    'Appeal by State vs appeal by accused?',
-    'Condonation of delay in appeal?',
-    'Withdrawal of appeal - procedure?',
-    'Acquittal on appeal - consequences?',
-    'Enhanced sentence on appeal - legality?',
-    'Compounding of offences during appeal?',
-    'Legal aid for appeals?',
-    'Reference to High Court - circumstances?',
-    'Special Leave Petition to Supreme Court?',
-    'Interim relief during appeal?',
     'Stay on conviction possible?'
   ],
   
   punishments: [
-    'What changed from IPC to BNS in punishments?',
-    'Punishment for theft under BNS?',
-    'Sentencing guidelines under new laws?',
     'Mitigating factors in sentencing?',
     'Maximum punishment for murder?',
-    'Death penalty - current status under BNS?',
-    'Life imprisonment provisions?',
-    'Community service as alternative punishment?',
-    'Fine as punishment - maximum limits?',
-    'Compensation to victims - mandatory provisions?',
-    'Suspended sentence and probation?',
-    'First-time offender - leniency provisions?',
-    'Juvenile sentencing - special provisions?',
-    'Concurrent vs consecutive sentences?',
-    'Minimum sentences for specific offences?',
-    'Enhanced punishment for repeat offenders?',
-    'Remission and commutation of sentences?',
-    'Presidential pardon provisions?',
-    'Punishment for corporate crimes?',
     'Sentencing in plea bargaining?'
   ],
   
   procedures: [
     'How to file criminal case in court?',
-    'Court documentation and format requirements?',
-    'Timeline for court hearings?',
-    'Court fees structure for criminal cases?',
-    'How to get certified copies of court orders?',
-    'Case diary access by accused?',
-    'Filing of complaints under Section 200 BNSS?',
-    'Private complaint procedure?',
-    'Condonation of delay in filing?',
-    'Application for summons to witnesses?',
-    'Vakalatnama and authorization to appear?',
-    'Adjournment of cases - grounds?',
-    'Production of documents in court?',
-    'Examination of accused under Section 313?',
-    'Application for discharge?',
-    'Bail application format and grounds?',
-    'Interim orders during trial?',
-    'Court recording of evidence?',
-    'Petition for transfer of case?',
     'Stay of proceedings - when granted?'
   ],
   
   comparison: [
     'Key changes from IPC to BNS?',
-    'Major differences between BNSS and CrPC?',
-    'BSA vs Evidence Act - what changed?',
-    'Why were criminal laws changed in 2024?',
-    'Implementation timeline for new laws?',
-    'Sections renumbered - how to find correspondence?',
-    'New offences added in BNS?',
-    'Offences removed from IPC?',
-    'Punishment changes - increased or decreased?',
-    'Procedural changes in BNSS?',
-    'Electronic evidence provisions - new additions?',
-    'Time limits changed in new laws?',
-    'Bail provisions - what is different?',
-    'Investigation powers - expanded or restricted?',
-    'Victim rights - enhanced provisions?',
-    'Women and children - special protections added?',
-    'Cybercrime provisions in new laws?',
-    'Economic offences - new provisions?',
-    'Community service - new concept?',
-    'Plea bargaining - any changes?',
-    'Appeals and revision - modified provisions?',
-    'Language and terminology changes?',
-    'Transitional provisions for pending cases?',
-    'Savings clause - what continues?',
-    'Training and adaptation challenges?',
-    'FIR process: CrPC vs BNSS',
-    'Arrest rules: Old vs New law',
-    'Evidence law changes summary',
     'New timelines introduced',
     'Technology use in new laws'
   ],
@@ -2254,30 +1934,6 @@ const TOPIC_QUESTIONS = {
   
   concepts: [
     'Mens rea - detailed explanation with examples?',
-    'What is mens rea in simple words?',
-    'Actus reus - what constitutes criminal act?',
-    'Criminal liability - how is it established?',
-    'Strict liability vs absolute liability?',
-    'Vicarious liability - scope and limits?',
-    'Joint liability - common intention vs common object?',
-    'Constructive liability - meaning?',
-    'Right of private defence - when justified?',
-    'General exceptions to criminal liability?',
-    'Age of criminal responsibility - legal provisions?',
-    'Unsoundness of mind - defence?',
-    'Intoxication - voluntary vs involuntary?',
-    'Necessity as defence - legal validity?',
-    'Mistake of fact vs mistake of law?',
-    'Doctrine of transferred malice?',
-    'Doctrine of common intention?',
-    'Doctrine of mens rea in statutory offences?',
-    'Principle of nulla poena sine lege?',
-    'Doctrine of double jeopardy?',
-    'Burden of proof in criminal cases?',
-    'What is burden of proof?',
-    'Standard of proof - beyond reasonable doubt?',
-    'Presumption of innocence - application?',
-    'What is presumption under law?',
     'Corpus delicti - essential requirement?',
     'Motive vs intention - legal distinction?',
     'Criminal negligence vs civil negligence?'
@@ -2285,378 +1941,70 @@ const TOPIC_QUESTIONS = {
   
   criminal: [
     'Classification of offences under BNS?',
-    'Meaning of cognizable offence with example?',
-    'Difference between bailable and non-bailable?',
-    'Crimes against human body - categories?',
-    'Crimes against property - types?',
-    'Crimes against state - treason, sedition?',
-    'Crimes against public tranquility?',
-    'Crimes related to elections?',
-    'Crimes by or relating to public servants?',
-    'Contempt of lawful authority?',
-    'Offences affecting public health and safety?',
-    'Offences relating to religion?',
-    'Offences affecting human body - murder to assault?',
-    'Sexual offences - comprehensive overview?',
-    'Offences against women - special provisions?',
-    'Offences relating to marriage?',
-    'Defamation - criminal provisions?',
-    'Criminal intimidation and insult?',
-    'Theft, extortion, robbery, dacoity?',
-    'Cheating and fraud?',
-    'Criminal breach of trust?',
-    'Forgery and document fraud?',
-    'Currency offences?',
-    'Cybercrime under BNS?',
-    'Economic offences?',
-    'Environmental crimes?',
-    'Organized crime and terrorism?'
+     'Organized crime and terrorism?'
   ],
   
   procedure: [
     'FIR to judgment - complete process?',
-    'Preliminary investigation before FIR?',
-    'Investigation powers and duties?',
-    'Arrest procedures and safeguards?',
-    'Search and seizure - legal requirements?',
-    'Remand to police custody - procedure?',
-    'Bail application and hearing?',
-    'Charge sheet filing - timeline and format?',
-    'Cognizance by magistrate - process?',
-    'Framing of charges - procedure?',
-    'Trial procedure in sessions court?',
-    'Recording of evidence - examination stages?',
-    'Defence evidence presentation?',
-    'Arguments - prosecution and defence?',
-    'Judgment writing - requirements?',
-    'Sentencing hearing and factors?',
-    'Appeal procedure and time limits?',
-    'Revision petition - when maintainable?',
-    'Review of judgment - grounds?',
-    'Reference to High Court?',
-    'Special leave petition to Supreme Court?',
-    'Execution of sentences?',
-    'Probation and suspended sentence?',
     'Remission and pardon?',
     'Victim compensation - procedure?'
   ],
   
   evidence_law: [
     'Types of evidence - direct, circumstantial, documentary?',
-    'Oral evidence vs documentary evidence?',
-    'Primary evidence vs secondary evidence?',
-    'Admissibility of evidence - tests?',
-    'Relevancy of evidence - determining factors?',
-    'Facts in issue and relevant facts?',
-    'Burden of proof - who bears it?',
-    'Standard of proof in criminal vs civil?',
-    'Presumptions - rebuttable and conclusive?',
-    'Confession - admissibility conditions?',
-    'Dying declaration - evidentiary value?',
-    'Expert evidence - when required?',
-    'Opinion evidence - admissibility?',
-    'Character evidence - when relevant?',
-    'Previous judgments as evidence?',
-    'Electronic evidence under BSA?',
-    'Digital signatures and certificates?',
-    'CCTV footage authentication?',
-    'Social media evidence?',
-    'Email and SMS as evidence?',
-    'Voice recognition and call records?',
-    'DNA evidence - admissibility?',
-    'Lie detector and narco tests?',
-    'Witness examination - chief, cross, re-examination?',
     'Impeaching witness credibility?'
   ],
   
   amendments: [
     'Why IPC was replaced by BNS?',
-    'Objectives of BNSS in simple terms?',
-    'Why Evidence Act was changed?',
-    'What problems old laws had?',
-    'Most significant changes in criminal laws?',
-    'New offences introduced in BNS?',
-    'Enhanced punishments - which crimes?',
-    'Reduced punishments - any instances?',
-    'Time-bound investigation provisions?',
-    'Victim rights - new additions?',
-    'Technology integration - major changes?',
-    'Simplified language - impact?',
-    'Gender-neutral provisions?',
-    'Community service - implementation?',
-    'Forensic investigation - mandatory provisions?',
-    'Electronic service of summons?',
-    'Video conferencing in trial?',
-    'Witness protection scheme?',
-    'Speedy trial provisions?',
-    'Bail reforms?',
-    'Plea bargaining changes?',
-    'Juvenile justice amendments?',
-    'Economic crime provisions?',
     'International cooperation provisions?'
   ],
   
   casestudies: [
     'Landmark judgments under new criminal laws?',
-    'Case study: FIR registration issues?',
-    'Case study: Bail application denied/granted?',
-    'Example: Investigation procedure in cyberfraud?',
-    'Case study: Trial procedure in murder case?',
-    'Example: Evidence presentation in court?',
-    'Case study: Appeal after conviction?',
-    'Example: Compounding of offences?',
-    'Case study: Juvenile justice case?',
-    'Example: Anticipatory bail application?',
-    'Case study: Victim compensation awarded?',
-    'Example: Witness protection case?',
-    'Case study: Electronic evidence admissibility?',
-    'Example: Community service as punishment?',
-    'Case study: Plea bargaining success?',
-    'Example: Private defence justified?',
-    'Case study: General exceptions applied?',
-    'Example: Joint trial of multiple accused?',
     'Case study: Reference to High Court?',
     'Example: Practical application of new laws?'
   ],
   
-  // ========== GENERAL CITIZEN QUESTIONS ==========
+  // ========== Resident / Citizen QUESTIONS ==========
   
   rights: [
     'What are my rights if arrested?',
-    'Can I refuse to give statement to police?',
-    'When do I get right to lawyer?',
-    'What are my rights during police interrogation?',
-    'What if my rights are violated by police?',
-    'Right to bail - am I entitled?',
-    'Right to medical examination when arrested?',
-    'Does police have to inform my family?',
-    'Can police search my house without warrant?',
-    'Right against self-incrimination - what is it?',
-    'What if I do not understand the language?',
-    'Right to food and basic needs in custody?',
-    'How often can I meet my lawyer?',
-    'Can I remain silent during questioning?',
-    'Special rights for women accused?',
-    'Rights of senior citizens in criminal cases?',
-    'Right to speedy trial - how long should case take?',
-    'Can I cross-examine witnesses?',
-    'Right to appeal if convicted?',
-    'Compensation if wrongfully arrested?',
-    'Rights during court trial?',
-    'Right to interpreter in court?',
-    'Rights of victims in criminal cases?',
-    'Right to legal aid if I cannot afford lawyer?',
-    'Constitutional rights in criminal proceedings?',
-    'Can police call me without written notice?',
-    'Can police arrest at night?',
-    'Can police arrest without telling reason?',
-    'What should I do if police misbehave?',
     'Can mobile be taken by police?'
   ],
   
   complaint: [
-    'How do I file FIR?',
-    'Where can I register FIR?',
-    'Can I file FIR online?',
-    'Can FIR be lodged through email or online?',
-    'What if police station refuses FIR?',
-    'What if police delay FIR registration?',
-    'What is Zero FIR and when to use?',
-    'What information should I give in complaint?',
-    'Do I need documents for FIR?',
-    'What documents are needed to file FIR?',
-    'How to file complaint for cybercrime?',
-    'Online complaint to National Commission for Women?',
-    'Consumer court complaint process?',
-    'How to complain about police officer?',
-    'Complaint to Human Rights Commission?',
-    'Anonymous complaint - is it valid?',
-    'Oral vs written complaint?',
-    'Time limit for filing FIR?',
-    'Can I get copy of my FIR?',
-    'What happens after FIR is registered?',
-    'Private complaint in court - procedure?',
-    'How to file complaint for cheating?',
     'Property dispute complaint - where to file?',
-    'Workplace harassment complaint?',
-    'Domestic violence complaint procedure?',
-    'Missing person complaint?',
-    'Accident complaint and insurance claim?',
-    'Online fraud complaint - step by step?',
-    'Can a family member file FIR on my behalf?',
-    'Is FIR free of cost?',
     'Can FIR be withdrawn later?'
   ],
   
   bail: [
     'What is bail and who can get it?',
-    'How to apply for bail?',
-    'How much does bail cost?',
-    'How much time does it take to get bail?',
-    'What are bail conditions?',
-    'Can bail be given during investigation?',
-    'What is anticipatory bail?',
-    'How long does bail process take?',
-    'What if bail is rejected?',
-    'Who can stand surety for bail?',
-    'Who can apply for bail on my behalf?',
-    'Can I travel if on bail?',
-    'Regular bail vs interim bail?',
-    'Bail for women - any special provisions?',
-    'Bail for senior citizens?',
-    'When can bail be cancelled?',
-    'What happens if bail conditions are violated?',
-    'Default bail - what is it?',
-    'How to get bail in non-bailable case?',
-    'Personal bond vs surety bail?',
-    'Reporting to police station while on bail?',
-    'Bail in serious crimes like murder?',
-    'Release on personal recognizance?',
-    'Is bail possible on the same day of arrest?',
     'Can police oppose bail?'
   ],
   
   common: [
     'What to do if my mobile is stolen?',
-    'Vehicle accident - what steps to take?',
-    'Property dispute with neighbor - resolution?',
-    'Cheque bounced - what is remedy?',
-    'Online shopping fraud - how to complain?',
-    'Landlord-tenant dispute handling?',
-    'Workplace harassment - what to do?',
-    'Domestic violence - immediate help?',
-    'Lost important documents - procedure?',
-    'Credit card fraud - steps to take?',
-    'Defamation case - how to handle?',
-    'Physical assault - what should I do?',
-    'Robbery at home - immediate actions?',
-    'Bike/car stolen - reporting process?',
-    'Threatened by someone - legal help?',
-    'Money not returned by friend - options?',
-    'Fake social media profile - complaint?',
-    'Neighbour causing nuisance - remedy?',
-    'Child missing - what to do immediately?',
-    'Dowry harassment - legal remedies?',
-    'Will dispute in family?',
-    'Marriage fraud case?',
-    'Job fraud and fake placement - complaint?',
-    'Electricity/water theft by neighbor?',
-    'Stray animal causing damage - liability?',
-    'Can case be settled outside court?',
-    'How long does criminal case take?',
-    'What happens if accused does not cooperate?',
     'Can police close case without informing complainant?'
   ],
   
   legal_aid: [
     'How to get free legal aid?',
-    'Who is eligible for free legal services?',
-    'Legal aid helpline numbers?',
-    'Government legal aid authorities?',
-    'District Legal Services Authority - how to contact?',
-    'NGOs providing free legal help?',
-    'Online legal consultation services?',
-    'Lawyer fees - typical costs?',
-    'How to find good criminal lawyer?',
-    'Legal aid for women?',
-    'Legal help for senior citizens?',
-    'Free legal aid for SC/ST/OBC?',
-    'Legal aid for persons with disabilities?',
-    'Victim legal services?',
-    'Legal aid in custody?',
-    'Legal awareness programs?',
-    'Mobile legal aid clinics?',
-    'Tele-law services?',
-    'Legal aid mobile apps?',
     'Pro bono legal services?'
   ],
   
   cybercrime: [
     'How to report online fraud?',
-    'What to do if money is deducted online fraud?',
-    'Cyber police station - where to find?',
-    'National Cybercrime Reporting Portal?',
-    'Online harassment complaint procedure?',
-    'Social media account hacked - what to do?',
-    'Fake profile impersonating me - remedy?',
-    'Online blackmail and extortion - help?',
-    'Cyberstalking - how to complain?',
-    'Revenge porn - legal remedies?',
-    'Phishing attack - reporting process?',
-    'UPI fraud - immediate steps?',
-    'Banking fraud online - whom to inform?',
-    'Can bank reverse fraud amount?',
-    'Online job scam - complaint?',
-    'Dating app fraud - legal action?',
-    'Cyber bullying - how to stop?',
-    'Obscene messages - legal remedy?',
-    'Morphed photos circulated - what to do?',
-    'Online defamation - legal options?',
-    'Video call blackmail - help?',
-    'Email hacking - complaint procedure?',
-    'Identity theft online - steps?',
-    'Online gaming fraud?',
-    'Fake website cheating - complaint?',
-    'Digital arrest scam - awareness?',
-    'How to protect myself online?',
-    'How quickly should cyber complaint be filed?',
-    'Is cyber complaint possible without FIR?',
     'Is cyber crime complaint anonymous?'
   ],
   
   women: [
-    'Domestic violence - immediate help?',
-    'Dowry harassment - legal remedy?',
-    'Sexual harassment - where to complain?',
-    'Acid attack - legal help and compensation?',
-    'Rape - medical and legal procedure?',
-    'Stalking - legal protection?',
-    'Eve teasing - what to do?',
-    'Women helpline numbers?',
-    'What is emergency number for women?',
-    'Mahila police station - services?',
-    'Protection of Women from Domestic Violence Act?',
-    'Child abuse - reporting procedure?',
-    'Child sexual abuse - immediate steps?',
-    'Missing child - what to do?',
-    'Child marriage - how to prevent?',
-    'POCSO Act - what does it cover?',
-    'Child helpline number?',
-    'Juvenile justice - who it applies to?',
-    'Maintenance for wife and children?',
-    'Divorce and domestic violence?',
-    'Protection from husband family?',
-    'Working women harassment - complaint?',
-    'Maternity rights?',
     'Sexual harassment at workplace - procedure?',
-    'Women safety apps?',
-    'Legal aid for women?',
-    'Can woman be arrested by male police?',
-    'What time police can arrest a woman?',
-    'Is complaint mandatory in women cases?',
     'What rights does a minor have during inquiry?'
   ],
   
   basics: [
     'What is FIR in simple words?',
-    'What does cognizable offence mean?',
-    'Bailable vs non-bailable - simple explanation?',
-    'What is police custody?',
-    'What is judicial custody?',
-    'What is charge sheet?',
-    'Bail - simple definition?',
-    'What is arrest warrant?',
-    'What is summons?',
-    'Court - different types explained?',
-    'What is trial?',
-    'Judge vs Magistrate - difference?',
-    'What is appeal?',
-    'What is conviction?',
-    'What is acquittal?',
-    'Punishment - types explained?',
-    'What is fine?',
-    'Life imprisonment - how many years?',
-    'What is lawyer role?',
     'Public prosecutor - who is this?',
     'How long can police keep someone in custody?'
   ]
@@ -2740,14 +2088,14 @@ function selectMainUser(userType) {
   // ✅ Update hint ONLY for manual selection
   const hintEl = document.getElementById('profileHint');
   const shortNames = {
-    police: 'Police Officer',
-    legal: 'Legal Professional',
+    police: 'Pilgrim / Devotee',
+    legal: 'Tourist / Visitor',
     student: 'Student / Researcher',
-    citizen: 'General Citizen'
+    citizen: 'Resident / Citizen'
   };
 
   if (hintEl) {
-    hintEl.textContent = '✓ Selected: ' + (shortNames[userType] || 'General Citizen');
+    hintEl.textContent = '✓ Selected: ' + (shortNames[userType] || 'Resident / Citizen');
   }
 
   /* ================================
@@ -2762,7 +2110,7 @@ function selectMainUser(userType) {
     if (profileBox && summaryBox && summaryText) {
       profileBox.classList.add('hidden');
       summaryBox.classList.remove('hidden');
-      summaryText.textContent = shortNames[userType] || 'General Citizen';
+      summaryText.textContent = shortNames[userType] || 'Resident / Citizen';
     }
 
     // Scroll to next section
@@ -2940,7 +2288,7 @@ document.getElementById('submitBtn').addEventListener('click', async function() 
   // Profile is always selected (default: citizen)
   // Show gentle reminder if user hasn't explicitly selected
   if (selectedUser === 'citizen' && !document.getElementById('userCitizenMain').classList.contains('selected')) {
-    console.log('ℹ️ Using default profile: General Citizen');
+    console.log('ℹ️ Using default profile: Resident / Citizen');
   }
   
   // Reset for new question
@@ -3128,7 +2476,7 @@ document.getElementById('closeBtn').addEventListener('click', function() {
       }
     });
     
-    console.log('✅ NyayaMitra ready with autocomplete!');
+    console.log('✅ Kurukshetra Mitra ready with autocomplete!');
 function expandProfileSelector() {
   document.getElementById('profileSelector')?.classList.remove('hidden');
   document.getElementById('profileSummary')?.classList.add('hidden');
@@ -3313,7 +2661,7 @@ autoSelectTopicForUserType();
   }
   
   // Save preference
-  localStorage.setItem('nyayaMitraMode', currentMode);
+  localStorage.setItem('Kurukshetra MitraMode', currentMode);
 }
 
 // Simple Profile Selector
@@ -3337,7 +2685,7 @@ function selectSimpleUser(userType) {
 
 // Initialize mode on page load
 window.addEventListener('DOMContentLoaded', function() {
-  const savedMode = localStorage.getItem('nyayaMitraMode');
+  const savedMode = localStorage.getItem('Kurukshetra MitraMode');
   
   // Start in simple mode by default
   document.body.classList.add('simple-mode');
@@ -3473,7 +2821,7 @@ function addTypingIndicator() {
         <div class="typing-dot"></div>
         <div class="typing-dot"></div>
       </div>
-      <p class="text-xs text-gray-400 mt-2">NyayaMitra is thinking...</p>
+      <p class="text-xs text-gray-400 mt-2">Kurukshetra Mitra is thinking...</p>
     </div>
   `;
   chatMessages.appendChild(typingDiv);
@@ -3705,7 +3053,7 @@ function shareOnWhatsAppChat(button) {
   const messageDiv = button.closest('.chat-bubble-bot');
   const messageText = messageDiv.querySelector('[id^="botMessage-"]').innerText;
   
-  const shareText = `*NyayaMitra Answer:*\n\n${messageText}\n\n_Powered by NyayaMitra - AI Legal Assistant_`;
+  const shareText = `*Kurukshetra Mitra Answer:*\n\n${messageText}\n\n_Powered by Kurukshetra Mitra - AI Legal Assistant_`;
   const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
   
   window.open(whatsappUrl, '_blank');
@@ -3944,7 +3292,7 @@ function clearChatHistory() {
     </div>
     <div class="bg-white rounded-2xl rounded-tl-none shadow-md p-4 max-w-[85%]">
       <p class="text-sm text-gray-800">
-        👋 Namaste! I'm <strong>NyayaMitra</strong>, your AI legal assistant.<br><br>
+        👋 Namaste! I'm <strong>Kurukshetra Mitra</strong>, your AI legal assistant.<br><br>
         Ask me anything about India's new criminal laws (BNS, BNSS, BSA).
       </p>
       <p class="text-xs text-gray-400 mt-2">${getCurrentTime()}</p>
