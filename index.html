@@ -1,0 +1,4073 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>NyayaMitra (न्यायमित्र) – AI-Powered Criminal Law Assistant</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      background: radial-gradient(ellipse at top, #1e3a8a, #0f172a);
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+    
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image: 
+        radial-gradient(circle at 20% 50%, rgba(251, 191, 36, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(249, 115, 22, 0.1) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    
+    .playfair { font-family: 'Playfair Display', serif; }
+    .container-main { position: relative; z-index: 1; }
+    
+    .glass-card {
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+    
+    .gradient-text {
+      background: linear-gradient(135deg, #ff6b35 0%, #f59e0b 50%, #ff6b35 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-size: 200% auto;
+      animation: shimmer 3s linear infinite;
+    }
+    
+    @keyframes shimmer { to { background-position: 200% center; } }
+    
+    .header-glow { position: relative; }
+    .header-glow::before {
+      content: '';
+      position: absolute;
+      top: -20px; left: 50%;
+      transform: translateX(-50%);
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(251, 191, 36, 0.3), transparent 70%);
+      filter: blur(40px);
+      pointer-events: none;
+    }
+    
+    .fade-in { animation: fadeIn 0.8s ease-in-out; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes pulse {
+      0%, 100% { 
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+      }
+      50% { 
+        transform: scale(1.02);
+        box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+      }
+    }
+    
+    .query-type-selector {
+      background: linear-gradient(135deg, #fef3c7, #fed7aa);
+      border: 3px solid #f59e0b;
+      border-radius: 16px;
+      padding: 16px 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.3);
+    }
+    
+    .radio-option {
+      position: relative;
+      display: flex;
+      align-items: flex-start;
+      padding: 10px 12px;
+      background: white;
+      border: 3px solid #e5e7eb;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-bottom: 10px;
+      min-height: 55px;
+    }
+    
+    .radio-option:hover {
+      border-color: #f59e0b;
+      transform: translateX(3px);
+      box-shadow: 0 3px 12px rgba(245, 158, 11, 0.2);
+    }
+    
+    .radio-option.selected {
+      border-color: #f59e0b;
+      background: linear-gradient(135deg, #fffbeb, #fef3c7);
+      box-shadow: 0 4px 16px rgba(245, 158, 11, 0.3);
+      transform: scale(1.01);
+    }
+    
+    .radio-option input[type="radio"] {
+      width: 18px; height: 18px;
+      margin-right: 10px;
+      cursor: pointer;
+      accent-color: #f59e0b;
+      flex-shrink: 0;
+    }
+    
+    .radio-icon { font-size: 20px; margin-right: 8px; flex-shrink: 0; }
+    .radio-label {
+      flex: 1;
+    }
+    .radio-label-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #1f2937;
+      line-height: 1.2;
+    }
+    .radio-label-desc {
+      font-size: 10px;
+      color: #6b7280;
+      line-height: 1.3;
+      margin-top: 2px;
+    }
+    
+    .user-card {
+      padding: 12px;
+      background: white;
+      border: 3px solid #e5e7eb;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-align: center;
+      min-height: 90px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .user-card:hover {
+      border-color: #f59e0b;
+      transform: translateY(-4px);
+      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.3);
+    }
+    
+    .user-card.selected {
+      border-color: #f59e0b;
+      background: linear-gradient(135deg, #fffbeb, #fef3c7);
+      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+      transform: scale(1.03);
+    }
+    
+    .user-icon { font-size: 32px; margin-bottom: 6px; }
+    .user-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 2px;
+      line-height: 1.2;
+    }
+    .user-desc {
+      font-size: 9px;
+      color: #6b7280;
+      line-height: 1.2;
+    }
+    
+    .user-card-small {
+      padding: 10px;
+      background: white;
+      border: 3px solid #e5e7eb;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-align: center;
+      min-height: 85px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .user-card-small:hover {
+      border-color: #3b82f6;
+      transform: translateY(-3px);
+      box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);
+    }
+    
+    .user-card-small.selected {
+      border-color: #3b82f6;
+      background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+      box-shadow: 0 4px 16px rgba(59, 130, 246, 0.4);
+      transform: scale(1.02);
+    }
+    
+    .user-icon-small { font-size: 28px; margin-bottom: 4px; }
+    .user-title-small {
+      font-size: 12px;
+      font-weight: 700;
+      color: #1f2937;
+      line-height: 1.2;
+    }
+    .user-desc-small {
+      font-size: 9px;
+      color: #6b7280;
+      line-height: 1.2;
+      margin-top: 2px;
+    }
+    
+    .topic-card {
+      padding: 10px 14px;
+      background: white;
+      border: 3px solid #e5e7eb;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    
+    .topic-card:hover {
+      border-color: #3b82f6;
+      transform: translateX(4px);
+      box-shadow: 0 4px 14px rgba(59, 130, 246, 0.2);
+    }
+    
+    .topic-card.selected {
+      border-color: #3b82f6;
+      background: linear-gradient(135deg, #eff6ff, #dbeafe);
+      box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);
+    }
+    
+    .topic-icon { font-size: 22px; flex-shrink: 0; }
+    .topic-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 1px;
+      line-height: 1.2;
+    }
+    .topic-subtitle {
+      font-size: 9px;
+      color: #6b7280;
+      line-height: 1.2;
+    }
+    .topic-law {
+      font-size: 9px;
+      color: #3b82f6;
+      font-weight: 600;
+      margin-top: 1px;
+    }
+    
+    .mic-btn { transition: all 0.3s; }
+    .mic-btn.recording {
+      background: linear-gradient(135deg, #dc2626, #ef4444) !important;
+      animation: pulseRec 1.5s ease-in-out infinite;
+    }
+    /* iOS-Style Toggle Switch */
+.mode-toggle-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.mode-toggle {
+  position: relative;
+  width: 56px;
+  height: 28px;
+  background: linear-gradient(135deg, #f59e0b, #ff6b35);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.mode-toggle.power {
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+}
+
+.mode-toggle-slider {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 24px;
+  height: 24px;
+  background: white;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.mode-toggle.power .mode-toggle-slider {
+  transform: translateX(28px);
+}
+
+.mode-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.mode-label.active {
+  color: #1f2937;
+}
+/* Simple Mode - Hide Power Features */
+.power-mode-only {
+  display: block !important;
+  transition: opacity 0.3s ease;
+}
+
+body.simple-mode .power-mode-only {
+  display: none !important;
+}
+
+/* Simple Mode - Compact Profile Selector */
+#simpleProfileSelect {
+  display: none;
+}
+
+body.simple-mode #simpleProfileSelect {
+  display: block;
+}
+
+body.simple-mode #profileAccordion {
+  display: none;
+}
+/* ===== SIMPLE MODE: SHOW CHAT, HIDE FORM ===== */
+body.simple-mode #chatInterface {
+  display: flex !important;
+}
+
+body.simple-mode .glass-card {
+  display: none !important;
+}
+/* ============================================== */
+/* Chat Interface Styles */
+#chatInterface {
+  display: none;
+}
+
+#chatInterface.active {
+  display: flex;
+}
+
+.chat-bubble-user {
+  background: linear-gradient(135deg, #a855f7, #6366f1);
+  color: white;
+  max-width: 85%;
+  animation: slideInRight 0.3s ease-out;
+}
+/* Bot avatar with orange theme */
+.chat-bot-avatar {
+  background: linear-gradient(to bottom right, #f97316, #f59e0b) !important;
+}
+
+.chat-bubble-bot {
+  background: white;
+  max-width: 85%;
+  animation: slideInLeft 0.3s ease-out;
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* Typing Indicator */
+.typing-indicator {
+  display: inline-flex;
+  gap: 4px;
+  padding: 8px 12px;
+}
+
+.typing-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #f97316;
+  animation: bounce 1.4s infinite;
+}
+
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes bounce {
+  0%, 60%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-8px); }
+}
+    @keyframes pulseRec {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #ff6b35, #f59e0b);
+      color: white;
+      font-weight: 700;
+      padding: 18px 32px;
+      border-radius: 16px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 8px 24px rgba(255, 107, 53, 0.4);
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(255, 107, 53, 0.5);
+    }
+    
+    .ai-try-btn {
+      background: white;
+      border: 2px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 12px 20px;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      min-width: 100px;
+    }
+    
+    .ai-try-btn:hover {
+      border-color: #8b5cf6;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+    }
+    
+    .ai-try-btn.active {
+      border-color: #8b5cf6;
+      background: linear-gradient(135deg, #faf5ff, #f3e8ff);
+      box-shadow: 0 4px 16px rgba(139, 92, 246, 0.3);
+      transform: scale(1.05);
+    }
+    
+    .ai-try-btn.used {
+      opacity: 0.5;
+      cursor: not-allowed;
+      border-color: #d1d5db;
+      background: #f3f4f6;
+    }
+    
+    .ai-try-btn:disabled {
+      cursor: not-allowed;
+    }
+    
+    .ai-try-btn-compact {
+      background: white;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 6px 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      min-width: 70px;
+    }
+    
+    .ai-try-btn-compact:hover {
+      border-color: #8b5cf6;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(139, 92, 246, 0.2);
+    }
+    
+    .ai-try-btn-compact.active {
+      border-color: #8b5cf6;
+      background: linear-gradient(135deg, #faf5ff, #f3e8ff);
+      box-shadow: 0 2px 10px rgba(139, 92, 246, 0.3);
+    }
+    
+    .answer-level-btn {
+      background: white;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 6px 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      min-width: 80px;
+    }
+    
+    .answer-level-btn:hover {
+      border-color: #f59e0b;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(245, 158, 11, 0.2);
+    }
+    
+    .answer-level-btn.active {
+      border-color: #f59e0b;
+      background: linear-gradient(135deg, #fffbeb, #fef3c7);
+      box-shadow: 0 2px 10px rgba(245, 158, 11, 0.3);
+      font-weight: 700;
+    }
+    
+    .compact-dropdown {
+      padding: 6px 32px 6px 10px;
+      border: 2px solid #d1d5db;
+      border-radius: 8px;
+      background: white;
+      font-size: 13px;
+      font-weight: 600;
+      color: #1f2937;
+      cursor: pointer;
+      transition: all 0.3s;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23374151' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 8px center;
+      min-width: 130px;
+    }
+    
+    .compact-dropdown:hover {
+      border-color: #3b82f6;
+      box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+    }
+    
+    .compact-dropdown:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+    
+.icon-btn {
+  min-width: 44px;          /* 👈 ensures proper touch target */
+  min-height: 44px;         /* 👈 mobile accessibility standard */
+  padding: 10px;            /* slightly more breathing space */
+  border-radius: 12px;      /* softer, premium look */
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+.icon-btn svg {
+  width: 22px;          /* explicit size so it never collapses */
+  height: 22px;
+  display: block;
+  fill: currentColor;   /* for WhatsApp icon (fill-based) */
+  stroke: currentColor; /* for Search icon (stroke-based) */
+}
+
+
+    
+    .icon-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    @media (max-width: 768px) {
+      .header-glow { padding: 12px 16px 8px !important; }
+      .header-glow h1 { font-size: 2.5rem !important; }
+      .user-card { min-height: 85px; padding: 10px; }
+      .user-icon { font-size: 28px; margin-bottom: 4px; }
+      .user-title { font-size: 12px; }
+      .user-desc { font-size: 8px; }
+      .topic-card { padding: 8px 12px; }
+      .topic-icon { font-size: 20px; }
+      .topic-title { font-size: 12px; }
+      .radio-option { min-height: 50px; padding: 8px 10px; }
+      .radio-icon { font-size: 18px; }
+    }
+    
+    /* Tablet and larger - optimize topic cards for 2-3 columns */
+    @media (min-width: 640px) and (max-width: 1023px) {
+      .topic-card { padding: 10px 12px; }
+      .topic-title { font-size: 12px; }
+      .topic-subtitle { font-size: 9px; }
+    }
+    
+    /* Desktop - optimize for 3 column layout */
+    @media (min-width: 1024px) {
+      .topic-card { 
+        padding: 10px 14px;
+        min-height: 70px;
+      }
+      .user-card {
+        min-height: 95px;
+      }
+    }
+    
+    /* Large desktop - more comfortable spacing */
+    @media (min-width: 1280px) {
+      .topic-card { 
+        padding: 12px 16px;
+        min-height: 75px;
+      }
+      .user-card {
+        min-height: 100px;
+        padding: 14px;
+      }
+      .user-icon { font-size: 36px; }
+    }
+/* ===== FINAL MOBILE UI (SINGLE SOURCE OF TRUTH) ===== */
+@media (max-width: 640px) {
+
+  /* Query type card */
+  .query-type-selector {
+    margin-bottom: 12px;
+  }
+
+  /* Ready-made topic section spacing */
+  #topicSection {
+    margin-top: 14px;
+    margin-bottom: 8px;
+  }
+
+  /* Custom question textarea wrapper */
+  #customQuestionDiv {
+    margin-top: 14px;
+    margin-bottom: 6px;
+  }
+
+  /* Topic cards compact */
+  .topic-card {
+    padding: 8px 10px;
+    gap: 6px;
+    margin-bottom: 6px;
+    border-radius: 8px;
+  }
+
+  /* Topic grid */
+  #topicContainer {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+  }
+
+  /* Dropdown visibility */
+  .compact-dropdown {
+    background-color: #fff;
+    border: 2px solid #9ca3af;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    font-weight: 600;
+  }
+
+  /* Submit bar */
+  .submit-bar {
+    margin-top: 4px;
+    padding-top: 6px;
+    background: linear-gradient(
+      to bottom,
+      rgba(255,255,255,0.9),
+      rgba(255,255,255,1)
+    );
+    box-shadow: 0 -6px 10px rgba(0,0,0,0.04);
+  }
+
+  /* Button */
+  .btn-primary {
+    padding: 14px 28px;
+  }
+
+  /* Sticky submit */
+  #submitBtn {
+    position: sticky;
+    bottom: 6px;
+    margin-top: 0;
+    z-index: 20;
+  }
+}
+    /* Mobile: Reduce select & option text size */
+@media (max-width: 640px) {
+  #questionSelect {
+    font-size: 14px;          /* was ~16–18px */
+    line-height: 1.3;
+  }
+}
+
+.hidden {
+  display: none;
+}
+/* ============================= */
+/* MODAL ANSWER TYPOGRAPHY FIX */
+/* ============================= */
+
+#modalAnswer {
+  font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+  font-size: 15px;
+  line-height: 1.65;
+  color: #1f2937;
+}
+/* Voice Recording Animation */
+#chatVoiceBtn.recording {
+  background: linear-gradient(135deg, #dc2626, #ef4444);
+  color: white;
+  animation: pulseRecord 1.5s ease-in-out infinite;
+}
+
+@keyframes pulseRecord {
+  0%, 100% { 
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7);
+  }
+  50% { 
+    transform: scale(1.05);
+    box-shadow: 0 0 0 10px rgba(220, 38, 38, 0);
+  }
+}
+
+.recording-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #dc2626;
+  font-weight: 600;
+}
+
+.recording-dot {
+  width: 8px;
+  height: 8px;
+  background: #dc2626;
+  border-radius: 50%;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+/* Improve headings generated by AI */
+#modalAnswer strong {
+  font-weight: 600;
+}
+
+/* Better link readability */
+#modalAnswer a {
+  color: #2563eb;
+  font-weight: 500;
+  text-decoration: underline;
+}
+
+/* Mobile tuning */
+@media (max-width: 640px) {
+  #modalAnswer {
+    font-size: 14.5px;
+    line-height: 1.6;
+  }
+}
+#modalAnswer br + br {
+  display: block;
+  content: "";
+  margin-top: 6px;
+}
+/* Listen button active state */
+.listen-active {
+  background-color: #dc2626 !important; /* red-600 */
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.25);
+}
+
+/* Optional subtle pulse (safe, slow) */
+.listen-active {
+  animation: listenPulse 1.6s ease-in-out infinite;
+}
+
+@keyframes listenPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.25);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(220, 38, 38, 0.15);
+  }
+}
+
+
+  </style>
+</head>
+<body class="min-h-screen flex flex-col items-center p-2 md:p-4">
+
+<div class="container-main w-full max-w-3xl md:max-w-4xl glass-card rounded-xl md:rounded-3xl shadow-2xl overflow-hidden flex flex-col" style="height: calc(100vh - 1rem); max-height: calc(100vh - 1rem);">
+  <div class="bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 shadow-lg" style="border-bottom: 3px solid #fb923c;">
+  <!-- Top Row: Logo + Title + Actions -->
+  <div class="flex items-center justify-between p-3 md:p-4">
+    <div class="flex items-center gap-2 md:gap-3">
+      <div class="w-8 h-8 md:w-10 md:h-10 bg-gradient-to-br from-orange-400 to-amber-500 rounded-full flex items-center justify-center text-xl md:text-2xl shadow-md">
+        ⚖️
+      </div>
+      <div>
+        <h2 class="font-bold text-base md:text-lg text-gray-800">NyayaMitra • <span class="font-semibold">न्यायमित्र</span></h2>
+        <p class="text-xs text-gray-600 font-semibold">AI Assistant for New Criminal Laws</p>
+      </div>
+    </div>
+    
+    <!-- Spacer for mobile -->
+    <div class="w-2"></div>
+  </div>
+  
+  <!-- Bottom Row: Mode Toggle -->
+  <div class="flex items-center justify-center px-3 md:px-4 pb-3 pt-2 border-t border-orange-200">
+    <div class="mode-toggle-container">
+      <span class="mode-label" id="simpleModeLabel">💬 Simple Chat</span>
+      <div class="mode-toggle power" id="modeToggle" onclick="toggleMode()">
+        <div class="mode-toggle-slider"></div>
+      </div>
+      <span class="mode-label active" id="powerModeLabel">⚡ Full Features</span>
+    </div>
+  </div>
+</div>
+
+<!-- Laws Info Strip (Below Header) -->
+<div class="bg-gradient-to-r from-orange-50 to-amber-50 border-b-2 border-orange-200 px-3 py-2">
+  <p class="text-xs text-center font-semibold text-orange-800">
+    <span class="hidden sm:inline">Bharatiya Nyaya Sanhita • Bharatiya Nagarik Suraksha Sanhita • Bharatiya Sakshya Adhiniyam</span>
+    <span class="sm:hidden">BNS • BNSS • BSA</span>
+  </p>
+</div>
+<!-- Simple Mode Profile Selector -->
+<div id="simpleProfileSelect" class="mb-4" style="display: none;">
+  <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-300 rounded-xl p-3">
+    <div class="flex items-center gap-3">
+      <span class="text-2xl" id="simpleProfileIcon">🧑‍💼</span>
+      <select id="simpleUserSelect" 
+              class="flex-1 px-4 py-2 border-2 border-blue-300 rounded-lg bg-white focus:border-blue-500 outline-none"
+              onchange="selectSimpleUser(this.value)">
+        <option value="citizen">👤 General Citizen</option>
+        <option value="student">🎓 Law Student</option>
+        <option value="police">👮 Police Officer</option>
+        <option value="legal">⚖️ Legal Professional</option>
+      </select>
+    </div>
+  </div>
+</div>
+ <div class="p-2 md:p-3 flex-1 overflow-y-auto">
+      <!-- ALWAYS VISIBLE: Who are you? -->
+      <div class="mb-4" id="profileAccordion" class="power-mode-only">
+<div class="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-300 rounded-2xl p-4 hidden" id="profileSelector">
+  <label class="block text-base font-bold text-gray-800 mb-3 flex items-center gap-2">
+        <span class="bg-blue-100 text-blue-700 rounded-full w-7 h-7 flex items-center justify-center text-sm font-bold">👤</span>
+            Who are you?
+            <span class="text-xs font-normal text-gray-600"></span>
+          </label>
+          
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+            <div class="user-card-small" id="userPoliceMain" onclick="selectMainUser('police')">
+              <div class="user-icon-small">👮</div>
+              <div class="user-title-small">Police Officer</div>
+              <div class="user-desc-small">Investigation, FIR, Procedures</div>
+            </div>
+            
+            <div class="user-card-small" id="userLegalMain" onclick="selectMainUser('legal')">
+              <div class="user-icon-small">⚖️</div>
+              <div class="user-title-small">Legal Professional</div>
+              <div class="user-desc-small">Lawyers, Judges, Prosecutors</div>
+            </div>
+            
+            <div class="user-card-small" id="userStudentMain" onclick="selectMainUser('student')">
+              <div class="user-icon-small">👨‍🎓</div>
+              <div class="user-title-small">Student/Researcher</div>
+              <div class="user-desc-small">Law students, Academics</div>
+            </div>
+            
+            <div class="user-card-small" id="userCitizenMain" onclick="selectMainUser('citizen')">
+              <div class="user-icon-small">🧑‍💼</div>
+              <div class="user-title-small">General Citizen</div>
+              <div class="user-desc-small">Rights, Complaints, Info</div>
+            </div>
+          </div>
+          
+        </div>
+<div id="profileSummary"
+     class="mt-2 p-3 bg-blue-50 border-2 border-blue-300 rounded-xl flex items-center justify-between cursor-pointer"
+     onclick="expandProfileSelector()">
+  <div class="text-sm font-bold text-blue-900">
+    👤 Profile selected:
+    <span id="profileSummaryText">General Citizen</span>
+  </div>
+  <div class="text-xs text-blue-700 font-semibold">
+    Change
+  </div>
+</div>
+      </div>
+      
+     <div class="query-type-selector hidden">
+        <h3 class="text-xl font-bold text-gray-900 mb-4 text-center flex items-center justify-center gap-2">
+          <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          What would you like to know?
+        </h3>
+        
+        <div class="radio-option selected" id="customCard" onclick="selectQueryType('custom')">
+          <input type="radio" name="queryType" value="custom" checked onclick="event.stopPropagation(); selectQueryType('custom')">
+          <span class="radio-icon">✏️</span>
+          <div class="radio-label">
+            <div class="radio-label-title">Ask Your Own Question</div>
+            <div class="radio-label-desc">Type any question about criminal laws</div>
+          </div>
+        </div>
+        
+        <div class="radio-option" id="readyCard" onclick="selectQueryType('ready')">
+          <input type="radio" name="queryType" value="ready" onclick="event.stopPropagation(); selectQueryType('ready')">
+          <span class="radio-icon">📋</span>
+          <div class="radio-label">
+            <div class="radio-label-title">Select Ready-Made Question</div>
+            <div class="radio-label-desc">Choose by your profile and topic</div>
+          </div>
+        </div>
+      </div>
+      <!-- Compact Query Type Summary (hidden initially) -->
+<!-- Compact Query Type Summary (hidden initially) -->
+<div id="queryTypeSummary"
+     class="mt-2 p-3 bg-amber-50 border-2 border-amber-300 rounded-xl
+            flex items-center justify-between cursor-pointer"
+     onclick="expandQueryType()"
+     style="display: none;">
+  <div class="text-sm font-bold text-amber-900">
+    📌 Mode:
+    <span id="queryTypeSummaryText">Ask Your Own Question</span>
+  </div>
+  <div class="text-xs font-semibold text-amber-700">
+    Change
+  </div>
+</div>
+
+
+      <div id="questionSection">
+        
+        <!-- CUSTOM QUESTION DIV -->
+
+
+        <!-- READY QUESTIONS DIV -->
+        <div id="readyQuestionDiv" style="display: none;" class="mb-8 fade-in">
+          
+          <!-- Step 1: WHAT TOPIC? (Profile already selected at top) -->
+          <div class="mb-1 mt-3" id="topicSection" style="display: none;">
+            <label class="block text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+              <span class="bg-orange-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">1</span>
+              📚 What do you want to know about?
+            </label>
+           
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2" id="topicContainer">
+              <!-- Topics will load here dynamically -->
+            </div>
+          </div>
+          
+          <!-- Step 2: SELECT YOUR QUESTION -->
+          <div class="mb-2" id="questionSelectSection" style="display: none;">
+            <label class="block text-lg font-bold text-gray-800 mb-2 flex items-center gap-2">
+              <span class="bg-orange-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">2</span>
+              ❓ Select Your Question
+            </label>
+            
+<select id="questionSelect"
+        class="compact-dropdown block w-full px-5 py-4 text-base border-3 border-orange-400 focus:ring-4 focus:ring-orange-200 rounded-2xl bg-gradient-to-br from-white to-orange-50 shadow-lg transition-all font-medium mb-4">
+  <option value="" selected disabled>Tap to select a question...</option>
+</select>
+          </div>
+          
+          <!-- Language + Submit button for ready-made questions -->
+          <div class="flex items-center justify-between gap-3 mt-4">
+            <div class="flex items-center gap-2 text-sm text-gray-600">
+              <span>Language:</span>
+              <select id="languageSelectReady"
+                      class="px-2 py-1 border border-gray-300 rounded-md text-sm bg-white focus:border-orange-400 focus:ring-1 focus:ring-orange-200">
+                <option value="english">English</option>
+                <option value="hindi">हिंदी</option>
+                <option value="punjabi">ਪੰਜਾਬੀ</option>
+              </select>
+            </div>
+            
+            <button id="submitBtn"
+                    class="flex-1 bg-gradient-to-r from-orange-500 to-orange-600
+                           text-white font-bold py-3 rounded-xl shadow-lg
+                           hover:from-orange-600 hover:to-orange-700 transition"
+                    style="display: none;">
+              ⚡ Get Answer
+            </button>
+          </div>
+          
+        </div> 
+
+      </div>
+    </div>
+<div id="customQuestionDiv" class="mb-8 fade-in">
+  <!-- Input Row: Input + Mic + Send Button -->
+  <div class="flex gap-0.5 md:gap-2 mb-2">
+<input
+  type="text"
+  id="userInput"
+  class="flex-1 px-3 md:px-4 py-2 md:py-3 border-2 border-gray-300 rounded-full outline-none focus:border-orange-500 transition-all duration-300 text-sm md:text-base"
+  placeholder="💬 Type your question..."
+  oninput="showAutocompleteSuggestions()"
+  onfocus="showAutocompleteSuggestions()"
+  onkeypress="if(event.key==='Enter') getAnswer()"
+/>
+<button
+  id="voiceBtn"
+  class="px-2.5 md:px-4 py-3 bg-white border-2 border-gray-300 text-orange-500 hover:text-orange-700 hover:border-orange-500 rounded-full transition-all shrink-0"
+  title="Click to speak"
+>
+  <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/>
+  </svg>
+</button>
+<button
+  onclick="getAnswer()"
+  class="px-3 md:px-6 py-3 bg-gradient-to-r from-orange-500 to-amber-600 text-white rounded-full font-medium hover:from-orange-600 hover:to-amber-700 transition flex items-center justify-center gap-1 md:gap-2 text-sm md:text-base shrink-0"
+  title="Send"
+>
+  <svg class="w-5 h-5 sm:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+  </svg>
+  <span class="hidden sm:inline-flex items-center gap-2">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+    </svg>
+    Send
+  </span>
+</button>
+  </div>
+  
+  <!-- Helper Text -->
+  <div class="flex items-center justify-between text-xs text-gray-500 mb-1 pl-2">
+    <span>Press Enter to send</span>
+    <span id="inputStatus"></span>
+  </div>
+  
+  <!-- Autocomplete Suggestions Box -->
+  <div id="autocompleteSuggestions" class="hidden mt-2 bg-white border-2 border-orange-300 rounded-xl shadow-lg max-h-60 overflow-y-auto">
+    <!-- Suggestions will be added here dynamically -->
+  </div>
+    <!-- Language selector for custom questions -->
+  <div class="flex items-center gap-2 text-sm text-gray-600 mt-1 pl-2">
+    <span>Language:</span>
+    <select id="languageSelect"
+            class="px-2 py-1 border border-gray-300 rounded-md text-sm bg-white focus:border-orange-400 focus:ring-1 focus:ring-orange-200">
+      <option value="english">English</option>
+      <option value="hindi">हिंदी</option>
+      <option value="punjabi">ਪੰਜਾਬੀ</option>
+    </select>
+  </div>
+</div>
+<div class="border-t border-gray-300 px-2 py-1.5 bg-gray-50">
+  <p class="text-center text-xs text-gray-600">
+    <span class="text-orange-600 font-semibold">ChatGpt</span> • <span class="text-orange-600 font-semibold">Groq</span>
+    <span class="text-gray-400 mx-1">|</span>
+    <strong>NIC KKR</strong>
+    <span class="text-gray-400 mx-1">|</span>
+    <span id="lastModified" class="text-gray-700 font-medium">4th Jan, 19:34</span>
+  </p>
+</div>
+
+  </div>
+<!-- CHAT INTERFACE FOR SIMPLE MODE -->
+<div id="chatInterface" class="hidden fixed inset-0" style="z-index: 1000; background: radial-gradient(ellipse at top, #1e3a8a, #0f172a);">
+  <!-- Chat Container -->
+<div class="h-full max-w-5xl mx-auto flex flex-col p-2 md:p-4">
+  
+<!-- Chat Header -->
+<div class="bg-white rounded-xl md:rounded-3xl shadow-2xl overflow-hidden flex flex-col" style="height: 100%; max-height: 100%;">
+<div class="bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 shadow-lg" style="border-bottom: 3px solid #fb923c;">
+  <!-- Top Row: Logo + Actions -->
+<div class="flex items-center justify-between p-4">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 bg-gradient-to-br from-orange-400 to-amber-500 rounded-full flex items-center justify-center text-2xl shadow-md">
+        ⚖️
+      </div>
+      <div>
+        <h2 class="font-bold text-lg text-gray-800">NyayaMitra</h2>
+        <p class="text-xs text-gray-600 font-semibold" id="chatHeaderStatus">AI Legal Assistant • Online</p>
+      </div>
+    </div>
+    
+    <!-- Header Actions -->
+    <div class="flex items-center gap-2">
+      <button onclick="clearChatHistory()" class="hover:bg-orange-100 p-2 rounded-full transition text-orange-600" title="Clear chat history">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+  
+  <!-- Bottom Row: Mode Toggle -->
+  <div class="flex items-center justify-center px-4 pb-3 pt-2 border-t border-orange-200">
+    <div class="mode-toggle-container">
+      <span class="mode-label active" id="simpleModeLabel">💬 Simple Chat</span>
+      <div class="mode-toggle" id="modeToggle" onclick="toggleMode()">
+        <div class="mode-toggle-slider"></div>
+      </div>
+      <span class="mode-label" id="powerModeLabel">⚡ Full Features</span>
+    </div>
+  </div>
+</div>
+
+    <!-- Chat Messages Area -->
+<div id="chatMessages" class="flex-1 overflow-y-auto p-2 md:p-4 space-y-3 md:space-y-4" style="background: #fefefe;">
+      <!-- Welcome Message -->
+<!-- Welcome Message -->
+<div class="flex gap-3 items-start">
+<div class="w-10 h-10 bg-gradient-to-br from-orange-500 to-amber-600 rounded-full flex items-center justify-center text-white flex-shrink-0 chat-bot-avatar">    ⚖️
+  </div>
+  <div class="bg-white rounded-2xl rounded-tl-none shadow-md p-4 max-w-[85%]">
+    <p class="text-sm text-gray-800">
+      👋 Namaste! I'm <strong>NyayaMitra</strong>, your AI legal assistant.<br><br>
+      Ask me anything about India's new criminal laws (BNS, BNSS, BSA).
+    </p>
+    <p class="text-xs text-gray-400 mt-2">Just now</p>
+  </div>
+</div>
+
+<!-- Quick Start Examples -->
+<div class="px-2">
+  <p class="text-xs text-gray-500 mb-2 font-semibold">✨ Try asking:</p>
+  
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+    <!-- Example 1 -->
+<button onclick="askQuickQuestion('How to file an FIR online?')" 
+class="text-left p-2 md:p-3 bg-white hover:bg-orange-50 border-2 border-orange-200 rounded-lg md:rounded-xl transition group">
+  <div class="flex items-start gap-2">
+        <span class="text-lg">📋</span>
+        <div class="flex-1">
+            <p class="text-xs font-semibold text-gray-900 group-hover:text-orange-700">How to file an FIR online?</p>
+          <p class="text-xs text-gray-500 mt-0.5">Filing & procedures</p>
+        </div>
+      </div>
+    </button>
+    
+    <!-- Example 2 -->
+    <button onclick="askQuickQuestion('What are my bail rights under new law?')" 
+class="text-left p-2 md:p-3 bg-white hover:bg-orange-50 border-2 border-orange-200 rounded-lg md:rounded-xl transition group">
+      <div class="flex items-start gap-2">
+        <span class="text-lg">🔐</span>
+        <div class="flex-1">
+          <p class="text-xs font-semibold text-gray-900 group-hover:text-orange-700">What are my bail rights?</p>
+          <p class="text-xs text-gray-500 mt-0.5">Arrest & bail</p>
+        </div>
+      </div>
+    </button>
+    
+    <!-- Example 3 -->
+    <button onclick="askQuickQuestion('How to report cyber crime and fraud?')" 
+class="text-left p-2 md:p-3 bg-white hover:bg-orange-50 border-2 border-orange-200 rounded-lg md:rounded-xl transition group">
+      <div class="flex items-start gap-2">
+        <span class="text-lg">💻</span>
+        <div class="flex-1">
+          <p class="text-xs font-semibold text-gray-900 group-hover:text-orange-700">How to report cyber crime?</p>
+          <p class="text-xs text-gray-500 mt-0.5">Online safety</p>
+        </div>
+      </div>
+    </button>
+    
+    <!-- Example 4 -->
+    <button onclick="askQuickQuestion('What is the difference between BNS and IPC?')" 
+class="text-left p-2 md:p-3 bg-white hover:bg-orange-50 border-2 border-orange-200 rounded-lg md:rounded-xl transition group">
+      <div class="flex items-start gap-2">
+        <span class="text-lg">⚖️</span>
+        <div class="flex-1">
+          <p class="text-xs font-semibold text-gray-900 group-hover:text-orange-700">BNS vs IPC difference?</p>
+          <p class="text-xs text-gray-500 mt-0.5">New vs old laws</p>
+        </div>
+      </div>
+    </button>
+  </div>
+</div>
+
+    </div>
+
+    <!-- Chat Input Area -->
+  <div class="bg-white border-t border-gray-200 p-2 md:p-4 shadow-lg">
+  <div class="flex gap-1 md:gap-2 mb-2">
+  
+<input 
+  type="text" 
+  id="chatInput" 
+  placeholder="💬 Type your question..."
+  class="flex-1 px-3 md:px-4 py-2 md:py-3 border-2 border-gray-300 rounded-full outline-none focus:border-orange-500 text-sm md:text-base"
+          onkeypress="if(event.key==='Enter') sendChatMessage()"
+        >
+<button 
+  onclick="sendChatMessage()" 
+  class="px-4 md:px-6 py-2 md:py-3 bg-gradient-to-r from-orange-500 to-amber-600 text-white rounded-full font-medium hover:from-orange-600 hover:to-amber-700 transition flex items-center gap-1 md:gap-2 text-sm md:text-base">  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+          </svg>
+          Send
+        </button>
+      </div>
+      
+    <!-- Quick Info -->
+      <div class="flex items-center justify-between text-xs text-gray-500">
+        <span>Press Enter to send</span>
+        <span id="chatTypingStatus"></span>
+      </div>
+</div> <!-- End Chat Input Area -->
+    
+  </div> <!-- End white background wrapper -->
+</div> <!-- End max-w-5xl container -->
+</div> <!-- End chatInterface -->
+  <!-- FIXED MODAL WITH PROPER HEIGHT MANAGEMENT -->
+<div id="aiModal" class="hidden fixed inset-0 flex items-center justify-center p-4" style="z-index: 9999; background: rgba(0,0,0,0.92);">
+  <div class="bg-white rounded-3xl shadow-2xl w-full max-w-5xl mx-auto flex flex-col" style="max-height: 90vh;">
+  <!-- Header - Fixed -->
+      <div class="flex justify-between items-center px-5 py-4 bg-gradient-to-r from-blue-600 to-indigo-700 text-white flex-shrink-0">
+        <h2 class="text-xl font-bold flex items-center gap-2">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+          </svg>
+          NyayaMitra Response
+        </h2>
+        <button id="closeModal" class="hover:bg-white/20 p-2 rounded-full transition">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Scrollable Content Area -->
+      <div class="p-5 overflow-y-auto bg-gray-50 flex-1" style="min-height: 0;">
+        <div class="mb-5">
+          <p class="font-bold text-gray-900 mb-2">Question:</p>
+          <div class="bg-gradient-to-br from-blue-50 to-indigo-50 p-4 rounded-2xl border-l-4 border-blue-500">
+            <pre id="modalQuestion" class="whitespace-pre-wrap text-gray-800"></pre>
+          </div>
+        </div>
+
+        <div>
+          <p class="font-bold text-gray-900 mb-2">Answer:</p>
+          <div class="bg-gradient-to-br from-amber-50 to-orange-50 p-4 rounded-2xl border-l-4 border-orange-500">
+            <pre id="modalAnswer" class="whitespace-pre-wrap text-gray-800 text-sm leading-loose"></pre>
+          </div>
+        </div>
+      </div>
+
+<!-- Footer -->
+<div class="border-t border-gray-200 bg-white flex-shrink-0">
+
+  <!-- Advanced Toggle -->
+  <div class="text-center pt-2">
+    <button onclick="toggleAdvancedFooter()"
+            class="text-xs font-semibold text-gray-600 hover:text-gray-800 transition">
+      ⚙ Advanced <span id="advFooterArrow">▾</span>
+    </button>
+  </div>
+
+  <!-- Advanced Panel (Hidden by default) -->
+  <div id="advancedFooter" class="hidden px-4 pt-2 pb-1">
+
+    <div class="flex items-center gap-4 flex-wrap justify-center">
+
+      <!-- Depth -->
+      <div class="flex items-center gap-2">
+        <label class="text-xs font-bold text-gray-700">Depth:</label>
+        <select id="depthSelector"
+                class="compact-dropdown"
+                onchange="changeAnswerLevel(this.value)">
+          <option value="brief">Brief</option>
+          <option value="standard" selected>Standard</option>
+          <option value="detailed">Detailed</option>
+        </select>
+      </div>
+
+      <!-- AI -->
+      <div class="flex items-center gap-2">
+        <label class="text-xs font-bold text-gray-700">AI:</label>
+        <select id="aiSelector"
+                class="compact-dropdown"
+                onchange="retryWithAI(this.value)">
+          <option value="chatgpt selected">ChatGPT</option>
+          <option value="groq" >Groq Llama</option>
+        </select>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Main Action Bar -->
+  <div class="px-4 py-3 flex items-center justify-between gap-2">
+
+    <!-- Left Actions -->
+    <div class="flex items-center gap-2">
+   <button id="whatsappBtn" onclick="shareOnWhatsApp()"
+        class="icon-btn bg-green-600 hover:bg-green-700"
+        title="Share on WhatsApp">
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347M12.05 21.785h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884"/>
+  </svg>
+</button> 
+
+
+
+<button id="searchBtn" onclick="openSectionSearch()"
+        class="icon-btn bg-blue-600 hover:bg-blue-700"
+        title="Search Related Sections">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+       stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+       aria-hidden="true">
+    <circle cx="11" cy="11" r="8"></circle>
+    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+  </svg>
+</button>
+<button id="listenBtn"
+        onclick="toggleListen()"
+        class="icon-btn bg-purple-600 hover:bg-purple-700 relative"
+        title="Listen / Stop">
+
+  <!-- 🔴 ACTIVE INDICATOR -->
+  <span id="listenIndicator"
+        class="absolute top-1 right-1 w-2.5 h-2.5 bg-red-600 rounded-full hidden">
+  </span>
+
+  <!-- PLAY ICON -->
+  <svg id="listenIconPlay"
+       viewBox="0 0 24 24"
+       class="w-5 h-5 fill-white">
+    <path d="M3 9v6h4l5 5V4L7 9H3z"/>
+  </svg>
+
+  <!-- STOP ICON -->
+  <svg id="listenIconStop"
+       viewBox="0 0 24 24"
+       class="w-5 h-5 fill-white hidden">
+    <path d="M6 6h12v12H6z"/>
+  </svg>
+
+</button>
+
+    </div>
+
+    <!-- Right -->
+    <button id="closeBtn"
+            class="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition font-semibold text-sm">
+      Close
+    </button>
+
+  </div>
+</div>
+
+    </div>
+  </div>
+
+  <script>
+    console.log('🚀 NyayaMitra initializing...');
+    let isProfileManuallyChanged = false;
+    
+    // Update Last Modified DateTime - AUTOMATIC FROM FILE
+    function updateLastModified() {
+      try {
+        let lastModDate;
+        
+        // Get document's last modified date
+        if (document.lastModified) {
+          lastModDate = new Date(document.lastModified);
+          console.log('📅 Document last modified (raw):', document.lastModified);
+        }
+        
+        // Validate date
+        if (!lastModDate || isNaN(lastModDate.getTime())) {
+          lastModDate = new Date();
+          console.log('⚠️ Using current date as fallback');
+        }
+        
+        const day = lastModDate.getDate();
+        const suffix = (day) => {
+          if (day > 3 && day < 21) return 'th';
+          switch (day % 10) {
+            case 1: return 'st';
+            case 2: return 'nd';
+            case 3: return 'rd';
+            default: return 'th';
+          }
+        };
+        
+        const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+                           'July', 'August', 'September', 'October', 'November', 'December'];
+        const month = monthNames[lastModDate.getMonth()];
+        const year = lastModDate.getFullYear();
+        const hours = lastModDate.getHours().toString().padStart(2, '0');
+        const minutes = lastModDate.getMinutes().toString().padStart(2, '0');
+        
+        const formattedDate = `${day}${suffix(day)} ${month} ${year}, ${hours}:${minutes} IST`;
+        
+        const element = document.getElementById('lastModified');
+        if (element) {
+          element.textContent = formattedDate;
+          console.log('✅ Last Modified displayed:', formattedDate);
+        }
+      } catch (error) {
+        console.error('❌ Last Modified error:', error);
+        const element = document.getElementById('lastModified');
+        if (element) {
+          element.textContent = '17th December 2025, 23:30 IST';
+        }
+      }
+    }
+    
+    // Call when DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', updateLastModified);
+    } else {
+      updateLastModified();
+    }
+
+document.addEventListener('DOMContentLoaded', function () {
+  // Show default hint
+  const hintEl = document.getElementById('profileHint');
+  if (hintEl) {
+    hintEl.textContent = 'Default profile: General Citizen (you can change it)';
+  }
+  // Set default selected user silently
+  selectedUser = 'citizen';
+  // Highlight default card visually
+  const defaultCard = document.getElementById('userCitizenMain');
+  if (defaultCard) {
+    defaultCard.classList.add('selected');
+  }
+  console.log('✅ Default profile initialized silently: General Citizen');
+  
+  setTimeout(() => {
+    selectQueryType('ready');
+    
+    // Auto-select appropriate topic based on user type
+    autoSelectTopicForUserType();
+  }, 100);
+  
+  // ===== Watch for profile card clicks =====
+  const profileCards = document.querySelectorAll('[id^="user"][id$="Main"]');
+  profileCards.forEach(card => {
+    card.addEventListener('click', function() {
+      console.log('👤 Profile card clicked');
+      // Wait for selectedUser to update
+      setTimeout(() => {
+        console.log('👤 Current selectedUser:', selectedUser);
+        // Only auto-select if in ready-made mode
+        const readyMadeDiv = document.getElementById('readyMadeDiv');
+        if (readyMadeDiv && readyMadeDiv.style.display !== 'none') {
+          autoSelectTopicForUserType();
+        }
+      }, 100);
+    });
+  });
+  
+});
+    
+    const WEBHOOK_URL = 'https://n8n-workflow-test.duckdns.org/webhook/chatbot';
+    
+    // VERSION CHECK - This will appear in console immediately
+    console.log('🔥 NyayaMitra Version: ARRAY-FIX-v2 - Loaded at', new Date().toISOString());
+    console.log('🔥 If you see this, the new version is loaded!');
+    
+    let currentQuestion = '';
+    let currentAI = 'chatgpt';
+    let selectedUser = 'citizen'; // Default to General Citizen
+    let selectedTopic = '';
+    let selectedQueryType = 'custom';
+    let aiUsed = {
+      groq: false,
+      chatgpt: false
+    };
+    
+    // User-level specific prompt instructions with ENHANCED FORMATTING
+    const USER_LEVEL_PROMPTS = {
+      police: {
+        level: 'intermediate',
+        instruction: 'You are answering for a Police Officer. Provide practical, action-oriented answers with clear procedures, legal provisions, and step-by-step guidance. Focus on investigation procedures, FIR handling, arrest protocols, and evidence collection. Use official terminology but keep it practical for field work.',
+        tone: 'Professional and procedural'
+      },
+      legal: {
+        level: 'advanced',
+        instruction: 'You are answering for a Legal Professional (Lawyer/Judge/Prosecutor). Provide detailed legal analysis with specific section references, case law interpretations, procedural nuances, and technical legal terminology. Include comparative analysis between old and new laws where relevant.',
+        tone: 'Technical and analytical'
+      },
+      student: {
+        level: 'educational',
+        instruction: 'You are answering for a Law Student/Researcher. Provide comprehensive educational content with clear explanations, examples, conceptual clarity, and academic perspective. Include both theoretical understanding and practical applications. Use structured format with key points.',
+        tone: 'Educational and detailed'
+      },
+      citizen: {
+        level: 'basic',
+        instruction: 'You are answering for a General Citizen. Provide simple, easy-to-understand explanations in plain language. Focus on practical rights, what to do in common situations, and step-by-step guidance. Avoid complex legal jargon. Use examples and analogies.',
+        tone: 'Simple and practical'
+      }
+    };
+    
+    // Multi-level answer depth options (sent to n8n as metadata)
+    const ANSWER_LEVELS = {
+      brief: {
+        label: '📝 Brief',
+        instruction: 'Provide a concise answer in 2-3 paragraphs covering only the essential points.',
+        icon: '📝'
+      },
+      standard: {
+        label: '📄 Standard',
+        instruction: 'Provide a comprehensive answer with all important details, examples, and relevant sections.',
+        icon: '📄'
+      },
+      detailed: {
+        label: '📚 Detailed',
+        instruction: 'Provide an in-depth, exhaustive answer covering all aspects, subsections, exceptions, examples, and practical implications.',
+        icon: '📚'
+      }
+    };
+    
+    let currentAnswerLevel = 'standard'; // Default level
+    
+    // Main answer function - send CLEAN data to n8n
+    async function getAnswer(provider, answerLevel = 'standard') {
+      currentAI = provider;
+      currentAnswerLevel = answerLevel;
+      aiUsed[provider] = true;
+      
+      const loadingMessages = {
+        groq: '⚡ Groq is processing at lightning speed...',
+        chatgpt: '🤖 ChatGPT is analyzing deeply...'
+      };
+      
+      const providerNames = {
+        groq: '🚀 Groq Llama 3.3',
+        chatgpt: '🤖 ChatGPT GPT-4o'
+      };
+      
+      document.getElementById('modalQuestion').textContent = currentQuestion;
+      document.getElementById('modalAnswer').innerHTML = loadingMessages[provider];
+      document.getElementById('aiModal').classList.remove('hidden');
+      
+      updateModalHeader(provider);
+      updateAIButtons();
+      updateAnswerLevelButtons();
+      
+      const startTime = Date.now();
+      
+      try {
+        // Get selected language
+        const selectedLanguage = document.getElementById('languageSelect').value;
+        console.log('🌐 Selected language:', selectedLanguage);
+        
+        // Send CLEAN data - let n8n handle formatting
+        const response = await fetch(WEBHOOK_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            question: currentQuestion, // CLEAN question only
+            originalQuestion: currentQuestion,
+            provider: provider,
+            userType: selectedUser,
+            userLevel: selectedUser ? USER_LEVEL_PROMPTS[selectedUser].level : 'general',
+            topic: selectedTopic,
+            queryType: selectedQueryType,
+            answerDepth: answerLevel,
+            language: selectedLanguage,  // ← LANGUAGE PARAMETER ADDED
+            timestamp: new Date().toISOString()
+          })
+        });
+        
+        if (!response.ok) throw new Error('HTTP ' + response.status);
+        
+        let data = await response.json();
+        console.log('📥 RAW Received data:', JSON.stringify(data).substring(0, 200));
+        console.log('📥 Is Array?', Array.isArray(data));
+        console.log('📥 Type:', typeof data);
+        
+        // n8n returns an array, get first item
+        if (Array.isArray(data) && data.length > 0) {
+          console.log('📦 Extracting from array, length:', data.length);
+          data = data[0];
+          console.log('📦 Extracted object:', data);
+        }
+        
+        // Handle different response formats
+        let answerText = '';
+        if (typeof data === 'string') {
+          console.log('✅ Format: Direct string');
+          answerText = data;
+        } else if (data && data.answer) {
+          console.log('✅ Format: Object with answer property');
+          console.log('✅ Answer length:', data.answer.length);
+          answerText = data.answer;
+        } else if (data && data.response) {
+          console.log('✅ Format: Object with response property');
+          answerText = data.response;
+        } else if (data && data.choices && data.choices[0] && data.choices[0].message) {
+          console.log('✅ Format: Groq API format');
+          answerText = data.choices[0].message.content;
+        } else {
+          console.error('❌ Could not find answer in data');
+          console.error('❌ Data keys:', data ? Object.keys(data) : 'null');
+          console.error('❌ Full data:', data);
+          answerText = 'No answer generated (empty model output).';
+        }
+        
+        // Clean up any remaining issues
+        answerText = answerText.replace('[SEARCH_BUTTON]', '');
+        answerText = answerText.replace(/🔍 SEARCH KEYWORDS:.*?\n\n/gs, '');
+        
+        // Convert markdown links to HTML
+        function convertMarkdownLinksToHTML(text) {
+          // Convert [Text](URL) to <a href="URL" target="_blank">Text</a>
+          return text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" style="color: #3b82f6; text-decoration: underline;">$1</a>');
+        }
+        
+        // Convert newlines to <br> and links to HTML
+        answerText = answerText
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/\n/g, '<br>');
+        
+        // Now convert markdown links (after escaping HTML)
+        answerText = convertMarkdownLinksToHTML(answerText);
+        
+        // ============================================
+        // EXTRACT AND REMOVE RELATED QUESTIONS
+        // ============================================
+        let relatedQuestions = [];
+        
+        console.log('🔍 Searching for related questions in answer...');
+        
+        // Try to find related questions section
+        const relatedPattern = /❓\s*RELATED QUESTIONS[\s\S]*?(?=⚠️|━━━|$)/i;
+        const relatedMatch = answerText.match(relatedPattern);
+        
+        if (relatedMatch) {
+          console.log('✅ Found related questions section');
+          const relatedSection = relatedMatch[0];
+          
+          // Split by <br> and extract questions
+          const lines = relatedSection.split(/<br\s*\/?>/gi);
+          
+          for (let line of lines) {
+            // Clean HTML entities
+            let cleaned = line
+              .replace(/&lt;/g, '<')
+              .replace(/&gt;/g, '>')
+              .replace(/&amp;/g, '&')
+              .replace(/&quot;/g, '"')
+              .trim();
+            
+            // Skip header line and empty lines
+            if (cleaned.length < 10 || cleaned.match(/RELATED QUESTIONS/i)) {
+              continue;
+            }
+            
+            // Remove bullet points, numbers, dashes
+            cleaned = cleaned.replace(/^[\s•\-\d\.\)]+/, '').trim();
+            
+            // Must have question mark and be reasonable length
+            if (cleaned.includes('?') && cleaned.length > 15 && cleaned.length < 300) {
+              relatedQuestions.push(cleaned);
+              console.log('  📌 Extracted:', cleaned.substring(0, 60) + '...');
+            }
+          }
+          
+          // Limit to 3 questions
+          relatedQuestions = relatedQuestions.slice(0, 3);
+          console.log('✅ Total questions extracted:', relatedQuestions.length);
+          
+          // REMOVE the entire related questions section from answer
+          answerText = answerText.replace(relatedPattern, '');
+          console.log('✅ Related questions section removed from answer body');
+        } else {
+          console.log('⚠️ No related questions section found');
+        }
+        
+        const responseTime = ((Date.now() - startTime) / 1000).toFixed(2);
+        
+        // Add metadata footer
+        const levelEmoji = ANSWER_LEVELS[answerLevel].icon;
+        const userTypeLabel = selectedUser ? ` | 👤 ${selectedUser.charAt(0).toUpperCase() + selectedUser.slice(1)}` : '';
+        
+        let finalHTML = answerText + 
+          '<br><br>━━━━━━━━━━━━━━━━━━━━━━━<br>' +
+          `${levelEmoji} ${answerLevel.charAt(0).toUpperCase() + answerLevel.slice(1)} Answer${userTypeLabel}<br>` +
+          `⏱️ Response: ${responseTime}s with ${providerNames[provider]}`;
+        
+        // ============================================
+        // DISPLAY RELATED QUESTIONS DROPDOWN
+        // ============================================
+        if (relatedQuestions.length > 0) {
+          console.log('✅ Adding related questions dropdown');
+          
+          finalHTML += '<br><br>' +
+            '<details open style="background: linear-gradient(to right, #fff7ed, #fef3c7); padding: 14px; border-radius: 12px; border: 2px solid #fb923c; box-shadow: 0 2px 8px rgba(251, 146, 60, 0.2);">' +
+              '<summary style="cursor: pointer; font-weight: bold; color: #1f2937; display: flex; align-items: center; gap: 8px; list-style: none; user-select: none;">' +
+                '<span style="font-size: 20px;">❓</span> ' +
+                '<span style="font-size: 16px;">Related Questions (' + relatedQuestions.length + ')</span> ' +
+                '<span style="font-size: 12px; color: #6b7280; margin-left: auto; font-weight: normal;">(Click to ask automatically)</span>' +
+              '</summary>' +
+              '<div style="margin-top: 12px; display: flex; flex-direction: column; gap: 8px;">';
+          
+          relatedQuestions.forEach((q, idx) => {
+            // Escape quotes properly
+            const escapedQuestion = q
+              .replace(/\\/g, '\\\\')
+              .replace(/'/g, "\\'")
+              .replace(/"/g, '&quot;')
+              .replace(/\n/g, ' ');
+            
+            finalHTML += 
+              '<div style="background: white; padding: 14px; border-radius: 10px; border-left: 4px solid #fb923c; cursor: pointer; transition: all 0.3s; box-shadow: 0 1px 3px rgba(0,0,0,0.1);" ' +
+                   'onmouseover="this.style.background=\'#fff7ed\'; this.style.borderLeftColor=\'#f97316\'; this.style.boxShadow=\'0 4px 12px rgba(251,146,60,0.3)\'; this.style.transform=\'translateX(4px)\';" ' +
+                   'onmouseout="this.style.background=\'white\'; this.style.borderLeftColor=\'#fb923c\'; this.style.boxShadow=\'0 1px 3px rgba(0,0,0,0.1)\'; this.style.transform=\'translateX(0)\';" ' +
+                   'onclick="askRelatedQuestion(\'' + escapedQuestion + '\')">' +
+                '<div style="display: flex; align-items: start; gap: 12px;">' +
+                  '<span style="color: #f97316; font-weight: bold; font-size: 16px; min-width: 26px; margin-top: 2px;">' + (idx + 1) + '.</span>' +
+                  '<span style="color: #374151; font-size: 15px; line-height: 1.6;">' + q + '</span>' +
+                '</div>' +
+              '</div>';
+          });
+          
+          finalHTML += '</div></details>';
+        }
+        
+        document.getElementById('modalAnswer').innerHTML = finalHTML;
+        enableResponseActions();
+        console.log('✅ Response from', provider, 'in', responseTime, 'seconds');
+        
+      } catch (error) {
+        console.error('❌ Error:', error);
+        document.getElementById('modalAnswer').innerHTML = 'Error: Could not connect to ' + provider.toUpperCase() + '. Please try again.';
+      }
+    }
+    
+    // Retry with different AI
+    function retryWithAI(provider) {
+      // Allow switching to any AI at any time
+      aiUsed[provider] = true;
+      getAnswer(provider, currentAnswerLevel);
+    }
+    
+    window.retryWithAI = retryWithAI;
+    
+    // Change answer depth level
+    function changeAnswerLevel(level) {
+      currentAnswerLevel = level;
+      
+      // Update dropdown selection
+      const depthSelector = document.getElementById('depthSelector');
+      if (depthSelector) {
+        depthSelector.value = level;
+      }
+      
+      getAnswer(currentAI, level);
+    }
+    
+    window.changeAnswerLevel = changeAnswerLevel;
+    
+    // Update answer level buttons (deprecated - now using dropdown)
+    function updateAnswerLevelButtons() {
+      const depthSelector = document.getElementById('depthSelector');
+      if (depthSelector) {
+        depthSelector.value = currentAnswerLevel;
+      }
+    }
+    
+    // Update AI button states (now updates dropdown)
+    function updateAIButtons() {
+      const aiSelector = document.getElementById('aiSelector');
+      if (aiSelector) {
+        aiSelector.value = currentAI;
+      }
+    }
+    
+    // Update Modal Header with AI Provider
+    function updateModalHeader(provider) {
+      const icons = {
+        groq: '🚀',
+        chatgpt: '🤖'
+      };
+      
+      const names = {
+        groq: 'Groq Llama 3.3',
+        chatgpt: 'ChatGPT GPT-4o'
+      };
+      
+      const header = document.querySelector('#aiModal .bg-gradient-to-r h2');
+      if (header) {
+        header.innerHTML = '<span class="ml-2">' + 'NyayaMitra – AI Response</span>';
+      }
+    }
+    
+    // TOPICS organized by user type
+    const TOPICS = {
+      police: [
+        { id: 'fir', icon: '📝', title: 'FIR & Complaints', subtitle: 'Registration, Zero FIR, Refusal', law: 'BNSS' },
+        { id: 'arrest', icon: '🚔', title: 'Arrest & Custody', subtitle: 'Warrant, Remand, Rights', law: 'BNSS' },
+        { id: 'investigation', icon: '🔍', title: 'Investigation', subtitle: 'Evidence, Search, Seizure', law: 'BNSS' },
+        { id: 'evidence', icon: '📊', title: 'Evidence Handling', subtitle: 'Digital, Chain of custody', law: 'BSA' },
+        { id: 'chargesheet', icon: '📋', title: 'Charge Sheet', subtitle: 'Filing, Timeline', law: 'BNSS' },
+        { id: 'crimes', icon: '⚠️', title: 'Common Crimes', subtitle: 'Theft, Assault, Cyber', law: 'BNS' },
+        { id: 'rights', icon: '👥', title: 'Rights of Accused', subtitle: 'During arrest, trial', law: 'BNSS' },
+        { id: 'terminology', icon: '📚', title: 'Legal Terms', subtitle: 'Cognizable, Bailable', law: 'All' }
+      ],
+      legal: [
+        { id: 'bail', icon: '🏛️', title: 'Bail & Bonds', subtitle: 'Regular, Anticipatory', law: 'BNSS' },
+        { id: 'trial', icon: '⚖️', title: 'Trial Process', subtitle: 'Summons, Warrant, Sessions', law: 'BNSS' },
+        { id: 'evidence', icon: '📊', title: 'Evidence Law', subtitle: 'Admissibility, Electronic', law: 'BSA' },
+        { id: 'appeals', icon: '📑', title: 'Appeals & Revision', subtitle: 'High Court, Supreme Court', law: 'BNSS' },
+        { id: 'punishments', icon: '⚖️', title: 'Punishments', subtitle: 'IPC vs BNS changes', law: 'BNS' },
+        { id: 'procedures', icon: '📋', title: 'Court Procedures', subtitle: 'Filing, Documentation', law: 'BNSS' },
+        { id: 'comparison', icon: '🔄', title: 'Old vs New Laws', subtitle: 'Key changes', law: 'All' },
+        { id: 'terminology', icon: '📚', title: 'Legal Terminology', subtitle: 'Advanced concepts', law: 'All' }
+      ],
+      student: [
+        { id: 'comparison', icon: '🔄', title: 'Old vs New Laws', subtitle: 'IPC→BNS, CrPC→BNSS', law: 'All' },
+        { id: 'terminology', icon: '📚', title: 'Legal Terminology', subtitle: 'All important terms', law: 'All' },
+        { id: 'concepts', icon: '💡', title: 'Key Concepts', subtitle: 'Mens rea, Actus reus', law: 'BNS' },
+        { id: 'criminal', icon: '⚠️', title: 'Criminal Offences', subtitle: 'Classification, Types', law: 'BNS' },
+        { id: 'procedure', icon: '📋', title: 'Criminal Procedure', subtitle: 'FIR to Judgment', law: 'BNSS' },
+        { id: 'evidence_law', icon: '📊', title: 'Evidence Law', subtitle: 'Types, Admissibility', law: 'BSA' },
+        { id: 'amendments', icon: '📝', title: 'Key Amendments', subtitle: 'Major changes 2024', law: 'All' },
+        { id: 'casestudies', icon: '📖', title: 'Examples', subtitle: 'Real-world scenarios', law: 'All' }
+      ],
+      citizen: [
+        { id: 'rights', icon: '👥', title: 'Your Rights', subtitle: 'Arrest, trial, investigation', law: 'BNSS' },
+        { id: 'complaint', icon: '📝', title: 'How to Complain', subtitle: 'FIR, Online complaint', law: 'BNSS' },
+        { id: 'bail', icon: '🏛️', title: 'Bail & Release', subtitle: 'How to get bail', law: 'BNSS' },
+        { id: 'common', icon: '❓', title: 'Common Situations', subtitle: 'Theft, Accident, Dispute', law: 'BNS' },
+        { id: 'legal_aid', icon: '⚖️', title: 'Legal Help', subtitle: 'Free legal aid', law: 'All' },
+        { id: 'cybercrime', icon: '💻', title: 'Cyber Crimes', subtitle: 'Fraud, Harassment', law: 'BNS' },
+        { id: 'women', icon: '👩', title: 'Women & Children', subtitle: 'Protection laws', law: 'BNS' },
+        { id: 'basics', icon: '📚', title: 'Basic Terms', subtitle: 'Simple explanations', law: 'All' }
+      ]
+    };
+    
+    // Sample questions for each topic
+ // FINAL COMPREHENSIVE TOPIC QUESTIONS - MERGED BEST FROM BOTH LISTS
+// 660+ High-Quality Questions - No Duplicates
+const TOPIC_QUESTIONS = {
+  // ========== POLICE OFFICER QUESTIONS ==========
+  
+  fir: [
+    'How to register an FIR under new criminal laws?',
+    'What is Zero FIR and when to use it?',
+    'When is Zero FIR mandatory?',
+    'When can police refuse to register FIR?',
+    'What reasons are valid for refusing FIR?',
+    'What information must be included in FIR?',
+    'How to handle FIR for cognizable offences?',
+    'What is the difference between FIR and complaint?',
+    'Online FIR filing process and requirements?',
+    'Can FIR be registered at any police station?',
+    'What if complainant is unconscious or injured?',
+    'How to register FIR for cybercrime?',
+    'How to record FIR for online offences?',
+    'FIR registration time limits?',
+    'FIR registration timeline under BNSS?',
+    'Can FIR be corrected after registration?',
+    'What is NCR (Non-Cognizable Report)?',
+    'How to handle multiple complainants?',
+    'FIR for missing person procedure?',
+    'Anonymous complaint handling guidelines?',
+    'What if FIR involves multiple jurisdictions?',
+    'Can FIR be transferred to another PS?',
+    'How to register FIR for economic offences?',
+    'FIR for offences against women - special procedures?',
+    'Cross-FIR in same incident - how to handle?',
+    'E-FIR vs regular FIR differences?',
+    'What documents to attach with FIR?',
+    'FIR in languages other than English/Hindi?',
+    'Can witness register FIR on behalf of victim?',
+    'How to handle delayed FIR registration?'
+  ],
+  
+  arrest: [
+    'When can police arrest without warrant under BNSS?',
+    'What are the mandatory procedures during arrest?',
+    'When is notice of appearance sufficient?',
+    'Rights that must be informed to arrested person?',
+    'Medical examination requirements during arrest?',
+    'Medical examination timeline after arrest?',
+    'Arrest procedures for women - specific rules?',
+    'What is police custody vs judicial custody?',
+    'Difference between police and judicial custody?',
+    'Maximum duration of police remand?',
+    'When to arrest juvenile vs adult?',
+    'Can arrest be made at night? Restrictions?',
+    'How to conduct arrest with dignity?',
+    'When to handcuff arrested person?',
+    'Arrest memo requirements and format?',
+    'Arrest memo preparation checklist?',
+    'What if arrested person needs medical attention?',
+    'Family notification requirements after arrest?',
+    'Strip search rules and limitations?',
+    'Arrest of government employees - special procedure?',
+    'When can bail be granted during custody?',
+    'Custody diary maintenance requirements?',
+    'Transfer from police to judicial custody process?',
+    'What if arrested person attempts suicide in custody?',
+    'Rights of arrested person to meet lawyer?',
+    'Arrest in non-bailable vs bailable offences?',
+    'Can pregnant woman be arrested?',
+    'Preventive detention vs punitive detention?',
+    'Release procedures from police custody?'
+  ],
+  
+  investigation: [
+    'What are police investigation powers under BNSS?',
+    'How to conduct search under Section 93?',
+    'Search warrant requirements and validity?',
+    'When can search be done without warrant?',
+    'Seizure of property - legal procedures?',
+    'Chain of custody for evidence - importance?',
+    'How to collect digital evidence properly?',
+    'Digital evidence seizure procedure?',
+    'Investigation timeline under new laws?',
+    'Maximum time for investigation in cognizable case?',
+    'Can investigation continue after charge sheet?',
+    'Rights of accused during investigation?',
+    'Witness examination during investigation?',
+    'How to record dying declaration?',
+    'Confession recording - legal requirements?',
+    'Investigation diary (Case Diary) maintenance?',
+    'Scene of crime examination procedures?',
+    'How to preserve electronic evidence?',
+    'How to preserve CCTV footage?',
+    'Investigation of cybercrime - special procedures?',
+    'Concurrent investigation by multiple agencies?',
+    'Investigation in economic offences?',
+    'Narco test and polygraph - legal validity?',
+    'Voice identification parade procedures?',
+    'Investigation closure report (Final Report)?',
+    'Further investigation after charge sheet?',
+    'Victim role in investigation?',
+    'Investigation supervision and monitoring?',
+    'Can IO seize mobile without warrant?',
+    'Can accused be called repeatedly?'
+  ],
+  
+  evidence: [
+    'How to collect digital evidence for court?',
+    'Evidence preservation rules under BSA?',
+    'Chain of custody requirements and documentation?',
+    'Electronic evidence admissibility criteria?',
+    'Evidence tampering - legal consequences?',
+    'DNA evidence collection procedures?',
+    'CCTV footage as evidence - authentication?',
+    'Mobile phone evidence extraction?',
+    'Email and social media evidence collection?',
+    'Audio and video recording evidence?',
+    'How to seize computer and electronic devices?',
+    'Evidence storage and security protocols?',
+    'Expert evidence and forensic reports?',
+    'Dying declaration as evidence - requirements?',
+    'Tip-off information vs admissible evidence?',
+    'Circumstantial evidence vs direct evidence?',
+    'Recovery memo preparation?',
+    'Evidence contradicting FIR - how to handle?',
+    'Lost or destroyed evidence - consequences?',
+    'Evidence from private CCTV vs public camera?'
+  ],
+  
+  chargesheet: [
+    'How to file charge sheet under BNSS?',
+    'Timeline for filing charge sheet?',
+    'What happens if charge sheet is delayed?',
+    'What documents must be attached with charge sheet?',
+    'Documents mandatory with charge sheet?',
+    'Charge sheet vs FIR - key differences?',
+    'Can charge sheet be challenged in court?',
+    'Supplementary charge sheet when needed?',
+    'Can supplementary charge sheet be filed?',
+    'Charge sheet format and mandatory sections?',
+    'Multiple accused in single charge sheet?',
+    'How to add new accused after charge sheet?',
+    'Victim impact statement in charge sheet?',
+    'Evidence list requirements in charge sheet?',
+    'Investigation officer signature requirements?',
+    'Sanction for prosecution - when required?',
+    'Charge sheet in cases of juveniles?',
+    'Final report vs charge sheet difference?',
+    'Closure report (A-summary) procedure?',
+    'Further investigation after charge sheet filed?',
+    'Charge sheet in economic offences - special rules?',
+    'Time limit extension for charge sheet?',
+    'Extension of investigation time – procedure?',
+    'Defective charge sheet - court powers?',
+    'Who approves final report?'
+  ],
+  
+  crimes: [
+    'What constitutes theft under BNS Section 303?',
+    'How is assault defined in new criminal laws?',
+    'Cybercrime reporting and investigation process?',
+    'Difference between theft and robbery?',
+    'Fraud vs cheating - legal definitions?',
+    'Dowry death investigation procedures?',
+    'Rape investigation - special procedures?',
+    'Murder vs culpable homicide - distinction?',
+    'Kidnapping vs abduction differences?',
+    'Eve teasing and sexual harassment laws?',
+    'Domestic violence - police powers?',
+    'Child abuse reporting and investigation?',
+    'Senior citizen abuse laws?',
+    'Defamation - criminal vs civil?',
+    'Criminal intimidation and threats?',
+    'Rioting and unlawful assembly?',
+    'Forgery and document fraud?',
+    'Bribery and corruption offences?',
+    'Drug offences investigation?',
+    'Arms Act violations?',
+    'Motor vehicle accidents - criminal liability?',
+    'Outraging modesty of women?',
+    'Stalking - new provisions under BNS?',
+    'Acid attack - legal provisions?',
+    'Human trafficking investigation?'
+  ],
+  
+  rights: [
+    'What are rights of arrested person?',
+    'Can accused refuse to give statement?',
+    'Right to lawyer - when does it begin?',
+    'Rights during police interrogation?',
+    'What if rights are violated - remedies?',
+    'Right to bail under new laws?',
+    'Right to medical examination?',
+    'Family notification rights?',
+    'Right against self-incrimination?',
+    'Right to interpreter if language barrier?',
+    'Right to food and basic amenities in custody?',
+    'Right to meet legal counsel - frequency?',
+    'Right to remain silent during investigation?',
+    'Rights of women accused - special provisions?',
+    'Rights of juvenile in conflict with law?',
+    'Right to speedy trial?',
+    'Right to cross-examine witnesses?',
+    'Right to appeal against arrest?',
+    'Right to compensation if wrongfully arrested?',
+    'Fundamental rights during criminal proceedings?'
+  ],
+  
+  terminology: [
+    'What is cognizable offence?',
+    'Define bailable offence vs non-bailable?',
+    'What is compounding of offences?',
+    'Explain warrant case vs summons case?',
+    'What is remand - police vs judicial?',
+    'Define anticipatory bail?',
+    'What is concurrent sentence vs consecutive sentence?',
+    'Explain plea bargaining provisions?',
+    'What is probation of offenders?',
+    'Define community service as punishment?',
+    'What is discharge vs acquittal?',
+    'Explain compoundable vs non-compoundable offence?',
+    'What is conviction and sentencing?',
+    'Define abetment and conspiracy?',
+    'What is vicarious liability?',
+    'Explain strict liability in criminal law?',
+    'What is burden of proof?',
+    'Define reasonable doubt?',
+    'What is res gestae?',
+    'Explain doctrine of alibi?'
+  ],
+  
+  // ========== LEGAL PROFESSIONAL QUESTIONS ==========
+  
+  bail: [
+    'How to apply for regular bail under BNSS Section 479?',
+    'Regular bail vs anticipatory bail - key differences?',
+    'What factors does court consider for bail?',
+    'Grounds for bail rejection under BNSS?',
+    'Bail amount calculation and guidelines?',
+    'When can bail be cancelled by court?',
+    'Bail in non-bailable offences - conditions?',
+    'Anticipatory bail procedure and time limits?',
+    'Can anticipatory bail be time-bound?',
+    'Can bail be granted during investigation?',
+    'Bail rejection - appeal process?',
+    'Default bail (Section 167 BNSS) provisions?',
+    'Difference between default bail and regular bail?',
+    'Bail conditions that can be imposed?',
+    'Bail conditions enforceability?',
+    'Surety requirements for bail?',
+    'Cash bail vs personal bond?',
+    'Bail in cases involving women accused?',
+    'Bail for juveniles - special provisions?',
+    'Transit remand vs production warrant?',
+    'Bail cancellation grounds?',
+    'Modification of bail conditions?',
+    'Bail in economic offences - restrictions?',
+    'Anticipatory bail duration and extension?',
+    'Concurrent jurisdiction for bail?',
+    'Bail pending investigation vs pending trial?',
+    'Supreme Court guidelines on bail?',
+    'Bail in terrorism and UAPA cases?',
+    'Personal liberty vs public interest in bail?',
+    'Can court impose digital monitoring?'
+  ],
+  
+  trial: [
+    'Summons case vs warrant case - differences?',
+    'Sessions trial procedure under BNSS?',
+    'How long does criminal trial typically take?',
+    'Rights of accused during trial?',
+    'Can trial be fast-tracked? Conditions?',
+    'Framing of charges procedure?',
+    'Discharge vs acquittal - legal distinction?',
+    'Trial in absentia - when permissible?',
+    'Witness examination procedure?',
+    'Cross-examination rights and limits?',
+    'Court commissioner examination - when used?',
+    'Evidence recording in trial?',
+    'Defence evidence presentation?',
+    'Final arguments and written submissions?',
+    'Judgment delivery timeline?',
+    'Split trial - when ordered?',
+    'De novo trial - circumstances?',
+    'Joint trial of multiple accused?',
+    'Separate trial for co-accused - when?',
+    'Victim participation in trial?',
+    'In-camera trial provisions?',
+    'Video conferencing in trial?',
+    'Speedy trial - constitutional right?',
+    'Trial by jury vs judge alone?',
+    'Summary trial procedure?',
+    'Is WhatsApp chat admissible?',
+    'Who certifies electronic evidence?',
+    'CCTV footage without certificate – valid?',
+    'Can call records be primary evidence?',
+    'Hostile witness treatment under BSA?'
+  ],
+  
+  appeals: [
+    'How to file appeal under BNSS?',
+    'Appeal time limits from different courts?',
+    'Limitation period for appeal?',
+    'High Court vs Supreme Court appeals - differences?',
+    'Appeal procedure and documentation?',
+    'Can appeal be filed online?',
+    'Cost of filing appeals?',
+    'Suspension of sentence pending appeal?',
+    'Revision petition vs appeal - distinction?',
+    'Difference between revision and appeal?',
+    'Powers of appellate court?',
+    'Fresh evidence in appeal - when allowed?',
+    'Appeal against acquittal - procedure?',
+    'Appeal against conviction and sentence?',
+    'Appeal by State vs appeal by accused?',
+    'Condonation of delay in appeal?',
+    'Withdrawal of appeal - procedure?',
+    'Acquittal on appeal - consequences?',
+    'Enhanced sentence on appeal - legality?',
+    'Compounding of offences during appeal?',
+    'Legal aid for appeals?',
+    'Reference to High Court - circumstances?',
+    'Special Leave Petition to Supreme Court?',
+    'Interim relief during appeal?',
+    'Stay on conviction possible?'
+  ],
+  
+  punishments: [
+    'What changed from IPC to BNS in punishments?',
+    'Punishment for theft under BNS?',
+    'Sentencing guidelines under new laws?',
+    'Mitigating factors in sentencing?',
+    'Maximum punishment for murder?',
+    'Death penalty - current status under BNS?',
+    'Life imprisonment provisions?',
+    'Community service as alternative punishment?',
+    'Fine as punishment - maximum limits?',
+    'Compensation to victims - mandatory provisions?',
+    'Suspended sentence and probation?',
+    'First-time offender - leniency provisions?',
+    'Juvenile sentencing - special provisions?',
+    'Concurrent vs consecutive sentences?',
+    'Minimum sentences for specific offences?',
+    'Enhanced punishment for repeat offenders?',
+    'Remission and commutation of sentences?',
+    'Presidential pardon provisions?',
+    'Punishment for corporate crimes?',
+    'Sentencing in plea bargaining?'
+  ],
+  
+  procedures: [
+    'How to file criminal case in court?',
+    'Court documentation and format requirements?',
+    'Timeline for court hearings?',
+    'Court fees structure for criminal cases?',
+    'How to get certified copies of court orders?',
+    'Case diary access by accused?',
+    'Filing of complaints under Section 200 BNSS?',
+    'Private complaint procedure?',
+    'Condonation of delay in filing?',
+    'Application for summons to witnesses?',
+    'Vakalatnama and authorization to appear?',
+    'Adjournment of cases - grounds?',
+    'Production of documents in court?',
+    'Examination of accused under Section 313?',
+    'Application for discharge?',
+    'Bail application format and grounds?',
+    'Interim orders during trial?',
+    'Court recording of evidence?',
+    'Petition for transfer of case?',
+    'Stay of proceedings - when granted?'
+  ],
+  
+  comparison: [
+    'Key changes from IPC to BNS?',
+    'Major differences between BNSS and CrPC?',
+    'BSA vs Evidence Act - what changed?',
+    'Why were criminal laws changed in 2024?',
+    'Implementation timeline for new laws?',
+    'Sections renumbered - how to find correspondence?',
+    'New offences added in BNS?',
+    'Offences removed from IPC?',
+    'Punishment changes - increased or decreased?',
+    'Procedural changes in BNSS?',
+    'Electronic evidence provisions - new additions?',
+    'Time limits changed in new laws?',
+    'Bail provisions - what is different?',
+    'Investigation powers - expanded or restricted?',
+    'Victim rights - enhanced provisions?',
+    'Women and children - special protections added?',
+    'Cybercrime provisions in new laws?',
+    'Economic offences - new provisions?',
+    'Community service - new concept?',
+    'Plea bargaining - any changes?',
+    'Appeals and revision - modified provisions?',
+    'Language and terminology changes?',
+    'Transitional provisions for pending cases?',
+    'Savings clause - what continues?',
+    'Training and adaptation challenges?',
+    'FIR process: CrPC vs BNSS',
+    'Arrest rules: Old vs New law',
+    'Evidence law changes summary',
+    'New timelines introduced',
+    'Technology use in new laws'
+  ],
+  
+  // ========== LAW STUDENT QUESTIONS ==========
+  
+  concepts: [
+    'Mens rea - detailed explanation with examples?',
+    'What is mens rea in simple words?',
+    'Actus reus - what constitutes criminal act?',
+    'Criminal liability - how is it established?',
+    'Strict liability vs absolute liability?',
+    'Vicarious liability - scope and limits?',
+    'Joint liability - common intention vs common object?',
+    'Constructive liability - meaning?',
+    'Right of private defence - when justified?',
+    'General exceptions to criminal liability?',
+    'Age of criminal responsibility - legal provisions?',
+    'Unsoundness of mind - defence?',
+    'Intoxication - voluntary vs involuntary?',
+    'Necessity as defence - legal validity?',
+    'Mistake of fact vs mistake of law?',
+    'Doctrine of transferred malice?',
+    'Doctrine of common intention?',
+    'Doctrine of mens rea in statutory offences?',
+    'Principle of nulla poena sine lege?',
+    'Doctrine of double jeopardy?',
+    'Burden of proof in criminal cases?',
+    'What is burden of proof?',
+    'Standard of proof - beyond reasonable doubt?',
+    'Presumption of innocence - application?',
+    'What is presumption under law?',
+    'Corpus delicti - essential requirement?',
+    'Motive vs intention - legal distinction?',
+    'Criminal negligence vs civil negligence?'
+  ],
+  
+  criminal: [
+    'Classification of offences under BNS?',
+    'Meaning of cognizable offence with example?',
+    'Difference between bailable and non-bailable?',
+    'Crimes against human body - categories?',
+    'Crimes against property - types?',
+    'Crimes against state - treason, sedition?',
+    'Crimes against public tranquility?',
+    'Crimes related to elections?',
+    'Crimes by or relating to public servants?',
+    'Contempt of lawful authority?',
+    'Offences affecting public health and safety?',
+    'Offences relating to religion?',
+    'Offences affecting human body - murder to assault?',
+    'Sexual offences - comprehensive overview?',
+    'Offences against women - special provisions?',
+    'Offences relating to marriage?',
+    'Defamation - criminal provisions?',
+    'Criminal intimidation and insult?',
+    'Theft, extortion, robbery, dacoity?',
+    'Cheating and fraud?',
+    'Criminal breach of trust?',
+    'Forgery and document fraud?',
+    'Currency offences?',
+    'Cybercrime under BNS?',
+    'Economic offences?',
+    'Environmental crimes?',
+    'Organized crime and terrorism?'
+  ],
+  
+  procedure: [
+    'FIR to judgment - complete process?',
+    'Preliminary investigation before FIR?',
+    'Investigation powers and duties?',
+    'Arrest procedures and safeguards?',
+    'Search and seizure - legal requirements?',
+    'Remand to police custody - procedure?',
+    'Bail application and hearing?',
+    'Charge sheet filing - timeline and format?',
+    'Cognizance by magistrate - process?',
+    'Framing of charges - procedure?',
+    'Trial procedure in sessions court?',
+    'Recording of evidence - examination stages?',
+    'Defence evidence presentation?',
+    'Arguments - prosecution and defence?',
+    'Judgment writing - requirements?',
+    'Sentencing hearing and factors?',
+    'Appeal procedure and time limits?',
+    'Revision petition - when maintainable?',
+    'Review of judgment - grounds?',
+    'Reference to High Court?',
+    'Special leave petition to Supreme Court?',
+    'Execution of sentences?',
+    'Probation and suspended sentence?',
+    'Remission and pardon?',
+    'Victim compensation - procedure?'
+  ],
+  
+  evidence_law: [
+    'Types of evidence - direct, circumstantial, documentary?',
+    'Oral evidence vs documentary evidence?',
+    'Primary evidence vs secondary evidence?',
+    'Admissibility of evidence - tests?',
+    'Relevancy of evidence - determining factors?',
+    'Facts in issue and relevant facts?',
+    'Burden of proof - who bears it?',
+    'Standard of proof in criminal vs civil?',
+    'Presumptions - rebuttable and conclusive?',
+    'Confession - admissibility conditions?',
+    'Dying declaration - evidentiary value?',
+    'Expert evidence - when required?',
+    'Opinion evidence - admissibility?',
+    'Character evidence - when relevant?',
+    'Previous judgments as evidence?',
+    'Electronic evidence under BSA?',
+    'Digital signatures and certificates?',
+    'CCTV footage authentication?',
+    'Social media evidence?',
+    'Email and SMS as evidence?',
+    'Voice recognition and call records?',
+    'DNA evidence - admissibility?',
+    'Lie detector and narco tests?',
+    'Witness examination - chief, cross, re-examination?',
+    'Impeaching witness credibility?'
+  ],
+  
+  amendments: [
+    'Why IPC was replaced by BNS?',
+    'Objectives of BNSS in simple terms?',
+    'Why Evidence Act was changed?',
+    'What problems old laws had?',
+    'Most significant changes in criminal laws?',
+    'New offences introduced in BNS?',
+    'Enhanced punishments - which crimes?',
+    'Reduced punishments - any instances?',
+    'Time-bound investigation provisions?',
+    'Victim rights - new additions?',
+    'Technology integration - major changes?',
+    'Simplified language - impact?',
+    'Gender-neutral provisions?',
+    'Community service - implementation?',
+    'Forensic investigation - mandatory provisions?',
+    'Electronic service of summons?',
+    'Video conferencing in trial?',
+    'Witness protection scheme?',
+    'Speedy trial provisions?',
+    'Bail reforms?',
+    'Plea bargaining changes?',
+    'Juvenile justice amendments?',
+    'Economic crime provisions?',
+    'International cooperation provisions?'
+  ],
+  
+  casestudies: [
+    'Landmark judgments under new criminal laws?',
+    'Case study: FIR registration issues?',
+    'Case study: Bail application denied/granted?',
+    'Example: Investigation procedure in cyberfraud?',
+    'Case study: Trial procedure in murder case?',
+    'Example: Evidence presentation in court?',
+    'Case study: Appeal after conviction?',
+    'Example: Compounding of offences?',
+    'Case study: Juvenile justice case?',
+    'Example: Anticipatory bail application?',
+    'Case study: Victim compensation awarded?',
+    'Example: Witness protection case?',
+    'Case study: Electronic evidence admissibility?',
+    'Example: Community service as punishment?',
+    'Case study: Plea bargaining success?',
+    'Example: Private defence justified?',
+    'Case study: General exceptions applied?',
+    'Example: Joint trial of multiple accused?',
+    'Case study: Reference to High Court?',
+    'Example: Practical application of new laws?'
+  ],
+  
+  // ========== GENERAL CITIZEN QUESTIONS ==========
+  
+  rights: [
+    'What are my rights if arrested?',
+    'Can I refuse to give statement to police?',
+    'When do I get right to lawyer?',
+    'What are my rights during police interrogation?',
+    'What if my rights are violated by police?',
+    'Right to bail - am I entitled?',
+    'Right to medical examination when arrested?',
+    'Does police have to inform my family?',
+    'Can police search my house without warrant?',
+    'Right against self-incrimination - what is it?',
+    'What if I do not understand the language?',
+    'Right to food and basic needs in custody?',
+    'How often can I meet my lawyer?',
+    'Can I remain silent during questioning?',
+    'Special rights for women accused?',
+    'Rights of senior citizens in criminal cases?',
+    'Right to speedy trial - how long should case take?',
+    'Can I cross-examine witnesses?',
+    'Right to appeal if convicted?',
+    'Compensation if wrongfully arrested?',
+    'Rights during court trial?',
+    'Right to interpreter in court?',
+    'Rights of victims in criminal cases?',
+    'Right to legal aid if I cannot afford lawyer?',
+    'Constitutional rights in criminal proceedings?',
+    'Can police call me without written notice?',
+    'Can police arrest at night?',
+    'Can police arrest without telling reason?',
+    'What should I do if police misbehave?',
+    'Can mobile be taken by police?'
+  ],
+  
+  complaint: [
+    'How do I file FIR?',
+    'Where can I register FIR?',
+    'Can I file FIR online?',
+    'Can FIR be lodged through email or online?',
+    'What if police station refuses FIR?',
+    'What if police delay FIR registration?',
+    'What is Zero FIR and when to use?',
+    'What information should I give in complaint?',
+    'Do I need documents for FIR?',
+    'What documents are needed to file FIR?',
+    'How to file complaint for cybercrime?',
+    'Online complaint to National Commission for Women?',
+    'Consumer court complaint process?',
+    'How to complain about police officer?',
+    'Complaint to Human Rights Commission?',
+    'Anonymous complaint - is it valid?',
+    'Oral vs written complaint?',
+    'Time limit for filing FIR?',
+    'Can I get copy of my FIR?',
+    'What happens after FIR is registered?',
+    'Private complaint in court - procedure?',
+    'How to file complaint for cheating?',
+    'Property dispute complaint - where to file?',
+    'Workplace harassment complaint?',
+    'Domestic violence complaint procedure?',
+    'Missing person complaint?',
+    'Accident complaint and insurance claim?',
+    'Online fraud complaint - step by step?',
+    'Can a family member file FIR on my behalf?',
+    'Is FIR free of cost?',
+    'Can FIR be withdrawn later?'
+  ],
+  
+  bail: [
+    'What is bail and who can get it?',
+    'How to apply for bail?',
+    'How much does bail cost?',
+    'How much time does it take to get bail?',
+    'What are bail conditions?',
+    'Can bail be given during investigation?',
+    'What is anticipatory bail?',
+    'How long does bail process take?',
+    'What if bail is rejected?',
+    'Who can stand surety for bail?',
+    'Who can apply for bail on my behalf?',
+    'Can I travel if on bail?',
+    'Regular bail vs interim bail?',
+    'Bail for women - any special provisions?',
+    'Bail for senior citizens?',
+    'When can bail be cancelled?',
+    'What happens if bail conditions are violated?',
+    'Default bail - what is it?',
+    'How to get bail in non-bailable case?',
+    'Personal bond vs surety bail?',
+    'Reporting to police station while on bail?',
+    'Bail in serious crimes like murder?',
+    'Release on personal recognizance?',
+    'Is bail possible on the same day of arrest?',
+    'Can police oppose bail?'
+  ],
+  
+  common: [
+    'What to do if my mobile is stolen?',
+    'Vehicle accident - what steps to take?',
+    'Property dispute with neighbor - resolution?',
+    'Cheque bounced - what is remedy?',
+    'Online shopping fraud - how to complain?',
+    'Landlord-tenant dispute handling?',
+    'Workplace harassment - what to do?',
+    'Domestic violence - immediate help?',
+    'Lost important documents - procedure?',
+    'Credit card fraud - steps to take?',
+    'Defamation case - how to handle?',
+    'Physical assault - what should I do?',
+    'Robbery at home - immediate actions?',
+    'Bike/car stolen - reporting process?',
+    'Threatened by someone - legal help?',
+    'Money not returned by friend - options?',
+    'Fake social media profile - complaint?',
+    'Neighbour causing nuisance - remedy?',
+    'Child missing - what to do immediately?',
+    'Dowry harassment - legal remedies?',
+    'Will dispute in family?',
+    'Marriage fraud case?',
+    'Job fraud and fake placement - complaint?',
+    'Electricity/water theft by neighbor?',
+    'Stray animal causing damage - liability?',
+    'Can case be settled outside court?',
+    'How long does criminal case take?',
+    'What happens if accused does not cooperate?',
+    'Can police close case without informing complainant?'
+  ],
+  
+  legal_aid: [
+    'How to get free legal aid?',
+    'Who is eligible for free legal services?',
+    'Legal aid helpline numbers?',
+    'Government legal aid authorities?',
+    'District Legal Services Authority - how to contact?',
+    'NGOs providing free legal help?',
+    'Online legal consultation services?',
+    'Lawyer fees - typical costs?',
+    'How to find good criminal lawyer?',
+    'Legal aid for women?',
+    'Legal help for senior citizens?',
+    'Free legal aid for SC/ST/OBC?',
+    'Legal aid for persons with disabilities?',
+    'Victim legal services?',
+    'Legal aid in custody?',
+    'Legal awareness programs?',
+    'Mobile legal aid clinics?',
+    'Tele-law services?',
+    'Legal aid mobile apps?',
+    'Pro bono legal services?'
+  ],
+  
+  cybercrime: [
+    'How to report online fraud?',
+    'What to do if money is deducted online fraud?',
+    'Cyber police station - where to find?',
+    'National Cybercrime Reporting Portal?',
+    'Online harassment complaint procedure?',
+    'Social media account hacked - what to do?',
+    'Fake profile impersonating me - remedy?',
+    'Online blackmail and extortion - help?',
+    'Cyberstalking - how to complain?',
+    'Revenge porn - legal remedies?',
+    'Phishing attack - reporting process?',
+    'UPI fraud - immediate steps?',
+    'Banking fraud online - whom to inform?',
+    'Can bank reverse fraud amount?',
+    'Online job scam - complaint?',
+    'Dating app fraud - legal action?',
+    'Cyber bullying - how to stop?',
+    'Obscene messages - legal remedy?',
+    'Morphed photos circulated - what to do?',
+    'Online defamation - legal options?',
+    'Video call blackmail - help?',
+    'Email hacking - complaint procedure?',
+    'Identity theft online - steps?',
+    'Online gaming fraud?',
+    'Fake website cheating - complaint?',
+    'Digital arrest scam - awareness?',
+    'How to protect myself online?',
+    'How quickly should cyber complaint be filed?',
+    'Is cyber complaint possible without FIR?',
+    'Is cyber crime complaint anonymous?'
+  ],
+  
+  women: [
+    'Domestic violence - immediate help?',
+    'Dowry harassment - legal remedy?',
+    'Sexual harassment - where to complain?',
+    'Acid attack - legal help and compensation?',
+    'Rape - medical and legal procedure?',
+    'Stalking - legal protection?',
+    'Eve teasing - what to do?',
+    'Women helpline numbers?',
+    'What is emergency number for women?',
+    'Mahila police station - services?',
+    'Protection of Women from Domestic Violence Act?',
+    'Child abuse - reporting procedure?',
+    'Child sexual abuse - immediate steps?',
+    'Missing child - what to do?',
+    'Child marriage - how to prevent?',
+    'POCSO Act - what does it cover?',
+    'Child helpline number?',
+    'Juvenile justice - who it applies to?',
+    'Maintenance for wife and children?',
+    'Divorce and domestic violence?',
+    'Protection from husband family?',
+    'Working women harassment - complaint?',
+    'Maternity rights?',
+    'Sexual harassment at workplace - procedure?',
+    'Women safety apps?',
+    'Legal aid for women?',
+    'Can woman be arrested by male police?',
+    'What time police can arrest a woman?',
+    'Is complaint mandatory in women cases?',
+    'What rights does a minor have during inquiry?'
+  ],
+  
+  basics: [
+    'What is FIR in simple words?',
+    'What does cognizable offence mean?',
+    'Bailable vs non-bailable - simple explanation?',
+    'What is police custody?',
+    'What is judicial custody?',
+    'What is charge sheet?',
+    'Bail - simple definition?',
+    'What is arrest warrant?',
+    'What is summons?',
+    'Court - different types explained?',
+    'What is trial?',
+    'Judge vs Magistrate - difference?',
+    'What is appeal?',
+    'What is conviction?',
+    'What is acquittal?',
+    'Punishment - types explained?',
+    'What is fine?',
+    'Life imprisonment - how many years?',
+    'What is lawyer role?',
+    'Public prosecutor - who is this?',
+    'How long can police keep someone in custody?'
+  ]
+};    
+    // FIXED: Proper radio button handling
+function selectQueryType(type) {
+  selectedQueryType = type;
+
+  // Toggle radio cards
+  document.querySelectorAll('.radio-option')
+    .forEach(el => el.classList.remove('selected'));
+
+  if (type === 'custom') {
+    document.getElementById('customCard')?.classList.add('selected');
+    document.getElementById('customQuestionDiv').style.display = 'block';
+    document.getElementById('readyQuestionDiv').style.display = 'none';
+    // Hide Get Answer button (we have Send button in input)
+  const submitBtn = document.getElementById('submitBtn');
+  if (submitBtn) submitBtn.style.display = 'none';
+
+    // 🔹 Refinement 2: Auto-focus cursor
+   setTimeout(() => {
+  const input = document.getElementById('userInput');
+  if (input) {
+    input.value = '';   // clear old ready-made question
+    input.focus();      // focus for fresh input
+  }
+}, 200);
+  } else {
+    document.getElementById('readyCard')?.classList.add('selected');
+    document.getElementById('customQuestionDiv').style.display = 'none';
+    document.getElementById('readyQuestionDiv').style.display = 'block';
+// Show Get Answer button (no Send button in ready-made)
+  const submitBtn = document.getElementById('submitBtn');
+  if (submitBtn) submitBtn.style.display = 'block';
+    loadTopics(selectedUser);
+    document.getElementById('topicSection').style.display = 'block';
+  }
+
+  /* ================================
+     Refinement 1: Auto-collapse selector
+     ================================ */
+  setTimeout(() => {
+    const selector = document.querySelector('.query-type-selector');
+    const summary = document.getElementById('queryTypeSummary');
+    const text = document.getElementById('queryTypeSummaryText');
+
+    const labels = {
+      custom: 'Ask Your Own Question',
+      ready: 'Ready-Made Questions'
+    };
+
+if (selector && summary && text) {
+  selector.style.display = 'none';
+  summary.style.display = 'flex';
+  text.textContent = labels[type];
+}
+  }, 300);
+}
+
+    
+    window.selectQueryType = selectQueryType;
+
+   // Select main user profile (always visible)
+// Select main user profile (USER ACTION ONLY)
+function selectMainUser(userType) {
+  selectedUser = userType;
+
+  // ✅ Mark as manually changed
+  isProfileManuallyChanged = true;
+
+  // Update profile cards
+  document.querySelectorAll('.user-card-small')
+    .forEach(el => el.classList.remove('selected'));
+
+  const mainCard = document.getElementById(
+    'user' + userType.charAt(0).toUpperCase() + userType.slice(1) + 'Main'
+  );
+  if (mainCard) mainCard.classList.add('selected');
+
+  // ✅ Update hint ONLY for manual selection
+  const hintEl = document.getElementById('profileHint');
+  const shortNames = {
+    police: 'Police Officer',
+    legal: 'Legal Professional',
+    student: 'Student / Researcher',
+    citizen: 'General Citizen'
+  };
+
+  if (hintEl) {
+    hintEl.textContent = '✓ Selected: ' + (shortNames[userType] || 'General Citizen');
+  }
+
+  /* ================================
+     Progressive Collapse Logic
+     (UNCHANGED – USER FLOW)
+     ================================ */
+  setTimeout(() => {
+    const profileBox = document.getElementById('profileSelector');
+    const summaryBox = document.getElementById('profileSummary');
+    const summaryText = document.getElementById('profileSummaryText');
+
+    if (profileBox && summaryBox && summaryText) {
+      profileBox.classList.add('hidden');
+      summaryBox.classList.remove('hidden');
+      summaryText.textContent = shortNames[userType] || 'General Citizen';
+    }
+
+    // Scroll to next section
+    const nextSection = document.querySelector('.query-type-selector');
+    if (nextSection) {
+      nextSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, 300);
+
+  // Load ready-made topics if visible
+  const readyDiv = document.getElementById('readyQuestionDiv');
+  if (readyDiv && readyDiv.style.display !== 'none') {
+    loadTopics(userType);
+    document.getElementById('topicSection').style.display = 'block';
+  }
+// Auto-select appropriate topic when user changes profile
+    setTimeout(() => {
+      autoSelectTopicForUserType();
+    }, 300);
+  console.log('✅ User manually selected profile:', userType);
+}
+
+    
+    window.selectMainUser = selectMainUser;
+
+    function selectUser(userType) {
+      // This function is now deprecated - selectMainUser handles everything
+      selectMainUser(userType);
+    }
+    
+    window.selectUser = selectUser;
+
+    function loadTopics(userType) {
+      const container = document.getElementById('topicContainer');
+      container.innerHTML = '';
+      
+      const topics = TOPICS[userType] || [];
+      
+      topics.forEach(function(topic) {
+        const topicCard = document.createElement('div');
+        topicCard.className = 'topic-card';
+        topicCard.id = 'topic-' + topic.id;
+        topicCard.onclick = function() { selectTopic(topic.id); };
+        
+        topicCard.innerHTML = '<div class="topic-icon">' + topic.icon + '</div>' +
+          '<div class="flex-1">' +
+          '<div class="topic-title">' + topic.title + '</div>' +
+          '<div class="topic-subtitle">' + topic.subtitle + '</div>' +
+          '<div class="topic-law">' + topic.law + '</div>' +
+          '</div>';
+        
+        container.appendChild(topicCard);
+      });
+    }
+
+    function selectTopic(topicId) {
+      selectedTopic = topicId;
+      
+      // Update UI
+      document.querySelectorAll('.topic-card').forEach(function(el) {
+        el.classList.remove('selected');
+      });
+      const topicCard = document.getElementById('topic-' + topicId);
+      if (topicCard) topicCard.classList.add('selected');
+      
+      // Load questions for this topic
+      loadQuestionsForTopic(topicId);
+      
+      // Show question section
+      document.getElementById('questionSelectSection').style.display = 'block';
+      
+      console.log('✅ Topic selected:', topicId);
+    }
+
+function loadQuestionsForTopic(topicId) {
+  const questionSelect = document.getElementById('questionSelect');
+  questionSelect.innerHTML = '<option value="" selected disabled>Tap to select a question...</option>';
+  
+  const questions = TOPIC_QUESTIONS[topicId] || [];
+  
+  questions.forEach(function(q) {
+    const option = document.createElement('option');
+    option.value = q;
+    option.textContent = q;
+    questionSelect.appendChild(option);
+  });
+}
+
+
+    document.getElementById('questionSelect').addEventListener('change', function() {
+      document.getElementById('userInput').value = this.value;
+    });
+
+// Voice recognition
+let recognition;
+let isRecording = false;
+
+if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  recognition = new SpeechRecognition();
+  recognition.continuous = false;
+  recognition.interimResults = false;
+
+  recognition.onstart = function () {
+    isRecording = true;
+    document.getElementById('voiceBtn').classList.add('recording');
+  };
+
+  recognition.onresult = function (event) {
+    document.getElementById('userInput').value =
+      event.results[0][0].transcript;
+  };
+
+  recognition.onend = function () {
+    isRecording = false;
+    document.getElementById('voiceBtn').classList.remove('recording');
+  };
+
+  recognition.onerror = function () {
+    isRecording = false;
+    document.getElementById('voiceBtn').classList.remove('recording');
+  };
+}
+
+document.getElementById('voiceBtn').addEventListener('click', function (e) {
+  e.preventDefault();
+
+  if (!recognition) {
+    alert('Voice recognition not supported');
+    return;
+  }
+
+  if (isRecording) {
+    recognition.stop();
+    return;
+  }
+
+  // ✅ SET LANGUAGE JUST BEFORE START
+  // Get language from whichever selector is visible
+const langCustom = document.getElementById('languageSelect')?.value;
+const langReady = document.getElementById('languageSelectReady')?.value;
+const lang = langCustom || langReady || 'english';
+
+  if (lang === 'hindi') recognition.lang = 'hi-IN';
+  else if (lang === 'punjabi') recognition.lang = 'pa-IN';
+  else recognition.lang = 'en-IN';
+
+  recognition.start();
+});
+
+document.getElementById('submitBtn').addEventListener('click', async function() {
+  // Get question from textarea
+  const question = document.getElementById('userInput').value.trim();
+  
+  // Validate question
+  if (!question) {
+    alert('कृपया प्रश्न दर्ज करें! / Please enter your question!');
+    return;
+  }
+  
+  // Check if simple mode - use chat interface
+  if (currentMode === 'simple') {
+    // Open chat interface
+    document.getElementById('chatInterface').classList.add('active');
+    
+    // Transfer question to chat input and send
+    document.getElementById('chatInput').value = question;
+    sendChatMessage();
+    document.getElementById('userInput').value = ''; // Clear original input
+    return;
+  }
+  
+  // POWER MODE - Continue with modal logic below
+  
+  // Profile is always selected (default: citizen)
+  // Show gentle reminder if user hasn't explicitly selected
+  if (selectedUser === 'citizen' && !document.getElementById('userCitizenMain').classList.contains('selected')) {
+    console.log('ℹ️ Using default profile: General Citizen');
+  }
+  
+  // Reset for new question
+  currentQuestion = question;
+  currentAnswerLevel = 'standard'; // Default to standard
+  aiUsed = { groq: false, chatgpt: true };
+  
+  // Call API with ChatGPT and standard depth
+  await getAnswer('chatgpt', 'standard');
+});
+
+document.getElementById('closeModal').addEventListener('click', function() {
+  speechSynthesis.cancel();   // 🔇 Stop listening
+  stopListeningUI();
+  document.getElementById('aiModal').classList.add('hidden');
+});
+
+document.getElementById('closeBtn').addEventListener('click', function() {
+  speechSynthesis.cancel();   // 🔇 Stop listening
+  stopListeningUI();
+  document.getElementById('aiModal').classList.add('hidden');
+});
+
+
+    // Extract Keywords from User's Question
+    function extractKeywords(question) {
+      // Convert to lowercase for processing
+      const text = question.toLowerCase();
+      
+      // Remove common question words
+      const stopWords = ['what', 'when', 'where', 'how', 'why', 'who', 'is', 'are', 'the', 'a', 'an', 
+                         'can', 'could', 'should', 'would', 'do', 'does', 'did', 'have', 'has', 'had',
+                         'will', 'shall', 'may', 'might', 'must', 'को', 'का', 'के', 'में', 'से', 'है', 'हैं'];
+      
+      // Split into words and filter
+      const words = text.split(/\s+/)
+        .filter(word => word.length > 2)  // At least 3 characters
+        .filter(word => !stopWords.includes(word))
+        .filter(word => !/^\d+$/.test(word));  // Remove pure numbers
+      
+      // Take first 4-5 meaningful words as keywords
+      const keywords = words.slice(0, 5);
+      
+      // If we have very few keywords, try to extract key phrases
+      if (keywords.length < 3) {
+        // Look for important legal terms
+        const importantTerms = [
+          'arrest', 'bail', 'fir', 'complaint', 'investigation', 'search', 'seizure',
+          'evidence', 'witness', 'trial', 'court', 'judge', 'lawyer', 'police',
+          'custody', 'detention', 'rights', 'punishment', 'crime', 'offence',
+          'murder', 'theft', 'fraud', 'rape', 'kidnapping', 'cybercrime',
+          'electronic', 'digital', 'cyber', 'appeal', 'revision', 'judgment',
+          'charge', 'chargesheet', 'confession', 'anticipatory', 'cognizable',
+          'bailable', 'warrant', 'summons', 'victim', 'compensation'
+        ];
+        
+        importantTerms.forEach(term => {
+          if (text.includes(term) && !keywords.includes(term)) {
+            keywords.push(term);
+          }
+        });
+      }
+      
+      return keywords.filter((v, i, a) => a.indexOf(v) === i); // Remove duplicates
+    }
+
+    // Open Section Search with Keywords from Question
+    function openSectionSearch() {
+      // Get the original question
+      const question = document.getElementById('modalQuestion').textContent;
+      
+      if (question && question.trim()) {
+        // Extract keywords from the question
+        const keywords = extractKeywords(question);
+        
+        if (keywords.length > 0) {
+          // Build URL with keywords
+          const searchQuery = keywords.join('+');
+          const url = 'section-search.html?search=' + encodeURIComponent(searchQuery);
+          window.open(url, '_blank');
+          console.log('✅ Opening section search with keywords:', keywords.join(' '));
+        } else {
+          // Fallback: open without keywords
+          window.open('section-search.html', '_blank');
+          console.log('⚠️ No keywords extracted, opening section search');
+        }
+      } else {
+        // No question available, just open section search
+        window.open('section-search.html', '_blank');
+        console.log('✅ Opening section search (no question available)');
+      }
+    }
+    
+    window.openSectionSearch = openSectionSearch;
+
+    // Ask a Related Question
+    function askRelatedQuestion(question) {
+      console.log('📋 Related question clicked:', question);
+      console.log('📋 Auto-submitting related question...');
+      
+      // Close the modal first
+      document.getElementById('aiModal').classList.add('hidden');
+      
+      // Set the question in the input
+      document.getElementById('userInput').value = question;
+      
+      // Update current question
+      currentQuestion = question;
+      
+      // Scroll to input
+      document.getElementById('userInput').scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'center' 
+      });
+      
+      // Brief highlight
+      const input = document.getElementById('userInput');
+      input.style.backgroundColor = '#fef3c7';
+      input.focus();
+      
+      // AUTO-SUBMIT after short delay
+      setTimeout(() => {
+        input.style.backgroundColor = '';
+        console.log('🚀 Auto-submitting question now...');
+        // Trigger the answer
+        getAnswer('chatgpt', 'standard');
+      }, 800);  // 800ms delay to show the question briefly
+    }
+    
+    window.askRelatedQuestion = askRelatedQuestion;
+
+    // Autocomplete Suggestions for Custom Questions
+    function showAutocompleteSuggestions() {
+      const input = document.getElementById('userInput');
+      const suggestionsBox = document.getElementById('autocompleteSuggestions');
+      const query = input.value.toLowerCase().trim();
+      
+      // Hide if input is too short
+      if (query.length < 3) {
+        suggestionsBox.classList.add('hidden');
+        return;
+      }
+      
+      // Get all questions from TOPIC_QUESTIONS
+      const allQuestions = [];
+      for (const topic in TOPIC_QUESTIONS) {
+        allQuestions.push(...TOPIC_QUESTIONS[topic]);
+      }
+      
+      // Filter matching questions
+      const matches = allQuestions.filter(q => 
+        q.toLowerCase().includes(query)
+      ).slice(0, 10); // Limit to 10 suggestions
+      
+      // Show suggestions
+      if (matches.length > 0) {
+        suggestionsBox.innerHTML = matches.map(q => `
+          <div class="p-3 hover:bg-orange-50 cursor-pointer border-b border-orange-100 text-sm transition"
+               onclick="selectSuggestion('${q.replace(/'/g, "\\'")}')">
+            ${q}
+          </div>
+        `).join('');
+        suggestionsBox.classList.remove('hidden');
+      } else {
+        suggestionsBox.classList.add('hidden');
+      }
+    }
+    
+    function selectSuggestion(question) {
+      const input = document.getElementById('userInput');
+      const suggestionsBox = document.getElementById('autocompleteSuggestions');
+      
+      input.value = question;
+      suggestionsBox.classList.add('hidden');
+      input.focus();
+    }
+    
+    // Hide suggestions when clicking outside
+    document.addEventListener('click', function(event) {
+      const suggestionsBox = document.getElementById('autocompleteSuggestions');
+      const input = document.getElementById('userInput');
+      
+      if (!suggestionsBox.contains(event.target) && event.target !== input) {
+        suggestionsBox.classList.add('hidden');
+      }
+    });
+    
+    console.log('✅ NyayaMitra ready with autocomplete!');
+function expandProfileSelector() {
+  document.getElementById('profileSelector')?.classList.remove('hidden');
+  document.getElementById('profileSummary')?.classList.add('hidden');
+}
+function expandQueryType() {
+  const selector = document.querySelector('.query-type-selector');
+  const summary = document.getElementById('queryTypeSummary');
+
+if (selector && summary) {
+  selector.style.display = 'block';
+  summary.style.display = 'none';
+}
+
+  // 🔹 FIX: Restore correct radio & visual selection
+  document.querySelectorAll('.radio-option')
+    .forEach(el => el.classList.remove('selected'));
+
+  const customRadio = document.querySelector('input[name="queryType"][value="custom"]');
+  const readyRadio = document.querySelector('input[name="queryType"][value="ready"]');
+
+  if (selectedQueryType === 'custom') {
+    customRadio.checked = true;
+    document.getElementById('customCard')?.classList.add('selected');
+  } else {
+    readyRadio.checked = true;
+    document.getElementById('readyCard')?.classList.add('selected');
+  }
+}
+function toggleAdvancedFooter() {
+  const panel = document.getElementById('advancedFooter');
+  const arrow = document.getElementById('advFooterArrow');
+
+  panel.classList.toggle('hidden');
+  arrow.textContent = panel.classList.contains('hidden') ? '▾' : '▴';
+}
+
+
+
+  </script>
+<script>
+  function disableResponseActions() {
+  ['whatsappBtn', 'listenBtn', 'searchBtn'].forEach(id => {
+    const btn = document.getElementById(id);
+    if (btn) {
+      btn.disabled = true;
+      btn.classList.add('opacity-40', 'cursor-not-allowed');
+    }
+  });
+}
+
+function enableResponseActions() {
+  ['whatsappBtn', 'listenBtn', 'searchBtn'].forEach(id => {
+    const btn = document.getElementById(id);
+    if (btn) {
+      btn.disabled = false;
+      btn.classList.remove('opacity-40', 'cursor-not-allowed');
+    }
+  });
+}
+
+  function shareOnWhatsApp() {
+    console.log('✅ shareOnWhatsApp reached');
+
+    const response = document.getElementById('modalAnswer');
+    if (!response) {
+      alert('modalAnswer not found');
+      return;
+    }
+
+    const text = response.innerText.trim();
+    if (!text) {
+      alert('Answer empty');
+      return;
+    }
+
+    window.open(
+      'https://wa.me/?text=' + encodeURIComponent(text),
+      '_blank'
+    );
+  }
+  disableResponseActions();
+</script>
+<script>
+  let isListening = false;
+  let currentUtterance = null;
+
+  function toggleListen() {
+    const response = document.getElementById('modalAnswer');
+    if (!response) {
+      alert('No response available to listen.');
+      return;
+    }
+
+    // 🔁 If already speaking → STOP
+    if (speechSynthesis.speaking || isListening) {
+      speechSynthesis.cancel();
+      stopListeningUI();
+      return;
+    }
+
+    const text = response.innerText.trim();
+    if (!text) {
+      alert('Response is empty.');
+      return;
+    }
+
+    currentUtterance = new SpeechSynthesisUtterance(text);
+
+    // Language sync
+  // Get language from whichever selector is visible
+const langCustom = document.getElementById('languageSelect')?.value;
+const langReady = document.getElementById('languageSelectReady')?.value;
+const lang = langCustom || langReady || 'english';
+    if (lang === 'hindi') currentUtterance.lang = 'hi-IN';
+    else if (lang === 'punjabi') currentUtterance.lang = 'pa-IN';
+    else currentUtterance.lang = 'en-IN';
+
+    currentUtterance.rate = 0.95;
+    currentUtterance.pitch = 1;
+    currentUtterance.volume = 1;
+
+    currentUtterance.onend = () => {
+      stopListeningUI();
+    };
+
+    isListening = true;
+    updateListeningUI(true);
+    speechSynthesis.speak(currentUtterance);
+  }
+
+function updateListeningUI(active) {
+  const btn = document.getElementById('listenBtn');
+
+  document.getElementById('listenIconPlay').classList.toggle('hidden', active);
+  document.getElementById('listenIconStop').classList.toggle('hidden', !active);
+
+  document.getElementById('listenIndicator').classList.toggle('hidden', !active);
+
+  btn.classList.toggle('bg-purple-600', !active);
+  btn.classList.toggle('bg-red-600', active);
+
+  isListening = active;
+}
+
+
+  function stopListeningUI() {
+    updateListeningUI(false);
+    isListening = false;
+  }
+
+  // Mode Toggle Functionality
+let currentMode = 'simple'; // Default mode
+
+function toggleMode() {
+  const toggle = document.getElementById('modeToggle');
+  const simpleLabel = document.getElementById('simpleModeLabel');
+  const powerLabel = document.getElementById('powerModeLabel');
+  
+  if (currentMode === 'simple') {
+    // Switch to Power mode
+    currentMode = 'power';
+    toggle.classList.add('power');
+    simpleLabel.classList.remove('active');
+    powerLabel.classList.add('active');
+    document.body.classList.remove('simple-mode');
+    
+    console.log('🔥 Switched to POWER MODE');
+    
+  } else {
+    // Switch to Simple mode
+    currentMode = 'simple';
+    toggle.classList.remove('power');
+    simpleLabel.classList.add('active');
+    powerLabel.classList.remove('active');
+    document.body.classList.add('simple-mode');
+    
+    // Auto-select custom query type in simple mode
+   selectQueryType('ready');
+autoSelectTopicForUserType();
+    
+    console.log('✨ Switched to SIMPLE MODE');
+  }
+  
+  // Save preference
+  localStorage.setItem('nyayaMitraMode', currentMode);
+}
+
+// Simple Profile Selector
+function selectSimpleUser(userType) {
+  selectedUser = userType;
+  
+  const icons = {
+    citizen: '🧑‍💼',
+    student: '🎓',
+    police: '👮',
+    legal: '⚖️'
+  };
+  
+  document.getElementById('simpleProfileIcon').textContent = icons[userType];
+  
+  // Also update the main profile selector in case user switches to power mode
+  selectMainUser(userType);
+  
+  console.log('Simple mode - Selected user:', userType);
+}
+
+// Initialize mode on page load
+window.addEventListener('DOMContentLoaded', function() {
+  const savedMode = localStorage.getItem('nyayaMitraMode');
+  
+  // Start in simple mode by default
+  document.body.classList.add('simple-mode');
+  
+  if (savedMode === 'power') {
+    toggleMode(); // Switch to power mode if previously selected
+  }
+});
+// Chat Interface Functions
+function sendChatMessage() {
+  const input = document.getElementById('chatInput');
+  const question = input.value.trim();
+  
+  if (!question) {
+    // Shake animation for empty input
+    input.classList.add('border-red-400');
+    input.placeholder = '⚠️ Please type a question...';
+    input.focus();
+    
+    setTimeout(() => {
+      input.classList.remove('border-red-400');
+      input.placeholder = '💬 Type your question...';
+    }, 2000);
+    
+    return;
+  }
+  
+  // Add user message to chat
+  addChatMessage(question, 'user');
+  
+  // Clear input
+  input.value = '';
+  
+// Set current question for API call
+currentQuestion = question;
+lastQuestion = question; // Track for retry
+  
+  // Show typing indicator
+  addTypingIndicator();
+  
+  // Call existing getAnswer function but display in chat
+  getAnswerForChat('chatgpt', 'standard');
+}
+
+function addChatMessage(text, type) {
+  const chatMessages = document.getElementById('chatMessages');
+  const messageDiv = document.createElement('div');
+  
+  if (type === 'user') {
+    messageDiv.className = 'flex gap-3 items-start justify-end';
+    messageDiv.innerHTML = `
+      <div class="chat-bubble-user rounded-2xl rounded-tr-none shadow-md p-4">
+        <p class="text-sm">${escapeHtml(text)}</p>
+        <p class="text-xs mt-2 opacity-75">${getCurrentTime()}</p>
+      </div>
+      <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-white flex-shrink-0">
+        👤
+      </div>
+    `;
+} else {
+  messageDiv.className = 'flex gap-3 items-start';
+  messageDiv.innerHTML = `
+    <div class="w-10 h-10 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-full flex items-center justify-center text-white flex-shrink-0">
+      ⚖️
+    </div>
+    <div class="chat-bubble-bot rounded-2xl rounded-tl-none shadow-md p-4">
+      <div class="text-sm text-gray-800" id="botMessage-${Date.now()}">${formatBotMessage(text)}</div>
+      <p class="text-xs mt-2 text-gray-400">${getCurrentTime()}</p>
+      
+      <!-- Action Buttons -->
+      <div class="flex gap-2 mt-3 pt-3 border-t border-gray-100">
+<button onclick="listenToBotMessage(this)" class="flex items-center gap-1 px-3 py-1.5 bg-orange-100 hover:bg-orange-200 text-orange-700 rounded-lg text-xs font-medium transition">          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15.536a5 5 0 001.414 1.414m2.828-9.9a9 9 0 000 12.728M12 12h.01"/>
+          </svg>
+          Listen
+        </button>
+        
+<button onclick="copyBotMessage(this)" class="flex items-center gap-1 px-3 py-1.5 bg-orange-100 hover:bg-orange-200 text-orange-700 rounded-lg text-xs font-medium transition">          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+          </svg>
+          Copy
+        </button>
+        
+        <button onclick="shareOnWhatsAppChat(this)" class="flex items-center gap-1 px-3 py-1.5 bg-green-100 hover:bg-green-200 text-green-700 rounded-lg text-xs font-medium transition">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+          Share
+</button>
+      </div>
+      
+      <!-- Quick Suggestion Chips -->
+      <div class="mt-3 pt-3 border-t border-gray-100" id="suggestions-${Date.now()}">
+        <p class="text-xs text-gray-500 mb-2">💡 Related questions:</p>
+        <div class="flex flex-wrap gap-2">
+          <!-- Suggestions will be added dynamically -->
+        </div>
+      </div>
+    </div>
+  `;
+}
+  
+chatMessages.appendChild(messageDiv);
+smoothScrollToBottom();
+updateChatMessageCount();
+return messageDiv; // Return the created element
+}
+// Update Chat Message Count
+function updateChatMessageCount() {
+  const chatMessages = document.getElementById('chatMessages');
+  const userMessages = chatMessages.querySelectorAll('.chat-bubble-user').length;
+  const botMessages = chatMessages.querySelectorAll('.chat-bubble-bot').length;
+  const headerStatus = document.getElementById('chatHeaderStatus');
+  
+  if (userMessages > 0) {
+    headerStatus.textContent = `${userMessages + botMessages} messages • Online`;
+  } else {
+    headerStatus.textContent = 'AI Legal Assistant • Online';
+  }
+}
+function addTypingIndicator() {
+  const chatMessages = document.getElementById('chatMessages');
+  const typingDiv = document.createElement('div');
+  typingDiv.id = 'typingIndicator';
+  typingDiv.className = 'flex gap-3 items-start';
+  typingDiv.innerHTML = `
+    <div class="w-10 h-10 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-full flex items-center justify-center text-white flex-shrink-0 animate-pulse">
+      ⚖️
+    </div>
+    <div class="bg-white rounded-2xl rounded-tl-none shadow-md p-4">
+      <div class="typing-indicator">
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+      </div>
+      <p class="text-xs text-gray-400 mt-2">NyayaMitra is thinking...</p>
+    </div>
+  `;
+  chatMessages.appendChild(typingDiv);
+  smoothScrollToBottom();
+}
+// Smooth Scroll to Bottom
+function smoothScrollToBottom() {
+  const chatMessages = document.getElementById('chatMessages');
+  chatMessages.scrollTo({
+    top: chatMessages.scrollHeight,
+    behavior: 'smooth'
+  });
+}
+
+function removeTypingIndicator() {
+  const indicator = document.getElementById('typingIndicator');
+  if (indicator) indicator.remove();
+}
+
+function closeChatInterface() {
+  document.getElementById('chatInterface').classList.remove('active');
+}
+
+// Modified getAnswer for chat mode
+async function getAnswerForChat(provider, answerLevel = 'standard') {
+  try {
+    const selectedLanguage = document.getElementById('languageSelect').value;
+    
+    const response = await fetch(WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        question: currentQuestion,
+        provider: provider,
+        userType: selectedUser,
+        answerDepth: answerLevel,
+        language: selectedLanguage,
+        timestamp: new Date().toISOString()
+      })
+    });
+    
+    if (!response.ok) throw new Error('HTTP ' + response.status);
+    
+    let data = await response.json();
+    
+    // Extract answer
+    if (Array.isArray(data) && data.length > 0) {
+      data = data[0];
+    }
+    
+    let answerText = '';
+    if (typeof data === 'string') {
+      answerText = data;
+    } else if (data && data.answer) {
+      answerText = data.answer;
+    } else if (data && data.response) {
+      answerText = data.response;
+    } else {
+      answerText = 'Sorry, I could not generate a response.';
+    }
+    
+   // Remove typing indicator and add bot response
+removeTypingIndicator();
+const botMessageDiv = addChatMessage(answerText, 'bot');
+
+// Add smart suggestions after a brief delay
+setTimeout(() => {
+  if (botMessageDiv) {
+    addSmartSuggestions(botMessageDiv, currentQuestion);
+  }
+}, 500);
+    
+} catch (error) {
+  console.error('Error:', error);
+  removeTypingIndicator();
+  
+  // Determine error type
+  let errorMessage = '';
+  let showRetry = false;
+  
+  if (!navigator.onLine) {
+    errorMessage = '🔌 <strong>No internet connection</strong><br><br>Please check your network and try again.';
+    showRetry = true;
+  } else if (error.message.includes('HTTP')) {
+    errorMessage = '⚠️ <strong>Server error</strong><br><br>The AI service is temporarily unavailable. Please try again in a moment.';
+    showRetry = true;
+  } else {
+    errorMessage = '❌ <strong>Something went wrong</strong><br><br>Please try asking your question again.';
+    showRetry = true;
+  }
+  
+  // Add error message
+  const errorDiv = addChatMessage(errorMessage, 'bot');
+  
+  // Add retry button if applicable
+  if (showRetry && errorDiv) {
+    const retryButton = document.createElement('div');
+    retryButton.className = 'mt-3 pt-3 border-t border-gray-100';
+    retryButton.innerHTML = `
+      <button onclick="retryLastQuestion()" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-sm font-medium transition flex items-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+        </svg>
+        Retry
+      </button>
+    `;
+    const botMessage = errorDiv.querySelector('.chat-bubble-bot');
+    if (botMessage) {
+      botMessage.appendChild(retryButton);
+    }
+  }
+}
+}
+// Retry Last Question
+let lastQuestion = '';
+
+function retryLastQuestion() {
+  if (lastQuestion) {
+    document.getElementById('chatInput').value = lastQuestion;
+    sendChatMessage();
+  }
+}
+// Utility functions
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+function getCurrentTime() {
+  const now = new Date();
+  return now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+}
+
+function formatBotMessage(text) {
+  // Convert newlines to <br>
+  text = text.replace(/\n/g, '<br>');
+  // Convert **bold** to <strong>
+  text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  // Convert markdown links
+  text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" class="text-purple-600 underline">$1</a>');
+  return text;
+}
+// Chat Action Functions
+let currentSpeech = null;
+
+function listenToBotMessage(button) {
+  const messageDiv = button.closest('.chat-bubble-bot');
+  const messageText = messageDiv.querySelector('[id^="botMessage-"]').innerText;
+  
+  // Stop if already speaking
+  if (currentSpeech && speechSynthesis.speaking) {
+    speechSynthesis.cancel();
+    button.innerHTML = `
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15.536a5 5 0 001.414 1.414m2.828-9.9a9 9 0 000 12.728M12 12h.01"/>
+      </svg>
+      Listen
+    `;
+    currentSpeech = null;
+    return;
+  }
+  
+  // Start speaking
+  currentSpeech = new SpeechSynthesisUtterance(messageText);
+  
+  // Set language based on selection
+// Get language from whichever selector is visible
+const langCustom = document.getElementById('languageSelect')?.value;
+const langReady = document.getElementById('languageSelectReady')?.value;
+const lang = langCustom || langReady || 'english';
+  if (lang === 'hindi') currentSpeech.lang = 'hi-IN';
+  else if (lang === 'punjabi') currentSpeech.lang = 'pa-IN';
+  else currentSpeech.lang = 'en-IN';
+  
+  currentSpeech.rate = 0.9;
+  currentSpeech.pitch = 1;
+  
+  // Update button during speech
+  button.innerHTML = `
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z"/>
+    </svg>
+    Stop
+  `;
+  
+  currentSpeech.onend = () => {
+    button.innerHTML = `
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15.536a5 5 0 001.414 1.414m2.828-9.9a9 9 0 000 12.728M12 12h.01"/>
+      </svg>
+      Listen
+    `;
+    currentSpeech = null;
+  };
+  
+  speechSynthesis.speak(currentSpeech);
+}
+
+function copyBotMessage(button) {
+  const messageDiv = button.closest('.chat-bubble-bot');
+  const messageText = messageDiv.querySelector('[id^="botMessage-"]').innerText;
+  
+  navigator.clipboard.writeText(messageText).then(() => {
+    // Show success feedback
+    const originalHTML = button.innerHTML;
+    button.innerHTML = `
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+      </svg>
+      Copied!
+    `;
+    button.classList.remove('bg-blue-100', 'hover:bg-blue-200', 'text-blue-700');
+    button.classList.add('bg-green-100', 'text-green-700');
+    
+    setTimeout(() => {
+      button.innerHTML = originalHTML;
+      button.classList.remove('bg-green-100', 'text-green-700');
+      button.classList.add('bg-blue-100', 'hover:bg-blue-200', 'text-blue-700');
+    }, 2000);
+  }).catch(err => {
+    console.error('Copy failed:', err);
+    alert('Failed to copy text');
+  });
+}
+
+function shareOnWhatsAppChat(button) {
+  const messageDiv = button.closest('.chat-bubble-bot');
+  const messageText = messageDiv.querySelector('[id^="botMessage-"]').innerText;
+  
+  const shareText = `*NyayaMitra Answer:*\n\n${messageText}\n\n_Powered by NyayaMitra - AI Legal Assistant_`;
+  const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
+  
+  window.open(whatsappUrl, '_blank');
+}
+
+// Smart Suggestion Generator
+function addSmartSuggestions(messageDiv, originalQuestion) {
+  const suggestionsContainer = messageDiv.querySelector('[id^="suggestions-"]');
+  if (!suggestionsContainer) return;
+  
+  const chipsContainer = suggestionsContainer.querySelector('.flex');
+  
+  // Get suggestions based on question keywords
+  const suggestions = getRelatedQuestions(originalQuestion);
+  
+  if (suggestions.length === 0) return;
+  
+  // Add up to 4 suggestion chips
+  suggestions.slice(0, 4).forEach(question => {
+    const chip = document.createElement('button');
+    chip.className = 'px-3 py-1.5 bg-purple-50 hover:bg-purple-100 text-purple-700 rounded-full text-xs font-medium transition border border-purple-200';
+    chip.textContent = question;
+    chip.onclick = () => {
+      document.getElementById('chatInput').value = question;
+      sendChatMessage();
+    };
+    chipsContainer.appendChild(chip);
+  });
+}
+
+function getRelatedQuestions(question) {
+  const q = question.toLowerCase();
+  
+  // Topic-based suggestions
+  const suggestionMap = {
+    'fir': [
+      'How long does it take to file FIR?',
+      'Can police refuse to register FIR?',
+      'What happens after FIR is filed?',
+      'Can FIR be withdrawn?'
+    ],
+    'bail': [
+      'What are bail conditions?',
+      'How much time for bail hearing?',
+      'Can bail be cancelled?',
+      'What is anticipatory bail?'
+    ],
+    'arrest': [
+      'What are rights during arrest?',
+      'Can arrest happen without warrant?',
+      'How long can police detain?',
+      'What is the arrest procedure?'
+    ],
+    'cyber': [
+      'How to report cyber crime?',
+      'What is cyber police helpline?',
+      'Can money be recovered in cyber fraud?',
+      'How long to report online fraud?'
+    ],
+    'evidence': [
+      'What is electronic evidence?',
+      'Can WhatsApp chats be evidence?',
+      'How to prove digital records?',
+      'What documents are needed?'
+    ],
+    'witness': [
+      'Who can be a witness?',
+      'Can witness refuse to testify?',
+      'What is witness protection?',
+      'How is witness examined?'
+    ],
+    'complaint': [
+      'Where to file complaint?',
+      'What is difference between FIR and complaint?',
+      'Can complaint be filed online?',
+      'How to track complaint status?'
+    ],
+    'investigation': [
+      'How long can investigation take?',
+      'What are investigation stages?',
+      'Can victim participate in investigation?',
+      'What if investigation is delayed?'
+    ],
+    'trial': [
+      'How long does trial take?',
+      'What happens in trial?',
+      'Can trial be fast-tracked?',
+      'What are stages of trial?'
+    ],
+    'punishment': [
+      'What are types of punishment?',
+      'Can punishment be reduced?',
+      'What is life imprisonment?',
+      'What are penalties for crimes?'
+    ]
+  };
+  
+  // Find matching topic
+  for (const [keyword, questions] of Object.entries(suggestionMap)) {
+    if (q.includes(keyword)) {
+      return questions;
+    }
+  }
+  
+  // Default suggestions if no match
+  return [
+    'What is the difference between BNS and IPC?',
+    'How to file FIR online?',
+    'What are my legal rights?',
+    'How to get legal aid?'
+  ];
+}
+// Voice Input for Chat
+let chatRecognition = null;
+let isChatRecording = false;
+
+function toggleChatVoiceInput() {
+  if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+    alert('Speech recognition is not supported in your browser. Please use Chrome, Edge, or Safari.');
+    return;
+  }
+  
+  if (isChatRecording) {
+    stopChatRecording();
+  } else {
+    startChatRecording();
+  }
+}
+
+function startChatRecording() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  chatRecognition = new SpeechRecognition();
+  
+  // Get language from selector
+// Get language from whichever selector is visible
+const langCustom = document.getElementById('languageSelect')?.value;
+const langReady = document.getElementById('languageSelectReady')?.value;
+const lang = langCustom || langReady || 'english';
+  if (lang === 'hindi') {
+    chatRecognition.lang = 'hi-IN';
+  } else if (lang === 'punjabi') {
+    chatRecognition.lang = 'pa-IN';
+  } else {
+    chatRecognition.lang = 'en-IN';
+  }
+  
+  chatRecognition.continuous = false;
+  chatRecognition.interimResults = false;
+  
+  // UI Updates
+  const voiceBtn = document.getElementById('chatVoiceBtn');
+  const statusSpan = document.getElementById('chatTypingStatus');
+  
+  voiceBtn.classList.add('recording');
+  statusSpan.innerHTML = '<span class="recording-indicator"><span class="recording-dot"></span>Listening...</span>';
+  isChatRecording = true;
+  
+  // Handle result
+  chatRecognition.onresult = (event) => {
+    const transcript = event.results[0][0].transcript;
+    document.getElementById('chatInput').value = transcript;
+    console.log('Voice input:', transcript);
+  };
+  
+  // Handle end
+  chatRecognition.onend = () => {
+    stopChatRecording();
+    
+    // Auto-send if there's text
+    const inputText = document.getElementById('chatInput').value.trim();
+    if (inputText) {
+      setTimeout(() => {
+        sendChatMessage();
+      }, 500);
+    }
+  };
+  
+  // Handle error
+  chatRecognition.onerror = (event) => {
+    console.error('Speech recognition error:', event.error);
+    stopChatRecording();
+    
+    if (event.error === 'no-speech') {
+      statusSpan.innerHTML = '<span class="text-orange-600">No speech detected. Try again.</span>';
+    } else if (event.error === 'not-allowed') {
+      alert('Microphone access denied. Please allow microphone permission.');
+    } else {
+      statusSpan.innerHTML = '<span class="text-red-600">Error: ' + event.error + '</span>';
+    }
+    
+    setTimeout(() => {
+      statusSpan.innerHTML = '';
+    }, 3000);
+  };
+  
+  // Start recognition
+  try {
+    chatRecognition.start();
+  } catch (error) {
+    console.error('Failed to start recognition:', error);
+    stopChatRecording();
+  }
+}
+
+function stopChatRecording() {
+  if (chatRecognition) {
+    chatRecognition.stop();
+    chatRecognition = null;
+  }
+  
+  const voiceBtn = document.getElementById('chatVoiceBtn');
+  const statusSpan = document.getElementById('chatTypingStatus');
+  
+  voiceBtn.classList.remove('recording');
+  statusSpan.innerHTML = '';
+  isChatRecording = false;
+}
+// Clear Chat History
+function clearChatHistory() {
+  // Confirm before clearing
+  if (!confirm('Are you sure you want to clear all chat messages?\n\nक्या आप सभी चैट संदेश साफ़ करना चाहते हैं?')) {
+    return;
+  }
+  
+  const chatMessages = document.getElementById('chatMessages');
+  
+  // Clear all messages
+  chatMessages.innerHTML = '';
+  
+  // Add welcome message back
+  const welcomeDiv = document.createElement('div');
+  welcomeDiv.className = 'flex gap-3 items-start';
+  welcomeDiv.innerHTML = `
+    <div class="w-10 h-10 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-full flex items-center justify-center text-white flex-shrink-0">
+      ⚖️
+    </div>
+    <div class="bg-white rounded-2xl rounded-tl-none shadow-md p-4 max-w-[85%]">
+      <p class="text-sm text-gray-800">
+        👋 Namaste! I'm <strong>NyayaMitra</strong>, your AI legal assistant.<br><br>
+        Ask me anything about India's new criminal laws (BNS, BNSS, BSA).
+      </p>
+      <p class="text-xs text-gray-400 mt-2">${getCurrentTime()}</p>
+    </div>
+  `;
+  
+chatMessages.appendChild(welcomeDiv);
+
+// Add quick examples back
+const examplesHTML = `
+<div class="px-2">
+  <p class="text-xs text-gray-500 mb-2 font-semibold">✨ Try asking:</p>
+  
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+    <button onclick="askQuickQuestion('How to file an FIR online?')" 
+            class="text-left p-3 bg-white hover:bg-purple-50 border-2 border-purple-200 rounded-xl transition group">
+      <div class="flex items-start gap-2">
+        <span class="text-lg">📋</span>
+        <div class="flex-1">
+          <p class="text-xs font-semibold text-gray-900 group-hover:text-purple-700">How to file an FIR online?</p>
+          <p class="text-xs text-gray-500 mt-0.5">Filing & procedures</p>
+        </div>
+      </div>
+    </button>
+    
+    <button onclick="askQuickQuestion('What are my bail rights under new law?')" 
+            class="text-left p-3 bg-white hover:bg-blue-50 border-2 border-blue-200 rounded-xl transition group">
+      <div class="flex items-start gap-2">
+        <span class="text-lg">🔐</span>
+        <div class="flex-1">
+          <p class="text-xs font-semibold text-gray-900 group-hover:text-blue-700">What are my bail rights?</p>
+          <p class="text-xs text-gray-500 mt-0.5">Arrest & bail</p>
+        </div>
+      </div>
+    </button>
+    
+    <button onclick="askQuickQuestion('How to report cyber crime and fraud?')" 
+            class="text-left p-3 bg-white hover:bg-green-50 border-2 border-green-200 rounded-xl transition group">
+      <div class="flex items-start gap-2">
+        <span class="text-lg">💻</span>
+        <div class="flex-1">
+          <p class="text-xs font-semibold text-gray-900 group-hover:text-green-700">How to report cyber crime?</p>
+          <p class="text-xs text-gray-500 mt-0.5">Online safety</p>
+        </div>
+      </div>
+    </button>
+    
+    <button onclick="askQuickQuestion('What is the difference between BNS and IPC?')" 
+            class="text-left p-2 md:p-3 bg-white hover:bg-orange-50 border-2 border-orange-200 rounded-lg md:rounded-xl transition group">
+      <div class="flex items-start gap-2">
+        <span class="text-lg">⚖️</span>
+        <div class="flex-1">
+          <p class="text-xs font-semibold text-gray-900 group-hover:text-orange-700">BNS vs IPC difference?</p>
+          <p class="text-xs text-gray-500 mt-0.5">New vs old laws</p>
+        </div>
+      </div>
+    </button>
+  </div>
+</div>
+`;
+
+const examplesDiv = document.createElement('div');
+examplesDiv.innerHTML = examplesHTML;
+chatMessages.appendChild(examplesDiv.firstElementChild);
+
+console.log('✅ Chat history cleared');
+}
+// Quick Question Handler
+function askQuickQuestion(question) {
+  document.getElementById('chatInput').value = question;
+  sendChatMessage();
+}
+
+// Smart auto-selection based on user type
+// Smart auto-selection based on user type
+function autoSelectTopicForUserType() {
+  // Use the selectedUser variable instead of trying to read from DOM
+  const userType = selectedUser || 'citizen';
+  
+  console.log('🎯 Auto-selecting topic for user type:', userType);
+  
+  // Define best default topic for each user type
+  const defaultTopics = {
+    'citizen': 'rights',        // Citizens want to know their rights
+    'police': 'fir',            // Police deal with FIR procedures
+    'student': 'trial',         // Students study trial processes
+    'legal': 'bail'             // Lawyers frequently handle bail matters
+  };
+  
+  // Get the appropriate topic for current user type
+  const defaultTopic = defaultTopics[userType] || 'rights';
+  
+  console.log('📌 Selected default topic:', defaultTopic);
+  
+  // Select the topic after a brief delay
+  setTimeout(() => {
+    selectTopic(defaultTopic);
+  }, 200);
+}
+
+// Make it globally accessible
+window.autoSelectTopicForUserType = autoSelectTopicForUserType;  
+
+// Sync language selectors
+document.addEventListener('DOMContentLoaded', function() {
+  const langCustom = document.getElementById('languageSelect');
+  const langReady = document.getElementById('languageSelectReady');
+  
+  if (langCustom && langReady) {
+    // When custom changes, update ready
+    langCustom.addEventListener('change', function() {
+      langReady.value = langCustom.value;
+    });
+    
+    // When ready changes, update custom
+    langReady.addEventListener('change', function() {
+      langCustom.value = langReady.value;
+    });
+  }
+});
+</script>
+
+
+
+</body>
+</html>
