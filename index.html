@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>कुरुक्षेत्र चैटबॉट | Kurukshetra Chatbot</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #FF6B35;
+            --secondary: #004E89;
+            --accent: #F77F00;
+            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --chat-bg: #f5f7fa;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Noto Sans Devanagari', sans-serif;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .chat-container {
+            width: 100%;
+            max-width: 600px;
+            height: 700px;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background: var(--bg-gradient);
+            color: white;
+            padding: 24px;
+            text-align: center;
+            position: relative;
+        }
+
+        .chat-header::before {
+            content: '🕉️';
+            font-size: 48px;
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0.2;
+        }
+
+        .chat-header h1 {
+            font-size: 24px;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .chat-header p {
+            font-size: 14px;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .purpose-selection {
+            padding: 20px;
+            background: white;
+            display: none;
+        }
+
+        .purpose-selection.show {
+            display: block;
+        }
+
+        .purpose-title {
+            text-align: center;
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .purpose-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .purpose-btn {
+            padding: 20px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 16px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .purpose-btn:hover {
+            border-color: var(--secondary);
+            background: #f0f4ff;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0,78,137,0.2);
+        }
+
+        .purpose-btn .icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: var(--chat-bg);
+            display: none;
+        }
+
+        .chat-messages.show {
+            display: block;
+        }
+
+        .message {
+            margin-bottom: 16px;
+            display: flex;
+            align-items: flex-end;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.bot {
+            justify-content: flex-start;
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            margin: 0 8px;
+        }
+
+        .message.bot .message-avatar {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            order: 1;
+        }
+
+        .message.user .message-avatar {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            order: 2;
+        }
+
+        .message-bubble {
+            max-width: 70%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            word-wrap: break-word;
+            line-height: 1.5;
+        }
+
+        .message.bot .message-bubble {
+            background: white;
+            color: #333;
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            order: 2;
+        }
+
+        .message.user .message-bubble {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-bottom-right-radius: 4px;
+            box-shadow: 0 2px 8px rgba(102,126,234,0.3);
+            order: 1;
+        }
+
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            background: white;
+            border-radius: 18px;
+            width: fit-content;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .typing-indicator span {
+            height: 8px;
+            width: 8px;
+            background: #667eea;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 4px;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+            margin-right: 0;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% {
+                transform: translateY(0);
+            }
+            30% {
+                transform: translateY(-8px);
+            }
+        }
+
+        .quick-replies {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .quick-reply-btn {
+            padding: 8px 16px;
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 20px;
+            color: #667eea;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.3s;
+        }
+
+        .quick-reply-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .chat-input-container {
+            padding: 16px 20px;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+            display: none;
+        }
+
+        .chat-input-container.show {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .input-wrapper {
+            flex: 1;
+            position: relative;
+        }
+
+        .chat-input {
+            width: 100%;
+            padding: 14px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 28px;
+            outline: none;
+            font-size: 15px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .chat-input:focus {
+            border-color: #667eea;
+        }
+
+        .send-btn {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(102,126,234,0.4);
+        }
+
+        .send-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(102,126,234,0.6);
+        }
+
+        .send-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Scrollbar styling */
+        .chat-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .chat-messages::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: #cbd5e0;
+            border-radius: 3px;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb:hover {
+            background: #a0aec0;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 640px) {
+            body {
+                padding: 0;
+            }
+
+            .chat-container {
+                height: 100vh;
+                border-radius: 0;
+                max-width: 100%;
+            }
+
+            .purpose-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <!-- Header -->
+        <div class="chat-header">
+            <h1>कुरुक्षेत्र चैटबॉट</h1>
+            <p>Kurukshetra Tourism & Services Assistant</p>
+        </div>
+
+        <!-- Purpose Selection -->
+        <div class="purpose-selection show" id="purposeSelection">
+            <div class="purpose-title">आपका उद्देश्य क्या है?</div>
+            <div class="purpose-grid">
+                <button class="purpose-btn" onclick="selectPurpose('pilgrimage')">
+                    <span class="icon">🕉️</span>
+                    तीर्थ/आध्यात्मिक यात्रा
+                </button>
+                <button class="purpose-btn" onclick="selectPurpose('tourism')">
+                    <span class="icon">🎭</span>
+                    घूमना/देखना
+                </button>
+                <button class="purpose-btn" onclick="selectPurpose('services')">
+                    <span class="icon">🏛️</span>
+                    सरकारी सेवाएं
+                </button>
+                <button class="purpose-btn" onclick="selectPurpose('events')">
+                    <span class="icon">🎯</span>
+                    भाग लेना/योगदान
+                </button>
+            </div>
+        </div>
+
+        <!-- Chat Messages -->
+        <div class="chat-messages" id="chatMessages"></div>
+
+        <!-- Input Area -->
+        <div class="chat-input-container" id="chatInputContainer">
+            <div class="input-wrapper">
+                <input 
+                    type="text" 
+                    class="chat-input" 
+                    id="userInput" 
+                    placeholder="अपना सवाल लिखें..."
+                    autocomplete="off"
+                >
+            </div>
+            <button class="send-btn" id="sendBtn">
+                ➤
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // CONFIGURATION
+        // ==========================================
+        const CONFIG = {
+            n8nWebhookUrl: 'https://your-n8n-instance.app.n8n.cloud/webhook/kurukshetra-chat',
+            conversationId: generateId()
+        };
+
+        // ==========================================
+        // DOM ELEMENTS
+        // ==========================================
+        const elements = {
+            purposeSelection: document.getElementById('purposeSelection'),
+            chatMessages: document.getElementById('chatMessages'),
+            chatInputContainer: document.getElementById('chatInputContainer'),
+            userInput: document.getElementById('userInput'),
+            sendBtn: document.getElementById('sendBtn')
+        };
+
+        // ==========================================
+        // STATE
+        // ==========================================
+        let state = {
+            selectedPurpose: null,
+            conversationHistory: []
+        };
+
+        // ==========================================
+        // UTILITY FUNCTIONS
+        // ==========================================
+        function generateId() {
+            return 'conv_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        }
+
+        function scrollToBottom() {
+            elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
+        }
+
+        // ==========================================
+        // UI FUNCTIONS
+        // ==========================================
+        function showChatInterface() {
+            elements.purposeSelection.classList.remove('show');
+            elements.chatMessages.classList.add('show');
+            elements.chatInputContainer.classList.add('show');
+            elements.userInput.focus();
+        }
+
+        function addMessage(text, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'bot'}`;
+            
+            const avatar = document.createElement('div');
+            avatar.className = 'message-avatar';
+            avatar.textContent = isUser ? '👤' : '🤖';
+            
+            const bubble = document.createElement('div');
+            bubble.className = 'message-bubble';
+            bubble.innerHTML = text.replace(/\n/g, '<br>');
+            
+            messageDiv.appendChild(avatar);
+            messageDiv.appendChild(bubble);
+            elements.chatMessages.appendChild(messageDiv);
+            
+            scrollToBottom();
+        }
+
+        function showTyping() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message bot';
+            typingDiv.id = 'typing-indicator';
+            
+            const avatar = document.createElement('div');
+            avatar.className = 'message-avatar';
+            avatar.textContent = '🤖';
+            
+            const typing = document.createElement('div');
+            typing.className = 'typing-indicator';
+            typing.innerHTML = '<span></span><span></span><span></span>';
+            
+            typingDiv.appendChild(avatar);
+            typingDiv.appendChild(typing);
+            elements.chatMessages.appendChild(typingDiv);
+            
+            scrollToBottom();
+        }
+
+        function hideTyping() {
+            const typing = document.getElementById('typing-indicator');
+            if (typing) typing.remove();
+        }
+
+        function addQuickReplies(replies) {
+            const container = document.createElement('div');
+            container.className = 'quick-replies';
+            
+            replies.forEach(reply => {
+                const btn = document.createElement('button');
+                btn.className = 'quick-reply-btn';
+                btn.textContent = reply;
+                btn.onclick = () => handleQuickReply(reply);
+                container.appendChild(btn);
+            });
+            
+            const lastMessage = elements.chatMessages.lastElementChild;
+            if (lastMessage && lastMessage.classList.contains('bot')) {
+                lastMessage.appendChild(container);
+            }
+        }
+
+        // ==========================================
+        // PURPOSE SELECTION
+        // ==========================================
+        function selectPurpose(purpose) {
+            state.selectedPurpose = purpose;
+            showChatInterface();
+            
+            const purposeNames = {
+                'pilgrimage': 'तीर्थ/आध्यात्मिक यात्रा',
+                'tourism': 'घूमना/देखना',
+                'services': 'सरकारी सेवाएं',
+                'events': 'भाग लेना/योगदान'
+            };
+            
+            addMessage(purposeNames[purpose], true);
+            sendToN8n(purpose, 'category_selection');
+        }
+
+        // ==========================================
+        // MESSAGE SENDING
+        // ==========================================
+        async function sendToN8n(message, type = 'message') {
+            showTyping();
+            
+            try {
+                const response = await fetch(CONFIG.n8nWebhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        conversationId: CONFIG.conversationId,
+                        message: message,
+                        type: type,
+                        purpose: state.selectedPurpose,
+                        timestamp: new Date().toISOString()
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                hideTyping();
+                
+                // Add bot response
+                if (data.response) {
+                    addMessage(data.response);
+                }
+                
+                // Add quick replies if provided
+                if (data.quickReplies && data.quickReplies.length > 0) {
+                    addQuickReplies(data.quickReplies);
+                }
+                
+                // Store in history
+                state.conversationHistory.push({
+                    user: message,
+                    bot: data.response,
+                    timestamp: Date.now()
+                });
+                
+            } catch (error) {
+                hideTyping();
+                addMessage('क्षमा करें, कुछ गड़बड़ हो गई। कृपया पुनः प्रयास करें। 🙏');
+                console.error('Error:', error);
+            }
+        }
+
+        function sendMessage() {
+            const message = elements.userInput.value.trim();
+            
+            if (!message) return;
+            
+            // Add user message to UI
+            addMessage(message, true);
+            
+            // Send to n8n
+            sendToN8n(message);
+            
+            // Clear input
+            elements.userInput.value = '';
+        }
+
+        function handleQuickReply(text) {
+            addMessage(text, true);
+            sendToN8n(text);
+        }
+
+        // ==========================================
+        // EVENT LISTENERS
+        // ==========================================
+        elements.sendBtn.addEventListener('click', sendMessage);
+
+        elements.userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // ==========================================
+        // INITIALIZATION
+        // ==========================================
+        console.log('Kurukshetra Chatbot initialized!');
+        console.log('Conversation ID:', CONFIG.conversationId);
+    </script>
+</body>
+</html>
