@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Kurukshetra Mitra (कुरुक्षेत्रमित्र) – AI-Powered Criminal Law Assistant</title>
+  <title>Kurukshetra Mitra (कुरुक्षेत्रमित्र) – Your Complete Guide to Sacred Kurukshetra</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
@@ -17,11 +17,11 @@
   <div class="flex items-center justify-between p-3 md:p-4">
     <div class="flex items-center gap-2 md:gap-3">
       <div class="w-8 h-8 md:w-10 md:h-10 bg-gradient-to-br from-orange-400 to-amber-500 rounded-full flex items-center justify-center text-xl md:text-2xl shadow-md">
-        ⚖️
+        🕉️
       </div>
       <div>
         <h2 class="font-bold text-base md:text-lg text-gray-800">Kurukshetra Mitra • <span class="font-semibold">कुरुक्षेत्र मित्र</span></h2>
-        <p class="text-xs text-gray-600 font-semibold">AI Assistant for Kurukshetra</p>
+        <p class="text-xs text-gray-600 font-semibold">Your Complete Guide to Kurukshetra</p>
       </div>
     </div>
     
@@ -41,11 +41,11 @@
   </div>
 </div>
 
-<!-- Laws Info Strip (Below Header) -->
+<!-- Info Strip (Below Header) -->
 <div class="bg-gradient-to-r from-orange-50 to-amber-50 border-b-2 border-orange-200 px-3 py-2">
   <p class="text-xs text-center font-semibold text-orange-800">
-    <span class="hidden sm:inline">Bharatiya Nyaya Sanhita • Bharatiya Nagarik Suraksha Sanhita • Bharatiya Sakshya Adhiniyam</span>
-    <span class="sm:hidden">Pilgrimage • Tourism • Services</span>
+    <span class="hidden sm:inline">Pilgrimage • Tourism • Services • Heritage • Culture</span>
+    <span class="sm:hidden">Sacred Land of the Bhagavad Gita</span>
   </p>
 </div>
 <!-- Simple Mode Profile Selector -->
@@ -56,10 +56,10 @@
       <select id="simpleUserSelect" 
               class="flex-1 px-4 py-2 border-2 border-blue-300 rounded-lg bg-white focus:border-blue-500 outline-none"
               onchange="selectSimpleUser(this.value)">
-        <option value="citizen">👤 Resident / Citizen</option>
-        <option value="student">🎓 Law Student</option>
-        <option value="police">👮 Pilgrim / Devotee</option>
-        <option value="legal">⚖️ Tourist / Visitor</option>
+        <option value="citizen">🧑‍💼 Resident / Citizen</option>
+        <option value="student">🎓 Student / Researcher</option>
+        <option value="police">🙏 Pilgrim / Devotee</option>
+        <option value="legal">🗺️ Tourist / Visitor</option>
       </select>
     </div>
   </div>
@@ -76,21 +76,21 @@
           
           <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
             <div class="user-card-small" id="userPoliceMain" onclick="selectMainUser('police')">
-              <div class="user-icon-small">👮</div>
+              <div class="user-icon-small">🙏</div>
               <div class="user-title-small">Pilgrim / Devotee</div>
-              <div class="user-desc-small">Gita sites, Temples, 48 Kos</div>
+              <div class="user-desc-small">Gita sites, Temples, 48 Kos Parikrama</div>
             </div>
             
             <div class="user-card-small" id="userLegalMain" onclick="selectMainUser('legal')">
-              <div class="user-icon-small">⚖️</div>
+              <div class="user-icon-small">🗺️</div>
               <div class="user-title-small">Tourist / Visitor</div>
-              <div class="user-desc-small">Sightseeing, Culture, Stay</div>
+              <div class="user-desc-small">Sightseeing, Culture, Exploration</div>
             </div>
             
             <div class="user-card-small" id="userStudentMain" onclick="selectMainUser('student')">
-              <div class="user-icon-small">👨‍🎓</div>
-              <div class="user-title-small">Student/Researcher</div>
-              <div class="user-desc-small">History, Gita, Mahabharata</div>
+              <div class="user-icon-small">🎓</div>
+              <div class="user-title-small">Student / Researcher</div>
+              <div class="user-desc-small">History, Gita, Mahabharata Studies</div>
             </div>
             
             <div class="user-card-small" id="userCitizenMain" onclick="selectMainUser('citizen')">
@@ -169,7 +169,7 @@
           <div class="mb-1 mt-3" id="topicSection" style="display: none;">
             <label class="block text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
               <span class="bg-orange-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">1</span>
-              📚 What do you want to do in Kurukshetra?
+              📚 What do you want to know about Kurukshetra?
             </label>
            
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2" id="topicContainer">
@@ -185,2262 +185,967 @@
             </label>
             
 <select id="questionSelect"
-        class="compact-dropdown block w-full px-5 py-4 text-base border-3 border-orange-400 focus:ring-4 focus:ring-orange-200 rounded-2xl bg-gradient-to-br from-white to-orange-50 shadow-lg transition-all font-medium mb-4">
-  <option value="" selected disabled>Tap to select a question...</option>
+        class="w-full px-4 py-3 border-3 border-orange-300 rounded-xl
+               bg-white focus:border-orange-500 outline-none font-medium text-sm transition-all"
+        onchange="selectQuestion()">
+  <option value="">— Choose a Question —</option>
 </select>
           </div>
           
-          <!-- Language + Submit button for ready-made questions -->
-          <div class="flex items-center justify-between gap-3 mt-4">
-            <div class="flex items-center gap-2 text-sm text-gray-600">
-              <span>Language:</span>
-              <select id="languageSelectReady"
-                      class="px-2 py-1 border border-gray-300 rounded-md text-sm bg-white focus:border-orange-400 focus:ring-1 focus:ring-orange-200">
-                <option value="english">English</option>
-                <option value="hindi">हिंदी</option>
-                <option value="punjabi">ਪੰਜਾਬੀ</option>
-              </select>
-            </div>
+          <!-- Step 3: LANGUAGE -->
+          <div class="mb-3" id="languageSection" style="display: none;">
+            <label class="block text-lg font-bold text-gray-800 mb-3 flex items-center gap-2">
+              <span class="bg-orange-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">3</span>
+              🌐 Language / भाषा
+            </label>
             
-            <button id="submitBtn"
-                    class="flex-1 bg-gradient-to-r from-orange-500 to-orange-600
-                           text-white font-bold py-3 rounded-xl shadow-lg
-                           hover:from-orange-600 hover:to-orange-700 transition"
-                    style="display: none;">
-              ⚡ Get Answer
+            <select id="languageSelectReady"
+                    class="w-full px-4 py-3 border-3 border-orange-300 rounded-xl
+                           bg-white focus:border-orange-500 outline-none font-medium text-sm transition-all">
+              <option value="English">🇬🇧 English</option>
+              <option value="Hindi" selected>🇮🇳 हिन्दी (Hindi)</option>
+              <option value="Punjabi">ਪੰਜਾਬੀ (Punjabi)</option>
+            </select>
+          </div>
+          
+          <!-- Step 4: ASK BUTTON -->
+          <div id="readyAskButton" style="display: none;">
+            <button onclick="askReadyQuestion()"
+                    class="w-full px-6 py-4 bg-gradient-to-r from-orange-500 to-amber-500
+                           text-white font-bold text-lg rounded-xl shadow-lg hover:shadow-xl
+                           hover:from-orange-600 hover:to-amber-600 transition-all duration-300
+                           flex items-center justify-center gap-2">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              Ask Question
             </button>
           </div>
           
-        </div> 
-
+        </div>
+        
+        <!-- CUSTOM QUESTION DIV -->
+        <div id="customQuestionDiv" style="display: block;" class="mb-8 fade-in">
+          
+          <!-- Language Selection -->
+          <div class="mb-4">
+            <label class="block text-sm font-bold text-gray-800 mb-2 flex items-center gap-2">
+              🌐 Select Language / भाषा चुनें
+            </label>
+            <select id="languageSelect"
+                    class="w-full px-4 py-3 border-2 border-orange-300 rounded-xl
+                           bg-white focus:border-orange-500 outline-none font-medium transition-all">
+              <option value="English">🇬🇧 English</option>
+              <option value="Hindi" selected>🇮🇳 हिन्दी (Hindi)</option>
+              <option value="Punjabi">ਪੰਜਾਬੀ (Punjabi)</option>
+            </select>
+          </div>
+          
+          <!-- Question Input -->
+          <div class="mb-4">
+            <label class="block text-sm font-bold text-gray-800 mb-2 flex items-center gap-2">
+              ✍️ Type Your Question / अपना प्रश्न लिखें
+            </label>
+            <textarea id="customQuestion"
+                      rows="4"
+                      placeholder="Example: What is the best time to visit Kurukshetra? Where can I stay near Brahma Sarovar? How do I reach Jyotisar?"
+                      class="w-full px-4 py-3 border-2 border-orange-300 rounded-xl
+                             bg-white focus:border-orange-500 outline-none resize-none transition-all"></textarea>
+          </div>
+          
+          <!-- Ask Button -->
+          <button onclick="askCustomQuestion()"
+                  class="w-full px-6 py-4 bg-gradient-to-r from-orange-500 to-amber-500
+                         text-white font-bold text-lg rounded-xl shadow-lg hover:shadow-xl
+                         hover:from-orange-600 hover:to-amber-600 transition-all duration-300
+                         flex items-center justify-center gap-2">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            Get Answer
+          </button>
+          
+        </div>
+        
       </div>
-    </div>
-<div id="customQuestionDiv" class="mb-8 fade-in">
-  <!-- Input Row: Input + Mic + Send Button -->
-  <div class="flex gap-0.5 md:gap-2 mb-2">
-<input
-  type="text"
-  id="userInput"
-  class="flex-1 px-3 md:px-4 py-2 md:py-3 border-2 border-gray-300 rounded-full outline-none focus:border-orange-500 transition-all duration-300 text-sm md:text-base"
-  placeholder="💬 Type your question..."
-  oninput="showAutocompleteSuggestions()"
-  onfocus="showAutocompleteSuggestions()"
-  onkeypress="if(event.key==='Enter') getAnswer()"
-/>
-<button
-  id="voiceBtn"
-  class="px-2.5 md:px-4 py-3 bg-white border-2 border-gray-300 text-orange-500 hover:text-orange-700 hover:border-orange-500 rounded-full transition-all shrink-0"
-  title="Click to speak"
->
-  <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/>
-  </svg>
-</button>
-<button
-  onclick="getAnswer()"
-  class="px-3 md:px-6 py-3 bg-gradient-to-r from-orange-500 to-amber-600 text-white rounded-full font-medium hover:from-orange-600 hover:to-amber-700 transition flex items-center justify-center gap-1 md:gap-2 text-sm md:text-base shrink-0"
-  title="Send"
->
-  <svg class="w-5 h-5 sm:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
-  </svg>
-  <span class="hidden sm:inline-flex items-center gap-2">
-    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
-    </svg>
-    Send
-  </span>
-</button>
-  </div>
-  
-  <!-- Helper Text -->
-  <div class="flex items-center justify-between text-xs text-gray-500 mb-1 pl-2">
-    <span>Press Enter to send</span>
-    <span id="inputStatus"></span>
-  </div>
-  
-  <!-- Autocomplete Suggestions Box -->
-  <div id="autocompleteSuggestions" class="hidden mt-2 bg-white border-2 border-orange-300 rounded-xl shadow-lg max-h-60 overflow-y-auto">
-    <!-- Suggestions will be added here dynamically -->
-  </div>
-    <!-- Language selector for custom questions -->
-  <div class="flex items-center gap-2 text-sm text-gray-600 mt-1 pl-2">
-    <span>Language:</span>
-    <select id="languageSelect"
-            class="px-2 py-1 border border-gray-300 rounded-md text-sm bg-white focus:border-orange-400 focus:ring-1 focus:ring-orange-200">
-      <option value="english">English</option>
-      <option value="hindi">हिंदी</option>
-      <option value="punjabi">ਪੰਜਾਬੀ</option>
-    </select>
-  </div>
-</div>
-<div class="border-t border-gray-300 px-2 py-1.5 bg-gray-50">
-  <p class="text-center text-xs text-gray-600">
-    <span class="text-orange-600 font-semibold">ChatGpt</span> • <span class="text-orange-600 font-semibold">Groq</span>
-    <span class="text-gray-400 mx-1">|</span>
-    <strong>NIC KKR</strong>
-    <span class="text-gray-400 mx-1">|</span>
-    <span id="lastModified" class="text-gray-700 font-medium">4th Jan, 19:34</span>
-  </p>
-</div>
-
-  </div>
-<!-- CHAT INTERFACE FOR SIMPLE MODE -->
-<div id="chatInterface" class="hidden fixed inset-0" style="z-index: 1000; background: radial-gradient(ellipse at top, #1e3a8a, #0f172a);">
-  <!-- Chat Container -->
-<div class="h-full max-w-5xl mx-auto flex flex-col p-2 md:p-4">
-  
-<!-- Chat Header -->
-<div class="bg-white rounded-xl md:rounded-3xl shadow-2xl overflow-hidden flex flex-col" style="height: 100%; max-height: 100%;">
-<div class="bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 shadow-lg" style="border-bottom: 3px solid #fb923c;">
-  <!-- Top Row: Logo + Actions -->
-<div class="flex items-center justify-between p-4">
-    <div class="flex items-center gap-3">
-      <div class="w-10 h-10 bg-gradient-to-br from-orange-400 to-amber-500 rounded-full flex items-center justify-center text-2xl shadow-md">
-        ⚖️
-      </div>
-      <div>
-        <h2 class="font-bold text-lg text-gray-800">Kurukshetra Mitra</h2>
-        <p class="text-xs text-gray-600 font-semibold" id="chatHeaderStatus">AI Legal Assistant • Online</p>
-      </div>
+      
     </div>
     
-    <!-- Header Actions -->
-    <div class="flex items-center gap-2">
-      <button onclick="clearChatHistory()" class="hover:bg-orange-100 p-2 rounded-full transition text-orange-600" title="Clear chat history">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+    <!-- Footer -->
+    <div class="bg-gradient-to-r from-orange-50 to-amber-50 border-t-2 border-orange-200 p-3 text-center">
+      <p class="text-xs text-gray-600">
+        <span class="font-bold text-orange-700">Kurukshetra Mitra</span> • Powered by AI<br>
+        <span class="text-xs">For guidance purposes only. Verify important information.</span>
+      </p>
+    </div>
+    
+  </div>
+
+<!-- Chat Mode Modal -->
+<div id="chatModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center p-2">
+  <div class="bg-white rounded-2xl w-full max-w-3xl max-h-[95vh] flex flex-col shadow-2xl">
+    
+    <!-- Chat Header -->
+    <div class="bg-gradient-to-r from-orange-500 to-amber-500 text-white p-4 rounded-t-2xl flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-2xl">
+          🕉️
+        </div>
+        <div>
+          <h3 class="font-bold text-lg">Chat with Kurukshetra Mitra</h3>
+          <p class="text-xs opacity-90">Ask anything about Kurukshetra</p>
+        </div>
+      </div>
+      <button onclick="closeChatMode()" class="text-white hover:bg-white hover:bg-opacity-20 rounded-full p-2 transition">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
         </svg>
       </button>
     </div>
-  </div>
-  
-  <!-- Bottom Row: Mode Toggle -->
-  <div class="flex items-center justify-center px-4 pb-3 pt-2 border-t border-orange-200">
-    <div class="mode-toggle-container">
-      <span class="mode-label active" id="simpleModeLabel">💬 Simple Chat</span>
-      <div class="mode-toggle" id="modeToggle" onclick="toggleMode()">
-        <div class="mode-toggle-slider"></div>
+    
+    <!-- Chat Messages -->
+    <div id="chatMessages" class="flex-1 overflow-y-auto p-4 bg-gray-50 space-y-4">
+      <!-- Welcome message -->
+      <div class="flex gap-3 items-start">
+        <div class="w-10 h-10 bg-gradient-to-br from-orange-500 to-amber-500 rounded-full flex items-center justify-center text-white flex-shrink-0">
+          🕉️
+        </div>
+        <div class="bg-white rounded-2xl rounded-tl-none shadow-md p-4 max-w-[85%]">
+          <p class="text-sm text-gray-800">
+            🙏 Namaste! I'm <strong>Kurukshetra Mitra</strong>, your AI guide.<br><br>
+            Ask me anything about Kurukshetra - pilgrimage sites, tourism, culture, history, or services!
+          </p>
+          <p class="text-xs text-gray-400 mt-2" id="welcomeTime"></p>
+        </div>
       </div>
-      <span class="mode-label" id="powerModeLabel">⚡ Full Features</span>
+      
+      <!-- Quick examples -->
+      <div class="px-2">
+        <p class="text-xs text-gray-500 mb-2 font-semibold">✨ Try asking:</p>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <button onclick="askQuickQuestion('Where is Jyotisar and how do I reach it?')" 
+                  class="text-left p-3 bg-white hover:bg-orange-50 border-2 border-orange-200 rounded-xl transition group">
+            <div class="flex items-start gap-2">
+              <span class="text-lg">🚗</span>
+              <div class="flex-1">
+                <p class="text-xs font-semibold text-gray-900 group-hover:text-orange-700">Where is Jyotisar?</p>
+                <p class="text-xs text-gray-500 mt-0.5">Location & directions</p>
+              </div>
+            </div>
+          </button>
+          
+          <button onclick="askQuickQuestion('What is the significance of Brahma Sarovar?')" 
+                  class="text-left p-3 bg-white hover:bg-blue-50 border-2 border-blue-200 rounded-xl transition group">
+            <div class="flex items-start gap-2">
+              <span class="text-lg">🙏</span>
+              <div class="flex-1">
+                <p class="text-xs font-semibold text-gray-900 group-hover:text-blue-700">Significance of Brahma Sarovar?</p>
+                <p class="text-xs text-gray-500 mt-0.5">Spiritual importance</p>
+              </div>
+            </div>
+          </button>
+          
+          <button onclick="askQuickQuestion('Best hotels and accommodation in Kurukshetra?')" 
+                  class="text-left p-3 bg-white hover:bg-green-50 border-2 border-green-200 rounded-xl transition group">
+            <div class="flex items-start gap-2">
+              <span class="text-lg">🏨</span>
+              <div class="flex-1">
+                <p class="text-xs font-semibold text-gray-900 group-hover:text-green-700">Best hotels in Kurukshetra?</p>
+                <p class="text-xs text-gray-500 mt-0.5">Accommodation options</p>
+              </div>
+            </div>
+          </button>
+          
+          <button onclick="askQuickQuestion('What are the main festivals celebrated here?')" 
+                  class="text-left p-2 md:p-3 bg-white hover:bg-purple-50 border-2 border-purple-200 rounded-lg md:rounded-xl transition group">
+            <div class="flex items-start gap-2">
+              <span class="text-lg">🎉</span>
+              <div class="flex-1">
+                <p class="text-xs font-semibold text-gray-900 group-hover:text-purple-700">Festivals in Kurukshetra?</p>
+                <p class="text-xs text-gray-500 mt-0.5">Cultural events</p>
+              </div>
+            </div>
+          </button>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-
-    <!-- Chat Messages Area -->
-<div id="chatMessages" class="flex-1 overflow-y-auto p-2 md:p-4 space-y-3 md:space-y-4" style="background: #fefefe;">
-      <!-- Welcome Message -->
-<!-- Welcome Message -->
-<div class="flex gap-3 items-start">
-<div class="w-10 h-10 bg-gradient-to-br from-orange-500 to-amber-600 rounded-full flex items-center justify-center text-white flex-shrink-0 chat-bot-avatar">    ⚖️
-  </div>
-  <div class="bg-white rounded-2xl rounded-tl-none shadow-md p-4 max-w-[85%]">
-    <p class="text-sm text-gray-800">
-      👋 Namaste! I'm <strong>Kurukshetra Mitra</strong>, your AI legal assistant.<br><br>
-      Ask me anything about India's new criminal laws (BNS, BNSS, BSA).
-    </p>
-    <p class="text-xs text-gray-400 mt-2">Just now</p>
-  </div>
-</div>
-
-<!-- Quick Start Examples -->
-<div class="px-2">
-  <p class="text-xs text-gray-500 mb-2 font-semibold">✨ Try asking:</p>
-  
-  <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-    <!-- Example 1 -->
-<button onclick="askQuickQuestion('How to file an FIR online?')" 
-class="text-left p-2 md:p-3 bg-white hover:bg-orange-50 border-2 border-orange-200 rounded-lg md:rounded-xl transition group">
-  <div class="flex items-start gap-2">
-        <span class="text-lg">📋</span>
-        <div class="flex-1">
-            <p class="text-xs font-semibold text-gray-900 group-hover:text-orange-700">How to file an FIR online?</p>
-          <p class="text-xs text-gray-500 mt-0.5">Filing & procedures</p>
-        </div>
-      </div>
-    </button>
     
-    <!-- Example 2 -->
-    <button onclick="askQuickQuestion('What are my bail rights under new law?')" 
-class="text-left p-2 md:p-3 bg-white hover:bg-orange-50 border-2 border-orange-200 rounded-lg md:rounded-xl transition group">
-      <div class="flex items-start gap-2">
-        <span class="text-lg">🔐</span>
+    <!-- Chat Input -->
+    <div class="bg-white border-t-2 border-gray-200 p-4">
+      <div class="flex gap-2 items-end">
         <div class="flex-1">
-          <p class="text-xs font-semibold text-gray-900 group-hover:text-orange-700">What are my bail rights?</p>
-          <p class="text-xs text-gray-500 mt-0.5">Arrest & bail</p>
+          <textarea id="chatInput"
+                    rows="2"
+                    placeholder="Type your question here..."
+                    class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl resize-none
+                           focus:border-orange-500 outline-none"
+                    onkeypress="if(event.key==='Enter' && !event.shiftKey){event.preventDefault();sendChatMessage();}"></textarea>
+          <p class="text-xs text-gray-500 mt-1" id="chatTypingStatus"></p>
+        </div>
+        <div class="flex flex-col gap-2">
+          <button id="chatVoiceBtn" onclick="toggleChatVoice()"
+                  class="p-3 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/>
+            </svg>
+          </button>
+          <button onclick="sendChatMessage()"
+                  class="p-3 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-xl
+                         hover:from-orange-600 hover:to-amber-600 transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+            </svg>
+          </button>
         </div>
       </div>
-    </button>
-    
-    <!-- Example 3 -->
-    <button onclick="askQuickQuestion('How to report cyber crime and fraud?')" 
-class="text-left p-2 md:p-3 bg-white hover:bg-orange-50 border-2 border-orange-200 rounded-lg md:rounded-xl transition group">
-      <div class="flex items-start gap-2">
-        <span class="text-lg">💻</span>
-        <div class="flex-1">
-          <p class="text-xs font-semibold text-gray-900 group-hover:text-orange-700">How to report cyber crime?</p>
-          <p class="text-xs text-gray-500 mt-0.5">Online safety</p>
-        </div>
-      </div>
-    </button>
-    
-    <!-- Example 4 -->
-    <button onclick="askQuickQuestion('What is the difference between BNS and IPC?')" 
-class="text-left p-2 md:p-3 bg-white hover:bg-orange-50 border-2 border-orange-200 rounded-lg md:rounded-xl transition group">
-      <div class="flex items-start gap-2">
-        <span class="text-lg">⚖️</span>
-        <div class="flex-1">
-          <p class="text-xs font-semibold text-gray-900 group-hover:text-orange-700">BNS vs IPC difference?</p>
-          <p class="text-xs text-gray-500 mt-0.5">New vs old laws</p>
-        </div>
-      </div>
-    </button>
-  </div>
-</div>
-
-    </div>
-
-    <!-- Chat Input Area -->
-  <div class="bg-white border-t border-gray-200 p-2 md:p-4 shadow-lg">
-  <div class="flex gap-1 md:gap-2 mb-2">
-  
-<input 
-  type="text" 
-  id="chatInput" 
-  placeholder="💬 Type your question..."
-  class="flex-1 px-3 md:px-4 py-2 md:py-3 border-2 border-gray-300 rounded-full outline-none focus:border-orange-500 text-sm md:text-base"
-          onkeypress="if(event.key==='Enter') sendChatMessage()"
-        >
-<button 
-  onclick="sendChatMessage()" 
-  class="px-4 md:px-6 py-2 md:py-3 bg-gradient-to-r from-orange-500 to-amber-600 text-white rounded-full font-medium hover:from-orange-600 hover:to-amber-700 transition flex items-center gap-1 md:gap-2 text-sm md:text-base">  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
-          </svg>
-          Send
+      
+      <!-- Clear Chat Button -->
+      <div class="mt-3 flex justify-center">
+        <button onclick="clearChatHistory()"
+                class="px-4 py-2 text-sm font-semibold text-gray-600 hover:text-red-600
+                       border-2 border-gray-300 hover:border-red-400 rounded-lg transition">
+          🗑️ Clear Chat History
         </button>
       </div>
-      
-    <!-- Quick Info -->
-      <div class="flex items-center justify-between text-xs text-gray-500">
-        <span>Press Enter to send</span>
-        <span id="chatTypingStatus"></span>
-      </div>
-</div> <!-- End Chat Input Area -->
+    </div>
     
-  </div> <!-- End white background wrapper -->
-</div> <!-- End max-w-5xl container -->
-</div> <!-- End chatInterface -->
-  <!-- FIXED MODAL WITH PROPER HEIGHT MANAGEMENT -->
-<div id="aiModal" class="hidden fixed inset-0 flex items-center justify-center p-4" style="z-index: 9999; background: rgba(0,0,0,0.92);">
-  <div class="bg-white rounded-3xl shadow-2xl w-full max-w-5xl mx-auto flex flex-col" style="max-height: 90vh;">
-  <!-- Header - Fixed -->
-      <div class="flex justify-between items-center px-5 py-4 bg-gradient-to-r from-blue-600 to-indigo-700 text-white flex-shrink-0">
-        <h2 class="text-xl font-bold flex items-center gap-2">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
-          </svg>
-          Kurukshetra Mitra Response
-        </h2>
-        <button id="closeModal" class="hover:bg-white/20 p-2 rounded-full transition">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-          </svg>
-        </button>
-      </div>
-
-      <!-- Scrollable Content Area -->
-      <div class="p-5 overflow-y-auto bg-gray-50 flex-1" style="min-height: 0;">
-        <div class="mb-5">
-          <p class="font-bold text-gray-900 mb-2">Question:</p>
-          <div class="bg-gradient-to-br from-blue-50 to-indigo-50 p-4 rounded-2xl border-l-4 border-blue-500">
-            <pre id="modalQuestion" class="whitespace-pre-wrap text-gray-800"></pre>
-          </div>
-        </div>
-
-        <div>
-          <p class="font-bold text-gray-900 mb-2">Answer:</p>
-          <div class="bg-gradient-to-br from-amber-50 to-orange-50 p-4 rounded-2xl border-l-4 border-orange-500">
-            <pre id="modalAnswer" class="whitespace-pre-wrap text-gray-800 text-sm leading-loose"></pre>
-          </div>
-        </div>
-      </div>
-
-<!-- Footer -->
-<div class="border-t border-gray-200 bg-white flex-shrink-0">
-
-  <!-- Advanced Toggle -->
-  <div class="text-center pt-2">
-    <button onclick="toggleAdvancedFooter()"
-            class="text-xs font-semibold text-gray-600 hover:text-gray-800 transition">
-      ⚙ Advanced <span id="advFooterArrow">▾</span>
-    </button>
-  </div>
-
-  <!-- Advanced Panel (Hidden by default) -->
-  <div id="advancedFooter" class="hidden px-4 pt-2 pb-1">
-
-    <div class="flex items-center gap-4 flex-wrap justify-center">
-
-      <!-- Depth -->
-      <div class="flex items-center gap-2">
-        <label class="text-xs font-bold text-gray-700">Depth:</label>
-        <select id="depthSelector"
-                class="compact-dropdown"
-                onchange="changeAnswerLevel(this.value)">
-          <option value="brief">Brief</option>
-          <option value="standard" selected>Standard</option>
-          <option value="detailed">Detailed</option>
-        </select>
-      </div>
-
-      <!-- AI -->
-      <div class="flex items-center gap-2">
-        <label class="text-xs font-bold text-gray-700">AI:</label>
-        <select id="aiSelector"
-                class="compact-dropdown"
-                onchange="retryWithAI(this.value)">
-          <option value="chatgpt selected">ChatGPT</option>
-          <option value="groq" >Groq Llama</option>
-        </select>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- Main Action Bar -->
-  <div class="px-4 py-3 flex items-center justify-between gap-2">
-
-    <!-- Left Actions -->
-    <div class="flex items-center gap-2">
-   <button id="whatsappBtn" onclick="shareOnWhatsApp()"
-        class="icon-btn bg-green-600 hover:bg-green-700"
-        title="Share on WhatsApp">
-  <svg viewBox="0 0 24 24" aria-hidden="true">
-    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347M12.05 21.785h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884"/>
-  </svg>
-</button> 
-
-
-
-<button id="searchBtn" onclick="openSectionSearch()"
-        class="icon-btn bg-blue-600 hover:bg-blue-700"
-        title="Search Related Sections">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-       stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-       aria-hidden="true">
-    <circle cx="11" cy="11" r="8"></circle>
-    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-  </svg>
-</button>
-<button id="listenBtn"
-        onclick="toggleListen()"
-        class="icon-btn bg-purple-600 hover:bg-purple-700 relative"
-        title="Listen / Stop">
-
-  <!-- 🔴 ACTIVE INDICATOR -->
-  <span id="listenIndicator"
-        class="absolute top-1 right-1 w-2.5 h-2.5 bg-red-600 rounded-full hidden">
-  </span>
-
-  <!-- PLAY ICON -->
-  <svg id="listenIconPlay"
-       viewBox="0 0 24 24"
-       class="w-5 h-5 fill-white">
-    <path d="M3 9v6h4l5 5V4L7 9H3z"/>
-  </svg>
-
-  <!-- STOP ICON -->
-  <svg id="listenIconStop"
-       viewBox="0 0 24 24"
-       class="w-5 h-5 fill-white hidden">
-    <path d="M6 6h12v12H6z"/>
-  </svg>
-
-</button>
-
-    </div>
-
-    <!-- Right -->
-    <button id="closeBtn"
-            class="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition font-semibold text-sm">
-      Close
-    </button>
-
   </div>
 </div>
 
-    </div>
-  </div>
+<script>
 
-  <script>
-    console.log('🚀 Kurukshetra Mitra initializing...');
-    let isProfileManuallyChanged = false;
-    
-    // Update Last Modified DateTime - AUTOMATIC FROM FILE
-    function updateLastModified() {
-      try {
-        let lastModDate;
-        
-        // Get document's last modified date
-        if (document.lastModified) {
-          lastModDate = new Date(document.lastModified);
-          console.log('📅 Document last modified (raw):', document.lastModified);
-        }
-        
-        // Validate date
-        if (!lastModDate || isNaN(lastModDate.getTime())) {
-          lastModDate = new Date();
-          console.log('⚠️ Using current date as fallback');
-        }
-        
-        const day = lastModDate.getDate();
-        const suffix = (day) => {
-          if (day > 3 && day < 21) return 'th';
-          switch (day % 10) {
-            case 1: return 'st';
-            case 2: return 'nd';
-            case 3: return 'rd';
-            default: return 'th';
-          }
-        };
-        
-        const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
-                           'July', 'August', 'September', 'October', 'November', 'December'];
-        const month = monthNames[lastModDate.getMonth()];
-        const year = lastModDate.getFullYear();
-        const hours = lastModDate.getHours().toString().padStart(2, '0');
-        const minutes = lastModDate.getMinutes().toString().padStart(2, '0');
-        
-        const formattedDate = `${day}${suffix(day)} ${month} ${year}, ${hours}:${minutes} IST`;
-        
-        const element = document.getElementById('lastModified');
-        if (element) {
-          element.textContent = formattedDate;
-          console.log('✅ Last Modified displayed:', formattedDate);
-        }
-      } catch (error) {
-        console.error('❌ Last Modified error:', error);
-        const element = document.getElementById('lastModified');
-        if (element) {
-          element.textContent = '17th December 2025, 23:30 IST';
-        }
+// ============================================
+// GLOBAL VARIABLES & INITIALIZATION
+// ============================================
+let selectedUser = 'citizen';
+let selectedTopic = '';
+let selectedQuestion = '';
+let selectedLanguage = 'Hindi';
+let selectedQueryType = 'custom';
+let currentMode = 'power';
+
+// ============================================
+// DATA: Topics & Questions for Each User Type
+// ============================================
+const topicsData = {
+  police: {
+    title: 'Pilgrim / Devotee',
+    topics: {
+      temples: {
+        icon: '🛕',
+        title: 'Sacred Temples',
+        color: 'orange',
+        questions: [
+          'What are the most important temples in Kurukshetra?',
+          'Tell me about Sthaneshwar Mahadev Temple',
+          'What is the significance of Bhadrakali Temple?',
+          'Where are the Pandava temples located?',
+          'What temples are part of 48 Kos Parikrama?'
+        ]
+      },
+      sarovars: {
+        icon: '💧',
+        title: 'Holy Sarovars',
+        color: 'blue',
+        questions: [
+          'What is the significance of Brahma Sarovar?',
+          'Tell me about Sannihit Sarovar importance',
+          'What is special about Jyotisar sacred tank?',
+          'How many holy sarovars are in Kurukshetra?',
+          'Best time to take holy bath in sarovars?'
+        ]
+      },
+      parikrama: {
+        icon: '🚶',
+        title: '48 Kos Parikrama',
+        color: 'green',
+        questions: [
+          'What is 48 Kos Parikrama route?',
+          'How many days does parikrama take?',
+          'What are the main stops in parikrama?',
+          'When is the best time for parikrama?',
+          'What facilities are available during parikrama?'
+        ]
+      },
+      gita: {
+        icon: '📿',
+        title: 'Bhagavad Gita Sites',
+        color: 'purple',
+        questions: [
+          'Where was Bhagavad Gita narrated?',
+          'What is special about Jyotisar?',
+          'Tell me about the sacred Banyan tree',
+          'What are main Gita pilgrimage sites?',
+          'How to reach Gita Jayanti celebrations?'
+        ]
+      },
+      rituals: {
+        icon: '🔔',
+        title: 'Rituals & Puja',
+        color: 'red',
+        questions: [
+          'What pujas are performed at temples?',
+          'How to perform Shradh at Kurukshetra?',
+          'What is the timing of evening aarti?',
+          'Can I perform special puja ceremonies?',
+          'What offerings are accepted at temples?'
+        ]
+      },
+      festivals: {
+        icon: '🎊',
+        title: 'Religious Festivals',
+        color: 'pink',
+        questions: [
+          'When is Gita Jayanti celebrated?',
+          'What happens during Solar Eclipse festivals?',
+          'Tell me about Kurukshetra Mahotsav',
+          'What is Somavati Amavasya importance?',
+          'Which festivals attract most pilgrims?'
+        ]
       }
     }
-    
-    // Call when DOM is ready
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', updateLastModified);
-    } else {
-      updateLastModified();
+  },
+  
+  legal: {
+    title: 'Tourist / Visitor',
+    topics: {
+      attractions: {
+        icon: '🗺️',
+        title: 'Tourist Attractions',
+        color: 'blue',
+        questions: [
+          'What are must-visit places in Kurukshetra?',
+          'Tell me about Kurukshetra Panorama',
+          'What is Krishna Museum?',
+          'Where is Sheikh Chilli Tomb?',
+          'What to see at Kurukshetra University?'
+        ]
+      },
+      travel: {
+        icon: '🚗',
+        title: 'Travel & Transport',
+        color: 'green',
+        questions: [
+          'How to reach Kurukshetra from Delhi?',
+          'What is the nearest airport?',
+          'Are there direct trains to Kurukshetra?',
+          'How to travel within the city?',
+          'Is taxi service available for sightseeing?'
+        ]
+      },
+      accommodation: {
+        icon: '🏨',
+        title: 'Stay & Hotels',
+        color: 'purple',
+        questions: [
+          'What are best hotels in Kurukshetra?',
+          'Are there budget accommodation options?',
+          'Where can I find dharamshalas?',
+          'Is advance booking required?',
+          'What hotels are near Brahma Sarovar?'
+        ]
+      },
+      food: {
+        icon: '🍽️',
+        title: 'Food & Dining',
+        color: 'orange',
+        questions: [
+          'What are famous food items of Kurukshetra?',
+          'Where can I get vegetarian meals?',
+          'Are there good restaurants near temples?',
+          'What is the local cuisine like?',
+          'Where to eat prasad near sarovars?'
+        ]
+      },
+      activities: {
+        icon: '🎯',
+        title: 'Activities & Tours',
+        color: 'red',
+        questions: [
+          'What activities can tourists do here?',
+          'Are guided tours available?',
+          'Can I visit heritage sites at night?',
+          'What is the light and sound show timing?',
+          'Are there photography opportunities?'
+        ]
+      },
+      shopping: {
+        icon: '🛍️',
+        title: 'Shopping',
+        color: 'pink',
+        questions: [
+          'What souvenirs to buy in Kurukshetra?',
+          'Where is the main market?',
+          'Can I buy religious items here?',
+          'What handicrafts are available?',
+          'Are there shops near Brahma Sarovar?'
+        ]
+      }
     }
-
-document.addEventListener('DOMContentLoaded', function () {
-  // Show default hint
-  const hintEl = document.getElementById('profileHint');
-  if (hintEl) {
-    hintEl.textContent = 'Default profile: Resident / Citizen (you can change it)';
+  },
+  
+  student: {
+    title: 'Student / Researcher',
+    topics: {
+      mahabharata: {
+        icon: '📖',
+        title: 'Mahabharata History',
+        color: 'orange',
+        questions: [
+          'What is the Mahabharata connection?',
+          'Where was the Kurukshetra war fought?',
+          'What happened at Kurukshetra battlefield?',
+          'Who were the main warriors here?',
+          'How long did the Mahabharata war last?'
+        ]
+      },
+      archaeology: {
+        icon: '🏛️',
+        title: 'Archaeological Sites',
+        color: 'blue',
+        questions: [
+          'What archaeological findings are here?',
+          'Tell me about excavations in Kurukshetra',
+          'What ancient artifacts were discovered?',
+          'Are there any museums for research?',
+          'How old is the city of Kurukshetra?'
+        ]
+      },
+      scriptures: {
+        icon: '📚',
+        title: 'Scriptures & Texts',
+        color: 'purple',
+        questions: [
+          'What scriptures mention Kurukshetra?',
+          'Where to study Bhagavad Gita here?',
+          'What ancient texts reference this land?',
+          'Are there research centers for Vedas?',
+          'What is in the Kurukshetra University library?'
+        ]
+      },
+      culture: {
+        icon: '🎭',
+        title: 'Culture & Heritage',
+        color: 'green',
+        questions: [
+          'What is the cultural significance?',
+          'Tell me about folk traditions here',
+          'What art forms are practiced?',
+          'What is the local language and culture?',
+          'How has culture evolved over centuries?'
+        ]
+      },
+      astronomy: {
+        icon: '🌟',
+        title: 'Astronomy & Eclipse',
+        color: 'red',
+        questions: [
+          'Why is Kurukshetra important for eclipses?',
+          'What is the astronomical significance?',
+          'When do solar eclipses occur here?',
+          'What is the eclipse bathing tradition?',
+          'Are there observatories here?'
+        ]
+      },
+      education: {
+        icon: '🎓',
+        title: 'Educational Institutes',
+        color: 'pink',
+        questions: [
+          'What courses does Kurukshetra University offer?',
+          'Are there research facilities available?',
+          'Tell me about NIT Kurukshetra',
+          'What educational opportunities exist?',
+          'Can I access academic libraries here?'
+        ]
+      }
+    }
+  },
+  
+  citizen: {
+    title: 'Resident / Citizen',
+    topics: {
+      services: {
+        icon: '🏛️',
+        title: 'Government Services',
+        color: 'blue',
+        questions: [
+          'Where is the Municipal Corporation office?',
+          'How to apply for birth certificate?',
+          'What are property tax payment options?',
+          'Where to register complaints?',
+          'How to get utility connections?'
+        ]
+      },
+      healthcare: {
+        icon: '🏥',
+        title: 'Healthcare',
+        color: 'red',
+        questions: [
+          'Where are the main hospitals?',
+          'What emergency services are available?',
+          'Are there government health centers?',
+          'Where to get COVID vaccination?',
+          'What medical facilities exist for emergencies?'
+        ]
+      },
+      education: {
+        icon: '🏫',
+        title: 'Education',
+        color: 'green',
+        questions: [
+          'What are the best schools in Kurukshetra?',
+          'Where is the education office?',
+          'How to get school admission?',
+          'What colleges are available?',
+          'Are there vocational training centers?'
+        ]
+      },
+      transport: {
+        icon: '🚌',
+        title: 'Transport',
+        color: 'orange',
+        questions: [
+          'What are the bus routes?',
+          'Where is the railway station?',
+          'How to get driving license?',
+          'What public transport options exist?',
+          'Where to register vehicles?'
+        ]
+      },
+      utilities: {
+        icon: '💡',
+        title: 'Utilities',
+        color: 'purple',
+        questions: [
+          'How to pay electricity bills?',
+          'Where to complain about water supply?',
+          'What is the sewage department contact?',
+          'How to get new connections?',
+          'Where to report power outages?'
+        ]
+      },
+      safety: {
+        icon: '🚨',
+        title: 'Safety & Security',
+        color: 'pink',
+        questions: [
+          'Where are the police stations?',
+          'How to file an FIR online?',
+          'What emergency numbers to call?',
+          'Where is the fire station?',
+          'How to report a crime?'
+        ]
+      }
+    }
   }
-  // Set default selected user silently
-  selectedUser = 'citizen';
-  // Highlight default card visually
-  const defaultCard = document.getElementById('userCitizenMain');
-  if (defaultCard) {
-    defaultCard.classList.add('selected');
-  }
-  console.log('✅ Default profile initialized silently: Resident / Citizen');
-  
-  setTimeout(() => {
-    selectQueryType('ready');
-    
-    // Auto-select appropriate topic based on user type
-    autoSelectTopicForUserType();
-  }, 100);
-  
-  // ===== Watch for profile card clicks =====
-  const profileCards = document.querySelectorAll('[id^="user"][id$="Main"]');
-  profileCards.forEach(card => {
-    card.addEventListener('click', function() {
-      console.log('👤 Profile card clicked');
-      // Wait for selectedUser to update
-      setTimeout(() => {
-        console.log('👤 Current selectedUser:', selectedUser);
-        // Only auto-select if in ready-made mode
-        const readyMadeDiv = document.getElementById('readyMadeDiv');
-        if (readyMadeDiv && readyMadeDiv.style.display !== 'none') {
-          autoSelectTopicForUserType();
-        }
-      }, 100);
-    });
-  });
-  
-});
-    
-    const WEBHOOK_URL = 'https://n8n-workflow-test.duckdns.org/webhook/chatbot';
-    
-    // VERSION CHECK - This will appear in console immediately
-    console.log('🔥 Kurukshetra Mitra Version: ARRAY-FIX-v2 - Loaded at', new Date().toISOString());
-    console.log('🔥 If you see this, the new version is loaded!');
-    
-    let currentQuestion = '';
-    let currentAI = 'chatgpt';
-    let selectedUser = 'citizen'; // Default to Resident / Citizen
-    let selectedTopic = '';
-    let selectedQueryType = 'custom';
-    let aiUsed = {
-      groq: false,
-      chatgpt: false
-    };
-    
-    // User-level specific prompt instructions with ENHANCED FORMATTING
-    const USER_LEVEL_PROMPTS = {
-      police: {
-        level: 'intermediate',
-        instruction: 'You are answering for a Pilgrim / Devotee. Provide practical, action-oriented answers with clear procedures, legal provisions, and step-by-step guidance. Focus on investigation procedures, FIR handling, arrest protocols, and evidence collection. Use official terminology but keep it practical for field work.',
-        tone: 'Professional and procedural'
-      },
-      legal: {
-        level: 'advanced',
-        instruction: 'You are answering for a Tourist / Visitor (Lawyer/Judge/Prosecutor). Provide detailed legal analysis with specific section references, case law interpretations, procedural nuances, and technical legal terminology. Include comparative analysis between old and new laws where relevant.',
-        tone: 'Technical and analytical'
-      },
-      student: {
-        level: 'educational',
-        instruction: 'You are answering for a Law Student/Researcher. Provide comprehensive educational content with clear explanations, examples, conceptual clarity, and academic perspective. Include both theoretical understanding and practical applications. Use structured format with key points.',
-        tone: 'Educational and detailed'
-      },
-      citizen: {
-        level: 'basic',
-        instruction: 'You are answering for a Resident / Citizen. Provide simple, easy-to-understand explanations in plain language. Focus on practical rights, what to do in common situations, and step-by-step guidance. Avoid complex legal jargon. Use examples and analogies.',
-        tone: 'Simple and practical'
-      }
-    };
-    
-    // Multi-level answer depth options (sent to n8n as metadata)
-    const ANSWER_LEVELS = {
-      brief: {
-        label: '📝 Brief',
-        instruction: 'Provide a concise answer in 2-3 paragraphs covering only the essential points.',
-        icon: '📝'
-      },
-      standard: {
-        label: '📄 Standard',
-        instruction: 'Provide a comprehensive answer with all important details, examples, and relevant sections.',
-        icon: '📄'
-      },
-      detailed: {
-        label: '📚 Detailed',
-        instruction: 'Provide an in-depth, exhaustive answer covering all aspects, subsections, exceptions, examples, and practical implications.',
-        icon: '📚'
-      }
-    };
-    
-    let currentAnswerLevel = 'standard'; // Default level
-    
-    // Main answer function - send CLEAN data to n8n
-    async function getAnswer(provider, answerLevel = 'standard') {
-      currentAI = provider;
-      currentAnswerLevel = answerLevel;
-      aiUsed[provider] = true;
-      
-      const loadingMessages = {
-        groq: '⚡ Groq is processing at lightning speed...',
-        chatgpt: '🤖 ChatGPT is analyzing deeply...'
-      };
-      
-      const providerNames = {
-        groq: '🚀 Groq Llama 3.3',
-        chatgpt: '🤖 ChatGPT GPT-4o'
-      };
-      
-      document.getElementById('modalQuestion').textContent = currentQuestion;
-      document.getElementById('modalAnswer').innerHTML = loadingMessages[provider];
-      document.getElementById('aiModal').classList.remove('hidden');
-      
-      updateModalHeader(provider);
-      updateAIButtons();
-      updateAnswerLevelButtons();
-      
-      const startTime = Date.now();
-      
-      try {
-        // Get selected language
-        const selectedLanguage = document.getElementById('languageSelect').value;
-        console.log('🌐 Selected language:', selectedLanguage);
-        
-        // Send CLEAN data - let n8n handle formatting
-        const response = await fetch(WEBHOOK_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            question: currentQuestion, // CLEAN question only
-            originalQuestion: currentQuestion,
-            provider: provider,
-            userType: selectedUser,
-            userLevel: selectedUser ? USER_LEVEL_PROMPTS[selectedUser].level : 'general',
-            topic: selectedTopic,
-            queryType: selectedQueryType,
-            answerDepth: answerLevel,
-            language: selectedLanguage,  // ← LANGUAGE PARAMETER ADDED
-            timestamp: new Date().toISOString()
-          })
-        });
-        
-        if (!response.ok) throw new Error('HTTP ' + response.status);
-        
-        let data = await response.json();
-        console.log('📥 RAW Received data:', JSON.stringify(data).substring(0, 200));
-        console.log('📥 Is Array?', Array.isArray(data));
-        console.log('📥 Type:', typeof data);
-        
-        // n8n returns an array, get first item
-        if (Array.isArray(data) && data.length > 0) {
-          console.log('📦 Extracting from array, length:', data.length);
-          data = data[0];
-          console.log('📦 Extracted object:', data);
-        }
-        
-        // Handle different response formats
-        let answerText = '';
-        if (typeof data === 'string') {
-          console.log('✅ Format: Direct string');
-          answerText = data;
-        } else if (data && data.answer) {
-          console.log('✅ Format: Object with answer property');
-          console.log('✅ Answer length:', data.answer.length);
-          answerText = data.answer;
-        } else if (data && data.response) {
-          console.log('✅ Format: Object with response property');
-          answerText = data.response;
-        } else if (data && data.choices && data.choices[0] && data.choices[0].message) {
-          console.log('✅ Format: Groq API format');
-          answerText = data.choices[0].message.content;
-        } else {
-          console.error('❌ Could not find answer in data');
-          console.error('❌ Data keys:', data ? Object.keys(data) : 'null');
-          console.error('❌ Full data:', data);
-          answerText = 'No answer generated (empty model output).';
-        }
-        
-        // Clean up any remaining issues
-        answerText = answerText.replace('[SEARCH_BUTTON]', '');
-        answerText = answerText.replace(/🔍 SEARCH KEYWORDS:.*?\n\n/gs, '');
-        
-        // Convert markdown links to HTML
-        function convertMarkdownLinksToHTML(text) {
-          // Convert [Text](URL) to <a href="URL" target="_blank">Text</a>
-          return text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" style="color: #3b82f6; text-decoration: underline;">$1</a>');
-        }
-        
-        // Convert newlines to <br> and links to HTML
-        answerText = answerText
-          .replace(/&/g, '&amp;')
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;')
-          .replace(/\n/g, '<br>');
-        
-        // Now convert markdown links (after escaping HTML)
-        answerText = convertMarkdownLinksToHTML(answerText);
-        
-        // ============================================
-        // EXTRACT AND REMOVE RELATED QUESTIONS
-        // ============================================
-        let relatedQuestions = [];
-        
-        console.log('🔍 Searching for related questions in answer...');
-        
-        // Try to find related questions section
-        const relatedPattern = /❓\s*RELATED QUESTIONS[\s\S]*?(?=⚠️|━━━|$)/i;
-        const relatedMatch = answerText.match(relatedPattern);
-        
-        if (relatedMatch) {
-          console.log('✅ Found related questions section');
-          const relatedSection = relatedMatch[0];
-          
-          // Split by <br> and extract questions
-          const lines = relatedSection.split(/<br\s*\/?>/gi);
-          
-          for (let line of lines) {
-            // Clean HTML entities
-            let cleaned = line
-              .replace(/&lt;/g, '<')
-              .replace(/&gt;/g, '>')
-              .replace(/&amp;/g, '&')
-              .replace(/&quot;/g, '"')
-              .trim();
-            
-            // Skip header line and empty lines
-            if (cleaned.length < 10 || cleaned.match(/RELATED QUESTIONS/i)) {
-              continue;
-            }
-            
-            // Remove bullet points, numbers, dashes
-            cleaned = cleaned.replace(/^[\s•\-\d\.\)]+/, '').trim();
-            
-            // Must have question mark and be reasonable length
-            if (cleaned.includes('?') && cleaned.length > 15 && cleaned.length < 300) {
-              relatedQuestions.push(cleaned);
-              console.log('  📌 Extracted:', cleaned.substring(0, 60) + '...');
-            }
-          }
-          
-          // Limit to 3 questions
-          relatedQuestions = relatedQuestions.slice(0, 3);
-          console.log('✅ Total questions extracted:', relatedQuestions.length);
-          
-          // REMOVE the entire related questions section from answer
-          answerText = answerText.replace(relatedPattern, '');
-          console.log('✅ Related questions section removed from answer body');
-        } else {
-          console.log('⚠️ No related questions section found');
-        }
-        
-        const responseTime = ((Date.now() - startTime) / 1000).toFixed(2);
-        
-        // Add metadata footer
-        const levelEmoji = ANSWER_LEVELS[answerLevel].icon;
-        const userTypeLabel = selectedUser ? ` | 👤 ${selectedUser.charAt(0).toUpperCase() + selectedUser.slice(1)}` : '';
-        
-        let finalHTML = answerText + 
-          '<br><br>━━━━━━━━━━━━━━━━━━━━━━━<br>' +
-          `${levelEmoji} ${answerLevel.charAt(0).toUpperCase() + answerLevel.slice(1)} Answer${userTypeLabel}<br>` +
-          `⏱️ Response: ${responseTime}s with ${providerNames[provider]}`;
-        
-        // ============================================
-        // DISPLAY RELATED QUESTIONS DROPDOWN
-        // ============================================
-        if (relatedQuestions.length > 0) {
-          console.log('✅ Adding related questions dropdown');
-          
-          finalHTML += '<br><br>' +
-            '<details open style="background: linear-gradient(to right, #fff7ed, #fef3c7); padding: 14px; border-radius: 12px; border: 2px solid #fb923c; box-shadow: 0 2px 8px rgba(251, 146, 60, 0.2);">' +
-              '<summary style="cursor: pointer; font-weight: bold; color: #1f2937; display: flex; align-items: center; gap: 8px; list-style: none; user-select: none;">' +
-                '<span style="font-size: 20px;">❓</span> ' +
-                '<span style="font-size: 16px;">Related Questions (' + relatedQuestions.length + ')</span> ' +
-                '<span style="font-size: 12px; color: #6b7280; margin-left: auto; font-weight: normal;">(Click to ask automatically)</span>' +
-              '</summary>' +
-              '<div style="margin-top: 12px; display: flex; flex-direction: column; gap: 8px;">';
-          
-          relatedQuestions.forEach((q, idx) => {
-            // Escape quotes properly
-            const escapedQuestion = q
-              .replace(/\\/g, '\\\\')
-              .replace(/'/g, "\\'")
-              .replace(/"/g, '&quot;')
-              .replace(/\n/g, ' ');
-            
-            finalHTML += 
-              '<div style="background: white; padding: 14px; border-radius: 10px; border-left: 4px solid #fb923c; cursor: pointer; transition: all 0.3s; box-shadow: 0 1px 3px rgba(0,0,0,0.1);" ' +
-                   'onmouseover="this.style.background=\'#fff7ed\'; this.style.borderLeftColor=\'#f97316\'; this.style.boxShadow=\'0 4px 12px rgba(251,146,60,0.3)\'; this.style.transform=\'translateX(4px)\';" ' +
-                   'onmouseout="this.style.background=\'white\'; this.style.borderLeftColor=\'#fb923c\'; this.style.boxShadow=\'0 1px 3px rgba(0,0,0,0.1)\'; this.style.transform=\'translateX(0)\';" ' +
-                   'onclick="askRelatedQuestion(\'' + escapedQuestion + '\')">' +
-                '<div style="display: flex; align-items: start; gap: 12px;">' +
-                  '<span style="color: #f97316; font-weight: bold; font-size: 16px; min-width: 26px; margin-top: 2px;">' + (idx + 1) + '.</span>' +
-                  '<span style="color: #374151; font-size: 15px; line-height: 1.6;">' + q + '</span>' +
-                '</div>' +
-              '</div>';
-          });
-          
-          finalHTML += '</div></details>';
-        }
-        
-        document.getElementById('modalAnswer').innerHTML = finalHTML;
-        enableResponseActions();
-        console.log('✅ Response from', provider, 'in', responseTime, 'seconds');
-        
-      } catch (error) {
-        console.error('❌ Error:', error);
-        document.getElementById('modalAnswer').innerHTML = 'Error: Could not connect to ' + provider.toUpperCase() + '. Please try again.';
-      }
-    }
-    
-    // Retry with different AI
-    function retryWithAI(provider) {
-      // Allow switching to any AI at any time
-      aiUsed[provider] = true;
-      getAnswer(provider, currentAnswerLevel);
-    }
-    
-    window.retryWithAI = retryWithAI;
-    
-    // Change answer depth level
-    function changeAnswerLevel(level) {
-      currentAnswerLevel = level;
-      
-      // Update dropdown selection
-      const depthSelector = document.getElementById('depthSelector');
-      if (depthSelector) {
-        depthSelector.value = level;
-      }
-      
-      getAnswer(currentAI, level);
-    }
-    
-    window.changeAnswerLevel = changeAnswerLevel;
-    
-    // Update answer level buttons (deprecated - now using dropdown)
-    function updateAnswerLevelButtons() {
-      const depthSelector = document.getElementById('depthSelector');
-      if (depthSelector) {
-        depthSelector.value = currentAnswerLevel;
-      }
-    }
-    
-    // Update AI button states (now updates dropdown)
-    function updateAIButtons() {
-      const aiSelector = document.getElementById('aiSelector');
-      if (aiSelector) {
-        aiSelector.value = currentAI;
-      }
-    }
-    
-    // Update Modal Header with AI Provider
-    function updateModalHeader(provider) {
-      const icons = {
-        groq: '🚀',
-        chatgpt: '🤖'
-      };
-      
-      const names = {
-        groq: 'Groq Llama 3.3',
-        chatgpt: 'ChatGPT GPT-4o'
-      };
-      
-      const header = document.querySelector('#aiModal .bg-gradient-to-r h2');
-      if (header) {
-        header.innerHTML = '<span class="ml-2">' + 'Kurukshetra Mitra – AI Response</span>';
-      }
-    }
-    
-    // TOPICS organized by user type
-    const TOPICS = {
-      police: [
-        { id: 'fir', icon: '📝', title: 'FIR & Complaints', subtitle: 'Registration, Zero FIR, Refusal', law: 'BNSS' },
-        { id: 'arrest', icon: '🚔', title: 'Arrest & Custody', subtitle: 'Warrant, Remand, Rights', law: 'BNSS' },
-        { id: 'investigation', icon: '🔍', title: 'Investigation', subtitle: 'Evidence, Search, Seizure', law: 'BNSS' },
-        { id: 'evidence', icon: '📊', title: 'Evidence Handling', subtitle: 'Digital, Chain of custody', law: 'BSA' },
-        { id: 'chargesheet', icon: '📋', title: 'Charge Sheet', subtitle: 'Filing, Timeline', law: 'BNSS' },
-        { id: 'crimes', icon: '⚠️', title: 'Common Crimes', subtitle: 'Theft, Assault, Cyber', law: 'BNS' },
-        { id: 'rights', icon: '👥', title: 'Rights of Accused', subtitle: 'During arrest, trial', law: 'BNSS' },
-        { id: 'terminology', icon: '📚', title: 'Legal Terms', subtitle: 'Cognizable, Bailable', law: 'All' }
-      ],
-      legal: [
-        { id: 'bail', icon: '🏛️', title: 'Bail & Bonds', subtitle: 'Regular, Anticipatory', law: 'BNSS' },
-        { id: 'trial', icon: '⚖️', title: 'Trial Process', subtitle: 'Summons, Warrant, Sessions', law: 'BNSS' },
-        { id: 'evidence', icon: '📊', title: 'Evidence Law', subtitle: 'Admissibility, Electronic', law: 'BSA' },
-        { id: 'appeals', icon: '📑', title: 'Appeals & Revision', subtitle: 'High Court, Supreme Court', law: 'BNSS' },
-        { id: 'punishments', icon: '⚖️', title: 'Punishments', subtitle: 'IPC vs BNS changes', law: 'BNS' },
-        { id: 'procedures', icon: '📋', title: 'Court Procedures', subtitle: 'Filing, Documentation', law: 'BNSS' },
-        { id: 'comparison', icon: '🔄', title: 'Old vs New Laws', subtitle: 'Key changes', law: 'All' },
-        { id: 'terminology', icon: '📚', title: 'Legal Terminology', subtitle: 'Advanced concepts', law: 'All' }
-      ],
-      student: [
-        { id: 'comparison', icon: '🔄', title: 'Old vs New Laws', subtitle: 'IPC→BNS, CrPC→BNSS', law: 'All' },
-        { id: 'terminology', icon: '📚', title: 'Legal Terminology', subtitle: 'All important terms', law: 'All' },
-        { id: 'concepts', icon: '💡', title: 'Key Concepts', subtitle: 'Mens rea, Actus reus', law: 'BNS' },
-        { id: 'criminal', icon: '⚠️', title: 'Criminal Offences', subtitle: 'Classification, Types', law: 'BNS' },
-        { id: 'procedure', icon: '📋', title: 'Criminal Procedure', subtitle: 'FIR to Judgment', law: 'BNSS' },
-        { id: 'evidence_law', icon: '📊', title: 'Evidence Law', subtitle: 'Types, Admissibility', law: 'BSA' },
-        { id: 'amendments', icon: '📝', title: 'Key Amendments', subtitle: 'Major changes 2024', law: 'All' },
-        { id: 'casestudies', icon: '📖', title: 'Examples', subtitle: 'Real-world scenarios', law: 'All' }
-      ],
-      citizen: [
-        { id: 'rights', icon: '👥', title: 'Pilgrimage & Spirituality', subtitle: 'Gita sites, Temples, Sarovars', law: 'Sacred Kurukshetra' },
-        { id: 'complaint', icon: '📝', title: 'Visit & Explore', subtitle: 'Tourism, Culture, Museums', law: 'Tourism' },
-        { id: 'bail', icon: '🏛️', title: 'Bail & Release', subtitle: 'How to get bail', law: 'BNSS' },
-        { id: 'common', icon: '❓', title: 'Common Situations', subtitle: 'Theft, Accident, Dispute', law: 'BNS' },
-        { id: 'legal_aid', icon: '⚖️', title: 'Legal Help', subtitle: 'Free legal aid', law: 'All' },
-        { id: 'cybercrime', icon: '💻', title: 'Cyber Crimes', subtitle: 'Fraud, Harassment', law: 'BNS' },
-        { id: 'women', icon: '👩', title: 'Women & Children', subtitle: 'Protection laws', law: 'BNS' },
-        { id: 'basics', icon: '📚', title: 'Basic Terms', subtitle: 'Simple explanations', law: 'All' }
-      ]
-    };
-    
-    // Sample questions for each topic
- // FINAL COMPREHENSIVE TOPIC QUESTIONS - MERGED BEST FROM BOTH LISTS
-// 660+ High-Quality Questions - No Duplicates
-const TOPIC_QUESTIONS = {
-  // ========== Pilgrim / Devotee QUESTIONS ==========
-  
-  fir: [
-    'How to register an FIR under new criminal laws?',
-    'How to handle delayed FIR registration?'
-  ],
-  
-  arrest: [
-    'When can police arrest without warrant under BNSS?',
-    'Preventive detention vs punitive detention?',
-    'Release procedures from police custody?'
-  ],
-  
-  investigation: [
-    'What are police investigation powers under BNSS?',
-    'Can accused be called repeatedly?'
-  ],
-  
-  evidence: [
-    'How to collect digital evidence for court?',
-    'Lost or destroyed evidence - consequences?',
-    'Evidence from private CCTV vs public camera?'
-  ],
-  
-  chargesheet: [
-    'How to file charge sheet under BNSS?',
-    'Who approves final report?'
-  ],
-  
-  crimes: [
-    'What constitutes theft under BNS Section 303?',
-    'Acid attack - legal provisions?',
-    'Human trafficking investigation?'
-  ],
-  
-  rights: [
-    'What are rights of arrested person?',
-     'Fundamental rights during criminal proceedings?'
-  ],
-  
-  terminology: [
-    'What is cognizable offence?',
-    'Define bailable offence vs non-bailable?',
-    'Explain doctrine of alibi?'
-  ],
-  
-  // ========== Tourist / Visitor QUESTIONS ==========
-  
-  bail: [
-    'Concurrent jurisdiction for bail?',
-    'Can court impose digital monitoring?'
-  ],
-  
-  trial: [
-    'Summons case vs warrant case - differences?',
-    'Hostile witness treatment under BSA?'
-  ],
-  
-  appeals: [
-    'How to file appeal under BNSS?',
-    'Stay on conviction possible?'
-  ],
-  
-  punishments: [
-    'Mitigating factors in sentencing?',
-    'Maximum punishment for murder?',
-    'Sentencing in plea bargaining?'
-  ],
-  
-  procedures: [
-    'How to file criminal case in court?',
-    'Stay of proceedings - when granted?'
-  ],
-  
-  comparison: [
-    'Key changes from IPC to BNS?',
-    'New timelines introduced',
-    'Technology use in new laws'
-  ],
-  
-  // ========== LAW STUDENT QUESTIONS ==========
-  
-  concepts: [
-    'Mens rea - detailed explanation with examples?',
-    'Corpus delicti - essential requirement?',
-    'Motive vs intention - legal distinction?',
-    'Criminal negligence vs civil negligence?'
-  ],
-  
-  criminal: [
-    'Classification of offences under BNS?',
-     'Organized crime and terrorism?'
-  ],
-  
-  procedure: [
-    'FIR to judgment - complete process?',
-    'Remission and pardon?',
-    'Victim compensation - procedure?'
-  ],
-  
-  evidence_law: [
-    'Types of evidence - direct, circumstantial, documentary?',
-    'Impeaching witness credibility?'
-  ],
-  
-  amendments: [
-    'Why IPC was replaced by BNS?',
-    'International cooperation provisions?'
-  ],
-  
-  casestudies: [
-    'Landmark judgments under new criminal laws?',
-    'Case study: Reference to High Court?',
-    'Example: Practical application of new laws?'
-  ],
-  
-  // ========== Resident / Citizen QUESTIONS ==========
-  
-  rights: [
-    'What are my rights if arrested?',
-    'Can mobile be taken by police?'
-  ],
-  
-  complaint: [
-    'Property dispute complaint - where to file?',
-    'Can FIR be withdrawn later?'
-  ],
-  
-  bail: [
-    'What is bail and who can get it?',
-    'Can police oppose bail?'
-  ],
-  
-  common: [
-    'What to do if my mobile is stolen?',
-    'Can police close case without informing complainant?'
-  ],
-  
-  legal_aid: [
-    'How to get free legal aid?',
-    'Pro bono legal services?'
-  ],
-  
-  cybercrime: [
-    'How to report online fraud?',
-    'Is cyber crime complaint anonymous?'
-  ],
-  
-  women: [
-    'Sexual harassment at workplace - procedure?',
-    'What rights does a minor have during inquiry?'
-  ],
-  
-  basics: [
-    'What is FIR in simple words?',
-    'Public prosecutor - who is this?',
-    'How long can police keep someone in custody?'
-  ]
-};    
-    // FIXED: Proper radio button handling
-function selectQueryType(type) {
-  selectedQueryType = type;
+};
 
-  // Toggle radio cards
-  document.querySelectorAll('.radio-option')
-    .forEach(el => el.classList.remove('selected'));
-
-  if (type === 'custom') {
-    document.getElementById('customCard')?.classList.add('selected');
-    document.getElementById('customQuestionDiv').style.display = 'block';
-    document.getElementById('readyQuestionDiv').style.display = 'none';
-    // Hide Get Answer button (we have Send button in input)
-  const submitBtn = document.getElementById('submitBtn');
-  if (submitBtn) submitBtn.style.display = 'none';
-
-    // 🔹 Refinement 2: Auto-focus cursor
-   setTimeout(() => {
-  const input = document.getElementById('userInput');
-  if (input) {
-    input.value = '';   // clear old ready-made question
-    input.focus();      // focus for fresh input
-  }
-}, 200);
+// ============================================
+// MODE TOGGLE FUNCTIONALITY
+// ============================================
+function toggleMode() {
+  const toggle = document.getElementById('modeToggle');
+  const simpleLabel = document.getElementById('simpleModeLabel');
+  const powerLabel = document.getElementById('powerModeLabel');
+  const profileAccordion = document.getElementById('profileAccordion');
+  const queryTypeSelector = document.querySelector('.query-type-selector');
+  const simpleProfileSelect = document.getElementById('simpleProfileSelect');
+  const chatModal = document.getElementById('chatModal');
+  
+  if (currentMode === 'power') {
+    // Switch to Simple Mode
+    currentMode = 'simple';
+    toggle.classList.remove('power');
+    toggle.classList.add('simple');
+    simpleLabel.classList.add('active');
+    powerLabel.classList.remove('active');
+    
+    // Hide power mode features
+    profileAccordion.style.display = 'none';
+    if (queryTypeSelector) queryTypeSelector.classList.add('hidden');
+    
+    // Show simple chat interface
+    simpleProfileSelect.style.display = 'block';
+    chatModal.classList.remove('hidden');
+    chatModal.classList.add('flex');
+    
+    // Hide main container
+    const mainContainer = document.querySelector('.container-main');
+    if (mainContainer) mainContainer.style.visibility = 'hidden';
+    
   } else {
-    document.getElementById('readyCard')?.classList.add('selected');
-    document.getElementById('customQuestionDiv').style.display = 'none';
-    document.getElementById('readyQuestionDiv').style.display = 'block';
-// Show Get Answer button (no Send button in ready-made)
-  const submitBtn = document.getElementById('submitBtn');
-  if (submitBtn) submitBtn.style.display = 'block';
-    loadTopics(selectedUser);
-    document.getElementById('topicSection').style.display = 'block';
-  }
-
-  /* ================================
-     Refinement 1: Auto-collapse selector
-     ================================ */
-  setTimeout(() => {
-    const selector = document.querySelector('.query-type-selector');
-    const summary = document.getElementById('queryTypeSummary');
-    const text = document.getElementById('queryTypeSummaryText');
-
-    const labels = {
-      custom: 'Ask Your Own Question',
-      ready: 'Ready-Made Questions'
-    };
-
-if (selector && summary && text) {
-  selector.style.display = 'none';
-  summary.style.display = 'flex';
-  text.textContent = labels[type];
-}
-  }, 300);
-}
-
+    // Switch to Power Mode
+    currentMode = 'power';
+    toggle.classList.remove('simple');
+    toggle.classList.add('power');
+    simpleLabel.classList.remove('active');
+    powerLabel.classList.add('active');
     
-    window.selectQueryType = selectQueryType;
+    // Show power mode features
+    profileAccordion.style.display = 'block';
+    if (queryTypeSelector) queryTypeSelector.classList.remove('hidden');
+    
+    // Hide simple mode
+    simpleProfileSelect.style.display = 'none';
+    chatModal.classList.add('hidden');
+    chatModal.classList.remove('flex');
+    
+    // Show main container
+    const mainContainer = document.querySelector('.container-main');
+    if (mainContainer) mainContainer.style.visibility = 'visible';
+  }
+}
 
-   // Select main user profile (always visible)
-// Select main user profile (USER ACTION ONLY)
+// ============================================
+// USER PROFILE SELECTION
+// ============================================
 function selectMainUser(userType) {
   selectedUser = userType;
-
-  // ✅ Mark as manually changed
-  isProfileManuallyChanged = true;
-
-  // Update profile cards
-  document.querySelectorAll('.user-card-small')
-    .forEach(el => el.classList.remove('selected'));
-
-  const mainCard = document.getElementById(
-    'user' + userType.charAt(0).toUpperCase() + userType.slice(1) + 'Main'
-  );
-  if (mainCard) mainCard.classList.add('selected');
-
-  // ✅ Update hint ONLY for manual selection
-  const hintEl = document.getElementById('profileHint');
-  const shortNames = {
+  
+  // Update UI
+  const allCards = document.querySelectorAll('.user-card-small');
+  allCards.forEach(card => card.classList.remove('selected'));
+  
+  const selectedCard = document.getElementById(`user${userType.charAt(0).toUpperCase() + userType.slice(1)}Main`);
+  if (selectedCard) {
+    selectedCard.classList.add('selected');
+  }
+  
+  // Update summary
+  const userTitles = {
     police: 'Pilgrim / Devotee',
     legal: 'Tourist / Visitor',
     student: 'Student / Researcher',
     citizen: 'Resident / Citizen'
   };
-
-  if (hintEl) {
-    hintEl.textContent = '✓ Selected: ' + (shortNames[userType] || 'Resident / Citizen');
-  }
-
-  /* ================================
-     Progressive Collapse Logic
-     (UNCHANGED – USER FLOW)
-     ================================ */
-  setTimeout(() => {
-    const profileBox = document.getElementById('profileSelector');
-    const summaryBox = document.getElementById('profileSummary');
-    const summaryText = document.getElementById('profileSummaryText');
-
-    if (profileBox && summaryBox && summaryText) {
-      profileBox.classList.add('hidden');
-      summaryBox.classList.remove('hidden');
-      summaryText.textContent = shortNames[userType] || 'Resident / Citizen';
-    }
-
-    // Scroll to next section
-    const nextSection = document.querySelector('.query-type-selector');
-    if (nextSection) {
-      nextSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  }, 300);
-
-  // Load ready-made topics if visible
-  const readyDiv = document.getElementById('readyQuestionDiv');
-  if (readyDiv && readyDiv.style.display !== 'none') {
-    loadTopics(userType);
-    document.getElementById('topicSection').style.display = 'block';
-  }
-// Auto-select appropriate topic when user changes profile
-    setTimeout(() => {
-      autoSelectTopicForUserType();
-    }, 300);
-  console.log('✅ User manually selected profile:', userType);
-}
-
-    
-    window.selectMainUser = selectMainUser;
-
-    function selectUser(userType) {
-      // This function is now deprecated - selectMainUser handles everything
-      selectMainUser(userType);
-    }
-    
-    window.selectUser = selectUser;
-
-    function loadTopics(userType) {
-      const container = document.getElementById('topicContainer');
-      container.innerHTML = '';
-      
-      const topics = TOPICS[userType] || [];
-      
-      topics.forEach(function(topic) {
-        const topicCard = document.createElement('div');
-        topicCard.className = 'topic-card';
-        topicCard.id = 'topic-' + topic.id;
-        topicCard.onclick = function() { selectTopic(topic.id); };
-        
-        topicCard.innerHTML = '<div class="topic-icon">' + topic.icon + '</div>' +
-          '<div class="flex-1">' +
-          '<div class="topic-title">' + topic.title + '</div>' +
-          '<div class="topic-subtitle">' + topic.subtitle + '</div>' +
-          '<div class="topic-law">' + topic.law + '</div>' +
-          '</div>';
-        
-        container.appendChild(topicCard);
-      });
-    }
-
-    function selectTopic(topicId) {
-      selectedTopic = topicId;
-      
-      // Update UI
-      document.querySelectorAll('.topic-card').forEach(function(el) {
-        el.classList.remove('selected');
-      });
-      const topicCard = document.getElementById('topic-' + topicId);
-      if (topicCard) topicCard.classList.add('selected');
-      
-      // Load questions for this topic
-      loadQuestionsForTopic(topicId);
-      
-      // Show question section
-      document.getElementById('questionSelectSection').style.display = 'block';
-      
-      console.log('✅ Topic selected:', topicId);
-    }
-
-function loadQuestionsForTopic(topicId) {
-  const questionSelect = document.getElementById('questionSelect');
-  questionSelect.innerHTML = '<option value="" selected disabled>Tap to select a question...</option>';
+  document.getElementById('profileSummaryText').textContent = userTitles[userType];
   
-  const questions = TOPIC_QUESTIONS[topicId] || [];
+  // Collapse profile selector
+  collapseProfileSelector();
   
-  questions.forEach(function(q) {
-    const option = document.createElement('option');
-    option.value = q;
-    option.textContent = q;
-    questionSelect.appendChild(option);
-  });
-}
-
-
-    document.getElementById('questionSelect').addEventListener('change', function() {
-      document.getElementById('userInput').value = this.value;
-    });
-
-// Voice recognition
-let recognition;
-let isRecording = false;
-
-if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  recognition = new SpeechRecognition();
-  recognition.continuous = false;
-  recognition.interimResults = false;
-
-  recognition.onstart = function () {
-    isRecording = true;
-    document.getElementById('voiceBtn').classList.add('recording');
-  };
-
-  recognition.onresult = function (event) {
-    document.getElementById('userInput').value =
-      event.results[0][0].transcript;
-  };
-
-  recognition.onend = function () {
-    isRecording = false;
-    document.getElementById('voiceBtn').classList.remove('recording');
-  };
-
-  recognition.onerror = function () {
-    isRecording = false;
-    document.getElementById('voiceBtn').classList.remove('recording');
-  };
-}
-
-document.getElementById('voiceBtn').addEventListener('click', function (e) {
-  e.preventDefault();
-
-  if (!recognition) {
-    alert('Voice recognition not supported');
-    return;
-  }
-
-  if (isRecording) {
-    recognition.stop();
-    return;
-  }
-
-  // ✅ SET LANGUAGE JUST BEFORE START
-  // Get language from whichever selector is visible
-const langCustom = document.getElementById('languageSelect')?.value;
-const langReady = document.getElementById('languageSelectReady')?.value;
-const lang = langCustom || langReady || 'english';
-
-  if (lang === 'hindi') recognition.lang = 'hi-IN';
-  else if (lang === 'punjabi') recognition.lang = 'pa-IN';
-  else recognition.lang = 'en-IN';
-
-  recognition.start();
-});
-
-document.getElementById('submitBtn').addEventListener('click', async function() {
-  // Get question from textarea
-  const question = document.getElementById('userInput').value.trim();
-  
-  // Validate question
-  if (!question) {
-    alert('कृपया प्रश्न दर्ज करें! / Please enter your question!');
-    return;
+  // If in ready question mode, reload topics
+  if (selectedQueryType === 'ready') {
+    loadTopics();
   }
   
-  // Check if simple mode - use chat interface
-  if (currentMode === 'simple') {
-    // Open chat interface
-    document.getElementById('chatInterface').classList.add('active');
-    
-    // Transfer question to chat input and send
-    document.getElementById('chatInput').value = question;
-    sendChatMessage();
-    document.getElementById('userInput').value = ''; // Clear original input
-    return;
-  }
-  
-  // POWER MODE - Continue with modal logic below
-  
-  // Profile is always selected (default: citizen)
-  // Show gentle reminder if user hasn't explicitly selected
-  if (selectedUser === 'citizen' && !document.getElementById('userCitizenMain').classList.contains('selected')) {
-    console.log('ℹ️ Using default profile: Resident / Citizen');
-  }
-  
-  // Reset for new question
-  currentQuestion = question;
-  currentAnswerLevel = 'standard'; // Default to standard
-  aiUsed = { groq: false, chatgpt: true };
-  
-  // Call API with ChatGPT and standard depth
-  await getAnswer('chatgpt', 'standard');
-});
-
-document.getElementById('closeModal').addEventListener('click', function() {
-  speechSynthesis.cancel();   // 🔇 Stop listening
-  stopListeningUI();
-  document.getElementById('aiModal').classList.add('hidden');
-});
-
-document.getElementById('closeBtn').addEventListener('click', function() {
-  speechSynthesis.cancel();   // 🔇 Stop listening
-  stopListeningUI();
-  document.getElementById('aiModal').classList.add('hidden');
-});
-
-
-    // Extract Keywords from User's Question
-    function extractKeywords(question) {
-      // Convert to lowercase for processing
-      const text = question.toLowerCase();
-      
-      // Remove common question words
-      const stopWords = ['what', 'when', 'where', 'how', 'why', 'who', 'is', 'are', 'the', 'a', 'an', 
-                         'can', 'could', 'should', 'would', 'do', 'does', 'did', 'have', 'has', 'had',
-                         'will', 'shall', 'may', 'might', 'must', 'को', 'का', 'के', 'में', 'से', 'है', 'हैं'];
-      
-      // Split into words and filter
-      const words = text.split(/\s+/)
-        .filter(word => word.length > 2)  // At least 3 characters
-        .filter(word => !stopWords.includes(word))
-        .filter(word => !/^\d+$/.test(word));  // Remove pure numbers
-      
-      // Take first 4-5 meaningful words as keywords
-      const keywords = words.slice(0, 5);
-      
-      // If we have very few keywords, try to extract key phrases
-      if (keywords.length < 3) {
-        // Look for important legal terms
-        const importantTerms = [
-          'arrest', 'bail', 'fir', 'complaint', 'investigation', 'search', 'seizure',
-          'evidence', 'witness', 'trial', 'court', 'judge', 'lawyer', 'police',
-          'custody', 'detention', 'rights', 'punishment', 'crime', 'offence',
-          'murder', 'theft', 'fraud', 'rape', 'kidnapping', 'cybercrime',
-          'electronic', 'digital', 'cyber', 'appeal', 'revision', 'judgment',
-          'charge', 'chargesheet', 'confession', 'anticipatory', 'cognizable',
-          'bailable', 'warrant', 'summons', 'victim', 'compensation'
-        ];
-        
-        importantTerms.forEach(term => {
-          if (text.includes(term) && !keywords.includes(term)) {
-            keywords.push(term);
-          }
-        });
-      }
-      
-      return keywords.filter((v, i, a) => a.indexOf(v) === i); // Remove duplicates
-    }
-
-    // Open Section Search with Keywords from Question
-    function openSectionSearch() {
-      // Get the original question
-      const question = document.getElementById('modalQuestion').textContent;
-      
-      if (question && question.trim()) {
-        // Extract keywords from the question
-        const keywords = extractKeywords(question);
-        
-        if (keywords.length > 0) {
-          // Build URL with keywords
-          const searchQuery = keywords.join('+');
-          const url = 'section-search.html?search=' + encodeURIComponent(searchQuery);
-          window.open(url, '_blank');
-          console.log('✅ Opening section search with keywords:', keywords.join(' '));
-        } else {
-          // Fallback: open without keywords
-          window.open('section-search.html', '_blank');
-          console.log('⚠️ No keywords extracted, opening section search');
-        }
-      } else {
-        // No question available, just open section search
-        window.open('section-search.html', '_blank');
-        console.log('✅ Opening section search (no question available)');
-      }
-    }
-    
-    window.openSectionSearch = openSectionSearch;
-
-    // Ask a Related Question
-    function askRelatedQuestion(question) {
-      console.log('📋 Related question clicked:', question);
-      console.log('📋 Auto-submitting related question...');
-      
-      // Close the modal first
-      document.getElementById('aiModal').classList.add('hidden');
-      
-      // Set the question in the input
-      document.getElementById('userInput').value = question;
-      
-      // Update current question
-      currentQuestion = question;
-      
-      // Scroll to input
-      document.getElementById('userInput').scrollIntoView({ 
-        behavior: 'smooth', 
-        block: 'center' 
-      });
-      
-      // Brief highlight
-      const input = document.getElementById('userInput');
-      input.style.backgroundColor = '#fef3c7';
-      input.focus();
-      
-      // AUTO-SUBMIT after short delay
-      setTimeout(() => {
-        input.style.backgroundColor = '';
-        console.log('🚀 Auto-submitting question now...');
-        // Trigger the answer
-        getAnswer('chatgpt', 'standard');
-      }, 800);  // 800ms delay to show the question briefly
-    }
-    
-    window.askRelatedQuestion = askRelatedQuestion;
-
-    // Autocomplete Suggestions for Custom Questions
-    function showAutocompleteSuggestions() {
-      const input = document.getElementById('userInput');
-      const suggestionsBox = document.getElementById('autocompleteSuggestions');
-      const query = input.value.toLowerCase().trim();
-      
-      // Hide if input is too short
-      if (query.length < 3) {
-        suggestionsBox.classList.add('hidden');
-        return;
-      }
-      
-      // Get all questions from TOPIC_QUESTIONS
-      const allQuestions = [];
-      for (const topic in TOPIC_QUESTIONS) {
-        allQuestions.push(...TOPIC_QUESTIONS[topic]);
-      }
-      
-      // Filter matching questions
-      const matches = allQuestions.filter(q => 
-        q.toLowerCase().includes(query)
-      ).slice(0, 10); // Limit to 10 suggestions
-      
-      // Show suggestions
-      if (matches.length > 0) {
-        suggestionsBox.innerHTML = matches.map(q => `
-          <div class="p-3 hover:bg-orange-50 cursor-pointer border-b border-orange-100 text-sm transition"
-               onclick="selectSuggestion('${q.replace(/'/g, "\\'")}')">
-            ${q}
-          </div>
-        `).join('');
-        suggestionsBox.classList.remove('hidden');
-      } else {
-        suggestionsBox.classList.add('hidden');
-      }
-    }
-    
-    function selectSuggestion(question) {
-      const input = document.getElementById('userInput');
-      const suggestionsBox = document.getElementById('autocompleteSuggestions');
-      
-      input.value = question;
-      suggestionsBox.classList.add('hidden');
-      input.focus();
-    }
-    
-    // Hide suggestions when clicking outside
-    document.addEventListener('click', function(event) {
-      const suggestionsBox = document.getElementById('autocompleteSuggestions');
-      const input = document.getElementById('userInput');
-      
-      if (!suggestionsBox.contains(event.target) && event.target !== input) {
-        suggestionsBox.classList.add('hidden');
-      }
-    });
-    
-    console.log('✅ Kurukshetra Mitra ready with autocomplete!');
-function expandProfileSelector() {
-  document.getElementById('profileSelector')?.classList.remove('hidden');
-  document.getElementById('profileSummary')?.classList.add('hidden');
-}
-function expandQueryType() {
-  const selector = document.querySelector('.query-type-selector');
-  const summary = document.getElementById('queryTypeSummary');
-
-if (selector && summary) {
-  selector.style.display = 'block';
-  summary.style.display = 'none';
+  console.log('✅ User selected:', userType);
 }
 
-  // 🔹 FIX: Restore correct radio & visual selection
-  document.querySelectorAll('.radio-option')
-    .forEach(el => el.classList.remove('selected'));
-
-  const customRadio = document.querySelector('input[name="queryType"][value="custom"]');
-  const readyRadio = document.querySelector('input[name="queryType"][value="ready"]');
-
-  if (selectedQueryType === 'custom') {
-    customRadio.checked = true;
-    document.getElementById('customCard')?.classList.add('selected');
-  } else {
-    readyRadio.checked = true;
-    document.getElementById('readyCard')?.classList.add('selected');
-  }
-}
-function toggleAdvancedFooter() {
-  const panel = document.getElementById('advancedFooter');
-  const arrow = document.getElementById('advFooterArrow');
-
-  panel.classList.toggle('hidden');
-  arrow.textContent = panel.classList.contains('hidden') ? '▾' : '▴';
-}
-
-
-
-  </script>
-<script>
-  function disableResponseActions() {
-  ['whatsappBtn', 'listenBtn', 'searchBtn'].forEach(id => {
-    const btn = document.getElementById(id);
-    if (btn) {
-      btn.disabled = true;
-      btn.classList.add('opacity-40', 'cursor-not-allowed');
-    }
-  });
-}
-
-function enableResponseActions() {
-  ['whatsappBtn', 'listenBtn', 'searchBtn'].forEach(id => {
-    const btn = document.getElementById(id);
-    if (btn) {
-      btn.disabled = false;
-      btn.classList.remove('opacity-40', 'cursor-not-allowed');
-    }
-  });
-}
-
-  function shareOnWhatsApp() {
-    console.log('✅ shareOnWhatsApp reached');
-
-    const response = document.getElementById('modalAnswer');
-    if (!response) {
-      alert('modalAnswer not found');
-      return;
-    }
-
-    const text = response.innerText.trim();
-    if (!text) {
-      alert('Answer empty');
-      return;
-    }
-
-    window.open(
-      'https://wa.me/?text=' + encodeURIComponent(text),
-      '_blank'
-    );
-  }
-  disableResponseActions();
-</script>
-<script>
-  let isListening = false;
-  let currentUtterance = null;
-
-  function toggleListen() {
-    const response = document.getElementById('modalAnswer');
-    if (!response) {
-      alert('No response available to listen.');
-      return;
-    }
-
-    // 🔁 If already speaking → STOP
-    if (speechSynthesis.speaking || isListening) {
-      speechSynthesis.cancel();
-      stopListeningUI();
-      return;
-    }
-
-    const text = response.innerText.trim();
-    if (!text) {
-      alert('Response is empty.');
-      return;
-    }
-
-    currentUtterance = new SpeechSynthesisUtterance(text);
-
-    // Language sync
-  // Get language from whichever selector is visible
-const langCustom = document.getElementById('languageSelect')?.value;
-const langReady = document.getElementById('languageSelectReady')?.value;
-const lang = langCustom || langReady || 'english';
-    if (lang === 'hindi') currentUtterance.lang = 'hi-IN';
-    else if (lang === 'punjabi') currentUtterance.lang = 'pa-IN';
-    else currentUtterance.lang = 'en-IN';
-
-    currentUtterance.rate = 0.95;
-    currentUtterance.pitch = 1;
-    currentUtterance.volume = 1;
-
-    currentUtterance.onend = () => {
-      stopListeningUI();
-    };
-
-    isListening = true;
-    updateListeningUI(true);
-    speechSynthesis.speak(currentUtterance);
-  }
-
-function updateListeningUI(active) {
-  const btn = document.getElementById('listenBtn');
-
-  document.getElementById('listenIconPlay').classList.toggle('hidden', active);
-  document.getElementById('listenIconStop').classList.toggle('hidden', !active);
-
-  document.getElementById('listenIndicator').classList.toggle('hidden', !active);
-
-  btn.classList.toggle('bg-purple-600', !active);
-  btn.classList.toggle('bg-red-600', active);
-
-  isListening = active;
-}
-
-
-  function stopListeningUI() {
-    updateListeningUI(false);
-    isListening = false;
-  }
-
-  // Mode Toggle Functionality
-let currentMode = 'simple'; // Default mode
-
-function toggleMode() {
-  const toggle = document.getElementById('modeToggle');
-  const simpleLabel = document.getElementById('simpleModeLabel');
-  const powerLabel = document.getElementById('powerModeLabel');
-  
-  if (currentMode === 'simple') {
-    // Switch to Power mode
-    currentMode = 'power';
-    toggle.classList.add('power');
-    simpleLabel.classList.remove('active');
-    powerLabel.classList.add('active');
-    document.body.classList.remove('simple-mode');
-    
-    console.log('🔥 Switched to POWER MODE');
-    
-  } else {
-    // Switch to Simple mode
-    currentMode = 'simple';
-    toggle.classList.remove('power');
-    simpleLabel.classList.add('active');
-    powerLabel.classList.remove('active');
-    document.body.classList.add('simple-mode');
-    
-    // Auto-select custom query type in simple mode
-   selectQueryType('ready');
-autoSelectTopicForUserType();
-    
-    console.log('✨ Switched to SIMPLE MODE');
-  }
-  
-  // Save preference
-  localStorage.setItem('Kurukshetra MitraMode', currentMode);
-}
-
-// Simple Profile Selector
 function selectSimpleUser(userType) {
   selectedUser = userType;
-  
   const icons = {
     citizen: '🧑‍💼',
     student: '🎓',
-    police: '👮',
-    legal: '⚖️'
+    police: '🙏',
+    legal: '🗺️'
   };
-  
   document.getElementById('simpleProfileIcon').textContent = icons[userType];
-  
-  // Also update the main profile selector in case user switches to power mode
-  selectMainUser(userType);
-  
-  console.log('Simple mode - Selected user:', userType);
+  console.log('✅ Simple user selected:', userType);
 }
 
-// Initialize mode on page load
-window.addEventListener('DOMContentLoaded', function() {
-  const savedMode = localStorage.getItem('Kurukshetra MitraMode');
+function expandProfileSelector() {
+  document.getElementById('profileSelector').classList.remove('hidden');
+  document.getElementById('profileSummary').style.display = 'none';
+}
+
+function collapseProfileSelector() {
+  document.getElementById('profileSelector').classList.add('hidden');
+  document.getElementById('profileSummary').style.display = 'flex';
+}
+
+// ============================================
+// QUERY TYPE SELECTION
+// ============================================
+function selectQueryType(type) {
+  selectedQueryType = type;
   
-  // Start in simple mode by default
-  document.body.classList.add('simple-mode');
+  // Update radio cards
+  const customCard = document.getElementById('customCard');
+  const readyCard = document.getElementById('readyCard');
   
-  if (savedMode === 'power') {
-    toggleMode(); // Switch to power mode if previously selected
+  if (type === 'custom') {
+    customCard.classList.add('selected');
+    readyCard.classList.remove('selected');
+    document.querySelector('input[value="custom"]').checked = true;
+    
+    // Show custom, hide ready
+    document.getElementById('customQuestionDiv').style.display = 'block';
+    document.getElementById('readyQuestionDiv').style.display = 'none';
+    
+  } else {
+    readyCard.classList.add('selected');
+    customCard.classList.remove('selected');
+    document.querySelector('input[value="ready"]').checked = true;
+    
+    // Show ready, hide custom
+    document.getElementById('customQuestionDiv').style.display = 'none';
+    document.getElementById('readyQuestionDiv').style.display = 'block';
+    
+    // Load topics
+    loadTopics();
   }
-});
-// Chat Interface Functions
-function sendChatMessage() {
-  const input = document.getElementById('chatInput');
-  const question = input.value.trim();
+  
+  // Collapse query type selector
+  collapseQueryType();
+  
+  console.log('✅ Query type selected:', type);
+}
+
+function expandQueryType() {
+  document.querySelector('.query-type-selector').classList.remove('hidden');
+  document.getElementById('queryTypeSummary').style.display = 'none';
+}
+
+function collapseQueryType() {
+  document.querySelector('.query-type-selector').classList.add('hidden');
+  document.getElementById('queryTypeSummary').style.display = 'flex';
+  
+  const summaryText = selectedQueryType === 'custom' ? 
+    'Ask Your Own Question' : 'Select Guided Options';
+  document.getElementById('queryTypeSummaryText').textContent = summaryText;
+}
+
+// ============================================
+// TOPICS LOADING
+// ============================================
+function loadTopics() {
+  const userData = topicsData[selectedUser];
+  if (!userData) return;
+  
+  const container = document.getElementById('topicContainer');
+  container.innerHTML = '';
+  
+  Object.keys(userData.topics).forEach(topicKey => {
+    const topic = userData.topics[topicKey];
+    const topicCard = document.createElement('div');
+    topicCard.className = 'topic-card';
+    topicCard.onclick = () => selectTopic(topicKey);
+    
+    topicCard.innerHTML = `
+      <div class="topic-icon">${topic.icon}</div>
+      <div class="topic-title">${topic.title}</div>
+    `;
+    
+    container.appendChild(topicCard);
+  });
+  
+  document.getElementById('topicSection').style.display = 'block';
+  document.getElementById('questionSelectSection').style.display = 'none';
+  document.getElementById('languageSection').style.display = 'none';
+  document.getElementById('readyAskButton').style.display = 'none';
+}
+
+function selectTopic(topicKey) {
+  selectedTopic = topicKey;
+  
+  // Highlight selected topic
+  const allTopics = document.querySelectorAll('.topic-card');
+  allTopics.forEach(card => card.classList.remove('selected'));
+  event.currentTarget.classList.add('selected');
+  
+  // Load questions
+  loadQuestions();
+  
+  console.log('✅ Topic selected:', topicKey);
+}
+
+function loadQuestions() {
+  const userData = topicsData[selectedUser];
+  const topicData = userData.topics[selectedTopic];
+  
+  if (!topicData) return;
+  
+  const select = document.getElementById('questionSelect');
+  select.innerHTML = '<option value="">— Choose a Question —</option>';
+  
+  topicData.questions.forEach(question => {
+    const option = document.createElement('option');
+    option.value = question;
+    option.textContent = question;
+    select.appendChild(option);
+  });
+  
+  document.getElementById('questionSelectSection').style.display = 'block';
+  document.getElementById('languageSection').style.display = 'none';
+  document.getElementById('readyAskButton').style.display = 'none';
+}
+
+function selectQuestion() {
+  const select = document.getElementById('questionSelect');
+  selectedQuestion = select.value;
+  
+  if (selectedQuestion) {
+    document.getElementById('languageSection').style.display = 'block';
+    document.getElementById('readyAskButton').style.display = 'block';
+  } else {
+    document.getElementById('languageSection').style.display = 'none';
+    document.getElementById('readyAskButton').style.display = 'none';
+  }
+  
+  console.log('✅ Question selected:', selectedQuestion);
+}
+
+// ============================================
+// ASK QUESTION FUNCTIONS
+// ============================================
+function askCustomQuestion() {
+  const question = document.getElementById('customQuestion').value.trim();
+  const language = document.getElementById('languageSelect').value;
   
   if (!question) {
-    // Shake animation for empty input
-    input.classList.add('border-red-400');
-    input.placeholder = '⚠️ Please type a question...';
-    input.focus();
-    
-    setTimeout(() => {
-      input.classList.remove('border-red-400');
-      input.placeholder = '💬 Type your question...';
-    }, 2000);
-    
+    alert('Please type your question first!');
     return;
   }
   
+  selectedLanguage = language;
+  
+  // Show processing
+  alert(`Processing your question in ${language}...\n\nQuestion: ${question}\n\nThis will connect to AI backend.`);
+  
+  console.log('📤 Sending custom question:', {question, language, userType: selectedUser});
+  
+  // Here you would send to your actual backend
+  // fetch('YOUR_BACKEND_URL', {...})
+}
+
+function askReadyQuestion() {
+  const language = document.getElementById('languageSelectReady').value;
+  
+  if (!selectedQuestion) {
+    alert('Please select a question first!');
+    return;
+  }
+  
+  selectedLanguage = language;
+  
+  // Show processing
+  alert(`Processing your question in ${language}...\n\nQuestion: ${selectedQuestion}\n\nUser Type: ${selectedUser}\nTopic: ${selectedTopic}\n\nThis will connect to AI backend.`);
+  
+  console.log('📤 Sending ready question:', {
+    question: selectedQuestion,
+    language,
+    userType: selectedUser,
+    topic: selectedTopic
+  });
+  
+  // Here you would send to your actual backend
+  // fetch('YOUR_BACKEND_URL', {...})
+}
+
+// ============================================
+// CHAT MODE FUNCTIONS
+// ============================================
+let chatRecognition = null;
+let isChatRecording = false;
+
+function closeChatMode() {
+  const chatModal = document.getElementById('chatModal');
+  chatModal.classList.add('hidden');
+  chatModal.classList.remove('flex');
+  
+  const mainContainer = document.querySelector('.container-main');
+  if (mainContainer) mainContainer.style.visibility = 'visible';
+  
+  // Stop any ongoing speech
+  if (chatRecognition) {
+    chatRecognition.stop();
+    chatRecognition = null;
+  }
+}
+
+function sendChatMessage() {
+  const input = document.getElementById('chatInput');
+  const message = input.value.trim();
+  
+  if (!message) return;
+  
   // Add user message to chat
-  addChatMessage(question, 'user');
+  const chatMessages = document.getElementById('chatMessages');
+  
+  const userDiv = document.createElement('div');
+  userDiv.className = 'flex gap-3 items-start justify-end';
+  userDiv.innerHTML = `
+    <div class="bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-2xl rounded-tr-none shadow-md p-4 max-w-[85%]">
+      <p class="text-sm">${message}</p>
+      <p class="text-xs opacity-75 mt-2">${getCurrentTime()}</p>
+    </div>
+    <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center flex-shrink-0">
+      👤
+    </div>
+  `;
+  
+  chatMessages.appendChild(userDiv);
   
   // Clear input
   input.value = '';
   
-// Set current question for API call
-currentQuestion = question;
-lastQuestion = question; // Track for retry
+  // Scroll to bottom
+  chatMessages.scrollTop = chatMessages.scrollHeight;
   
-  // Show typing indicator
-  addTypingIndicator();
-  
-  // Call existing getAnswer function but display in chat
-  getAnswerForChat('chatgpt', 'standard');
-}
-
-function addChatMessage(text, type) {
-  const chatMessages = document.getElementById('chatMessages');
-  const messageDiv = document.createElement('div');
-  
-  if (type === 'user') {
-    messageDiv.className = 'flex gap-3 items-start justify-end';
-    messageDiv.innerHTML = `
-      <div class="chat-bubble-user rounded-2xl rounded-tr-none shadow-md p-4">
-        <p class="text-sm">${escapeHtml(text)}</p>
-        <p class="text-xs mt-2 opacity-75">${getCurrentTime()}</p>
+  // Simulate AI response (replace with actual API call)
+  setTimeout(() => {
+    const aiDiv = document.createElement('div');
+    aiDiv.className = 'flex gap-3 items-start';
+    aiDiv.innerHTML = `
+      <div class="w-10 h-10 bg-gradient-to-br from-orange-500 to-amber-500 rounded-full flex items-center justify-center text-white flex-shrink-0">
+        🕉️
       </div>
-      <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-white flex-shrink-0">
-        👤
+      <div class="bg-white rounded-2xl rounded-tl-none shadow-md p-4 max-w-[85%]">
+        <p class="text-sm text-gray-800">Thank you for your question about: "${message}"<br><br>I'm processing your query about Kurukshetra. This is where the AI response will appear.</p>
+        <p class="text-xs text-gray-400 mt-2">${getCurrentTime()}</p>
       </div>
     `;
-} else {
-  messageDiv.className = 'flex gap-3 items-start';
-  messageDiv.innerHTML = `
-    <div class="w-10 h-10 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-full flex items-center justify-center text-white flex-shrink-0">
-      ⚖️
-    </div>
-    <div class="chat-bubble-bot rounded-2xl rounded-tl-none shadow-md p-4">
-      <div class="text-sm text-gray-800" id="botMessage-${Date.now()}">${formatBotMessage(text)}</div>
-      <p class="text-xs mt-2 text-gray-400">${getCurrentTime()}</p>
-      
-      <!-- Action Buttons -->
-      <div class="flex gap-2 mt-3 pt-3 border-t border-gray-100">
-<button onclick="listenToBotMessage(this)" class="flex items-center gap-1 px-3 py-1.5 bg-orange-100 hover:bg-orange-200 text-orange-700 rounded-lg text-xs font-medium transition">          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15.536a5 5 0 001.414 1.414m2.828-9.9a9 9 0 000 12.728M12 12h.01"/>
-          </svg>
-          Listen
-        </button>
-        
-<button onclick="copyBotMessage(this)" class="flex items-center gap-1 px-3 py-1.5 bg-orange-100 hover:bg-orange-200 text-orange-700 rounded-lg text-xs font-medium transition">          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
-          </svg>
-          Copy
-        </button>
-        
-        <button onclick="shareOnWhatsAppChat(this)" class="flex items-center gap-1 px-3 py-1.5 bg-green-100 hover:bg-green-200 text-green-700 rounded-lg text-xs font-medium transition">
-          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-          </svg>
-          Share
-</button>
-      </div>
-      
-      <!-- Quick Suggestion Chips -->
-      <div class="mt-3 pt-3 border-t border-gray-100" id="suggestions-${Date.now()}">
-        <p class="text-xs text-gray-500 mb-2">💡 Related questions:</p>
-        <div class="flex flex-wrap gap-2">
-          <!-- Suggestions will be added dynamically -->
-        </div>
-      </div>
-    </div>
-  `;
-}
-  
-chatMessages.appendChild(messageDiv);
-smoothScrollToBottom();
-updateChatMessageCount();
-return messageDiv; // Return the created element
-}
-// Update Chat Message Count
-function updateChatMessageCount() {
-  const chatMessages = document.getElementById('chatMessages');
-  const userMessages = chatMessages.querySelectorAll('.chat-bubble-user').length;
-  const botMessages = chatMessages.querySelectorAll('.chat-bubble-bot').length;
-  const headerStatus = document.getElementById('chatHeaderStatus');
-  
-  if (userMessages > 0) {
-    headerStatus.textContent = `${userMessages + botMessages} messages • Online`;
-  } else {
-    headerStatus.textContent = 'AI Legal Assistant • Online';
-  }
-}
-function addTypingIndicator() {
-  const chatMessages = document.getElementById('chatMessages');
-  const typingDiv = document.createElement('div');
-  typingDiv.id = 'typingIndicator';
-  typingDiv.className = 'flex gap-3 items-start';
-  typingDiv.innerHTML = `
-    <div class="w-10 h-10 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-full flex items-center justify-center text-white flex-shrink-0 animate-pulse">
-      ⚖️
-    </div>
-    <div class="bg-white rounded-2xl rounded-tl-none shadow-md p-4">
-      <div class="typing-indicator">
-        <div class="typing-dot"></div>
-        <div class="typing-dot"></div>
-        <div class="typing-dot"></div>
-      </div>
-      <p class="text-xs text-gray-400 mt-2">Kurukshetra Mitra is thinking...</p>
-    </div>
-  `;
-  chatMessages.appendChild(typingDiv);
-  smoothScrollToBottom();
-}
-// Smooth Scroll to Bottom
-function smoothScrollToBottom() {
-  const chatMessages = document.getElementById('chatMessages');
-  chatMessages.scrollTo({
-    top: chatMessages.scrollHeight,
-    behavior: 'smooth'
-  });
-}
-
-function removeTypingIndicator() {
-  const indicator = document.getElementById('typingIndicator');
-  if (indicator) indicator.remove();
-}
-
-function closeChatInterface() {
-  document.getElementById('chatInterface').classList.remove('active');
-}
-
-// Modified getAnswer for chat mode
-async function getAnswerForChat(provider, answerLevel = 'standard') {
-  try {
-    const selectedLanguage = document.getElementById('languageSelect').value;
     
-    const response = await fetch(WEBHOOK_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        question: currentQuestion,
-        provider: provider,
-        userType: selectedUser,
-        answerDepth: answerLevel,
-        language: selectedLanguage,
-        timestamp: new Date().toISOString()
-      })
-    });
-    
-    if (!response.ok) throw new Error('HTTP ' + response.status);
-    
-    let data = await response.json();
-    
-    // Extract answer
-    if (Array.isArray(data) && data.length > 0) {
-      data = data[0];
-    }
-    
-    let answerText = '';
-    if (typeof data === 'string') {
-      answerText = data;
-    } else if (data && data.answer) {
-      answerText = data.answer;
-    } else if (data && data.response) {
-      answerText = data.response;
-    } else {
-      answerText = 'Sorry, I could not generate a response.';
-    }
-    
-   // Remove typing indicator and add bot response
-removeTypingIndicator();
-const botMessageDiv = addChatMessage(answerText, 'bot');
-
-// Add smart suggestions after a brief delay
-setTimeout(() => {
-  if (botMessageDiv) {
-    addSmartSuggestions(botMessageDiv, currentQuestion);
-  }
-}, 500);
-    
-} catch (error) {
-  console.error('Error:', error);
-  removeTypingIndicator();
+    chatMessages.appendChild(aiDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }, 1000);
   
-  // Determine error type
-  let errorMessage = '';
-  let showRetry = false;
-  
-  if (!navigator.onLine) {
-    errorMessage = '🔌 <strong>No internet connection</strong><br><br>Please check your network and try again.';
-    showRetry = true;
-  } else if (error.message.includes('HTTP')) {
-    errorMessage = '⚠️ <strong>Server error</strong><br><br>The AI service is temporarily unavailable. Please try again in a moment.';
-    showRetry = true;
-  } else {
-    errorMessage = '❌ <strong>Something went wrong</strong><br><br>Please try asking your question again.';
-    showRetry = true;
-  }
-  
-  // Add error message
-  const errorDiv = addChatMessage(errorMessage, 'bot');
-  
-  // Add retry button if applicable
-  if (showRetry && errorDiv) {
-    const retryButton = document.createElement('div');
-    retryButton.className = 'mt-3 pt-3 border-t border-gray-100';
-    retryButton.innerHTML = `
-      <button onclick="retryLastQuestion()" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-sm font-medium transition flex items-center gap-2">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
-        </svg>
-        Retry
-      </button>
-    `;
-    const botMessage = errorDiv.querySelector('.chat-bubble-bot');
-    if (botMessage) {
-      botMessage.appendChild(retryButton);
-    }
-  }
-}
-}
-// Retry Last Question
-let lastQuestion = '';
-
-function retryLastQuestion() {
-  if (lastQuestion) {
-    document.getElementById('chatInput').value = lastQuestion;
-    sendChatMessage();
-  }
-}
-// Utility functions
-function escapeHtml(text) {
-  const div = document.createElement('div');
-  div.textContent = text;
-  return div.innerHTML;
+  console.log('💬 Chat message sent:', message);
 }
 
-function getCurrentTime() {
-  const now = new Date();
-  return now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+function askQuickQuestion(question) {
+  document.getElementById('chatInput').value = question;
+  sendChatMessage();
 }
 
-function formatBotMessage(text) {
-  // Convert newlines to <br>
-  text = text.replace(/\n/g, '<br>');
-  // Convert **bold** to <strong>
-  text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-  // Convert markdown links
-  text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" class="text-purple-600 underline">$1</a>');
-  return text;
-}
-// Chat Action Functions
-let currentSpeech = null;
-
-function listenToBotMessage(button) {
-  const messageDiv = button.closest('.chat-bubble-bot');
-  const messageText = messageDiv.querySelector('[id^="botMessage-"]').innerText;
-  
-  // Stop if already speaking
-  if (currentSpeech && speechSynthesis.speaking) {
-    speechSynthesis.cancel();
-    button.innerHTML = `
-      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15.536a5 5 0 001.414 1.414m2.828-9.9a9 9 0 000 12.728M12 12h.01"/>
-      </svg>
-      Listen
-    `;
-    currentSpeech = null;
-    return;
-  }
-  
-  // Start speaking
-  currentSpeech = new SpeechSynthesisUtterance(messageText);
-  
-  // Set language based on selection
-// Get language from whichever selector is visible
-const langCustom = document.getElementById('languageSelect')?.value;
-const langReady = document.getElementById('languageSelectReady')?.value;
-const lang = langCustom || langReady || 'english';
-  if (lang === 'hindi') currentSpeech.lang = 'hi-IN';
-  else if (lang === 'punjabi') currentSpeech.lang = 'pa-IN';
-  else currentSpeech.lang = 'en-IN';
-  
-  currentSpeech.rate = 0.9;
-  currentSpeech.pitch = 1;
-  
-  // Update button during speech
-  button.innerHTML = `
-    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z"/>
-    </svg>
-    Stop
-  `;
-  
-  currentSpeech.onend = () => {
-    button.innerHTML = `
-      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15.536a5 5 0 001.414 1.414m2.828-9.9a9 9 0 000 12.728M12 12h.01"/>
-      </svg>
-      Listen
-    `;
-    currentSpeech = null;
-  };
-  
-  speechSynthesis.speak(currentSpeech);
-}
-
-function copyBotMessage(button) {
-  const messageDiv = button.closest('.chat-bubble-bot');
-  const messageText = messageDiv.querySelector('[id^="botMessage-"]').innerText;
-  
-  navigator.clipboard.writeText(messageText).then(() => {
-    // Show success feedback
-    const originalHTML = button.innerHTML;
-    button.innerHTML = `
-      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-      </svg>
-      Copied!
-    `;
-    button.classList.remove('bg-blue-100', 'hover:bg-blue-200', 'text-blue-700');
-    button.classList.add('bg-green-100', 'text-green-700');
-    
-    setTimeout(() => {
-      button.innerHTML = originalHTML;
-      button.classList.remove('bg-green-100', 'text-green-700');
-      button.classList.add('bg-blue-100', 'hover:bg-blue-200', 'text-blue-700');
-    }, 2000);
-  }).catch(err => {
-    console.error('Copy failed:', err);
-    alert('Failed to copy text');
-  });
-}
-
-function shareOnWhatsAppChat(button) {
-  const messageDiv = button.closest('.chat-bubble-bot');
-  const messageText = messageDiv.querySelector('[id^="botMessage-"]').innerText;
-  
-  const shareText = `*Kurukshetra Mitra Answer:*\n\n${messageText}\n\n_Powered by Kurukshetra Mitra - AI Legal Assistant_`;
-  const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
-  
-  window.open(whatsappUrl, '_blank');
-}
-
-// Smart Suggestion Generator
-function addSmartSuggestions(messageDiv, originalQuestion) {
-  const suggestionsContainer = messageDiv.querySelector('[id^="suggestions-"]');
-  if (!suggestionsContainer) return;
-  
-  const chipsContainer = suggestionsContainer.querySelector('.flex');
-  
-  // Get suggestions based on question keywords
-  const suggestions = getRelatedQuestions(originalQuestion);
-  
-  if (suggestions.length === 0) return;
-  
-  // Add up to 4 suggestion chips
-  suggestions.slice(0, 4).forEach(question => {
-    const chip = document.createElement('button');
-    chip.className = 'px-3 py-1.5 bg-purple-50 hover:bg-purple-100 text-purple-700 rounded-full text-xs font-medium transition border border-purple-200';
-    chip.textContent = question;
-    chip.onclick = () => {
-      document.getElementById('chatInput').value = question;
-      sendChatMessage();
-    };
-    chipsContainer.appendChild(chip);
-  });
-}
-
-function getRelatedQuestions(question) {
-  const q = question.toLowerCase();
-  
-  // Topic-based suggestions
-  const suggestionMap = {
-    'fir': [
-      'How long does it take to file FIR?',
-      'Can police refuse to register FIR?',
-      'What happens after FIR is filed?',
-      'Can FIR be withdrawn?'
-    ],
-    'bail': [
-      'What are bail conditions?',
-      'How much time for bail hearing?',
-      'Can bail be cancelled?',
-      'What is anticipatory bail?'
-    ],
-    'arrest': [
-      'What are rights during arrest?',
-      'Can arrest happen without warrant?',
-      'How long can police detain?',
-      'What is the arrest procedure?'
-    ],
-    'cyber': [
-      'How to report cyber crime?',
-      'What is cyber police helpline?',
-      'Can money be recovered in cyber fraud?',
-      'How long to report online fraud?'
-    ],
-    'evidence': [
-      'What is electronic evidence?',
-      'Can WhatsApp chats be evidence?',
-      'How to prove digital records?',
-      'What documents are needed?'
-    ],
-    'witness': [
-      'Who can be a witness?',
-      'Can witness refuse to testify?',
-      'What is witness protection?',
-      'How is witness examined?'
-    ],
-    'complaint': [
-      'Where to file complaint?',
-      'What is difference between FIR and complaint?',
-      'Can complaint be filed online?',
-      'How to track complaint status?'
-    ],
-    'investigation': [
-      'How long can investigation take?',
-      'What are investigation stages?',
-      'Can victim participate in investigation?',
-      'What if investigation is delayed?'
-    ],
-    'trial': [
-      'How long does trial take?',
-      'What happens in trial?',
-      'Can trial be fast-tracked?',
-      'What are stages of trial?'
-    ],
-    'punishment': [
-      'What are types of punishment?',
-      'Can punishment be reduced?',
-      'What is life imprisonment?',
-      'What are penalties for crimes?'
-    ]
-  };
-  
-  // Find matching topic
-  for (const [keyword, questions] of Object.entries(suggestionMap)) {
-    if (q.includes(keyword)) {
-      return questions;
-    }
-  }
-  
-  // Default suggestions if no match
-  return [
-    'What is the difference between BNS and IPC?',
-    'How to file FIR online?',
-    'What are my legal rights?',
-    'How to get legal aid?'
-  ];
-}
-// Voice Input for Chat
-let chatRecognition = null;
-let isChatRecording = false;
-
-function toggleChatVoiceInput() {
-  if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-    alert('Speech recognition is not supported in your browser. Please use Chrome, Edge, or Safari.');
-    return;
-  }
-  
-  if (isChatRecording) {
-    stopChatRecording();
-  } else {
+function toggleChatVoice() {
+  if (!isChatRecording) {
     startChatRecording();
+  } else {
+    stopChatRecording();
   }
 }
 
 function startChatRecording() {
+  if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+    alert('Voice recognition is not supported in your browser.');
+    return;
+  }
+  
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   chatRecognition = new SpeechRecognition();
   
-  // Get language from selector
-// Get language from whichever selector is visible
-const langCustom = document.getElementById('languageSelect')?.value;
-const langReady = document.getElementById('languageSelectReady')?.value;
-const lang = langCustom || langReady || 'english';
-  if (lang === 'hindi') {
-    chatRecognition.lang = 'hi-IN';
-  } else if (lang === 'punjabi') {
-    chatRecognition.lang = 'pa-IN';
-  } else {
-    chatRecognition.lang = 'en-IN';
-  }
-  
   chatRecognition.continuous = false;
   chatRecognition.interimResults = false;
+  chatRecognition.lang = 'hi-IN';
   
-  // UI Updates
   const voiceBtn = document.getElementById('chatVoiceBtn');
   const statusSpan = document.getElementById('chatTypingStatus');
   
-  voiceBtn.classList.add('recording');
-  statusSpan.innerHTML = '<span class="recording-indicator"><span class="recording-dot"></span>Listening...</span>';
   isChatRecording = true;
+  voiceBtn.classList.add('recording');
+  statusSpan.innerHTML = '<span class="text-blue-600">🎤 Listening...</span>';
   
-  // Handle result
   chatRecognition.onresult = (event) => {
     const transcript = event.results[0][0].transcript;
     document.getElementById('chatInput').value = transcript;
-    console.log('Voice input:', transcript);
-  };
-  
-  // Handle end
-  chatRecognition.onend = () => {
     stopChatRecording();
-    
-    // Auto-send if there's text
-    const inputText = document.getElementById('chatInput').value.trim();
-    if (inputText) {
-      setTimeout(() => {
-        sendChatMessage();
-      }, 500);
-    }
+    statusSpan.innerHTML = '<span class="text-green-600">✅ Got it!</span>';
+    setTimeout(() => { statusSpan.innerHTML = ''; }, 2000);
   };
   
-  // Handle error
   chatRecognition.onerror = (event) => {
     console.error('Speech recognition error:', event.error);
     stopChatRecording();
@@ -2480,82 +1185,79 @@ function stopChatRecording() {
   statusSpan.innerHTML = '';
   isChatRecording = false;
 }
-// Clear Chat History
+
 function clearChatHistory() {
-  // Confirm before clearing
   if (!confirm('Are you sure you want to clear all chat messages?\n\nक्या आप सभी चैट संदेश साफ़ करना चाहते हैं?')) {
     return;
   }
   
   const chatMessages = document.getElementById('chatMessages');
-  
-  // Clear all messages
   chatMessages.innerHTML = '';
   
   // Add welcome message back
   const welcomeDiv = document.createElement('div');
   welcomeDiv.className = 'flex gap-3 items-start';
   welcomeDiv.innerHTML = `
-    <div class="w-10 h-10 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-full flex items-center justify-center text-white flex-shrink-0">
-      ⚖️
+    <div class="w-10 h-10 bg-gradient-to-br from-orange-500 to-amber-500 rounded-full flex items-center justify-center text-white flex-shrink-0">
+      🕉️
     </div>
     <div class="bg-white rounded-2xl rounded-tl-none shadow-md p-4 max-w-[85%]">
       <p class="text-sm text-gray-800">
-        👋 Namaste! I'm <strong>Kurukshetra Mitra</strong>, your AI legal assistant.<br><br>
-        Ask me anything about India's new criminal laws (BNS, BNSS, BSA).
+        🙏 Namaste! I'm <strong>Kurukshetra Mitra</strong>, your AI guide.<br><br>
+        Ask me anything about Kurukshetra - pilgrimage sites, tourism, culture, history, or services!
       </p>
       <p class="text-xs text-gray-400 mt-2">${getCurrentTime()}</p>
     </div>
   `;
   
-chatMessages.appendChild(welcomeDiv);
-
-// Add quick examples back
-const examplesHTML = `
+  chatMessages.appendChild(welcomeDiv);
+  
+  // Add quick examples back
+  const examplesHTML = `
 <div class="px-2">
   <p class="text-xs text-gray-500 mb-2 font-semibold">✨ Try asking:</p>
   
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-    <button onclick="askQuickQuestion('How to file an FIR online?')" 
-            class="text-left p-3 bg-white hover:bg-purple-50 border-2 border-purple-200 rounded-xl transition group">
+    <button onclick="askQuickQuestion('Where is Jyotisar and how do I reach it?')" 
+            class="text-left p-3 bg-white hover:bg-orange-50 border-2 border-orange-200 rounded-xl transition group">
       <div class="flex items-start gap-2">
-        <span class="text-lg">📋</span>
+        <span class="text-lg">🚗</span>
         <div class="flex-1">
-          <p class="text-xs font-semibold text-gray-900 group-hover:text-purple-700">How to file an FIR online?</p>
-          <p class="text-xs text-gray-500 mt-0.5">Filing & procedures</p>
+          <p class="text-xs font-semibold text-gray-900 group-hover:text-orange-700">Where is Jyotisar?</p>
+          <p class="text-xs text-gray-500 mt-0.5">Location & directions</p>
         </div>
       </div>
     </button>
     
-    <button onclick="askQuickQuestion('What are my bail rights under new law?')" 
+    <button onclick="askQuickQuestion('What is the significance of Brahma Sarovar?')" 
             class="text-left p-3 bg-white hover:bg-blue-50 border-2 border-blue-200 rounded-xl transition group">
       <div class="flex items-start gap-2">
-        <span class="text-lg">🔐</span>
+        <span class="text-lg">🙏</span>
         <div class="flex-1">
-          <p class="text-xs font-semibold text-gray-900 group-hover:text-blue-700">What are my bail rights?</p>
-          <p class="text-xs text-gray-500 mt-0.5">Arrest & bail</p>
+          <p class="text-xs font-semibold text-gray-900 group-hover:text-blue-700">Significance of Brahma Sarovar?</p>
+          <p class="text-xs text-gray-500 mt-0.5">Spiritual importance</p>
         </div>
       </div>
     </button>
     
-    <button onclick="askQuickQuestion('How to report cyber crime and fraud?')" 
+    <button onclick="askQuickQuestion('Best hotels and accommodation in Kurukshetra?')" 
             class="text-left p-3 bg-white hover:bg-green-50 border-2 border-green-200 rounded-xl transition group">
       <div class="flex items-start gap-2">
-        <span class="text-lg">💻</span>
+        <span class="text-lg">🏨</span>
         <div class="flex-1">
-          <p class="text-xs font-semibold text-gray-900 group-hover:text-green-700">How to report cyber crime?</p>
-          <p class="text-xs text-gray-500 mt-0.5">Online safety</p>
+          <p class="text-xs font-semibold text-gray-900 group-hover:text-green-700">Best hotels in Kurukshetra?</p>
+          <p class="text-xs text-gray-500 mt-0.5">Accommodation options</p>
         </div>
       </div>
     </button>
     
-    <button onclick="askQuickQuestion('What is the difference between BNS and IPC?')" 
-            class="text-left p-2 md:p-3 bg-white hover:bg-orange-50 border-2 border-orange-200 rounded-lg md:rounded-xl transition group">
+    <button onclick="askQuickQuestion('What are the main festivals celebrated here?')" 
+            class="text-left p-2 md:p-3 bg-white hover:bg-purple-50 border-2 border-purple-200 rounded-lg md:rounded-xl transition group">
       <div class="flex items-start gap-2">
-        <span class="text-lg">⚖️</span>
+        <span class="text-lg">🎉</span>
         <div class="flex-1">
-          <p class="text-xs font-semibold text-gray-900 group-hover:text-orange-700">BNS vs IPC difference?</p>
-          <p class="text-xs text-gray-500 mt-0.5">New vs old laws</p>
+          <p class="text-xs font-semibold text-gray-900 group-hover:text-purple-700">Festivals in Kurukshetra?</p>
+          <p class="text-xs text-gray-500 mt-0.5">Cultural events</p>
         </div>
       </div>
     </button>
@@ -2563,64 +1265,53 @@ const examplesHTML = `
 </div>
 `;
 
-const examplesDiv = document.createElement('div');
-examplesDiv.innerHTML = examplesHTML;
-chatMessages.appendChild(examplesDiv.firstElementChild);
-
-console.log('✅ Chat history cleared');
-}
-// Quick Question Handler
-function askQuickQuestion(question) {
-  document.getElementById('chatInput').value = question;
-  sendChatMessage();
+  const examplesDiv = document.createElement('div');
+  examplesDiv.innerHTML = examplesHTML;
+  chatMessages.appendChild(examplesDiv.firstElementChild);
+  
+  console.log('✅ Chat history cleared');
 }
 
-// Smart auto-selection based on user type
-// Smart auto-selection based on user type
-function autoSelectTopicForUserType() {
-  // Use the selectedUser variable instead of trying to read from DOM
-  const userType = selectedUser || 'citizen';
-  
-  console.log('🎯 Auto-selecting topic for user type:', userType);
-  
-  // Define best default topic for each user type
-  const defaultTopics = {
-    'citizen': 'rights',        // Citizens want to know their rights
-    'police': 'fir',            // Police deal with FIR procedures
-    'student': 'trial',         // Students study trial processes
-    'legal': 'bail'             // Lawyers frequently handle bail matters
-  };
-  
-  // Get the appropriate topic for current user type
-  const defaultTopic = defaultTopics[userType] || 'rights';
-  
-  console.log('📌 Selected default topic:', defaultTopic);
-  
-  // Select the topic after a brief delay
-  setTimeout(() => {
-    selectTopic(defaultTopic);
-  }, 200);
+// ============================================
+// UTILITY FUNCTIONS
+// ============================================
+function getCurrentTime() {
+  const now = new Date();
+  return now.toLocaleTimeString('en-IN', { 
+    hour: '2-digit', 
+    minute: '2-digit',
+    hour12: true 
+  });
 }
 
-// Make it globally accessible
-window.autoSelectTopicForUserType = autoSelectTopicForUserType;  
-
-// Sync language selectors
+// ============================================
+// INITIALIZATION
+// ============================================
 document.addEventListener('DOMContentLoaded', function() {
+  // Set welcome time
+  const welcomeTime = document.getElementById('welcomeTime');
+  if (welcomeTime) {
+    welcomeTime.textContent = getCurrentTime();
+  }
+  
+  // Sync language selectors
   const langCustom = document.getElementById('languageSelect');
   const langReady = document.getElementById('languageSelectReady');
   
   if (langCustom && langReady) {
-    // When custom changes, update ready
     langCustom.addEventListener('change', function() {
       langReady.value = langCustom.value;
     });
     
-    // When ready changes, update custom
     langReady.addEventListener('change', function() {
       langCustom.value = langReady.value;
     });
   }
+  
+  // Initialize with collapsed state
+  collapseProfileSelector();
+  
+  console.log('✅ Kurukshetra Mitra initialized!');
 });
 </script>
 
