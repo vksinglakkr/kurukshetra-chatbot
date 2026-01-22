@@ -2340,7 +2340,7 @@ async function getAnswerForChat(provider, answerLevel = 'standard') {
       body: JSON.stringify({
         question: currentQuestion,
         language:selectedLanguage,
-        queryType: selectedQueryType === 'custom' ? 'PHILOSOPHICAL_AI_QUERY' : 'PRACTICAL_INFO_QUERY',
+        queryType: selectedQueryType === 'custom' ? 'PRACTICAL_INFO_QUERY' : 'PHILOSOPHICAL_AI_QUERY',
         provider: provider,
         userType: selectedUser,
         answerDepth: answerLevel,
