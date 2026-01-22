@@ -686,7 +686,6 @@ document.addEventListener('DOMContentLoaded', function () {
     let currentAI = 'chatgpt';
     let selectedUser = 'citizen'; // Default to Resident / Citizen
     let selectedTopic = '';
-    let selectedQueryType = 'custom';
     let aiUsed = {
       groq: false,
       chatgpt: false
@@ -1492,6 +1491,8 @@ const TOPIC_QUESTIONS = {
     'How to escalate unresolved complaints to higher authority?'
   ]
 };    
+let selectedQueryType = null;
+let selectedLanguage = 'english';
     // FIXED: Proper radio button handling
 function selectQueryType(type) {
   selectedQueryType = type;
@@ -2338,6 +2339,8 @@ async function getAnswerForChat(provider, answerLevel = 'standard') {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         question: currentQuestion,
+        language:selectedLanguage,
+        queryType: selectedQueryType === 'custom' > 'PHILOSOPHICAL_AI_QUERY' : 'PRACTICAL_INFO_QUERY',
         provider: provider,
         userType: selectedUser,
         answerDepth: answerLevel,
