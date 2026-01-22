@@ -1,9 +1,41 @@
 <!doctype html>
+
+<!-- 
+╔═══════════════════════════════════════════════════════════════╗
+║                  KURUKSHETRA MITRA ULTIMATE                   ║
+║              Your Complete Spiritual & Heritage Guide          ║
+╠═══════════════════════════════════════════════════════════════╣
+║  File Statistics:                                             ║
+║  • Lines of Code: 2,908                                      ║
+║  • File Size: 115KB                                      ║
+║  • Total Topics: 32 (8 per user type)                        ║
+║  • Total Questions: 300+                                      ║
+║  • User Types: 4 (Pilgrim, Tourist, Student, Citizen)       ║
+║                                                               ║
+║  Features:                                                    ║
+║  ✓ Simple Chat & Power Mode                                  ║
+║  ✓ Voice Input Recognition                                   ║
+║  ✓ Text-to-Speech Output                                     ║
+║  ✓ Multi-language Support (English/Hindi/Punjabi)           ║
+║  ✓ Autocomplete Suggestions                                  ║
+║  ✓ Progressive UI Collapse                                   ║
+║  ✓ Modal Answer Display                                      ║
+║  ✓ WhatsApp Sharing                                          ║
+║  ✓ Related Questions                                         ║
+║  ✓ Chat History Management                                   ║
+║  ✓ Responsive Design                                         ║
+║  ✓ Advanced Answer Depth Control                             ║
+║                                                               ║
+║  Created: January 2026                                        ║
+║  Technology: HTML5, TailwindCSS, Vanilla JavaScript         ║
+╚═══════════════════════════════════════════════════════════════╝
+-->
+
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Kurukshetra Mitra (कुरुक्षेत्रमित्र) – Your Complete Guide to Sacred Kurukshetra</title>
+  <title>Kurukshetra Mitra (कुरुक्षेत्रमित्र) – Your Complete Spiritual & Heritage Guide</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
@@ -11,13 +43,18 @@
 </head>
 <body class="min-h-screen flex flex-col items-center p-2 md:p-4">
 
+<!-- Om Symbol Background Decorations -->
+<div class="om-symbol om-top-left">🕉️</div>
+<div class="om-symbol om-bottom-right">🕉️</div>
+
+
 <div class="container-main w-full max-w-3xl md:max-w-4xl glass-card rounded-xl md:rounded-3xl shadow-2xl overflow-hidden flex flex-col" style="height: calc(100vh - 1rem); max-height: calc(100vh - 1rem);">
   <div class="bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 shadow-lg" style="border-bottom: 3px solid #fb923c;">
   <!-- Top Row: Logo + Title + Actions -->
   <div class="flex items-center justify-between p-3 md:p-4">
     <div class="flex items-center gap-2 md:gap-3">
       <div class="w-8 h-8 md:w-10 md:h-10 bg-gradient-to-br from-orange-400 to-amber-500 rounded-full flex items-center justify-center text-xl md:text-2xl shadow-md">
-        🕉️
+        🕉
       </div>
       <div>
         <h2 class="font-bold text-base md:text-lg text-gray-800">Kurukshetra Mitra • <span class="font-semibold">कुरुक्षेत्र मित्र</span></h2>
@@ -44,8 +81,8 @@
 <!-- Laws Info Strip (Below Header) -->
 <div class="bg-gradient-to-r from-orange-50 to-amber-50 border-b-2 border-orange-200 px-3 py-2">
   <p class="text-xs text-center font-semibold text-orange-800">
-    <span class="hidden sm:inline">Sacred Heritage • Pilgrimage Sites • Tourism • Culture • Services</span>
-    <span class="sm:hidden">Land of the Bhagavad Gita</span>
+    <span class="hidden sm:inline">Sacred Heritage • Pilgrimage Sites • Tourism • Culture • Administrative Services</span>
+    <span class="sm:hidden">Pilgrimage • Tourism • Services</span>
   </p>
 </div>
 <!-- Simple Mode Profile Selector -->
@@ -59,7 +96,7 @@
         <option value="citizen">👤 Resident / Citizen</option>
         <option value="student">🎓 Student / Researcher</option>
         <option value="police">🙏 Pilgrim / Devotee</option>
-        <option value="legal">🕉️ Tourist / Visitor</option>
+        <option value="legal">🕉 Tourist / Visitor</option>
       </select>
     </div>
   </div>
@@ -76,13 +113,13 @@
           
           <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
             <div class="user-card-small" id="userPoliceMain" onclick="selectMainUser('police')">
-              <div class="user-icon-small">👮</div>
+              <div class="user-icon-small">🙏</div>
               <div class="user-title-small">Pilgrim / Devotee</div>
-              <div class="user-desc-small">Gita sites, Temples, 48 Kos Parikrama</div>
+              <div class="user-desc-small">Gita sites, Temples, 48 Kos</div>
             </div>
             
             <div class="user-card-small" id="userLegalMain" onclick="selectMainUser('legal')">
-              <div class="user-icon-small">🕉️</div>
+              <div class="user-icon-small">🕉</div>
               <div class="user-title-small">Tourist / Visitor</div>
               <div class="user-desc-small">Sightseeing, Culture, Stay</div>
             </div>
@@ -90,7 +127,7 @@
             <div class="user-card-small" id="userStudentMain" onclick="selectMainUser('student')">
               <div class="user-icon-small">👨‍🎓</div>
               <div class="user-title-small">Student/Researcher</div>
-              <div class="user-desc-small">History, Gita, Mahabharata Studies</div>
+              <div class="user-desc-small">History, Gita, Mahabharata</div>
             </div>
             
             <div class="user-card-small" id="userCitizenMain" onclick="selectMainUser('citizen')">
@@ -297,11 +334,11 @@
 <div class="flex items-center justify-between p-4">
     <div class="flex items-center gap-3">
       <div class="w-10 h-10 bg-gradient-to-br from-orange-400 to-amber-500 rounded-full flex items-center justify-center text-2xl shadow-md">
-        🕉️
+        🕉
       </div>
       <div>
         <h2 class="font-bold text-lg text-gray-800">Kurukshetra Mitra</h2>
-        <p class="text-xs text-gray-600 font-semibold" id="chatHeaderStatus">AI Guide to Kurukshetra • Online</p>
+        <p class="text-xs text-gray-600 font-semibold" id="chatHeaderStatus">AI Heritage Guide • Online</p>
       </div>
     </div>
     
@@ -332,12 +369,12 @@
       <!-- Welcome Message -->
 <!-- Welcome Message -->
 <div class="flex gap-3 items-start">
-<div class="w-10 h-10 bg-gradient-to-br from-orange-500 to-amber-600 rounded-full flex items-center justify-center text-white flex-shrink-0 chat-bot-avatar">    🕉️
+<div class="w-10 h-10 bg-gradient-to-br from-orange-500 to-amber-600 rounded-full flex items-center justify-center text-white flex-shrink-0 chat-bot-avatar">    🕉
   </div>
   <div class="bg-white rounded-2xl rounded-tl-none shadow-md p-4 max-w-[85%]">
     <p class="text-sm text-gray-800">
-      👋 Namaste! I'm <strong>Kurukshetra Mitra</strong>, your AI guide to Kurukshetra.<br><br>
-      Ask me anything about Kurukshetra - pilgrimage sites, tourism, culture, history, and services.
+      👋 Namaste! I'm <strong>Kurukshetra Mitra</strong>, your AI heritage guide.<br><br>
+      Ask me anything about India's Kurukshetra - pilgrimage, temples, culture, history, services.
     </p>
     <p class="text-xs text-gray-400 mt-2">Just now</p>
   </div>
@@ -388,7 +425,7 @@ class="text-left p-2 md:p-3 bg-white hover:bg-orange-50 border-2 border-orange-2
     <button onclick="askQuickQuestion('What are the main festivals celebrated here?')" 
 class="text-left p-2 md:p-3 bg-white hover:bg-orange-50 border-2 border-orange-200 rounded-lg md:rounded-xl transition group">
       <div class="flex items-start gap-2">
-        <span class="text-lg">🕉️</span>
+        <span class="text-lg">🕉</span>
         <div class="flex-1">
           <p class="text-xs font-semibold text-gray-900 group-hover:text-orange-700">Festivals in Kurukshetra?</p>
           <p class="text-xs text-gray-500 mt-0.5">Cultural events</p>
@@ -695,22 +732,22 @@ document.addEventListener('DOMContentLoaded', function () {
     const USER_LEVEL_PROMPTS = {
       police: {
         level: 'intermediate',
-        instruction: 'You are answering for a Pilgrim / Devotee. Provide practical guidance about sacred sites, temples, rituals, parikrama routes, and spiritual significance. Focus on pilgrimage procedures, darshan timings, religious ceremonies, and devotional practices. Use respectful terminology while keeping it accessible.',
+        instruction: 'You are answering for a Pilgrim / Devotee visiting sacred Kurukshetra. Provide practical spiritual guidance about temples, sarovars, rituals, parikrama routes, and devotional practices. Focus on pilgrimage procedures, darshan timings, religious ceremonies, and sacred site significance. Use respectful terminology while keeping it accessible for all devotees.',
         tone: 'Spiritual and respectful'
       },
       legal: {
         level: 'advanced',
-        instruction: 'You are answering for a Tourist / Visitor. Provide detailed travel information with specific locations, historical context, cultural significance, and practical travel tips. Include sightseeing recommendations, best times to visit, accommodation options, and local experiences.',
+        instruction: 'You are answering for a Tourist / Visitor exploring Kurukshetra. Provide detailed travel information with specific locations, historical context, cultural significance, and practical travel tips. Include sightseeing recommendations, best times to visit, accommodation options, dining experiences, and local attractions. Be informative and engaging.',
         tone: 'Informative and engaging'
       },
       student: {
         level: 'educational',
-        instruction: 'You are answering for a Student / Researcher. Provide comprehensive educational content about history, scriptures, archaeology, and cultural heritage. Include academic perspective, historical facts, Mahabharata references, and research-oriented information. Use structured format with key points.',
+        instruction: 'You are answering for a Student / Researcher studying Kurukshetra. Provide comprehensive educational content about Mahabharata history, archaeology, scriptures, cultural heritage, and academic resources. Include historical facts, research perspectives, scholarly analysis, and academic references. Use structured format with key points.',
         tone: 'Educational and scholarly'
       },
       citizen: {
         level: 'basic',
-        instruction: 'You are answering for a Resident / Citizen. Provide simple, easy-to-understand information about local services, facilities, government offices, healthcare, education, and civic amenities. Focus on practical everyday needs and step-by-step guidance. Use plain language.',
+        instruction: 'You are answering for a Resident / Citizen of Kurukshetra. Provide simple, easy-to-understand information about local services, government facilities, healthcare, education, transport, and civic amenities. Focus on practical everyday needs, how to access services, and step-by-step guidance. Use plain language.',
         tone: 'Simple and helpful'
       }
     };
@@ -1014,19 +1051,19 @@ document.addEventListener('DOMContentLoaded', function () {
     // TOPICS organized by user type
     const TOPICS = {
       police: [
-        { id: 'temples', icon: '🛕', title: 'Sacred Temples', subtitle: 'Sthaneshwar, Bhadrakali, Pandava', law: 'Religious Sites' },
-        { id: 'sarovars', icon: '💧', title: 'Holy Sarovars', subtitle: 'Brahma, Sannihit, Jyotisar', law: 'Water Bodies' },
+        { id: 'temples', icon: '🛕', title: 'Sacred Temples', subtitle: 'Sthaneshwar, Bhadrakali, Pandava temples', law: 'Religious Sites' },
+        { id: 'sarovars', icon: '💧', title: 'Holy Sarovars', subtitle: 'Brahma, Sannihit, Jyotisar tanks', law: 'Water Bodies' },
         { id: 'parikrama', icon: '🚶', title: '48 Kos Parikrama', subtitle: 'Route, Duration, Facilities', law: 'Pilgrimage' },
-        { id: 'gita', icon: '📿', title: 'Bhagavad Gita Sites', subtitle: 'Jyotisar, Banyan Tree', law: 'Sacred Texts' },
+        { id: 'gita', icon: '📿', title: 'Bhagavad Gita Sites', subtitle: 'Jyotisar, Sacred Banyan Tree', law: 'Sacred Texts' },
         { id: 'rituals', icon: '🔔', title: 'Rituals & Puja', subtitle: 'Ceremonies, Offerings, Shradh', law: 'Worship' },
-        { id: 'festivals', icon: '🎊', title: 'Religious Festivals', subtitle: 'Gita Jayanti, Solar Eclipse', law: 'Events' },
+        { id: 'festivals', icon: '🎊', title: 'Religious Festivals', subtitle: 'Gita Jayanti, Solar Eclipse events', law: 'Events' },
         { id: 'accommodation_p', icon: '🏨', title: 'Pilgrim Stay', subtitle: 'Dharamshalas, Guest Houses', law: 'Lodging' },
-        { id: 'guide', icon: '🧭', title: 'Pilgrimage Guide', subtitle: 'Tips, Do's and Don'ts', law: 'Information' }
+        { id: 'guide', icon: '🧭', title: 'Pilgrimage Guide', subtitle: 'Tips, Dos and Don\'ts', law: 'Information' }
       ],
       legal: [
         { id: 'attractions', icon: '🗺️', title: 'Tourist Attractions', subtitle: 'Panorama, Museums, Monuments', law: 'Sightseeing' },
         { id: 'travel', icon: '🚗', title: 'Travel & Transport', subtitle: 'How to reach, Local transport', law: 'Connectivity' },
-        { id: 'accommodation', icon: '🏨', title: 'Hotels & Stay', subtitle: 'Budget, Luxury, Location', law: 'Lodging' },
+        { id: 'accommodation', icon: '🏨', title: 'Hotels & Stay', subtitle: 'Budget, Luxury, Location options', law: 'Lodging' },
         { id: 'food', icon: '🍽️', title: 'Food & Dining', subtitle: 'Local cuisine, Restaurants', law: 'Dining' },
         { id: 'activities', icon: '🎯', title: 'Activities & Tours', subtitle: 'Guided tours, Light shows', law: 'Experiences' },
         { id: 'shopping', icon: '🛍️', title: 'Shopping', subtitle: 'Souvenirs, Handicrafts, Markets', law: 'Commerce' },
@@ -1035,23 +1072,23 @@ document.addEventListener('DOMContentLoaded', function () {
       ],
       student: [
         { id: 'mahabharata', icon: '📖', title: 'Mahabharata History', subtitle: 'War, Krishna, Battlefield', law: 'Epic' },
-        { id: 'archaeology', icon: '🏛️', title: 'Archaeological Sites', subtitle: 'Excavations, Findings', law: 'Heritage' },
-        { id: 'scriptures', icon: '📚', title: 'Scriptures & Texts', subtitle: 'Gita, Vedas, References', law: 'Literature' },
-        { id: 'culture', icon: '🎭', title: 'Culture & Heritage', subtitle: 'Traditions, Folk, Arts', law: 'Cultural' },
+        { id: 'archaeology', icon: '🏛️', title: 'Archaeological Sites', subtitle: 'Excavations, Ancient findings', law: 'Heritage' },
+        { id: 'scriptures', icon: '📚', title: 'Scriptures & Texts', subtitle: 'Gita, Vedas, Ancient references', law: 'Literature' },
+        { id: 'culture', icon: '🎭', title: 'Culture & Heritage', subtitle: 'Traditions, Folk arts, Customs', law: 'Cultural' },
         { id: 'astronomy', icon: '🌟', title: 'Astronomy & Eclipse', subtitle: 'Solar eclipse significance', law: 'Science' },
         { id: 'education', icon: '🎓', title: 'Educational Institutes', subtitle: 'University, NIT, Libraries', law: 'Academics' },
         { id: 'research', icon: '🔬', title: 'Research Facilities', subtitle: 'Archives, Museums, Centers', law: 'Research' },
-        { id: 'history', icon: '📜', title: 'Historical Timeline', subtitle: 'Ancient to Modern', law: 'History' }
+        { id: 'history', icon: '📜', title: 'Historical Timeline', subtitle: 'Ancient to Modern evolution', law: 'History' }
       ],
       citizen: [
         { id: 'services', icon: '🏛️', title: 'Government Services', subtitle: 'Municipal, Tax, Certificates', law: 'Administration' },
         { id: 'healthcare', icon: '🏥', title: 'Healthcare', subtitle: 'Hospitals, Clinics, Emergency', law: 'Health' },
         { id: 'education_c', icon: '🏫', title: 'Education', subtitle: 'Schools, Colleges, Admission', law: 'Learning' },
-        { id: 'transport', icon: '🚌', title: 'Transport', subtitle: 'Bus, Rail, Registration', law: 'Mobility' },
-        { id: 'utilities', icon: '💡', title: 'Utilities', subtitle: 'Water, Power, Connections', law: 'Services' },
-        { id: 'safety', icon: '🚨', title: 'Safety & Security', subtitle: 'Police, Fire, Emergency', law: 'Safety' },
+        { id: 'transport', icon: '🚌', title: 'Transport', subtitle: 'Bus, Rail, Vehicle Registration', law: 'Mobility' },
+        { id: 'utilities', icon: '💡', title: 'Utilities', subtitle: 'Water, Power, Gas Connections', law: 'Services' },
+        { id: 'safety', icon: '🚨', title: 'Safety & Security', subtitle: 'Police, Fire, Emergency numbers', law: 'Safety' },
         { id: 'civic', icon: '🏢', title: 'Civic Amenities', subtitle: 'Parks, Libraries, Community', law: 'Facilities' },
-        { id: 'complaints', icon: '📝', title: 'Complaints & Grievances', subtitle: 'How to register, Track', law: 'Redressal' }
+        { id: 'complaints', icon: '📝', title: 'Complaints & Grievances', subtitle: 'How to register, Track status', law: 'Redressal' }
       ]
     };
     
@@ -1059,364 +1096,436 @@ document.addEventListener('DOMContentLoaded', function () {
  // FINAL COMPREHENSIVE TOPIC QUESTIONS - MERGED BEST FROM BOTH LISTS
 // 660+ High-Quality Questions - No Duplicates
 const TOPIC_QUESTIONS = {
-  // ========== PILGRIM / DEVOTEE QUESTIONS ==========
+  // ========================================
+  // PILGRIM / DEVOTEE QUESTIONS (60+ questions)
+  // ========================================
   
   temples: [
-    'What are the most important temples in Kurukshetra?',
+    'What are the most important temples to visit in Kurukshetra?',
     'Tell me about Sthaneshwar Mahadev Temple history and significance',
-    'What is the significance of Bhadrakali Temple?',
-    'Where are the five Pandava temples located?',
-    'Which temples are part of 48 Kos Parikrama route?',
+    'What is the religious importance of Bhadrakali Temple?',
+    'Where are the five Pandava temples located in Kurukshetra?',
+    'Which temples are included in the 48 Kos Parikrama route?',
     'What are the darshan timings of major temples?',
     'Are there any ancient Shakti Peethas in Kurukshetra?',
-    'Which temples allow photography and which don\'t?'
+    'Which temples allow photography and which ones prohibit it?',
+    'What is the dress code for visiting temples?',
+    'Can non-Hindus visit the temples in Kurukshetra?'
   ],
   
   sarovars: [
-    'What is the significance of Brahma Sarovar?',
-    'Tell me about Sannihit Sarovar and its importance',
-    'What is special about Jyotisar sacred tank?',
-    'How many holy sarovars are there in Kurukshetra?',
-    'Best time to take holy bath in sarovars?',
-    'What are the rituals performed at Brahma Sarovar?',
-    'Is there any dress code for visiting sarovars?',
-    'Can I perform Shradh at the sarovars?'
+    'What is the spiritual significance of Brahma Sarovar?',
+    'Tell me about Sannihit Sarovar and its mythological importance',
+    'What makes Jyotisar sacred tank so special?',
+    'How many holy sarovars are there in total in Kurukshetra?',
+    'What is the best time to take holy bath in the sarovars?',
+    'What rituals are performed at Brahma Sarovar?',
+    'Is there any specific dress code for visiting sarovars?',
+    'Can I perform Shradh ceremonies at the sarovars?',
+    'What is the depth and size of Brahma Sarovar?',
+    'Are there changing rooms and facilities at sarovars?'
   ],
   
   parikrama: [
-    'What is the 48 Kos Parikrama route details?',
-    'How many days does the complete parikrama take?',
-    'What are the main stops in 48 Kos Parikrama?',
-    'When is the best time to do parikrama?',
-    'What facilities are available during parikrama?',
-    'Can I do parikrama by vehicle or must walk?',
-    'Where can I get accommodation during parikrama?',
-    'What items should I carry for parikrama?'
+    'What is the complete 48 Kos Parikrama route with all stops?',
+    'How many days does it take to complete the full parikrama?',
+    'What are the main pilgrimage stops in 48 Kos Parikrama?',
+    'When is the most auspicious time to do the parikrama?',
+    'What facilities like food and water are available during parikrama?',
+    'Can I do the parikrama by vehicle or must I walk?',
+    'Where can I find accommodation during the parikrama?',
+    'What essential items should I carry for the parikrama?',
+    'Are there any age restrictions for doing parikrama?',
+    'How do I register or get a guide for parikrama?'
   ],
   
   gita: [
-    'Where exactly was Bhagavad Gita narrated by Lord Krishna?',
-    'What is so special about Jyotisar?',
-    'Tell me about the sacred Banyan tree significance',
-    'What are the main Gita pilgrimage sites in Kurukshetra?',
-    'When is Gita Jayanti celebrated and how?',
-    'Can I attend Gita discourse sessions here?',
-    'Are there any Gita museums or exhibitions?',
-    'What is the history of Gita Mandir?'
+    'Where exactly was the Bhagavad Gita narrated by Lord Krishna?',
+    'What makes Jyotisar the birthplace of Bhagavad Gita?',
+    'Tell me about the sacred Banyan tree and its significance',
+    'What are all the Gita-related pilgrimage sites in Kurukshetra?',
+    'When and how is Gita Jayanti celebrated here?',
+    'Can I attend Gita discourse and study sessions?',
+    'Are there any Gita museums or permanent exhibitions?',
+    'What is the history and architecture of Gita Mandir?',
+    'Where can I buy authentic Bhagavad Gita books?',
+    'Are there any Gita recitation programs for pilgrims?'
   ],
   
   rituals: [
-    'What pujas are commonly performed at temples?',
-    'How to perform Shradh rituals at Kurukshetra?',
+    'What are the most common pujas performed at Kurukshetra temples?',
+    'How do I arrange to perform Shradh rituals here?',
     'What is the timing of evening aarti at Brahma Sarovar?',
-    'Can I arrange special puja ceremonies?',
-    'What offerings are accepted at the temples?',
-    'Do I need to book priests in advance?',
-    'What is the cost of performing rituals?',
-    'Are there any special rituals during eclipses?'
+    'Can I book priests in advance for special ceremonies?',
+    'What offerings and materials are accepted at temples?',
+    'What is the approximate cost of performing various rituals?',
+    'Are there any special eclipse-related rituals?',
+    'Can foreigners or NRIs perform rituals here?',
+    'What is Pind Daan and where is it performed?',
+    'How to perform Tarpan at the holy sarovars?'
   ],
   
   festivals: [
-    'When is Gita Jayanti celebrated and what happens?',
-    'What special events occur during Solar Eclipse?',
-    'Tell me about Kurukshetra Mahotsav details',
-    'What is Somavati Amavasya importance here?',
-    'Which festivals attract the most pilgrims?',
-    'Are there Janmashtami celebrations in Kurukshetra?',
-    'What happens during Kartik Purnima?',
-    'Are there any special Mahashivratri events?'
+    'When is Gita Jayanti celebrated and what are the main events?',
+    'What happens during Solar Eclipse festivals at Kurukshetra?',
+    'Tell me complete details about Kurukshetra Mahotsav',
+    'What is the significance of Somavati Amavasya here?',
+    'Which annual festivals attract the most pilgrims?',
+    'Are there grand Janmashtami celebrations in Kurukshetra?',
+    'What special events happen during Kartik Purnima?',
+    'Are there Mahashivratri programs at Sthaneshwar temple?',
+    'When does the International Gita Festival take place?',
+    'What cultural programs are organized during festivals?'
   ],
   
   accommodation_p: [
-    'What dharamshalas are available for pilgrims?',
-    'How to book accommodation near temples?',
-    'Are there free or low-cost dharamshalas?',
-    'Which areas are best for pilgrim stay?',
-    'Do dharamshalas provide meals?',
-    'What facilities do pilgrim guest houses offer?',
-    'Can I get accommodation during eclipse periods?',
-    'Are there women-only dharamshalas?'
+    'What dharamshalas are available for pilgrims near temples?',
+    'How can I book accommodation near Brahma Sarovar?',
+    'Are there any free or subsidized dharamshalas?',
+    'Which areas offer the best pilgrim accommodation?',
+    'Do dharamshalas provide meals and food facilities?',
+    'What amenities do typical pilgrim guest houses offer?',
+    'How to get accommodation during peak eclipse periods?',
+    'Are there separate facilities for women pilgrims?',
+    'What is the check-in and check-out timing?',
+    'Can I make advance bookings for dharamshalas?'
   ],
   
   guide: [
-    'What should pilgrims carry while visiting?',
-    'What are the do\'s and don\'ts at sacred sites?',
-    'Is there a dress code for temples?',
-    'How much time needed to cover major sites?',
-    'Are wheelchairs available at major sites?',
-    'Can I bring offerings from home?',
-    'What languages do temple priests speak?',
-    'Safety tips for solo female pilgrims?'
+    'What essential items should pilgrims carry while visiting?',
+    'What are the important dos and don\'ts at sacred sites?',
+    'Is there a mandatory dress code for temples and sarovars?',
+    'How much time is needed to cover all major pilgrimage sites?',
+    'Are wheelchairs and accessibility facilities available?',
+    'Can I bring food offerings and prasad from home?',
+    'What languages do temple priests and guides speak?',
+    'What safety tips for solo female pilgrims visiting alone?',
+    'Where can I find licensed pilgrimage guides?',
+    'What medical facilities are available near pilgrimage sites?'
   ],
   
-  // ========== TOURIST / VISITOR QUESTIONS ==========
+  // ========================================
+  // TOURIST / VISITOR QUESTIONS (80+ questions)
+  // ========================================
   
   attractions: [
-    'What are the must-visit places in Kurukshetra?',
-    'Tell me about Kurukshetra Panorama and Science Centre',
-    'What is the Krishna Museum?',
-    'Where is Sheikh Chilli\'s Tomb located?',
-    'What can I see at Kurukshetra University campus?',
-    'Are there any light and sound shows?',
-    'Which monuments have historical significance?',
-    'What are the timings of major tourist sites?'
+    'What are the absolute must-visit places in Kurukshetra?',
+    'Tell me everything about Kurukshetra Panorama and Science Centre',
+    'What can I see at the Krishna Museum?',
+    'Where is Sheikh Chilli\'s Tomb and what\'s its history?',
+    'What attractions are there at Kurukshetra University campus?',
+    'Are there light and sound shows at any monuments?',
+    'Which historical monuments have the most significance?',
+    'What are the entry fees and timings of major tourist sites?',
+    'Is there a Kurukshetra heritage walk or tour?',
+    'What are the photo-worthy spots for tourists?'
   ],
   
   travel: [
-    'How to reach Kurukshetra from Delhi?',
-    'What is the nearest airport to Kurukshetra?',
-    'Are there direct trains to Kurukshetra?',
-    'How long does it take from Chandigarh?',
-    'What local transport options are available?',
-    'Can I hire a taxi for city tour?',
-    'Is auto-rickshaw metered here?',
-    'Where can I rent a bike or car?'
+    'What is the fastest way to reach Kurukshetra from Delhi?',
+    'Which is the nearest airport and how far is it?',
+    'Are there direct trains to Kurukshetra from major cities?',
+    'How long does it take to reach from Chandigarh?',
+    'What local transport options are available within the city?',
+    'Can I hire a taxi or cab for full-day city tour?',
+    'Are auto-rickshaws metered or do I need to bargain?',
+    'Where can I rent a bike, scooter or car?',
+    'Is Uber or Ola available in Kurukshetra?',
+    'What is the approximate cost of local transportation?'
   ],
   
   accommodation: [
-    'What are the best hotels in Kurukshetra?',
-    'Are there budget accommodation options?',
-    'Which hotels are near Brahma Sarovar?',
-    'Do I need to book hotels in advance?',
-    'Are there luxury resort options?',
-    'Which area is best for tourist stay?',
-    'Do hotels provide pick-up from station?',
-    'What are the average hotel rates?'
+    'What are the top-rated hotels in Kurukshetra?',
+    'Are there budget-friendly accommodation options under Rs 1000?',
+    'Which hotels are closest to Brahma Sarovar?',
+    'Do I need to book hotels well in advance?',
+    'Are there any luxury resorts or heritage hotels?',
+    'Which area or locality is best for tourist stay?',
+    'Do hotels provide pick-up service from railway station?',
+    'What are the average hotel rates per night?',
+    'Are there homestays or guest houses available?',
+    'Which hotels have the best reviews from travelers?'
   ],
   
   food: [
-    'What are famous food items of Kurukshetra?',
-    'Where can I get authentic vegetarian meals?',
-    'Are there good restaurants near temples?',
-    'What is the local cuisine like?',
-    'Where can I eat prasad near sarovars?',
-    'Are there South Indian restaurants?',
-    'What street food is safe to try?',
-    'Do restaurants deliver to hotels?'
+    'What are the famous local food items of Kurukshetra?',
+    'Where can I find authentic pure vegetarian meals?',
+    'Which are the best restaurants near major temples?',
+    'What is special about Haryanvi cuisine?',
+    'Where can I try prasad and temple food?',
+    'Are there good South Indian restaurants here?',
+    'What street food is safe and recommended to try?',
+    'Do restaurants offer home delivery to hotels?',
+    'Which restaurants are open late night?',
+    'Where can I find Jain food without onion-garlic?'
   ],
   
   activities: [
-    'What activities can tourists do in Kurukshetra?',
-    'Are guided heritage tours available?',
-    'Can I visit sites at night?',
-    'What is the light and sound show timing?',
-    'Are there boating facilities at sarovars?',
-    'Can I attend cultural programs?',
-    'Are there photography tours available?',
-    'What activities for kids and families?'
+    'What recreational activities can tourists do here?',
+    'Are professional guided heritage tours available?',
+    'Can I visit tourist sites during night time?',
+    'What is the timing and cost of light and sound show?',
+    'Are there boating facilities at any of the sarovars?',
+    'Can I attend cultural programs and folk performances?',
+    'Are photography tours or workshops organized?',
+    'What activities are suitable for kids and families?',
+    'Are there any adventure sports or activities?',
+    'Can I take cooking classes for local cuisine?'
   ],
   
   shopping: [
-    'What souvenirs can I buy in Kurukshetra?',
-    'Where is the main shopping market?',
-    'Can I buy religious items and books?',
-    'What handicrafts are available?',
-    'Are there shops selling Gita in different languages?',
-    'Where to buy local Haryanvi items?',
-    'What are good gift items from Kurukshetra?',
-    'Are markets open on all days?'
+    'What are the best souvenirs to buy from Kurukshetra?',
+    'Where is the main shopping market and bazaar?',
+    'Can I buy religious idols, books and artifacts?',
+    'What traditional handicrafts are available here?',
+    'Where to buy Bhagavad Gita in different languages?',
+    'What are typical Haryanvi items to purchase?',
+    'What make good gifts to take back from Kurukshetra?',
+    'Are markets open all seven days or closed on specific days?',
+    'Can I bargain at local markets and shops?',
+    'Where to buy authentic rudraksha and spiritual items?'
   ],
   
   timing: [
-    'What is the best time to visit Kurukshetra?',
-    'How is the weather in different seasons?',
-    'When do most pilgrims visit?',
-    'Is monsoon a good time to visit?',
-    'What is the temperature in summer?',
-    'When are the major festivals?',
-    'Best season for sightseeing?',
-    'When to avoid crowds?'
+    'What is the absolute best time to visit Kurukshetra?',
+    'How is the weather during different seasons?',
+    'When do maximum number of pilgrims visit?',
+    'Is monsoon season good or bad for visiting?',
+    'What is the temperature range in summer months?',
+    'When are major religious festivals celebrated?',
+    'What is the ideal season for comfortable sightseeing?',
+    'When should I avoid visiting due to crowds?',
+    'What is the temperature in winter season?',
+    'Which months have pleasant weather conditions?'
   ],
   
   itinerary: [
-    'Suggest a 1-day tour plan for Kurukshetra',
-    'What can I cover in a weekend trip?',
-    'Plan a 2-day pilgrimage itinerary',
-    'How to cover all major sites in one day?',
-    'What to visit if I have only 4-5 hours?',
-    'Family-friendly 2-day itinerary suggestion',
-    'Which sites to prioritize for first-time visitors?',
-    'Can I combine Kurukshetra with Thanesar visit?'
+    'Can you suggest a well-planned 1-day tour of Kurukshetra?',
+    'What can I realistically cover in a weekend trip?',
+    'Please plan a detailed 2-day pilgrimage itinerary',
+    'How to see all major sites if I have only one day?',
+    'What should I prioritize if I have only 4-5 hours?',
+    'Suggest a family-friendly 2-day itinerary with kids',
+    'Which sites should first-time visitors absolutely not miss?',
+    'Can I combine Kurukshetra with Thanesar in one trip?',
+    'What is a good 3-day comprehensive tour plan?',
+    'How to plan if I want both pilgrimage and sightseeing?'
   ],
   
-  // ========== STUDENT / RESEARCHER QUESTIONS ==========
+  // ========================================
+  // STUDENT / RESEARCHER QUESTIONS (80+ questions)
+  // ========================================
   
   mahabharata: [
-    'What is Kurukshetra\'s connection to Mahabharata?',
-    'Where exactly was the Kurukshetra war fought?',
-    'What happened at the Kurukshetra battlefield?',
-    'Who were the main warriors in Kurukshetra war?',
-    'How long did the Mahabharata war last?',
-    'What was the outcome of the great war?',
-    'Are there any war relics or artifacts?',
-    'Which places are directly mentioned in Mahabharata?'
+    'What is Kurukshetra\'s exact connection to the Mahabharata war?',
+    'Where precisely was the Kurukshetra battlefield located?',
+    'What major events of Mahabharata happened at this place?',
+    'Who were the main warriors and characters in Kurukshetra war?',
+    'How many days did the great Mahabharata war last?',
+    'What was the ultimate outcome and casualties of the war?',
+    'Are there any war relics, artifacts or archaeological evidence?',
+    'Which specific places are directly mentioned in Mahabharata text?',
+    'What role did Lord Krishna play in the Kurukshetra war?',
+    'How historically accurate is the Mahabharata account?'
   ],
   
   archaeology: [
-    'What archaeological findings are in Kurukshetra?',
-    'Tell me about excavations done here',
-    'What ancient artifacts were discovered?',
-    'Are there museums displaying archaeological finds?',
-    'How old is the civilization of Kurukshetra?',
-    'What evidence of Mahabharata era exists?',
-    'Which sites are protected by ASI?',
-    'Can students visit excavation sites?'
+    'What significant archaeological findings have been made here?',
+    'Tell me about major excavations conducted in Kurukshetra',
+    'What ancient artifacts and relics were discovered?',
+    'Are there museums displaying archaeological collections?',
+    'How old is the documented civilization of Kurukshetra?',
+    'What physical evidence of Mahabharata era has been found?',
+    'Which sites are protected and maintained by ASI?',
+    'Can students and researchers visit active excavation sites?',
+    'What carbon dating results exist for artifacts?',
+    'Are there any controversial or disputed findings?'
   ],
   
   scriptures: [
-    'Which Hindu scriptures mention Kurukshetra?',
-    'Where can I study Bhagavad Gita in depth?',
-    'What ancient texts reference this sacred land?',
-    'Are there Vedic research centers here?',
-    'What is in Kurukshetra University library?',
-    'Can I access ancient manuscript collections?',
-    'Which Puranas describe Kurukshetra?',
-    'Are there Sanskrit scholars available?'
+    'Which Hindu scriptures and texts mention Kurukshetra?',
+    'Where can I study Bhagavad Gita in depth with scholars?',
+    'What ancient Vedic texts reference this sacred land?',
+    'Are there specialized Vedic research centers here?',
+    'What resources are available in Kurukshetra University library?',
+    'Can researchers access rare manuscript collections?',
+    'Which Puranas have detailed descriptions of Kurukshetra?',
+    'Are Sanskrit scholars available for consultation?',
+    'What academic courses focus on Gita and scriptures?',
+    'Where can I find comparative scripture analysis?'
   ],
   
   culture: [
-    'What is the cultural significance of Kurukshetra?',
-    'Tell me about local folk traditions',
-    'What art forms are practiced here?',
-    'What is the traditional language and culture?',
-    'How has culture evolved over centuries?',
-    'What festivals reflect the culture?',
-    'Are there any tribal or folk museums?',
-    'What is unique about Haryanvi culture here?'
+    'What is the unique cultural significance of Kurukshetra?',
+    'Tell me about indigenous folk traditions and customs',
+    'What traditional art forms are practiced here?',
+    'What is the linguistic and cultural heritage?',
+    'How has local culture evolved over centuries?',
+    'What festivals best represent the cultural identity?',
+    'Are there any tribal or indigenous museums?',
+    'What makes Haryanvi culture distinct in this region?',
+    'How does religious culture blend with daily life?',
+    'What cultural preservation efforts are ongoing?'
   ],
   
   astronomy: [
-    'Why is Kurukshetra important for solar eclipses?',
-    'What is the astronomical significance?',
-    'When do solar eclipses occur here?',
-    'What is the eclipse bathing tradition?',
-    'Are there observatories in Kurukshetra?',
-    'How does eclipse affect pilgrimage?',
-    'What scientific studies are done here?',
-    'Why is it called the land of eclipses?'
+    'Why is Kurukshetra astronomically significant for solar eclipses?',
+    'What makes this location special for celestial observations?',
+    'When do solar eclipses typically occur here?',
+    'What is the historical tradition of eclipse bathing?',
+    'Are there any observatories or planetariums?',
+    'How do eclipses affect pilgrimage and religious activities?',
+    'What scientific studies have been conducted here?',
+    'Why is it historically called the land of eclipses?',
+    'What ancient astronomical calculations reference this place?',
+    'Are there any unique astronomical phenomena here?'
   ],
   
   education: [
-    'What courses does Kurukshetra University offer?',
-    'Are there research facilities for students?',
-    'Tell me about NIT Kurukshetra',
-    'What educational opportunities exist?',
-    'Can I access academic libraries?',
-    'Are there scholarships for research?',
-    'What departments focus on heritage studies?',
-    'Can foreign students do research here?'
+    'What undergraduate and postgraduate courses does KU offer?',
+    'Are there specialized research facilities for students?',
+    'Tell me about National Institute of Technology Kurukshetra',
+    'What educational and career opportunities exist here?',
+    'Can I access academic libraries as external researcher?',
+    'Are research scholarships and grants available?',
+    'What departments focus on heritage and cultural studies?',
+    'Can international students pursue research here?',
+    'What are admission requirements and procedures?',
+    'Are there distance learning or online courses?'
   ],
   
   research: [
-    'What research centers are available?',
-    'Can I access museum archives for research?',
-    'Are there grants for heritage research?',
-    'Where can I find historical documents?',
-    'What collaboration opportunities exist?',
-    'Can I interview local scholars?',
-    'Are there research papers published?',
-    'What digital archives are accessible?'
+    'What active research centers are operational here?',
+    'Can I access museum archives for academic research?',
+    'Are grants available for heritage research projects?',
+    'Where can I find historical documents and records?',
+    'What collaboration opportunities exist with institutions?',
+    'Can I conduct interviews with local scholars and experts?',
+    'Are research papers and journals published regularly?',
+    'What digital archives and databases are accessible?',
+    'How do I get permission for field research?',
+    'Are there annual academic conferences or seminars?'
   ],
   
   history: [
-    'What is the complete historical timeline?',
-    'How did Kurukshetra develop over ages?',
-    'What are the major historical periods?',
-    'Which dynasties ruled this region?',
-    'What is the medieval history?',
-    'How did British period affect Kurukshetra?',
-    'What happened during independence era?',
-    'What is the modern development history?'
+    'What is the complete chronological historical timeline?',
+    'How did Kurukshetra develop and evolve through ages?',
+    'What are the distinct major historical periods?',
+    'Which dynasties and empires ruled this region?',
+    'What significant events occurred in medieval period?',
+    'How did British colonial period impact Kurukshetra?',
+    'What happened during independence movement here?',
+    'What is the post-independence development history?',
+    'How has urbanization changed the landscape?',
+    'What historical preservation challenges exist today?'
   ],
   
-  // ========== RESIDENT / CITIZEN QUESTIONS ==========
+  // ========================================
+  // RESIDENT / CITIZEN QUESTIONS (80+ questions)
+  // ========================================
   
   services: [
-    'Where is the Municipal Corporation office?',
-    'How to apply for birth certificate online?',
-    'What are property tax payment options?',
-    'Where to register complaints about civic issues?',
-    'How to get new utility connections?',
-    'What are the timings of government offices?',
-    'How to apply for trade license?',
-    'Where is the SDM office located?'
+    'Where is the Municipal Corporation main office located?',
+    'How do I apply for birth certificate online and offline?',
+    'What are all property tax payment options available?',
+    'Where and how to register complaints about civic issues?',
+    'How to apply for new utility connections?',
+    'What are government office timings and weekly offs?',
+    'How to apply for trade license for business?',
+    'Where is the SDM office and what services provided?',
+    'How to get domicile certificate of Kurukshetra?',
+    'What documents needed for various certificates?'
   ],
   
   healthcare: [
-    'Where are the main government hospitals?',
-    'What emergency medical services are available?',
-    'Are there private hospitals with good facilities?',
-    'Where to get COVID vaccination?',
-    'What medical facilities exist for emergencies?',
-    'Are there 24-hour pharmacies?',
-    'Where is the nearest blood bank?',
-    'What ambulance services are available?'
+    'Where are the main government hospitals with facilities?',
+    'What emergency medical services and ambulances available?',
+    'Which are the best private hospitals in the city?',
+    'Where to get COVID vaccination and booster doses?',
+    'What medical facilities for cardiac and other emergencies?',
+    'Are there 24-hour pharmacies and medical stores?',
+    'Where is the nearest blood bank located?',
+    'What ambulance services can I call in emergency?',
+    'Are there specialist doctors and consultation available?',
+    'What government health schemes can I avail?'
   ],
   
   education_c: [
-    'What are the best schools in Kurukshetra?',
-    'Where is the District Education Officer?',
+    'What are the top-rated schools in Kurukshetra?',
+    'Where is the District Education Officer located?',
     'How to get admission in government schools?',
-    'What colleges are available for graduation?',
-    'Are there good coaching centers?',
-    'What vocational training institutes exist?',
-    'How to apply for scholarships?',
-    'Where are the CBSE schools located?'
+    'What degree colleges are available for graduation?',
+    'Are there good competitive exam coaching centers?',
+    'What vocational training institutes operate here?',
+    'How to apply for student scholarships?',
+    'Where are CBSE affiliated schools located?',
+    'What are admission deadlines for schools and colleges?',
+    'Are there special education facilities for children?'
   ],
   
   transport: [
-    'What are the city bus routes and timings?',
-    'Where is the main bus stand?',
-    'How to get driving license in Kurukshetra?',
-    'What public transport options are best?',
-    'Where to register new vehicles?',
-    'Are there prepaid taxi services?',
-    'What is the railway station location?',
-    'How to book reserved bus tickets?'
+    'What are all city bus routes and timings?',
+    'Where is the main inter-state bus terminal?',
+    'How do I apply for driving license in Kurukshetra?',
+    'What public transport is most reliable and frequent?',
+    'Where to register newly purchased vehicles?',
+    'Are prepaid taxi or auto services available?',
+    'What is exact location of railway station?',
+    'How to book reserved bus tickets in advance?',
+    'What is monthly bus pass cost for regular commute?',
+    'Are there electric vehicle charging stations?'
   ],
   
   utilities: [
-    'How to pay electricity bills online?',
-    'Where to complain about water supply issues?',
-    'What is the sewage department contact?',
-    'How to apply for new power connection?',
-    'Where to report power outages?',
-    'What is the gas agency contact?',
-    'How to get new water connection?',
-    'Where is the electricity complaint office?'
+    'How to pay electricity bills through online methods?',
+    'Where to complain about water supply problems?',
+    'What is sewage department contact for blockages?',
+    'How to apply for new electricity connection?',
+    'Where to report and register power outage complaints?',
+    'What is local LPG gas agency contact details?',
+    'How to get new piped water connection?',
+    'Where is electricity sub-division complaint office?',
+    'How to check and download utility bills online?',
+    'What are timely payment benefits and late fees?'
   ],
   
   safety: [
-    'Where are the police stations located?',
-    'How to file an FIR or complaint?',
-    'What are the emergency helpline numbers?',
-    'Where is the women police station?',
-    'How to report a crime online?',
-    'Where is the fire station located?',
-    'What is the ambulance emergency number?',
-    'Are there CCTV cameras in public areas?'
+    'Where are all police stations located with jurisdiction?',
+    'How to file FIR or general complaint?',
+    'What are emergency helpline numbers to remember?',
+    'Where is women police station located?',
+    'How to report crime online through portal?',
+    'Where is main fire station and emergency number?',
+    'What is ambulance emergency contact number?',
+    'Are public areas covered by CCTV surveillance?',
+    'How to report lost documents and items?',
+    'What safety apps and services are available?'
   ],
   
   civic: [
-    'What public parks are available?',
-    'Where is the public library located?',
-    'What community centers exist?',
-    'Are there sports facilities?',
-    'Where can I register for yoga classes?',
-    'What cultural programs are organized?',
-    'Are there senior citizen facilities?',
-    'Where is the district court complex?'
+    'What public parks and gardens are available for families?',
+    'Where is the main public library and timings?',
+    'What community centers exist for events and programs?',
+    'Are there public sports facilities and stadiums?',
+    'Where can I register for free yoga classes?',
+    'What cultural programs are regularly organized?',
+    'Are there dedicated senior citizen activity centers?',
+    'Where is district court complex located?',
+    'What public halls available for social functions?',
+    'Are there swimming pools and gym facilities?'
   ],
   
   complaints: [
-    'How to register a civic complaint online?',
-    'What is the CM Window portal procedure?',
-    'How to track complaint status?',
-    'Where to complain about road issues?',
-    'How to report garbage collection problems?',
-    'What is the grievance redressal mechanism?',
-    'How long do complaints take to resolve?',
-    'Can I complain anonymously?'
+    'How to register civic complaint through online portal?',
+    'What is CM Window portal procedure and access?',
+    'How can I track my complaint status online?',
+    'Where to complain about road potholes and damage?',
+    'How to report garbage collection and sanitation issues?',
+    'What is the proper grievance redressal mechanism?',
+    'How long typically do complaints take to resolve?',
+    'Can I file complaints anonymously without revealing identity?',
+    'What to do if complaint is not resolved in time?',
+    'How to escalate unresolved complaints to higher authority?'
   ]
 };    
     // FIXED: Proper radio button handling
@@ -1886,7 +1995,7 @@ document.getElementById('closeBtn').addEventListener('click', function() {
       }
     });
     
-    console.log('✅ Kurukshetra Mitra ready with autocomplete!');
+    console.log('✅ KURUKSHETRA MITRA ready with autocomplete!');
 function expandProfileSelector() {
   document.getElementById('profileSelector')?.classList.remove('hidden');
   document.getElementById('profileSummary')?.classList.add('hidden');
@@ -2081,8 +2190,8 @@ function selectSimpleUser(userType) {
   const icons = {
     citizen: '🧑‍💼',
     student: '🎓',
-    police: '👮',
-    legal: '🕉️'
+    police: '🙏',
+    legal: '🕉'
   };
   
   document.getElementById('simpleProfileIcon').textContent = icons[userType];
@@ -2159,7 +2268,7 @@ function addChatMessage(text, type) {
   messageDiv.className = 'flex gap-3 items-start';
   messageDiv.innerHTML = `
     <div class="w-10 h-10 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-full flex items-center justify-center text-white flex-shrink-0">
-      🕉️
+      🕉
     </div>
     <div class="chat-bubble-bot rounded-2xl rounded-tl-none shadow-md p-4">
       <div class="text-sm text-gray-800" id="botMessage-${Date.now()}">${formatBotMessage(text)}</div>
@@ -2213,7 +2322,7 @@ function updateChatMessageCount() {
   if (userMessages > 0) {
     headerStatus.textContent = `${userMessages + botMessages} messages • Online`;
   } else {
-    headerStatus.textContent = 'AI Guide to Kurukshetra • Online';
+    headerStatus.textContent = 'AI Heritage Guide • Online';
   }
 }
 function addTypingIndicator() {
@@ -2223,7 +2332,7 @@ function addTypingIndicator() {
   typingDiv.className = 'flex gap-3 items-start';
   typingDiv.innerHTML = `
     <div class="w-10 h-10 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-full flex items-center justify-center text-white flex-shrink-0 animate-pulse">
-      🕉️
+      🕉
     </div>
     <div class="bg-white rounded-2xl rounded-tl-none shadow-md p-4">
       <div class="typing-indicator">
@@ -2463,7 +2572,7 @@ function shareOnWhatsAppChat(button) {
   const messageDiv = button.closest('.chat-bubble-bot');
   const messageText = messageDiv.querySelector('[id^="botMessage-"]').innerText;
   
-  const shareText = `*Kurukshetra Mitra Answer:*\n\n${messageText}\n\n_Powered by Kurukshetra Mitra - AI Guide to Kurukshetra_`;
+  const shareText = `*Kurukshetra Mitra Answer:*\n\n${messageText}\n\n_Powered by Kurukshetra Mitra - AI Heritage Guide_`;
   const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
   
   window.open(whatsappUrl, '_blank');
@@ -2499,6 +2608,24 @@ function getRelatedQuestions(question) {
   
   // Topic-based suggestions
   const suggestionMap = {
+    'fir': [
+      'How long does it take to file FIR?',
+      'Can police refuse to register FIR?',
+      'What happens after FIR is filed?',
+      'Can FIR be withdrawn?'
+    ],
+    'bail': [
+      'What are bail conditions?',
+      'How much time for bail hearing?',
+      'Can bail be cancelled?',
+      'What is anticipatory bail?'
+    ],
+    'arrest': [
+      'What are rights during arrest?',
+      'Can arrest happen without warrant?',
+      'How long can police detain?',
+      'What is the arrest procedure?'
+    ],
     'cyber': [
       'Best hotels in Kurukshetra?',
       'What is cyber police helpline?',
@@ -2680,12 +2807,12 @@ function clearChatHistory() {
   welcomeDiv.className = 'flex gap-3 items-start';
   welcomeDiv.innerHTML = `
     <div class="w-10 h-10 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-full flex items-center justify-center text-white flex-shrink-0">
-      🕉️
+      🕉
     </div>
     <div class="bg-white rounded-2xl rounded-tl-none shadow-md p-4 max-w-[85%]">
       <p class="text-sm text-gray-800">
-        👋 Namaste! I'm <strong>Kurukshetra Mitra</strong>, your AI guide to Kurukshetra.<br><br>
-        Ask me anything about Kurukshetra - pilgrimage sites, tourism, culture, history, and services.
+        👋 Namaste! I'm <strong>Kurukshetra Mitra</strong>, your AI heritage guide.<br><br>
+        Ask me anything about India's Kurukshetra - pilgrimage, temples, culture, history, services.
       </p>
       <p class="text-xs text-gray-400 mt-2">${getCurrentTime()}</p>
     </div>
@@ -2735,7 +2862,7 @@ const examplesHTML = `
     <button onclick="askQuickQuestion('What are the main festivals celebrated here?')" 
             class="text-left p-2 md:p-3 bg-white hover:bg-orange-50 border-2 border-orange-200 rounded-lg md:rounded-xl transition group">
       <div class="flex items-start gap-2">
-        <span class="text-lg">🕉️</span>
+        <span class="text-lg">🕉</span>
         <div class="flex-1">
           <p class="text-xs font-semibold text-gray-900 group-hover:text-orange-700">Festivals in Kurukshetra?</p>
           <p class="text-xs text-gray-500 mt-0.5">Cultural events</p>
