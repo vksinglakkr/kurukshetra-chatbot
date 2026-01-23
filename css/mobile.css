@@ -1,0 +1,773 @@
+/**
+ * ============================================================================
+ * KURUKSHETRA MITRA - MOBILE STYLES
+ * Optimized for screens below 768px
+ * Version: 2.0.0
+ * ============================================================================
+ * 
+ * This file contains mobile-specific styles:
+ * - Single column layouts
+ * - Bottom sheet modals
+ * - Touch-optimized components
+ * - Mobile navigation patterns
+ * - Gesture support
+ */
+
+@media (max-width: 767px) {
+
+/* =========================================================================
+   LAYOUT
+   ========================================================================= */
+
+.container {
+  padding-left: var(--space-4);
+  padding-right: var(--space-4);
+}
+
+.page-wrapper {
+  padding: var(--space-4);
+}
+
+/* Full-width on mobile */
+.mobile-full-width {
+  width: 100%;
+  margin-left: calc(-1 * var(--space-4));
+  margin-right: calc(-1 * var(--space-4));
+  padding-left: var(--space-4);
+  padding-right: var(--space-4);
+}
+
+/* =========================================================================
+   HEADER / NAVIGATION
+   ========================================================================= */
+
+.header-mobile {
+  position: sticky;
+  top: 0;
+  height: var(--nav-height-mobile);
+  padding: 0 var(--space-4);
+  background: var(--color-bg-primary);
+  border-bottom: var(--border-width-thin) solid var(--color-border-light);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: var(--z-sticky);
+}
+
+.header-mobile-title {
+  font-size: var(--text-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+/* Mobile hamburger menu */
+.hamburger {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.hamburger-line {
+  width: 100%;
+  height: 3px;
+  background: var(--color-primary);
+  border-radius: var(--radius-full);
+  transition: var(--transition-base);
+}
+
+.hamburger.active .hamburger-line:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+}
+
+.hamburger.active .hamburger-line:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active .hamburger-line:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+}
+
+/* Mobile navigation drawer */
+.nav-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 280px;
+  height: 100vh;
+  background: var(--color-bg-primary);
+  box-shadow: var(--shadow-2xl);
+  transform: translateX(-100%);
+  transition: transform var(--duration-base) var(--ease-out);
+  z-index: var(--z-modal);
+  overflow-y: auto;
+}
+
+.nav-drawer.open {
+  transform: translateX(0);
+}
+
+.nav-drawer-header {
+  padding: var(--space-6) var(--space-4);
+  border-bottom: var(--border-width-thin) solid var(--color-border-light);
+}
+
+.nav-drawer-list {
+  padding: var(--space-4);
+  list-style: none;
+}
+
+.nav-drawer-item {
+  padding: var(--space-4);
+  margin-bottom: var(--space-2);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.nav-drawer-item:active {
+  background: var(--color-primary-50);
+  color: var(--color-primary);
+}
+
+.nav-drawer-item.active {
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+
+/* Navigation overlay */
+.nav-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--color-overlay-medium);
+  z-index: calc(var(--z-modal) - 1);
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--duration-base) var(--ease-out);
+}
+
+.nav-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* =========================================================================
+   BOTTOM NAVIGATION (Fixed)
+   ========================================================================= */
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background: var(--color-bg-primary);
+  border-top: var(--border-width-thin) solid var(--color-border-light);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: var(--space-2) var(--space-4);
+  z-index: var(--z-fixed);
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.bottom-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-2);
+  color: var(--color-text-secondary);
+  font-size: var(--text-xs);
+  transition: var(--transition-fast);
+  cursor: pointer;
+  min-width: 64px;
+}
+
+.bottom-nav-item:active {
+  transform: scale(0.95);
+}
+
+.bottom-nav-item.active {
+  color: var(--color-primary);
+}
+
+.bottom-nav-icon {
+  font-size: 24px;
+}
+
+/* Add padding to body when bottom nav is present */
+body.has-bottom-nav {
+  padding-bottom: 64px;
+}
+
+/* =========================================================================
+   TABS - MOBILE LAYOUT
+   ========================================================================= */
+
+.tabs-mobile {
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  border-bottom: var(--border-width-base) solid var(--color-border-light);
+}
+
+.tabs-mobile::-webkit-scrollbar {
+  display: none;
+}
+
+.tabs-mobile .tab-item {
+  flex-shrink: 0;
+  min-width: 100px;
+  padding: var(--space-4);
+  font-size: var(--text-sm);
+  text-align: center;
+}
+
+/* Large tab cards (stacked) */
+.tab-cards-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.tab-card-mobile {
+  padding: var(--space-6);
+  border: var(--border-width-base) solid var(--color-border-light);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+}
+
+.tab-card-mobile:active {
+  transform: scale(0.98);
+  background: var(--color-primary-50);
+}
+
+.tab-card-mobile.active {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  box-shadow: var(--shadow-primary);
+}
+
+.tab-card-icon {
+  font-size: 48px;
+}
+
+.tab-card-title {
+  font-size: var(--text-lg);
+  font-weight: var(--font-weight-semibold);
+}
+
+.tab-card-subtitle {
+  font-size: var(--text-sm);
+  opacity: 0.8;
+}
+
+/* =========================================================================
+   MODALS - BOTTOM SHEET
+   ========================================================================= */
+
+.modal-backdrop-mobile {
+  padding: 0;
+  align-items: flex-end;
+}
+
+.modal-mobile {
+  width: 100%;
+  max-width: 100%;
+  max-height: 90vh;
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  animation: slideUpFromBottom var(--duration-base) var(--ease-out);
+}
+
+/* Drag handle for bottom sheet */
+.modal-mobile .modal-header::before {
+  content: '';
+  position: absolute;
+  top: var(--space-2);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 4px;
+  background: var(--color-border-medium);
+  border-radius: var(--radius-full);
+}
+
+@keyframes slideUpFromBottom {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Full-screen modal option */
+.modal-fullscreen-mobile {
+  max-height: 100vh;
+  height: 100vh;
+  border-radius: 0;
+}
+
+/* =========================================================================
+   BUTTONS - MOBILE TOUCH OPTIMIZATION
+   ========================================================================= */
+
+.btn {
+  min-height: 48px; /* iOS minimum touch target */
+  width: 100%; /* Full width by default on mobile */
+}
+
+.btn-mobile-inline {
+  width: auto; /* Override full width */
+}
+
+/* Sticky submit button */
+.btn-sticky-mobile {
+  position: fixed;
+  bottom: var(--space-4);
+  left: var(--space-4);
+  right: var(--space-4);
+  z-index: var(--z-sticky);
+  box-shadow: var(--shadow-xl);
+}
+
+/* Button group - stacked on mobile */
+.btn-group-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: 100%;
+}
+
+.btn-group-mobile .btn {
+  width: 100%;
+}
+
+/* =========================================================================
+   FORMS & INPUTS - MOBILE
+   ========================================================================= */
+
+.input,
+.textarea,
+.select select {
+  font-size: 16px; /* Prevents zoom on iOS */
+  height: 48px;
+}
+
+.textarea {
+  min-height: 120px;
+}
+
+/* Form stacked on mobile */
+.form-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.form-group {
+  width: 100%;
+}
+
+/* Search bar - mobile */
+.search-bar-mobile {
+  position: relative;
+  width: 100%;
+}
+
+.search-bar-mobile .input {
+  height: 52px;
+  padding: 0 var(--space-12) 0 var(--space-5);
+  border-radius: var(--radius-lg);
+  font-size: 16px; /* Prevent zoom */
+}
+
+.search-bar-mobile .input-icon {
+  right: var(--space-5);
+  font-size: 20px;
+}
+
+/* =========================================================================
+   DROPDOWNS - MOBILE NATIVE
+   ========================================================================= */
+
+/* Use native select on mobile for better UX */
+.select-mobile select {
+  font-size: 16px; /* Prevent zoom */
+  height: 48px;
+  padding: 0 var(--space-10) 0 var(--space-4);
+}
+
+/* Custom dropdown - bottom sheet style */
+.dropdown-mobile-sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-height: 70vh;
+  background: var(--color-bg-primary);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  box-shadow: var(--shadow-2xl);
+  z-index: var(--z-modal);
+  transform: translateY(100%);
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.dropdown-mobile-sheet.open {
+  transform: translateY(0);
+}
+
+.dropdown-mobile-header {
+  padding: var(--space-5) var(--space-4);
+  border-bottom: var(--border-width-thin) solid var(--color-border-light);
+  position: relative;
+}
+
+.dropdown-mobile-header::before {
+  content: '';
+  position: absolute;
+  top: var(--space-2);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 4px;
+  background: var(--color-border-medium);
+  border-radius: var(--radius-full);
+}
+
+.dropdown-mobile-list {
+  overflow-y: auto;
+  max-height: calc(70vh - 60px);
+  padding: var(--space-2);
+}
+
+.dropdown-mobile-item {
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: var(--transition-fast);
+  font-size: var(--text-base);
+}
+
+.dropdown-mobile-item:active {
+  background: var(--color-primary-50);
+}
+
+.dropdown-mobile-item.selected {
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+
+/* =========================================================================
+   CARDS - MOBILE
+   ========================================================================= */
+
+.card {
+  padding: var(--space-4);
+}
+
+/* Full-width cards on mobile */
+.card-mobile-full {
+  margin-left: calc(-1 * var(--space-4));
+  margin-right: calc(-1 * var(--space-4));
+  border-radius: 0;
+  border-left: none;
+  border-right: none;
+}
+
+/* Card list - stack vertically */
+.card-list-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* =========================================================================
+   ACCORDION / COLLAPSIBLE
+   ========================================================================= */
+
+.accordion-mobile {
+  border: var(--border-width-thin) solid var(--color-border-light);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.accordion-item {
+  border-bottom: var(--border-width-thin) solid var(--color-border-light);
+}
+
+.accordion-item:last-child {
+  border-bottom: none;
+}
+
+.accordion-header {
+  width: 100%;
+  padding: var(--space-4);
+  background: transparent;
+  border: none;
+  text-align: left;
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-medium);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.accordion-header:active {
+  background: var(--color-bg-secondary);
+}
+
+.accordion-icon {
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.accordion-item.open .accordion-icon {
+  transform: rotate(180deg);
+}
+
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height var(--duration-base) var(--ease-out);
+}
+
+.accordion-item.open .accordion-content {
+  max-height: 1000px;
+}
+
+.accordion-body {
+  padding: var(--space-4);
+  padding-top: 0;
+}
+
+/* =========================================================================
+   LISTS - MOBILE
+   ========================================================================= */
+
+.list-mobile {
+  list-style: none;
+  padding: 0;
+}
+
+.list-item-mobile {
+  padding: var(--space-4);
+  border-bottom: var(--border-width-thin) solid var(--color-border-light);
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  transition: var(--transition-fast);
+}
+
+.list-item-mobile:active {
+  background: var(--color-bg-secondary);
+}
+
+.list-item-mobile:last-child {
+  border-bottom: none;
+}
+
+/* =========================================================================
+   FLOATING ACTION BUTTON (FAB)
+   ========================================================================= */
+
+.fab {
+  position: fixed;
+  bottom: var(--space-6);
+  right: var(--space-6);
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-full);
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-xl);
+  cursor: pointer;
+  z-index: var(--z-fixed);
+  transition: var(--transition-base);
+}
+
+.fab:active {
+  transform: scale(0.9);
+}
+
+.fab-icon {
+  font-size: 24px;
+}
+
+/* =========================================================================
+   SWIPEABLE CONTENT
+   ========================================================================= */
+
+.swipe-container {
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+
+.swipe-container::-webkit-scrollbar {
+  display: none;
+}
+
+.swipe-item {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+}
+
+/* Swipe indicators (dots) */
+.swipe-dots {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+
+.swipe-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--color-border-medium);
+  transition: var(--transition-fast);
+}
+
+.swipe-dot.active {
+  background: var(--color-primary);
+  width: 24px;
+}
+
+/* =========================================================================
+   PULL TO REFRESH (Visual indicator)
+   ========================================================================= */
+
+.pull-to-refresh {
+  position: relative;
+}
+
+.pull-indicator {
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-base);
+}
+
+.pull-indicator.pulling {
+  top: 20px;
+}
+
+/* =========================================================================
+   TOAST NOTIFICATIONS
+   ========================================================================= */
+
+.toast-mobile {
+  position: fixed;
+  bottom: calc(var(--space-4) + 64px); /* Above bottom nav */
+  left: var(--space-4);
+  right: var(--space-4);
+  padding: var(--space-4);
+  background: var(--color-bg-dark);
+  color: var(--color-text-inverse);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-xl);
+  z-index: var(--z-notification);
+  animation: slideUpToast var(--duration-base) var(--ease-out);
+}
+
+@keyframes slideUpToast {
+  from {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* =========================================================================
+   MOBILE-SPECIFIC UTILITIES
+   ========================================================================= */
+
+.mobile-only {
+  display: block !important;
+}
+
+.tablet-only,
+.desktop-only {
+  display: none !important;
+}
+
+/* Hide on mobile */
+.mobile-hide {
+  display: none !important;
+}
+
+/* Stack vertically on mobile */
+.mobile-stack {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: var(--space-4) !important;
+}
+
+/* Center on mobile */
+.mobile-center {
+  text-align: center !important;
+}
+
+/* Full bleed on mobile */
+.mobile-full-bleed {
+  margin-left: calc(-1 * var(--space-4));
+  margin-right: calc(-1 * var(--space-4));
+}
+
+/* =========================================================================
+   SAFE AREA (iPhone notch support)
+   ========================================================================= */
+
+@supports (padding: max(0px)) {
+  .header-mobile {
+    padding-top: max(var(--space-2), env(safe-area-inset-top));
+  }
+  
+  .bottom-nav {
+    padding-bottom: max(var(--space-2), env(safe-area-inset-bottom));
+  }
+  
+  body {
+    padding-left: max(0px, env(safe-area-inset-left));
+    padding-right: max(0px, env(safe-area-inset-right));
+  }
+}
+
+} /* End of mobile media query */

@@ -1,0 +1,313 @@
+/**
+ * ============================================================================
+ * KURUKSHETRA MITRA - CSS RESET
+ * Modern CSS Reset with Enhancements
+ * Version: 2.0.0
+ * ============================================================================
+ * 
+ * This reset provides a clean, consistent baseline across all browsers.
+ * Based on modern reset practices with accessibility improvements.
+ */
+
+/* =========================================================================
+   BOX SIZING & BASICS
+   ========================================================================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* =========================================================================
+   HTML & BODY
+   ========================================================================= */
+
+html {
+  /* Prevent font size inflation on mobile */
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  
+  /* Smooth scrolling (can be disabled for reduced motion) */
+  scroll-behavior: smooth;
+  
+  /* Better font rendering */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
+  /* Set base font size */
+  font-size: 16px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  min-height: 100vh;
+  line-height: 1.5;
+  font-family: var(--font-primary);
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-primary);
+  
+  /* Prevent horizontal scroll */
+  overflow-x: hidden;
+  
+  /* Better text rendering */
+  text-rendering: optimizeLegibility;
+}
+
+/* =========================================================================
+   TYPOGRAPHY RESETS
+   ========================================================================= */
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--leading-tight);
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+/* =========================================================================
+   LISTS
+   ========================================================================= */
+
+ul, ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* =========================================================================
+   FORM ELEMENTS
+   ========================================================================= */
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  margin: 0;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+input,
+textarea,
+select {
+  border: none;
+  outline: none;
+  background: transparent;
+}
+
+/* Remove default appearance */
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+  -webkit-appearance: none;
+}
+
+/* Remove spinners from number inputs */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* =========================================================================
+   IMAGES & MEDIA
+   ========================================================================= */
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+svg {
+  fill: currentColor;
+}
+
+/* =========================================================================
+   IFRAME
+   ========================================================================= */
+
+iframe {
+  border: 0;
+}
+
+/* =========================================================================
+   TABLES
+   ========================================================================= */
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+td,
+th {
+  padding: 0;
+  text-align: left;
+}
+
+/* =========================================================================
+   ACCESSIBILITY
+   ========================================================================= */
+
+/* Screen reader only content */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Focus visible for keyboard navigation */
+:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Remove outline for mouse/touch users */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* =========================================================================
+   SELECTION
+   ========================================================================= */
+
+::selection {
+  background-color: var(--color-primary-200);
+  color: var(--color-text-primary);
+}
+
+::-moz-selection {
+  background-color: var(--color-primary-200);
+  color: var(--color-text-primary);
+}
+
+/* =========================================================================
+   SCROLLBAR STYLING (WebKit browsers)
+   ========================================================================= */
+
+/* Thin, styled scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary-200);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary-200) var(--color-bg-secondary);
+}
+
+/* =========================================================================
+   REDUCED MOTION
+   ========================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* =========================================================================
+   PRINT STYLES
+   ========================================================================= */
+
+@media print {
+  *,
+  *::before,
+  *::after {
+    background: transparent !important;
+    color: #000 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  
+  a,
+  a:visited {
+    text-decoration: underline;
+  }
+  
+  img {
+    page-break-inside: avoid;
+  }
+  
+  p,
+  h2,
+  h3 {
+    orphans: 3;
+    widows: 3;
+  }
+  
+  h2,
+  h3 {
+    page-break-after: avoid;
+  }
+}

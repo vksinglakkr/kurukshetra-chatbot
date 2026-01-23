@@ -1,0 +1,547 @@
+/**
+ * ============================================================================
+ * KURUKSHETRA MITRA - DESKTOP STYLES
+ * Optimized for screens 1024px and above
+ * Version: 2.0.0
+ * ============================================================================
+ * 
+ * This file contains desktop-specific enhancements:
+ * - Hover effects
+ * - Multi-column layouts
+ * - Larger spacing
+ * - Desktop navigation patterns
+ */
+
+@media (min-width: 1024px) {
+
+/* =========================================================================
+   LAYOUT ENHANCEMENTS
+   ========================================================================= */
+
+.container {
+  padding-left: var(--space-8);
+  padding-right: var(--space-8);
+}
+
+.page-wrapper {
+  padding: var(--space-12);
+}
+
+/* =========================================================================
+   HEADER / NAVIGATION
+   ========================================================================= */
+
+.header {
+  height: var(--nav-height-desktop);
+  padding: 0 var(--space-8);
+}
+
+.nav-list {
+  display: flex;
+  gap: var(--space-6);
+}
+
+.nav-item:hover {
+  transform: translateY(-2px);
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+/* Dropdown navigation */
+.nav-dropdown {
+  position: relative;
+}
+
+.nav-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 200px;
+  background: var(--color-bg-primary);
+  border: var(--border-width-thin) solid var(--color-border-light);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all var(--duration-base) var(--ease-out);
+  z-index: var(--z-dropdown);
+}
+
+.nav-dropdown:hover .nav-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* =========================================================================
+   SIDEBAR LAYOUT
+   ========================================================================= */
+
+.layout-with-sidebar {
+  display: grid;
+  grid-template-columns: var(--sidebar-width) 1fr;
+  gap: var(--space-8);
+  min-height: 100vh;
+}
+
+.sidebar {
+  position: sticky;
+  top: var(--space-4);
+  height: calc(100vh - var(--space-8));
+  overflow-y: auto;
+  padding: var(--space-6);
+  background: var(--color-bg-tertiary);
+  border-right: var(--border-width-thin) solid var(--color-border-light);
+}
+
+.sidebar-collapsed {
+  grid-template-columns: var(--sidebar-width-collapsed) 1fr;
+}
+
+.sidebar-collapsed .sidebar {
+  width: var(--sidebar-width-collapsed);
+}
+
+.sidebar-nav-item {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  transition: var(--transition-base);
+}
+
+.sidebar-nav-item:hover {
+  background: var(--color-primary-50);
+  color: var(--color-primary);
+  transform: translateX(4px);
+}
+
+/* =========================================================================
+   CARDS - DESKTOP ENHANCEMENTS
+   ========================================================================= */
+
+.card {
+  transition: all var(--duration-base) var(--ease-out);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-xl);
+  transform: translateY(-4px);
+}
+
+.card-interactive:hover {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-primary-lg);
+}
+
+/* Card grid - better spacing */
+.card-grid {
+  gap: var(--space-8);
+}
+
+/* =========================================================================
+   MODALS - DESKTOP SPECIFIC
+   ========================================================================= */
+
+.modal {
+  max-height: 85vh;
+  animation: modalFadeIn var(--duration-base) var(--ease-out);
+}
+
+.modal-backdrop {
+  backdrop-filter: blur(4px);
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* =========================================================================
+   TABS - DESKTOP LAYOUT
+   ========================================================================= */
+
+.tabs-large {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-8);
+  margin-bottom: var(--space-8);
+}
+
+.tabs-large .tab-item {
+  padding: var(--space-4) var(--space-8);
+  font-size: var(--text-lg);
+  min-width: 200px;
+  text-align: center;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.tabs-large .tab-item:hover {
+  background: var(--color-primary-100);
+  transform: translateY(-2px);
+}
+
+.tabs-large .tab-item.active {
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  box-shadow: var(--shadow-md);
+}
+
+/* =========================================================================
+   BUTTONS - DESKTOP HOVER EFFECTS
+   ========================================================================= */
+
+.btn {
+  cursor: pointer;
+}
+
+.btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-group {
+  gap: var(--space-4);
+}
+
+/* Icon button with tooltip on hover */
+.btn-icon:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-bg-dark);
+  color: var(--color-text-inverse);
+  font-size: var(--text-xs);
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+  pointer-events: none;
+  animation: fadeIn var(--duration-fast) var(--ease-out);
+}
+
+/* =========================================================================
+   INPUTS - DESKTOP ENHANCEMENTS
+   ========================================================================= */
+
+.input:hover {
+  border-color: var(--color-border-dark);
+}
+
+.select select:hover {
+  border-color: var(--color-border-dark);
+}
+
+/* Larger search bars on desktop */
+.search-bar-desktop {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.search-bar-desktop .input {
+  height: 56px;
+  font-size: var(--text-lg);
+  padding: 0 var(--space-16) 0 var(--space-6);
+  border-radius: var(--radius-xl);
+}
+
+.search-bar-desktop .input:focus {
+  box-shadow: var(--shadow-primary-lg);
+}
+
+/* =========================================================================
+   DROPDOWNS - DESKTOP MENU
+   ========================================================================= */
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  min-width: 200px;
+  max-height: 400px;
+  overflow-y: auto;
+  background: var(--color-bg-primary);
+  border: var(--border-width-thin) solid var(--color-border-light);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  padding: var(--space-2);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all var(--duration-base) var(--ease-out);
+  z-index: var(--z-dropdown);
+}
+
+.dropdown.active .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-item {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.dropdown-item:hover {
+  background: var(--color-primary-50);
+  color: var(--color-primary);
+}
+
+.dropdown-item.active {
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+
+/* =========================================================================
+   MULTI-COLUMN CONTENT
+   ========================================================================= */
+
+.two-column-desktop {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-8);
+}
+
+.three-column-desktop {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-8);
+}
+
+.four-column-desktop {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-6);
+}
+
+/* Content with aside */
+.content-with-aside {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: var(--space-8);
+}
+
+/* =========================================================================
+   HERO SECTIONS
+   ========================================================================= */
+
+.hero-desktop {
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+  padding: var(--space-16) var(--space-8);
+}
+
+.hero-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-12);
+  align-items: center;
+}
+
+/* =========================================================================
+   FOOTER - DESKTOP LAYOUT
+   ========================================================================= */
+
+.footer-desktop {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-8);
+  padding: var(--space-12) var(--space-8);
+}
+
+/* =========================================================================
+   TABLE - DESKTOP ENHANCEMENTS
+   ========================================================================= */
+
+.table-desktop {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-desktop thead {
+  background: var(--color-bg-secondary);
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+}
+
+.table-desktop th,
+.table-desktop td {
+  padding: var(--space-4);
+  text-align: left;
+  border-bottom: var(--border-width-thin) solid var(--color-border-light);
+}
+
+.table-desktop tbody tr {
+  transition: var(--transition-fast);
+}
+
+.table-desktop tbody tr:hover {
+  background: var(--color-bg-tertiary);
+}
+
+/* =========================================================================
+   SCROLLBAR CUSTOMIZATION
+   ========================================================================= */
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary-200);
+  border-radius: var(--radius-full);
+  border: 2px solid var(--color-bg-secondary);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
+
+/* =========================================================================
+   STICKY ELEMENTS
+   ========================================================================= */
+
+.sticky-desktop {
+  position: sticky;
+  top: var(--space-4);
+  z-index: var(--z-sticky);
+}
+
+.sticky-header-desktop {
+  position: sticky;
+  top: 0;
+  background: var(--color-bg-primary);
+  z-index: var(--z-sticky);
+  box-shadow: var(--shadow-sm);
+}
+
+/* =========================================================================
+   HOVER ANIMATIONS
+   ========================================================================= */
+
+.hover-lift {
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.hover-lift:hover {
+  transform: translateY(-8px);
+}
+
+.hover-scale {
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 20px var(--color-primary-200);
+}
+
+/* =========================================================================
+   KEYBOARD NAVIGATION ENHANCEMENTS
+   ========================================================================= */
+
+*:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline-offset: 4px;
+}
+
+/* =========================================================================
+   GRID MASONRY LAYOUT (Desktop)
+   ========================================================================= */
+
+.masonry-grid {
+  column-count: 3;
+  column-gap: var(--space-6);
+}
+
+.masonry-item {
+  break-inside: avoid;
+  margin-bottom: var(--space-6);
+}
+
+/* =========================================================================
+   DESKTOP-SPECIFIC UTILITIES
+   ========================================================================= */
+
+.desktop-only {
+  display: block;
+}
+
+.mobile-only,
+.tablet-only {
+  display: none !important;
+}
+
+/* Wider content on large screens */
+.wide-desktop {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Split view (code editor style) */
+.split-view-desktop {
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr;
+  gap: 0;
+  min-height: 500px;
+}
+
+.split-view-divider {
+  background: var(--color-border-medium);
+  cursor: col-resize;
+}
+
+/* =========================================================================
+   PRINT OPTIMIZATIONS (Desktop)
+   ========================================================================= */
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  .card {
+    break-inside: avoid;
+  }
+  
+  .modal-backdrop {
+    display: none !important;
+  }
+}
+
+} /* End of desktop media query */

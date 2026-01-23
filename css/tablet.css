@@ -1,0 +1,518 @@
+/**
+ * ============================================================================
+ * KURUKSHETRA MITRA - TABLET STYLES
+ * Optimized for screens 768px to 1023px
+ * Version: 2.0.0
+ * ============================================================================
+ * 
+ * This file contains tablet-specific styles:
+ * - Two-column layouts
+ * - Touch + hover support
+ * - Medium-sized components
+ * - Optimized spacing
+ */
+
+@media (min-width: 768px) and (max-width: 1023px) {
+
+/* =========================================================================
+   LAYOUT
+   ========================================================================= */
+
+.container {
+  padding-left: var(--space-6);
+  padding-right: var(--space-6);
+}
+
+.page-wrapper {
+  padding: var(--space-8);
+}
+
+/* =========================================================================
+   HEADER / NAVIGATION
+   ========================================================================= */
+
+.header {
+  height: 70px;
+  padding: 0 var(--space-6);
+}
+
+.nav-list {
+  display: flex;
+  gap: var(--space-4);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.nav-list::-webkit-scrollbar {
+  display: none;
+}
+
+/* =========================================================================
+   GRID LAYOUTS
+   ========================================================================= */
+
+/* Two-column grid by default */
+.grid-tablet-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-6);
+}
+
+/* Three-column for smaller cards */
+.card-grid-tablet {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-6);
+}
+
+/* =========================================================================
+   TABS - TABLET LAYOUT
+   ========================================================================= */
+
+.tabs-tablet {
+  display: flex;
+  justify-content: space-around;
+  border-bottom: var(--border-width-base) solid var(--color-border-light);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.tabs-tablet::-webkit-scrollbar {
+  display: none;
+}
+
+.tabs-tablet .tab-item {
+  flex: 1;
+  min-width: 120px;
+  padding: var(--space-4) var(--space-6);
+  text-align: center;
+}
+
+/* Large tab cards (side by side) */
+.tab-cards-tablet {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+}
+
+.tab-card {
+  padding: var(--space-6);
+  border: var(--border-width-base) solid var(--color-border-light);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition-base);
+}
+
+.tab-card:hover,
+.tab-card:active {
+  border-color: var(--color-primary);
+  background: var(--color-primary-50);
+  transform: scale(1.02);
+}
+
+.tab-card.active {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  box-shadow: var(--shadow-primary);
+}
+
+/* =========================================================================
+   CARDS - TABLET SIZING
+   ========================================================================= */
+
+.card {
+  padding: var(--space-6);
+}
+
+.card:hover,
+.card:active {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+/* =========================================================================
+   MODALS - TABLET
+   ========================================================================= */
+
+.modal {
+  max-width: var(--modal-width-base);
+  max-height: 80vh;
+  margin: var(--space-6);
+}
+
+.modal-backdrop {
+  padding: var(--space-6);
+}
+
+/* =========================================================================
+   BUTTONS - TABLET TOUCH TARGETS
+   ========================================================================= */
+
+.btn {
+  min-height: 48px; /* iOS recommended touch target */
+  padding: var(--space-3) var(--space-6);
+}
+
+.btn-group {
+  gap: var(--space-3);
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+/* =========================================================================
+   INPUTS - TABLET
+   ========================================================================= */
+
+.input,
+.select select {
+  height: 48px; /* Touch-friendly */
+  font-size: var(--text-base);
+}
+
+.textarea {
+  min-height: 120px;
+}
+
+/* =========================================================================
+   FORMS - TWO COLUMN LAYOUT
+   ========================================================================= */
+
+.form-grid-tablet {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+.form-grid-tablet .form-group-full {
+  grid-column: 1 / -1;
+}
+
+/* =========================================================================
+   SIDEBAR - COLLAPSIBLE ON TABLET
+   ========================================================================= */
+
+.layout-with-sidebar-tablet {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: var(--space-6);
+}
+
+.sidebar-tablet {
+  position: sticky;
+  top: var(--space-4);
+  height: calc(100vh - var(--space-8));
+  overflow-y: auto;
+}
+
+/* Hidden sidebar with toggle */
+.sidebar-tablet-hidden {
+  position: fixed;
+  left: -240px;
+  top: 0;
+  height: 100vh;
+  background: var(--color-bg-primary);
+  box-shadow: var(--shadow-xl);
+  z-index: var(--z-modal);
+  transition: left var(--duration-base) var(--ease-out);
+}
+
+.sidebar-tablet-hidden.open {
+  left: 0;
+}
+
+/* Sidebar overlay */
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--color-overlay-medium);
+  z-index: calc(var(--z-modal) - 1);
+  display: none;
+}
+
+.sidebar-overlay.active {
+  display: block;
+}
+
+/* =========================================================================
+   DROPDOWNS - TABLET
+   ========================================================================= */
+
+.select-tablet {
+  position: relative;
+}
+
+.select-tablet select {
+  width: 100%;
+  height: 48px;
+  padding: 0 var(--space-12) 0 var(--space-4);
+}
+
+/* Custom dropdown for better touch targets */
+.dropdown-tablet {
+  position: relative;
+}
+
+.dropdown-tablet-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  max-height: 300px;
+  overflow-y: auto;
+  background: var(--color-bg-primary);
+  border: var(--border-width-thin) solid var(--color-border-light);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  z-index: var(--z-dropdown);
+}
+
+.dropdown-tablet-item {
+  padding: var(--space-4);
+  border-bottom: var(--border-width-thin) solid var(--color-border-light);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.dropdown-tablet-item:last-child {
+  border-bottom: none;
+}
+
+.dropdown-tablet-item:active {
+  background: var(--color-primary-50);
+}
+
+/* =========================================================================
+   SPLIT VIEW - TABLET
+   ========================================================================= */
+
+.split-tablet {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+  min-height: 400px;
+}
+
+/* =========================================================================
+   HERO SECTIONS - TABLET
+   ========================================================================= */
+
+.hero-tablet {
+  min-height: 400px;
+  padding: var(--space-12) var(--space-6);
+  text-align: center;
+}
+
+.hero-split-tablet {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-8);
+  align-items: center;
+}
+
+/* =========================================================================
+   FOOTER - TABLET
+   ========================================================================= */
+
+.footer-tablet {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-6);
+  padding: var(--space-8) var(--space-6);
+}
+
+/* =========================================================================
+   LISTS - TWO COLUMN
+   ========================================================================= */
+
+.list-two-column-tablet {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+/* =========================================================================
+   IMAGE GALLERIES - TABLET
+   ========================================================================= */
+
+.gallery-tablet {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+}
+
+.gallery-item-tablet {
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+}
+
+.gallery-item-tablet img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.gallery-item-tablet:active img {
+  transform: scale(1.05);
+}
+
+/* =========================================================================
+   ALERTS - TABLET
+   ========================================================================= */
+
+.alert-tablet {
+  padding: var(--space-5);
+  font-size: var(--text-base);
+}
+
+/* =========================================================================
+   SEARCH BAR - TABLET
+   ========================================================================= */
+
+.search-bar-tablet {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.search-bar-tablet .input {
+  height: 52px;
+  padding: 0 var(--space-12) 0 var(--space-5);
+  font-size: var(--text-base);
+  border-radius: var(--radius-lg);
+}
+
+/* =========================================================================
+   TOUCH INTERACTIONS
+   ========================================================================= */
+
+/* Larger touch targets */
+.touch-target-tablet {
+  min-width: 48px;
+  min-height: 48px;
+}
+
+/* Active state feedback */
+.interactive-tablet:active {
+  opacity: 0.8;
+  transform: scale(0.98);
+}
+
+/* Swipe indicator for tabs */
+.swipeable-tabs::after {
+  content: '← Swipe →';
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+  opacity: 0.7;
+}
+
+/* =========================================================================
+   ORIENTATION-SPECIFIC STYLES
+   ========================================================================= */
+
+/* Portrait mode (768px wide) */
+@media (orientation: portrait) {
+  .grid-tablet-2 {
+    grid-template-columns: 1fr;
+  }
+  
+  .split-tablet {
+    grid-template-columns: 1fr;
+  }
+  
+  .hero-split-tablet {
+    grid-template-columns: 1fr;
+  }
+  
+  .footer-tablet {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Landscape mode (1024px wide) */
+@media (orientation: landscape) {
+  .gallery-tablet {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* =========================================================================
+   TABLET-SPECIFIC UTILITIES
+   ========================================================================= */
+
+.tablet-only {
+  display: block;
+}
+
+.mobile-only {
+  display: none !important;
+}
+
+.desktop-only {
+  display: none !important;
+}
+
+/* Center content on tablet */
+.center-tablet {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* =========================================================================
+   SCROLLABLE AREAS
+   ========================================================================= */
+
+.scroll-container-tablet {
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.scroll-container-tablet::-webkit-scrollbar {
+  display: none;
+}
+
+/* Scroll snap for better experience */
+.scroll-snap-tablet {
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+}
+
+.scroll-snap-item {
+  scroll-snap-align: start;
+}
+
+/* =========================================================================
+   HOVER & ACTIVE STATES (Hybrid Touch/Mouse)
+   ========================================================================= */
+
+/* Support both hover and active states */
+@media (hover: hover) {
+  .card:hover {
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+  }
+}
+
+/* Always show active state for touch */
+.card:active,
+.btn:active {
+  transform: scale(0.98);
+}
+
+} /* End of tablet media query */
