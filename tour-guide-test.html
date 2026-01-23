@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tour Guide Data Test - Kurukshetra Mitra</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/typography.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/desktop.css">
+    <link rel="stylesheet" href="css/tablet.css">
+    <link rel="stylesheet" href="css/mobile.css">
+    <link rel="stylesheet" href="css/animations.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        .test-container {
+            padding: var(--space-8);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .search-demo {
+            margin: var(--space-6) 0;
+        }
+        
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: var(--space-4);
+            margin-top: var(--space-4);
+        }
+        
+        .site-card {
+            padding: var(--space-4);
+            background: var(--color-bg-tertiary);
+            border: var(--border-width-thin) solid var(--color-border-light);
+            border-left: 4px solid var(--color-primary);
+            border-radius: var(--radius-md);
+            transition: var(--transition-base);
+            cursor: pointer;
+        }
+        
+        .site-card:hover {
+            border-left-width: 6px;
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+        
+        .site-card-header {
+            display: flex;
+            align-items: start;
+            gap: var(--space-3);
+            margin-bottom: var(--space-2);
+        }
+        
+        .site-icon {
+            font-size: 24px;
+        }
+        
+        .site-name {
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-primary);
+            flex: 1;
+        }
+        
+        .site-category {
+            font-size: var(--text-sm);
+            color: var(--color-text-secondary);
+            margin-top: var(--space-1);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-4);
+            margin: var(--space-6) 0;
+        }
+        
+        .stat-card {
+            text-align: center;
+            padding: var(--space-5);
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+            color: var(--color-text-inverse);
+            border-radius: var(--radius-lg);
+        }
+        
+        .stat-number {
+            font-size: var(--text-4xl);
+            font-weight: var(--font-weight-bold);
+            margin-bottom: var(--space-2);
+        }
+        
+        .stat-label {
+            font-size: var(--text-sm);
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container fade-in">
+        <!-- Header -->
+        <header style="text-align: center; margin-bottom: var(--space-8);">
+            <h1 class="heading-display">🗺️ Tour Guide Data Test</h1>
+            <p class="text-lead" style="color: var(--color-text-secondary);">
+                90 Heritage Sites from Kurukshetra
+            </p>
+        </header>
+        
+        <!-- Statistics -->
+        <section class="card card-elevated mb-8">
+            <h2 class="heading-section mb-6">
+                <i class="fas fa-chart-bar"></i> Data Statistics
+            </h2>
+            
+            <div class="stats-grid" id="statsGrid">
+                <!-- Will be populated by JavaScript -->
+            </div>
+        </section>
+        
+        <!-- Search Demo -->
+        <section class="card mb-8">
+            <h2 class="heading-section mb-6">
+                <i class="fas fa-search"></i> Search Sites
+            </h2>
+            
+            <div class="search-demo">
+                <div class="input-wrapper">
+                    <input 
+                        type="search" 
+                        class="input input-lg" 
+                        id="searchInput" 
+                        placeholder="Search sites... (try 'brahma', 'temple', 'sarovar')"
+                    >
+                    <i class="fas fa-search input-icon"></i>
+                </div>
+                
+                <div id="searchResults" class="results-grid"></div>
+            </div>
+        </section>
+        
+        <!-- Filter by Category -->
+        <section class="card mb-8">
+            <h2 class="heading-section mb-6">
+                <i class="fas fa-filter"></i> Filter by Category
+            </h2>
+            
+            <div class="mb-4">
+                <div class="select">
+                    <select id="categorySelect">
+                        <option value="">-- Select Category --</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div id="categoryResults" class="results-grid"></div>
+        </section>
+        
+        <!-- Must-Visit Sites -->
+        <section class="card card-elevated mb-8">
+            <h2 class="heading-section mb-6">
+                <i class="fas fa-star"></i> Must-Visit Sites
+            </h2>
+            
+            <div id="mustVisitResults" class="results-grid"></div>
+        </section>
+        
+        <!-- API Demo -->
+        <section class="card mb-8">
+            <h2 class="heading-section mb-6">
+                <i class="fas fa-code"></i> API Test
+            </h2>
+            
+            <div class="btn-group mb-4">
+                <button class="btn btn-primary" onclick="testGetRandom()">
+                    <i class="fas fa-random"></i> Random Site
+                </button>
+                <button class="btn btn-secondary" onclick="testGetStats()">
+                    <i class="fas fa-chart-pie"></i> Show Stats
+                </button>
+                <button class="btn btn-outline" onclick="testAutocomplete()">
+                    <i class="fas fa-magic"></i> Test Autocomplete
+                </button>
+            </div>
+            
+            <div class="alert alert-info" id="apiResult" style="display: none;">
+                <div class="alert-content">
+                    <div class="alert-message" id="apiMessage"></div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <!-- JavaScript -->
+    <script src="js/tour-guide-data.js"></script>
+    <script>
+        // Initialize Tour Guide Data
+        const tourData = TourGuideData.init();
+        
+        console.log('🎉 Tour Guide Data Test Page Ready!');
+        
+        // =====================================================================
+        // POPULATE STATISTICS
+        // =====================================================================
+        
+        function populateStats() {
+            const stats = tourData.getStats();
+            const statsGrid = document.getElementById('statsGrid');
+            
+            statsGrid.innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-number">${stats.totalSites}</div>
+                    <div class="stat-label">Total Sites</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${stats.totalCategories}</div>
+                    <div class="stat-label">Categories</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${stats.mustVisitCount}</div>
+                    <div class="stat-label">Must-Visit</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">v${stats.version}</div>
+                    <div class="stat-label">Version</div>
+                </div>
+            `;
+        }
+        
+        // =====================================================================
+        // POPULATE CATEGORIES DROPDOWN
+        // =====================================================================
+        
+        function populateCategories() {
+            const categories = tourData.getAllCategories();
+            const select = document.getElementById('categorySelect');
+            
+            categories.forEach(cat => {
+                const option = document.createElement('option');
+                option.value = cat.name;
+                option.textContent = `${cat.icon} ${cat.name} (${cat.count})`;
+                select.appendChild(option);
+            });
+        }
+        
+        // =====================================================================
+        // RENDER SITE CARD
+        // =====================================================================
+        
+        function renderSiteCard(site) {
+            const mustVisit = site.mustVisit ? '<span class="must-visit" style="color: #ff6b6b;">⭐</span>' : '';
+            
+            return `
+                <div class="site-card">
+                    <div class="site-card-header">
+                        <span class="site-icon">${site.categoryIcon}</span>
+                        <div style="flex: 1;">
+                            <div class="site-name">
+                                ${site.name} ${mustVisit}
+                            </div>
+                            <div class="site-category">${site.category}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // =====================================================================
+        // SEARCH FUNCTIONALITY
+        // =====================================================================
+        
+        const searchInput = document.getElementById('searchInput');
+        const searchResults = document.getElementById('searchResults');
+        
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value;
+            
+            if (query.length < 2) {
+                searchResults.innerHTML = '';
+                return;
+            }
+            
+            const results = tourData.searchByName(query);
+            
+            if (results.length === 0) {
+                searchResults.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--color-text-tertiary);">No results found</p>';
+                return;
+            }
+            
+            searchResults.innerHTML = results.map(site => renderSiteCard(site)).join('');
+        });
+        
+        // =====================================================================
+        // CATEGORY FILTER
+        // =====================================================================
+        
+        const categorySelect = document.getElementById('categorySelect');
+        const categoryResults = document.getElementById('categoryResults');
+        
+        categorySelect.addEventListener('change', (e) => {
+            const categoryName = e.target.value;
+            
+            if (!categoryName) {
+                categoryResults.innerHTML = '';
+                return;
+            }
+            
+            const results = tourData.getSitesByCategory(categoryName);
+            categoryResults.innerHTML = results.map(site => renderSiteCard(site)).join('');
+        });
+        
+        // =====================================================================
+        // MUST-VISIT SITES
+        // =====================================================================
+        
+        function showMustVisit() {
+            const mustVisit = tourData.getMustVisitSites();
+            const container = document.getElementById('mustVisitResults');
+            container.innerHTML = mustVisit.map(site => renderSiteCard(site)).join('');
+        }
+        
+        // =====================================================================
+        // API TESTS
+        // =====================================================================
+        
+        function showApiResult(message) {
+            const result = document.getElementById('apiResult');
+            const messageEl = document.getElementById('apiMessage');
+            messageEl.textContent = message;
+            result.style.display = 'block';
+            setTimeout(() => {
+                result.style.display = 'none';
+            }, 5000);
+        }
+        
+        function testGetRandom() {
+            const site = tourData.getRandomSite();
+            showApiResult(`Random Site: ${site.categoryIcon} ${site.name} (${site.category})`);
+        }
+        
+        function testGetStats() {
+            const stats = tourData.getStats();
+            console.log('📊 Full statistics:', stats);
+            showApiResult(`Check console (F12) for full statistics table!`);
+        }
+        
+        function testAutocomplete() {
+            const query = 'bra';
+            const suggestions = tourData.getAutocompleteSuggestions(query, 5);
+            const names = suggestions.map(s => s.name).join(', ');
+            showApiResult(`Autocomplete for "${query}": ${names}`);
+            console.log('Autocomplete results:', suggestions);
+        }
+        
+        // =====================================================================
+        // INITIALIZE
+        // =====================================================================
+        
+        populateStats();
+        populateCategories();
+        showMustVisit();
+        
+        console.log('✅ Page fully loaded and functional!');
+        console.log('💡 Try the search box, category filter, and API buttons!');
+    </script>
+</body>
+</html>
