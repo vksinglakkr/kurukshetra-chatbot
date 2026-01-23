@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autocomplete Test - Kurukshetra Mitra</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/typography.css">
+    <link rel="stylesheet" href="css/components.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #fdfbf7 0%, #e6d5c3 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .test-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .hero h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            color: #8B4513;
+            margin-bottom: 0.5rem;
+        }
+        
+        .hero p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+        
+        .search-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(139, 69, 19, 0.15);
+            margin-bottom: 2rem;
+        }
+        
+        .search-label {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        .search-input-wrapper {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 1.2rem 3.5rem 1.2rem 1.5rem;
+            font-size: 1.1rem;
+            border: 3px solid #8B4513;
+            border-radius: 50px;
+            outline: none;
+            transition: all 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #d4af37;
+            box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
+        }
+        
+        .search-icon {
+            position: absolute;
+            right: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.3rem;
+            color: #8B4513;
+        }
+        
+        .hint-text {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            text-align: center;
+            margin-top: 1rem;
+        }
+        
+        .hint-text strong {
+            color: #8B4513;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .selected-display {
+            background: #fffaf0;
+            border: 2px solid #d4af37;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            display: none;
+        }
+        
+        .selected-display.show {
+            display: block;
+        }
+        
+        .selected-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #8B4513;
+            margin-bottom: 0.5rem;
+        }
+        
+        .selected-subtitle {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        
+        .selected-content {
+            background: white;
+            padding: 1rem;
+            border-radius: 10px;
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+        
+        .instructions {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .instructions h2 {
+            color: #8B4513;
+            margin-bottom: 1rem;
+        }
+        
+        .instructions ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .instructions li {
+            padding: 0.5rem 0;
+            color: #555;
+        }
+        
+        .instructions li::before {
+            content: "✅ ";
+            margin-right: 0.5rem;
+        }
+        
+        .keyboard-help {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+        }
+        
+        .keyboard-help strong {
+            color: #8B4513;
+        }
+        
+        /* Autocomplete custom styles */
+        .ac-highlight {
+            background: #fffacd;
+            font-weight: 600;
+            padding: 0 2px;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .search-section {
+                padding: 1.5rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <!-- Hero Section -->
+        <div class="hero">
+            <h1>🔍 Autocomplete Test</h1>
+            <p>Smart Suggestions with Integrated Data</p>
+        </div>
+        
+        <!-- Statistics -->
+        <div class="stats-grid" id="statsGrid">
+            <!-- Will be populated by JavaScript -->
+        </div>
+        
+        <!-- Instructions -->
+        <div class="instructions">
+            <h2><i class="fas fa-info-circle"></i> How to Test</h2>
+            <ul>
+                <li>Type at least 2 characters in the search box</li>
+                <li>Suggestions will appear from both Sites and Q&A database</li>
+                <li>Use <strong>↑↓ arrow keys</strong> to navigate</li>
+                <li>Press <strong>Enter</strong> to select</li>
+                <li>Press <strong>Escape</strong> to close</li>
+                <li>Click on any suggestion to select it</li>
+            </ul>
+            
+            <div class="keyboard-help">
+                <strong>Try these searches:</strong> brahma, gita, jyotisar, reach, food, temple, sarovar, museum
+            </div>
+        </div>
+        
+        <!-- Search Section -->
+        <div class="search-section">
+            <label class="search-label">
+                <i class="fas fa-search"></i> Search Kurukshetra Heritage
+            </label>
+            
+            <div class="search-input-wrapper">
+                <input 
+                    type="search" 
+                    class="search-input" 
+                    id="searchInput"
+                    placeholder="Type to search sites or questions..."
+                    autocomplete="off"
+                >
+                <i class="fas fa-search search-icon"></i>
+            </div>
+            
+            <div class="hint-text">
+                💡 Start typing... <strong>Suggestions will appear automatically!</strong>
+            </div>
+            
+            <!-- Selected Item Display -->
+            <div class="selected-display" id="selectedDisplay">
+                <div class="selected-title" id="selectedTitle"></div>
+                <div class="selected-subtitle" id="selectedSubtitle"></div>
+                <div class="selected-content" id="selectedContent"></div>
+            </div>
+        </div>
+        
+        <!-- Console Output -->
+        <div class="instructions">
+            <h2><i class="fas fa-terminal"></i> Console Output</h2>
+            <p style="color: #666;">
+                Open browser console (F12) to see detailed logs of:
+            </p>
+            <ul>
+                <li>Initialization status</li>
+                <li>Search queries and results</li>
+                <li>Selection events</li>
+                <li>Data source connections</li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- JavaScript - Load in order -->
+    <script src="js/tour-guide-data.js"></script>
+    <script src="js/questions-data.js"></script>
+    <script src="js/autocomplete.js"></script>
+    
+    <script>
+        console.log('🎉 Autocomplete Test Page Loading...');
+        
+        // =====================================================================
+        // INITIALIZE DATA MODULES
+        // =====================================================================
+        
+        const tourGuide = TourGuideData.init();
+        const questions = QuestionsData.init();
+        
+        console.log('✅ Data modules initialized');
+        
+        // =====================================================================
+        // INITIALIZE AUTOCOMPLETE
+        // =====================================================================
+        
+        const autocomplete = AutocompleteModule.init({
+            inputElement: document.getElementById('searchInput')
+        });
+        
+        console.log('✅ Autocomplete initialized');
+        
+        // =====================================================================
+        // POPULATE STATISTICS
+        // =====================================================================
+        
+        function populateStats() {
+            const tourStats = tourGuide.getStats();
+            const questionStats = questions.getStats();
+            
+            const statsGrid = document.getElementById('statsGrid');
+            statsGrid.innerHTML = `
+                <div class="stat-card">
+                    <span class="stat-number">${tourStats.totalSites}</span>
+                    <span class="stat-label">Heritage Sites</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">${questionStats.totalQuestions}</span>
+                    <span class="stat-label">Q&A Pairs</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">${tourStats.totalSites + questionStats.totalQuestions}</span>
+                    <span class="stat-label">Total Searchable</span>
+                </div>
+            `;
+        }
+        
+        populateStats();
+        
+        // =====================================================================
+        // HANDLE SELECTION
+        // =====================================================================
+        
+        const searchInput = document.getElementById('searchInput');
+        const selectedDisplay = document.getElementById('selectedDisplay');
+        const selectedTitle = document.getElementById('selectedTitle');
+        const selectedSubtitle = document.getElementById('selectedSubtitle');
+        const selectedContent = document.getElementById('selectedContent');
+        
+        searchInput.addEventListener('autocomplete:select', (e) => {
+            const selection = e.detail;
+            console.log('🎯 Selection made:', selection);
+            
+            // Show selected item
+            selectedDisplay.classList.add('show');
+            
+            if (selection.type === 'site') {
+                selectedTitle.innerHTML = `${selection.icon} ${selection.title}`;
+                selectedSubtitle.textContent = selection.subtitle;
+                selectedContent.innerHTML = `
+                    <strong>Site ID:</strong> ${selection.data.id}<br>
+                    <strong>Category:</strong> ${selection.data.category}<br>
+                    <strong>Must Visit:</strong> ${selection.data.mustVisit ? '⭐ Yes' : 'No'}<br>
+                    <strong>Keywords:</strong> ${selection.data.keywords.join(', ')}
+                `;
+            } else if (selection.type === 'question') {
+                selectedTitle.innerHTML = `${selection.icon} ${selection.title}`;
+                selectedSubtitle.textContent = selection.subtitle;
+                selectedContent.innerHTML = `
+                    <strong>Answer:</strong><br>
+                    ${selection.data.answer}
+                `;
+            }
+            
+            // Scroll to display
+            selectedDisplay.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+        
+        // =====================================================================
+        // CLEAR DISPLAY ON NEW SEARCH
+        // =====================================================================
+        
+        searchInput.addEventListener('input', () => {
+            if (searchInput.value.length < 2) {
+                selectedDisplay.classList.remove('show');
+            }
+        });
+        
+        // =====================================================================
+        // READY
+        // =====================================================================
+        
+        console.log('');
+        console.log('═══════════════════════════════════════════════════════');
+        console.log('🎉 AUTOCOMPLETE TEST PAGE READY!');
+        console.log('═══════════════════════════════════════════════════════');
+        console.log('');
+        console.log('📊 Data Sources Connected:');
+        console.log(`   ✅ Tour Guide Data: ${tourGuide.getStats().totalSites} sites`);
+        console.log(`   ✅ Questions Data: ${questions.getStats().totalQuestions} questions`);
+        console.log('');
+        console.log('🔍 Autocomplete Features:');
+        console.log('   ✅ Real-time suggestions');
+        console.log('   ✅ Keyboard navigation (↑↓ Enter Escape)');
+        console.log('   ✅ Text highlighting');
+        console.log('   ✅ Debounced search');
+        console.log('   ✅ Mobile-friendly');
+        console.log('');
+        console.log('💡 Try typing: brahma, gita, reach, food, temple');
+        console.log('');
+    </script>
+</body>
+</html>
