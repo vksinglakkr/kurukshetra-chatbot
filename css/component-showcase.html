@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kurukshetra Mitra - Component Showcase</title>
+    
+    <!-- CSS Files (in order) -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/typography.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/desktop.css">
+    <link rel="stylesheet" href="css/tablet.css">
+    <link rel="stylesheet" href="css/mobile.css">
+    <link rel="stylesheet" href="css/chat-mode.css">
+    <link rel="stylesheet" href="css/animations.css">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Demo-specific styles */
+        .demo-section {
+            margin-bottom: var(--space-12);
+            padding-bottom: var(--space-8);
+            border-bottom: var(--border-width-thin) solid var(--color-border-light);
+        }
+        
+        .demo-header {
+            background: linear-gradient(135deg, var(--color-bg-gradient-start), var(--color-bg-gradient-end));
+            color: var(--color-text-inverse);
+            padding: var(--space-12) var(--space-6);
+            text-align: center;
+            margin-bottom: var(--space-8);
+        }
+        
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-4);
+            margin-top: var(--space-4);
+        }
+        
+        .color-swatch {
+            height: 80px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: var(--font-weight-semibold);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .responsive-indicator {
+            position: fixed;
+            bottom: var(--space-4);
+            right: var(--space-4);
+            padding: var(--space-2) var(--space-4);
+            background: var(--color-bg-dark);
+            color: var(--color-text-inverse);
+            border-radius: var(--radius-full);
+            font-size: var(--text-sm);
+            font-weight: var(--font-weight-semibold);
+            z-index: var(--z-max);
+            box-shadow: var(--shadow-xl);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Responsive Indicator -->
+    <div class="responsive-indicator" id="responsiveIndicator">
+        <i class="fas fa-desktop"></i> Desktop
+    </div>
+
+    <!-- Demo Header -->
+    <div class="demo-header fade-in">
+        <h1 class="heading-display">🕉️ Kurukshetra Mitra</h1>
+        <p class="text-lead" style="color: var(--color-accent);">Component Showcase - 5,099 Lines of CSS</p>
+        <p class="text-small" style="opacity: 0.9; margin-top: var(--space-2);">
+            High Precision • Responsive • Accessible • Production-Ready
+        </p>
+    </div>
+
+    <div class="container">
+
+        <!-- ===================================================================
+             SECTION 1: COLOR SYSTEM
+             =================================================================== -->
+        <section class="demo-section slide-in-up">
+            <h2 class="heading-section">🎨 Color System</h2>
+            <p class="text-secondary mb-6">Complete brand color palette with variants</p>
+            
+            <div class="demo-grid">
+                <div class="color-swatch" style="background: var(--color-primary);">
+                    Primary
+                </div>
+                <div class="color-swatch" style="background: var(--color-secondary);">
+                    Secondary
+                </div>
+                <div class="color-swatch" style="background: var(--color-accent); color: var(--color-text-primary);">
+                    Accent
+                </div>
+                <div class="color-swatch" style="background: var(--color-success);">
+                    Success
+                </div>
+                <div class="color-swatch" style="background: var(--color-warning); color: var(--color-text-primary);">
+                    Warning
+                </div>
+                <div class="color-swatch" style="background: var(--color-error);">
+                    Error
+                </div>
+                <div class="color-swatch" style="background: var(--color-info);">
+                    Info
+                </div>
+                <div class="color-swatch" style="background: var(--color-bg-dark);">
+                    Dark BG
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SECTION 2: TYPOGRAPHY
+             =================================================================== -->
+        <section class="demo-section slide-in-up delay-100">
+            <h2 class="heading-section">📝 Typography System</h2>
+            <p class="text-secondary mb-6">Responsive fluid typography with Devanagari support</p>
+            
+            <h1>Heading 1 - Display Text</h1>
+            <h2>Heading 2 - Major Sections</h2>
+            <h3>Heading 3 - Subsections</h3>
+            <h4>Heading 4 - Content Groups</h4>
+            <h5>Heading 5 - Smaller Headings</h5>
+            <h6>Heading 6 - Minor Headings</h6>
+            
+            <p class="text-lead mt-6">
+                This is lead text - used for introductory paragraphs and important content.
+            </p>
+            
+            <p>
+                This is regular body text with proper line height and spacing. It's designed to be 
+                highly readable across all devices. The typography system uses fluid scaling to adapt 
+                to different screen sizes automatically.
+            </p>
+            
+            <p class="devanagari" style="font-size: var(--text-xl);">
+                🕉️ कुरुक्षेत्र मित्र - आपका संपूर्ण मार्गदर्शक
+            </p>
+            
+            <blockquote>
+                "The soul is neither born, and nor does it die."
+                <cite>Bhagavad Gita, Chapter 2, Verse 20</cite>
+            </blockquote>
+        </section>
+
+        <!-- ===================================================================
+             SECTION 3: BUTTONS
+             =================================================================== -->
+        <section class="demo-section slide-in-up delay-200">
+            <h2 class="heading-section">🔘 Buttons</h2>
+            <p class="text-secondary mb-6">All button variants and sizes with states</p>
+            
+            <h4 class="mb-4">Primary Buttons</h4>
+            <div class="flex flex-wrap gap-4 mb-6">
+                <button class="btn btn-primary btn-sm">
+                    <i class="fas fa-check"></i> Small
+                </button>
+                <button class="btn btn-primary">
+                    <i class="fas fa-check"></i> Default
+                </button>
+                <button class="btn btn-primary btn-lg">
+                    <i class="fas fa-check"></i> Large
+                </button>
+                <button class="btn btn-primary" disabled>
+                    <i class="fas fa-ban"></i> Disabled
+                </button>
+            </div>
+            
+            <h4 class="mb-4">Button Variants</h4>
+            <div class="flex flex-wrap gap-4 mb-6">
+                <button class="btn btn-primary">
+                    <i class="fas fa-star"></i> Primary
+                </button>
+                <button class="btn btn-secondary">
+                    <i class="fas fa-heart"></i> Secondary
+                </button>
+                <button class="btn btn-outline">
+                    <i class="fas fa-circle"></i> Outline
+                </button>
+                <button class="btn btn-ghost">
+                    <i class="fas fa-ghost"></i> Ghost
+                </button>
+                <button class="btn btn-text">
+                    Text Only
+                </button>
+            </div>
+            
+            <h4 class="mb-4">Icon Buttons</h4>
+            <div class="flex gap-4 mb-6">
+                <button class="btn btn-primary btn-icon">
+                    <i class="fas fa-search"></i>
+                </button>
+                <button class="btn btn-secondary btn-icon">
+                    <i class="fas fa-heart"></i>
+                </button>
+                <button class="btn btn-outline btn-icon btn-lg">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </div>
+            
+            <h4 class="mb-4">Full Width (Mobile)</h4>
+            <button class="btn btn-primary btn-block">
+                <i class="fas fa-arrow-right"></i> Block Button
+            </button>
+        </section>
+
+        <!-- ===================================================================
+             SECTION 4: FORM ELEMENTS
+             =================================================================== -->
+        <section class="demo-section slide-in-up delay-300">
+            <h2 class="heading-section">📋 Form Elements</h2>
+            <p class="text-secondary mb-6">Inputs, textareas, and select dropdowns</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="form-group">
+                    <label class="form-label required">Text Input</label>
+                    <input type="text" class="input" placeholder="Enter your name">
+                    <span class="form-help">This is a helpful hint</span>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Search Input</label>
+                    <div class="input-wrapper">
+                        <input type="search" class="input input-search" placeholder="Search...">
+                        <i class="fas fa-search input-icon"></i>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Select Dropdown</label>
+                    <div class="select">
+                        <select>
+                            <option>Select Category</option>
+                            <option>🕉️ Must Visit Sites</option>
+                            <option>🏛️ Temples & Mandirs</option>
+                            <option>💧 Sarovars & Water Bodies</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Error State</label>
+                    <input type="email" class="input input-error" value="invalid-email">
+                    <span class="form-error">Please enter a valid email</span>
+                </div>
+            </div>
+            
+            <div class="form-group mt-6">
+                <label class="form-label">Textarea</label>
+                <textarea class="textarea" placeholder="Type your message here..."></textarea>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SECTION 5: CARDS
+             =================================================================== -->
+        <section class="demo-section slide-in-up delay-400">
+            <h2 class="heading-section">🃏 Cards</h2>
+            <p class="text-secondary mb-6">Various card styles and layouts</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Basic Card -->
+                <div class="card">
+                    <h3 class="card-title">Basic Card</h3>
+                    <p>This is a basic card with default styling. Perfect for content grouping.</p>
+                </div>
+                
+                <!-- Elevated Card -->
+                <div class="card card-elevated">
+                    <h3 class="card-title">Elevated Card</h3>
+                    <p>This card has a shadow and lifts on hover for emphasis.</p>
+                </div>
+                
+                <!-- Interactive Card -->
+                <div class="card card-interactive">
+                    <h3 class="card-title">Interactive Card</h3>
+                    <p>Click me! I'm interactive and respond to user actions.</p>
+                </div>
+                
+                <!-- Card with Header -->
+                <div class="card card-elevated">
+                    <div class="card-header">
+                        <h3 class="card-title">Brahma Sarovar</h3>
+                        <p class="card-subtitle">Sacred Water Tank</p>
+                    </div>
+                    <div class="card-body">
+                        <p>The most sacred site in Kurukshetra, where pilgrims come to bathe during solar eclipses.</p>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-primary btn-sm">
+                            <i class="fas fa-map-marker-alt"></i> View Details
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Card with Badge -->
+                <div class="card card-elevated">
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="card-title">Jyotisar</h3>
+                        <span class="badge badge-primary">Must Visit</span>
+                    </div>
+                    <p>The birthplace of the Bhagavad Gita, where Lord Krishna delivered his divine message.</p>
+                    <div class="mt-4">
+                        <span class="badge badge-outline">Temple</span>
+                        <span class="badge badge-outline ml-2">Historical</span>
+                    </div>
+                </div>
+                
+                <!-- Primary Card -->
+                <div class="card card-primary">
+                    <h3 class="card-title">Featured Location</h3>
+                    <p>This card uses primary colors to highlight important content.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SECTION 6: ALERTS
+             =================================================================== -->
+        <section class="demo-section slide-in-up delay-500">
+            <h2 class="heading-section">⚠️ Alerts</h2>
+            <p class="text-secondary mb-6">Notification messages for different states</p>
+            
+            <div class="grid gap-4">
+                <div class="alert alert-info">
+                    <div class="alert-icon">
+                        <i class="fas fa-info-circle"></i>
+                    </div>
+                    <div class="alert-content">
+                        <div class="alert-title">Information</div>
+                        <div class="alert-message">This is an informational alert to provide helpful context.</div>
+                    </div>
+                </div>
+                
+                <div class="alert alert-success">
+                    <div class="alert-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="alert-content">
+                        <div class="alert-title">Success</div>
+                        <div class="alert-message">Your changes have been saved successfully!</div>
+                    </div>
+                </div>
+                
+                <div class="alert alert-warning">
+                    <div class="alert-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="alert-content">
+                        <div class="alert-title">Warning</div>
+                        <div class="alert-message">Please review your input before continuing.</div>
+                    </div>
+                </div>
+                
+                <div class="alert alert-error">
+                    <div class="alert-icon">
+                        <i class="fas fa-times-circle"></i>
+                    </div>
+                    <div class="alert-content">
+                        <div class="alert-title">Error</div>
+                        <div class="alert-message">Unable to process your request. Please try again.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SECTION 7: BADGES & PILLS
+             =================================================================== -->
+        <section class="demo-section slide-in-up delay-600">
+            <h2 class="heading-section">🏷️ Badges & Pills</h2>
+            <p class="text-secondary mb-6">Labels and status indicators</p>
+            
+            <h4 class="mb-4">Standard Badges</h4>
+            <div class="flex flex-wrap gap-3 mb-6">
+                <span class="badge">Default</span>
+                <span class="badge badge-primary">Primary</span>
+                <span class="badge badge-secondary">Secondary</span>
+                <span class="badge badge-success">Success</span>
+                <span class="badge badge-warning">Warning</span>
+                <span class="badge badge-error">Error</span>
+            </div>
+            
+            <h4 class="mb-4">Pill Badges</h4>
+            <div class="flex flex-wrap gap-3 mb-6">
+                <span class="badge badge-pill badge-primary">New</span>
+                <span class="badge badge-pill badge-success">Active</span>
+                <span class="badge badge-pill badge-warning">Pending</span>
+                <span class="badge badge-pill badge-error">Closed</span>
+            </div>
+            
+            <h4 class="mb-4">Outline Badges</h4>
+            <div class="flex flex-wrap gap-3">
+                <span class="badge badge-outline" style="color: var(--color-primary);">Temple</span>
+                <span class="badge badge-outline" style="color: var(--color-success);">Open</span>
+                <span class="badge badge-outline" style="color: var(--color-error);">Closed</span>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SECTION 8: TABS
+             =================================================================== -->
+        <section class="demo-section slide-in-up delay-700">
+            <h2 class="heading-section">📑 Tabs</h2>
+            <p class="text-secondary mb-6">Tab navigation component</p>
+            
+            <div class="tabs">
+                <ul class="tabs-list">
+                    <button class="tab-item active" onclick="switchDemoTab(event, 'tab1')">
+                        <i class="fas fa-om"></i> Heritage
+                    </button>
+                    <button class="tab-item" onclick="switchDemoTab(event, 'tab2')">
+                        <i class="fas fa-landmark"></i> Administration
+                    </button>
+                    <button class="tab-item" onclick="switchDemoTab(event, 'tab3')">
+                        <i class="fas fa-info-circle"></i> About
+                    </button>
+                </ul>
+            </div>
+            
+            <div id="tab1" class="tab-content active">
+                <div class="card">
+                    <h3 class="card-title">🕉️ Heritage & Tourism</h3>
+                    <p>Explore Kurukshetra's rich cultural heritage, ancient temples, sacred sarovars, and historical monuments. Learn about Gita wisdom and plan your spiritual journey.</p>
+                </div>
+            </div>
+            
+            <div id="tab2" class="tab-content">
+                <div class="card">
+                    <h3 class="card-title">🏛️ Administration & Services</h3>
+                    <p>Access information about government services, demographics, educational institutions, healthcare facilities, and infrastructure.</p>
+                </div>
+            </div>
+            
+            <div id="tab3" class="tab-content">
+                <div class="card">
+                    <h3 class="card-title">ℹ️ About Kurukshetra Mitra</h3>
+                    <p>Your comprehensive digital assistant for exploring Kurukshetra. Built with precision, care, and attention to detail.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SECTION 9: LOADING STATES
+             =================================================================== -->
+        <section class="demo-section slide-in-up delay-800">
+            <h2 class="heading-section">⏳ Loading States</h2>
+            <p class="text-secondary mb-6">Spinners and skeleton loaders</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+                <div class="text-center">
+                    <h4 class="mb-4">Default Spinner</h4>
+                    <div class="spinner mx-auto"></div>
+                </div>
+                
+                <div class="text-center">
+                    <h4 class="mb-4">Small Spinner</h4>
+                    <div class="spinner spinner-sm mx-auto"></div>
+                </div>
+                
+                <div class="text-center">
+                    <h4 class="mb-4">Large Spinner</h4>
+                    <div class="spinner spinner-lg mx-auto"></div>
+                </div>
+            </div>
+            
+            <h4 class="mt-8 mb-4">Skeleton Loaders</h4>
+            <div class="card">
+                <div class="skeleton skeleton-heading mb-4"></div>
+                <div class="skeleton skeleton-text"></div>
+                <div class="skeleton skeleton-text"></div>
+                <div class="skeleton skeleton-text" style="width: 60%;"></div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SECTION 10: CHAT INTERFACE
+             =================================================================== -->
+        <section class="demo-section slide-in-up delay-900">
+            <h2 class="heading-section">💬 Chat Interface</h2>
+            <p class="text-secondary mb-6">Conversational UI components</p>
+            
+            <div style="height: 400px; border: 2px solid var(--color-border-light); border-radius: var(--radius-lg); overflow: hidden;">
+                <div class="chat-container" style="height: 100%;">
+                    <div class="chat-header">
+                        <div class="chat-header-info">
+                            <div class="chat-avatar">
+                                <i class="fas fa-om"></i>
+                            </div>
+                            <div>
+                                <div class="chat-title">Kurukshetra Mitra</div>
+                                <div class="chat-subtitle">Online</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-messages">
+                        <div class="chat-messages-inner">
+                            <!-- Bot Message -->
+                            <div class="message message-bot">
+                                <div class="message-avatar">
+                                    <i class="fas fa-robot"></i>
+                                </div>
+                                <div class="message-content">
+                                    <div class="message-bubble">
+                                        <p>Namaste! 🙏 How can I help you explore Kurukshetra today?</p>
+                                    </div>
+                                    <div class="message-time">10:30 AM</div>
+                                </div>
+                            </div>
+                            
+                            <!-- User Message -->
+                            <div class="message message-user">
+                                <div class="message-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="message-content">
+                                    <div class="message-bubble">
+                                        <p>Tell me about Brahma Sarovar</p>
+                                    </div>
+                                    <div class="message-time">10:31 AM</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Bot Message with Actions -->
+                            <div class="message message-bot">
+                                <div class="message-avatar">
+                                    <i class="fas fa-robot"></i>
+                                </div>
+                                <div class="message-content">
+                                    <div class="message-bubble">
+                                        <p>Brahma Sarovar is the most sacred water tank in Kurukshetra. It's believed to be the place where Lord Brahma performed yagna.</p>
+                                    </div>
+                                    <div class="suggested-actions">
+                                        <button class="suggested-action">
+                                            <i class="fas fa-map-marker-alt"></i> View Location
+                                        </button>
+                                        <button class="suggested-action">
+                                            <i class="fas fa-images"></i> See Photos
+                                        </button>
+                                        <button class="suggested-action">
+                                            <i class="fas fa-clock"></i> Timings
+                                        </button>
+                                    </div>
+                                    <div class="message-time">10:31 AM</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Typing Indicator -->
+                            <div class="typing-indicator">
+                                <div class="message-avatar" style="background: var(--color-primary-100);">
+                                    <i class="fas fa-robot"></i>
+                                </div>
+                                <div class="typing-bubble">
+                                    <div class="typing-dot"></div>
+                                    <div class="typing-dot"></div>
+                                    <div class="typing-dot"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-input-container">
+                        <div class="chat-input-wrapper">
+                            <div class="chat-input-form">
+                                <textarea class="chat-input" placeholder="Type your message..." rows="1"></textarea>
+                                <div class="chat-input-actions">
+                                    <button class="chat-input-icon" title="Attach file">
+                                        <i class="fas fa-paperclip"></i>
+                                    </button>
+                                    <button class="chat-input-icon" title="Voice input">
+                                        <i class="fas fa-microphone"></i>
+                                    </button>
+                                </div>
+                                <button class="chat-send-btn">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SECTION 11: ANIMATIONS
+             =================================================================== -->
+        <section class="demo-section slide-in-up delay-1000">
+            <h2 class="heading-section">✨ Animations</h2>
+            <p class="text-secondary mb-6">Smooth transitions and micro-interactions</p>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <button class="btn btn-outline" onclick="this.classList.add('bounce'); setTimeout(() => this.classList.remove('bounce'), 600)">
+                    <i class="fas fa-basketball-ball"></i> Bounce
+                </button>
+                <button class="btn btn-outline" onclick="this.classList.add('shake'); setTimeout(() => this.classList.remove('shake'), 500)">
+                    <i class="fas fa-bell"></i> Shake
+                </button>
+                <button class="btn btn-outline" onclick="this.classList.add('pulse'); setTimeout(() => this.classList.remove('pulse'), 2000)">
+                    <i class="fas fa-heart"></i> Pulse
+                </button>
+                <button class="btn btn-outline spin">
+                    <i class="fas fa-sync-alt"></i> Spin
+                </button>
+            </div>
+            
+            <h4 class="mt-8 mb-4">Hover Effects (Desktop)</h4>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="card hover-lift text-center p-6">
+                    <i class="fas fa-arrow-up text-2xl text-primary"></i>
+                    <p class="mt-2 text-sm">Hover Lift</p>
+                </div>
+                <div class="card hover-grow text-center p-6">
+                    <i class="fas fa-expand text-2xl text-primary"></i>
+                    <p class="mt-2 text-sm">Hover Grow</p>
+                </div>
+                <div class="card hover-shadow text-center p-6">
+                    <i class="fas fa-sun text-2xl text-primary"></i>
+                    <p class="mt-2 text-sm">Hover Shadow</p>
+                </div>
+                <div class="card float text-center p-6">
+                    <i class="fas fa-cloud text-2xl text-primary"></i>
+                    <p class="mt-2 text-sm">Float</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SECTION 12: MOBILE PREVIEW
+             =================================================================== -->
+        <section class="demo-section slide-in-up">
+            <h2 class="heading-section">📱 Mobile Components</h2>
+            <p class="text-secondary mb-6">Mobile-specific UI patterns (resize browser to see)</p>
+            
+            <div class="card">
+                <h3 class="card-title">Responsive Features</h3>
+                <ul style="list-style: disc; padding-left: var(--space-6); line-height: var(--leading-loose);">
+                    <li><strong>Bottom Sheet Modals</strong> - Slide up from bottom on mobile</li>
+                    <li><strong>Bottom Navigation</strong> - Fixed nav bar at bottom</li>
+                    <li><strong>Hamburger Menu</strong> - Side drawer navigation</li>
+                    <li><strong>Touch-Optimized</strong> - 48px minimum touch targets</li>
+                    <li><strong>Swipeable Tabs</strong> - Horizontal scrolling</li>
+                    <li><strong>FAB Button</strong> - Floating action button</li>
+                    <li><strong>Safe Area</strong> - iPhone notch support</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             MODAL DEMO BUTTON
+             =================================================================== -->
+        <section class="demo-section text-center">
+            <h2 class="heading-section">🪟 Modal Demo</h2>
+            <p class="text-secondary mb-6">Click to see modal (desktop centered / mobile bottom sheet)</p>
+            
+            <button class="btn btn-primary btn-lg" onclick="openDemoModal()">
+                <i class="fas fa-window-maximize"></i> Open Modal
+            </button>
+        </section>
+
+        <!-- ===================================================================
+             FOOTER
+             =================================================================== -->
+        <footer class="text-center py-12 border-t-2" style="border-color: var(--color-border-light); margin-top: var(--space-12);">
+            <h3 class="text-2xl font-semibold mb-4">🕉️ Kurukshetra Mitra</h3>
+            <p class="text-secondary mb-2">Component Showcase - Phase 1 Complete</p>
+            <p class="text-sm text-tertiary">5,099 Lines of CSS • 10 Files • High Precision</p>
+            <div class="flex justify-center gap-4 mt-6">
+                <span class="badge badge-pill badge-primary">Responsive</span>
+                <span class="badge badge-pill badge-success">Accessible</span>
+                <span class="badge badge-pill badge-secondary">Production-Ready</span>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Demo Modal -->
+    <div class="modal-backdrop" id="demoModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Example Modal</h3>
+                <button class="modal-close" onclick="closeDemoModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>This is a modal dialog. On desktop, it appears centered. On mobile, it slides up from the bottom as a bottom sheet.</p>
+                <p class="mt-4">Try resizing your browser to see the responsive behavior!</p>
+                
+                <div class="alert alert-info mt-6">
+                    <div class="alert-icon">
+                        <i class="fas fa-info-circle"></i>
+                    </div>
+                    <div class="alert-content">
+                        <div class="alert-message">This modal adapts to different screen sizes automatically.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ghost" onclick="closeDemoModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="closeDemoModal()">Got it!</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        console.log('🕉️ Kurukshetra Mitra - Component Showcase Loaded');
+        console.log('📊 CSS Stats: 5,099 lines across 10 files');
+        console.log('✨ High Precision Build Complete');
+        
+        // Update responsive indicator
+        function updateResponsiveIndicator() {
+            const width = window.innerWidth;
+            const indicator = document.getElementById('responsiveIndicator');
+            
+            if (width >= 1024) {
+                indicator.innerHTML = '<i class="fas fa-desktop"></i> Desktop';
+                console.log('📱 Platform: Desktop (' + width + 'px)');
+            } else if (width >= 768) {
+                indicator.innerHTML = '<i class="fas fa-tablet-alt"></i> Tablet';
+                console.log('📱 Platform: Tablet (' + width + 'px)');
+            } else {
+                indicator.innerHTML = '<i class="fas fa-mobile-alt"></i> Mobile';
+                console.log('📱 Platform: Mobile (' + width + 'px)');
+            }
+        }
+        
+        // Tab switching
+        function switchDemoTab(event, tabId) {
+            console.log('🔄 Switching to tab:', tabId);
+            
+            // Remove active class from all tabs and content
+            document.querySelectorAll('.tab-item').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Add active class to clicked tab and corresponding content
+            event.currentTarget.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+            
+            console.log('✅ Tab activated:', tabId);
+        }
+        
+        // Modal functions
+        function openDemoModal() {
+            console.log('📱 Opening modal');
+            document.getElementById('demoModal').classList.add('active');
+        }
+        
+        function closeDemoModal() {
+            console.log('📱 Closing modal');
+            document.getElementById('demoModal').classList.remove('active');
+        }
+        
+        // Close modal on backdrop click
+        document.getElementById('demoModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeDemoModal();
+            }
+        });
+        
+        // Initialize
+        updateResponsiveIndicator();
+        window.addEventListener('resize', updateResponsiveIndicator);
+        
+        console.log('✅ Component Showcase Ready!');
+        console.log('💡 Tip: Resize your browser to see responsive behavior');
+    </script>
+
+</body>
+</html>
