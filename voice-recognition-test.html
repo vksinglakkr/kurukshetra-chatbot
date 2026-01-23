@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Recognition Test - Kurukshetra Mitra</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: system-ui; background: linear-gradient(135deg, #fdfbf7 0%, #e6d5c3 100%); min-height: 100vh; padding: 2rem; }
+        .container { max-width: 900px; margin: 0 auto; }
+        .hero { text-align: center; margin-bottom: 2rem; }
+        .hero h1 { font-size: 2.5rem; color: #8B4513; margin-bottom: 0.5rem; }
+        .support-badge { display: inline-block; padding: 0.5rem 1.5rem; border-radius: 50px; font-weight: 600; margin-top: 1rem; }
+        .support-badge.yes { background: #27ae60; color: white; }
+        .support-badge.no { background: #e74c3c; color: white; }
+        .card { background: white; padding: 2rem; border-radius: 20px; box-shadow: 0 10px 40px rgba(139,69,19,0.15); margin-bottom: 2rem; }
+        .card-title { font-size: 1.5rem; color: #8B4513; margin-bottom: 1.5rem; border-bottom: 2px solid #e6d5c3; padding-bottom: 1rem; }
+        .mic-button { width: 150px; height: 150px; border-radius: 50%; border: none; background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%); color: white; font-size: 4rem; cursor: pointer; margin: 2rem auto; display: block; transition: all 0.3s; box-shadow: 0 10px 30px rgba(139,69,19,0.3); }
+        .mic-button:hover { transform: scale(1.05); }
+        .mic-button.listening { background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%); animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0%, 100% { box-shadow: 0 10px 30px rgba(231,76,60,0.3); } 50% { box-shadow: 0 10px 50px rgba(231,76,60,0.6); } }
+        .status { text-align: center; font-size: 1.2rem; color: #666; margin: 1rem 0; min-height: 1.5rem; }
+        .status.listening { color: #e74c3c; font-weight: 600; }
+        .transcript-box { background: #fffaf0; border-left: 4px solid #d4af37; border-radius: 8px; padding: 1.5rem; min-height: 100px; margin-top: 1rem; }
+        .transcript-label { font-weight: 600; color: #8B4513; margin-bottom: 0.5rem; }
+        .transcript-text { font-size: 1.1rem; color: #333; min-height: 2rem; }
+        .transcript-text.interim { color: #999; font-style: italic; }
+        .confidence { text-align: right; color: #666; font-size: 0.9rem; margin-top: 0.5rem; }
+        .btn-group { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1rem 0; }
+        .btn { padding: 1rem; background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%); color: white; border: none; border-radius: 10px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: transform 0.2s; }
+        .btn:hover { transform: translateY(-2px); }
+        .btn-secondary { background: linear-gradient(135deg, #d4af37 0%, #b8960f 100%); }
+        .command-list { list-style: none; padding: 0; }
+        .command-item { background: #f8f9fa; padding: 1rem; border-radius: 8px; margin-bottom: 0.5rem; }
+        .command-trigger { color: #8B4513; font-weight: 600; }
+        .lang-select { width: 100%; padding: 1rem; border: 2px solid #8B4513; border-radius: 10px; font-size: 1rem; margin-bottom: 1rem; }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1rem; margin: 1rem 0; }
+        .stat-card { background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%); color: white; padding: 1rem; border-radius: 10px; text-align: center; }
+        .stat-number { font-size: 1.5rem; font-weight: bold; display: block; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero">
+            <h1>🎤 Voice Recognition Test</h1>
+            <p style="color: #666;">Speech-to-Text & Voice Commands</p>
+            <div class="support-badge" id="supportBadge">Checking support...</div>
+        </div>
+        
+        <div class="stats" id="stats"></div>
+        
+        <div class="card">
+            <h2 class="card-title"><i class="fas fa-microphone"></i> Voice Input</h2>
+            
+            <select class="lang-select" id="langSelect">
+                <option value="en-US">English (US)</option>
+                <option value="en-GB">English (UK)</option>
+                <option value="hi-IN">Hindi (India)</option>
+                <option value="pa-IN">Punjabi (India)</option>
+            </select>
+            
+            <button class="mic-button" id="micButton">
+                <i class="fas fa-microphone"></i>
+            </button>
+            
+            <div class="status" id="status">Click microphone to start</div>
+            
+            <div class="transcript-box">
+                <div class="transcript-label">Transcript:</div>
+                <div class="transcript-text" id="transcript">Waiting for speech...</div>
+                <div class="confidence" id="confidence"></div>
+            </div>
+            
+            <div class="btn-group" style="margin-top: 1.5rem;">
+                <button class="btn" onclick="voice.toggle()"><i class="fas fa-play-circle"></i> Toggle</button>
+                <button class="btn" onclick="voice.stop()" style="background: #e74c3c;"><i class="fas fa-stop"></i> Stop</button>
+                <button class="btn btn-secondary" onclick="testPermission()"><i class="fas fa-lock"></i> Check Permission</button>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2 class="card-title"><i class="fas fa-terminal"></i> Detected Commands</h2>
+            <div id="commandLog" style="min-height: 100px; font-family: monospace; background: #f8f9fa; padding: 1rem; border-radius: 8px;">
+                No commands yet...
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2 class="card-title"><i class="fas fa-list"></i> Voice Commands</h2>
+            <p style="color: #666; margin-bottom: 1rem;">Try saying these commands:</p>
+            <ul class="command-list">
+                <li class="command-item"><span class="command-trigger">"Search for Brahma Sarovar"</span> - Search</li>
+                <li class="command-item"><span class="command-trigger">"Show me Jyotisar"</span> - Find site</li>
+                <li class="command-item"><span class="command-trigger">"What's the weather?"</span> - Weather</li>
+                <li class="command-item"><span class="command-trigger">"Show events"</span> - Events</li>
+                <li class="command-item"><span class="command-trigger">"Directions from Delhi"</span> - Directions</li>
+                <li class="command-item"><span class="command-trigger">"Help"</span> - Show help</li>
+            </ul>
+        </div>
+    </div>
+    
+    <script src="js/voice-recognition.js"></script>
+    <script>
+        console.log('🎉 Voice Recognition Test Page Loading...');
+        
+        const voice = VoiceRecognition.init({
+            onStart: () => {
+                updateUI('listening');
+                updateStats();
+            },
+            onEnd: (data) => {
+                updateUI('idle');
+                updateStats();
+            },
+            onResult: (data) => {
+                const transcriptEl = document.getElementById('transcript');
+                const confidenceEl = document.getElementById('confidence');
+                
+                if (data.isFinal) {
+                    transcriptEl.textContent = data.transcript;
+                    transcriptEl.className = 'transcript-text';
+                    confidenceEl.textContent = `Confidence: ${(data.confidence * 100).toFixed(0)}%`;
+                } else {
+                    transcriptEl.textContent = data.transcript;
+                    transcriptEl.className = 'transcript-text interim';
+                    confidenceEl.textContent = '';
+                }
+                
+                updateStats();
+            },
+            onCommand: (command) => {
+                logCommand(command);
+            },
+            onError: (error) => {
+                console.error('Voice error:', error);
+                document.getElementById('status').textContent = `Error: ${error.message}`;
+                updateUI('error');
+            }
+        });
+        
+        const commands = [];
+        
+        function logCommand(command) {
+            commands.unshift({
+                type: command.type,
+                query: command.query,
+                time: new Date().toLocaleTimeString()
+            });
+            
+            if (commands.length > 5) commands.pop();
+            
+            document.getElementById('commandLog').innerHTML = commands.map(c => 
+                `<div style="padding: 0.5rem; border-left: 3px solid #8B4513; margin-bottom: 0.5rem; background: white;">
+                    [${c.time}] <strong>${c.type.toUpperCase()}:</strong> "${c.query}"
+                </div>`
+            ).join('');
+        }
+        
+        function updateUI(status) {
+            const micButton = document.getElementById('micButton');
+            const statusEl = document.getElementById('status');
+            
+            if (status === 'listening') {
+                micButton.classList.add('listening');
+                statusEl.textContent = '🔴 Listening...';
+                statusEl.className = 'status listening';
+            } else {
+                micButton.classList.remove('listening');
+                statusEl.textContent = 'Click microphone to start';
+                statusEl.className = 'status';
+            }
+        }
+        
+        function updateStats() {
+            const state = voice.getState();
+            document.getElementById('stats').innerHTML = `
+                <div class="stat-card">
+                    <span class="stat-number">${state.isListening ? '🔴' : '⚪'}</span>
+                    <span style="font-size: 0.9rem;">${state.isListening ? 'Listening' : 'Idle'}</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">${state.confidence ? (state.confidence * 100).toFixed(0) + '%' : '-'}</span>
+                    <span style="font-size: 0.9rem;">Confidence</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">${commands.length}</span>
+                    <span style="font-size: 0.9rem;">Commands</span>
+                </div>
+            `;
+        }
+        
+        // Support badge
+        const supportBadge = document.getElementById('supportBadge');
+        if (voice.isSupported()) {
+            supportBadge.textContent = '✅ Voice Recognition Supported';
+            supportBadge.className = 'support-badge yes';
+        } else {
+            supportBadge.textContent = '❌ Not Supported (Try Chrome)';
+            supportBadge.className = 'support-badge no';
+            document.getElementById('micButton').disabled = true;
+        }
+        
+        // Mic button
+        document.getElementById('micButton').addEventListener('click', () => {
+            voice.toggle();
+        });
+        
+        // Language selector
+        document.getElementById('langSelect').addEventListener('change', (e) => {
+            voice.setLanguage(e.target.value);
+            console.log('Language changed to:', e.target.value);
+        });
+        
+        async function testPermission() {
+            const granted = await voice.requestPermission();
+            alert(granted ? 'Microphone permission granted!' : 'Microphone permission denied!');
+        }
+        
+        updateStats();
+        
+        console.log('✅ Test page ready!');
+        console.log('');
+        console.log('═══════════════════════════════════════════════════════');
+        console.log('🎤 VOICE RECOGNITION LOADED!');
+        console.log('═══════════════════════════════════════════════════════');
+        console.log(`Supported: ${voice.isSupported()}`);
+        console.log(`Language: ${voice.getCurrentLanguage().name}`);
+        console.log('');
+        console.log('💡 Try:');
+        console.log('   1. Click microphone button');
+        console.log('   2. Say: "Search for Brahma Sarovar"');
+        console.log('   3. Watch transcript appear');
+        console.log('   4. See command detected');
+        console.log('');
+    </script>
+</body>
+</html>
