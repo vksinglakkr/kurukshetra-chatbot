@@ -149,7 +149,7 @@ function loadFeaturedSites(sites, modal, whatsapp) {
             <div class="site-content">
                 <h3 class="site-title">${site.name}</h3>
                 <span class="site-category">${site.category}</span>
-                <p class="site-description">${site.description.substring(0, 120)}...</p>
+                <p class="site-description">${(site.description || 'No description available').substring(0, 120)}...</p>
                 <div class="site-actions">
                     <button class="site-action-btn primary" onclick="event.stopPropagation(); showSite('${site.id}')">
                         <i class="fas fa-info-circle"></i> Details
@@ -223,7 +223,7 @@ function filterCategory(cat) {
         content: `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem">
             ${sites.map(s => `<div style="background:#f8f9fa;padding:1rem;border-radius:10px;cursor:pointer" onclick="showSite('${s.id}')">
                 <h4 style="color:#8B4513">${s.name}</h4>
-                <p style="font-size:0.9rem;color:#666">${s.description.substring(0,80)}...</p>
+                <p style="font-size:0.9rem;color:#666">${(s.description || 'No description').substring(0,80)}...</p>
             </div>`).join('')}
         </div>`
     });
