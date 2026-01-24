@@ -1,9 +1,11 @@
 /**
  * KURUKSHETRA MITRA - SIMPLIFIED MAIN APP
  * Minimal version that works
+ * VERSION: 2.1 (FIXED IDs)
  */
 
-console.log('🕉️ Kurukshetra Mitra Loading...');
+console.log('🕉️ Kurukshetra Mitra Loading... [v2.1 - FIXED]');
+console.log('📌 Version: 2.1 - Using proper site IDs');
 
 // Wait for DOM
 document.addEventListener('DOMContentLoaded', function() {
@@ -138,6 +140,8 @@ function loadFeaturedSites(sites, modal, whatsapp) {
     if (!grid) return;
     
     const featured = sites.getMustVisitSites().slice(0, 6);
+    console.log('🎯 Loading featured sites:', featured.map(s => s.id));
+    
     const icons = {
         'Sacred Water Tank': '💧', 'Temple': '🛕', 'Museum': '🏛️',
         'Religious Site': '🕉️', 'Historical Site': '📜', 'Garden': '🌳'
@@ -161,6 +165,8 @@ function loadFeaturedSites(sites, modal, whatsapp) {
             </div>
         </div>
     `).join('');
+    
+    console.log('✅ Featured sites loaded with IDs:', featured.map(s => s.id));
 }
 
 function updateStats(sites, questions) {
