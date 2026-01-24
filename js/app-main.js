@@ -190,7 +190,7 @@
                 <label>Select Category:</label>
                 <select id="site-category" onchange="window.AppFunctions.loadSitesByCategory()">
                     <option value="">-- Choose Category --</option>
-                    ${categories.map(cat => `<option value="${cat}">${cat}</option>`).join('')}
+                    ${categories.map(cat => `<option value="${cat.name}">${cat.icon} ${cat.name} (${cat.count} sites)</option>`).join('')}
                 </select>
             </div>
             
@@ -465,7 +465,13 @@
             const siteId = document.getElementById('site-select').value;
             if (!siteId) return;
             
-            const site = TourGuideData.getSiteById(siteId);
+            const site = TourGuideData.getSiteById(parseInt(siteId));
+            if (!site) {
+                alert('Site not found!');
+                return;
+            }
+            
+            const siteUrl = site.url || `https://kkrtour.com/List.php?id=${site.id}`;
             const resultArea = document.getElementById('site-result');
             
             resultArea.innerHTML = `
@@ -474,11 +480,11 @@
                 ${site.mustVisit ? '<span style="color: gold;">⭐ Must Visit Site</span>' : ''}
                 
                 <div class="iframe-container">
-                    <iframe src="${site.url}"></iframe>
+                    <iframe src="${siteUrl}"></iframe>
                 </div>
                 
                 <div style="margin-top: 1rem; text-align: center;">
-                    <a href="${site.url}" target="_blank" class="submit-btn">
+                    <a href="${siteUrl}" target="_blank" class="submit-btn">
                         <i class="fas fa-external-link-alt"></i> Open Full Page
                     </a>
                 </div>
