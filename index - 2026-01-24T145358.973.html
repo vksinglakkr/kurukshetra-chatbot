@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🕉️ Kurukshetra Mitra - Your Complete Guide</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/typography.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/desktop.css">
+    <link rel="stylesheet" href="css/tablet.css">
+    <link rel="stylesheet" href="css/mobile.css">
+    <link rel="stylesheet" href="css/animations.css">
+    
+    <style>
+        /* Main App Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #4a0e0e 0%, #1a0a0a 100%);
+            min-height: 100vh;
+            padding: 1rem;
+        }
+        
+        .app-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #fffaf0;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        /* Header */
+        .app-header {
+            background: linear-gradient(135deg, #d97706 0%, #dc2626 100%);
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+        
+        .app-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .app-header .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+        
+        /* Main Tabs */
+        .main-tabs {
+            display: flex;
+            background: #f5e6d3;
+            border-bottom: 3px solid #d97706;
+        }
+        
+        .main-tab {
+            flex: 1;
+            padding: 1.5rem;
+            text-align: center;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s;
+            border-bottom: 4px solid transparent;
+        }
+        
+        .main-tab:hover {
+            background: rgba(217, 119, 6, 0.1);
+        }
+        
+        .main-tab.active {
+            background: white;
+            color: #d97706;
+            border-bottom-color: #d97706;
+        }
+        
+        .main-tab i {
+            margin-right: 0.5rem;
+            font-size: 1.3rem;
+        }
+        
+        /* Submenu Grid */
+        .submenu-grid {
+            display: none;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            padding: 2rem;
+            background: white;
+        }
+        
+        .submenu-grid.active {
+            display: grid;
+        }
+        
+        .submenu-card {
+            padding: 1.5rem;
+            border: 2px solid #e6d5c3;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #fffaf0;
+        }
+        
+        .submenu-card:hover {
+            border-color: #d97706;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(217, 119, 6, 0.2);
+        }
+        
+        .submenu-card.active {
+            border-color: #d97706;
+            background: #fef3c7;
+        }
+        
+        .submenu-card .icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .submenu-card .title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.3rem;
+        }
+        
+        .submenu-card .description {
+            font-size: 0.85rem;
+            color: #666;
+        }
+        
+        /* Content Area */
+        .content-area {
+            padding: 2rem;
+            min-height: 400px;
+            background: white;
+        }
+        
+        .content-area h2 {
+            color: #d97706;
+            margin-bottom: 1.5rem;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .form-group select,
+        .form-group input[type="text"] {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e6d5c3;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .form-group select:focus,
+        .form-group input[type="text"]:focus {
+            outline: none;
+            border-color: #d97706;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #d97706 0%, #dc2626 100%);
+            color: white;
+            padding: 1rem 3rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(217, 119, 6, 0.4);
+        }
+        
+        /* Result Area */
+        .result-area {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border-left: 4px solid #d97706;
+            display: none;
+        }
+        
+        .result-area.show {
+            display: block;
+        }
+        
+        /* Iframe Container */
+        .iframe-container {
+            width: 100%;
+            height: 600px;
+            border: 2px solid #e6d5c3;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+        
+        .iframe-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .app-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .main-tabs {
+                flex-direction: column;
+            }
+            
+            .main-tab {
+                padding: 1rem;
+            }
+            
+            .submenu-grid {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+            
+            .content-area {
+                padding: 1rem;
+            }
+            
+            .iframe-container {
+                height: 400px;
+            }
+        }
+        
+        /* Loading Spinner */
+        .loading {
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #d97706;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <div class="app-header">
+            <h1>🕉️ KURUKSHETRA MITRA</h1>
+            <p class="subtitle">कुरुक्षेत्र मित्र - Your Complete Guide to Kurukshetra</p>
+        </div>
+        
+        <!-- Main Tabs -->
+        <div class="main-tabs">
+            <button class="main-tab active" data-tab="heritage">
+                <i class="fas fa-om"></i>
+                Heritage & Tourism
+            </button>
+            <button class="main-tab" data-tab="admin">
+                <i class="fas fa-building"></i>
+                Administration & Services
+            </button>
+        </div>
+        
+        <!-- Tab Content: Heritage & Tourism -->
+        <div class="tab-content" id="heritage-content">
+            <!-- Submenu Grid -->
+            <div class="submenu-grid active">
+                <div class="submenu-card" data-submenu="gita_wisdom">
+                    <div class="icon">📿</div>
+                    <div class="title">Gita Wisdom & Spirituality</div>
+                    <div class="description">Ask spiritual questions & life guidance</div>
+                </div>
+                
+                <div class="submenu-card" data-submenu="temples_sites">
+                    <div class="icon">🛕</div>
+                    <div class="title">Temples, Museums & Sites</div>
+                    <div class="description">80+ heritage sites with virtual tours</div>
+                </div>
+                
+                <div class="submenu-card" data-submenu="stay_travel">
+                    <div class="icon">🏨</div>
+                    <div class="title">Stay, Food & Travel</div>
+                    <div class="description">Hotels, restaurants & transport info</div>
+                </div>
+                
+                <div class="submenu-card" data-submenu="festivals">
+                    <div class="icon">📅</div>
+                    <div class="title">Festivals & Events</div>
+                    <div class="description">Upcoming festivals & cultural programs</div>
+                </div>
+                
+                <div class="submenu-card" data-submenu="heritage_research">
+                    <div class="icon">📚</div>
+                    <div class="title">Heritage Research</div>
+                    <div class="description">Historical & archaeological information</div>
+                </div>
+            </div>
+            
+            <!-- Content Area -->
+            <div class="content-area" id="heritage-dynamic-content"></div>
+        </div>
+        
+        <!-- Tab Content: Administration & Services -->
+        <div class="tab-content" id="admin-content" style="display:none;">
+            <!-- Submenu Grid -->
+            <div class="submenu-grid">
+                <div class="submenu-card" data-submenu="demographics">
+                    <div class="icon">📊</div>
+                    <div class="title">Demographics & Statistics</div>
+                    <div class="description">Population, area & development data</div>
+                </div>
+                
+                <div class="submenu-card" data-submenu="government">
+                    <div class="icon">🏢</div>
+                    <div class="title">Government Offices & Services</div>
+                    <div class="description">Office locations & public services</div>
+                </div>
+                
+                <div class="submenu-card" data-submenu="education_health">
+                    <div class="icon">🏫</div>
+                    <div class="title">Education & Healthcare</div>
+                    <div class="description">Schools, colleges & hospitals</div>
+                </div>
+                
+                <div class="submenu-card" data-submenu="infrastructure">
+                    <div class="icon">🚌</div>
+                    <div class="title">Infrastructure & Utilities</div>
+                    <div class="description">Transport, electricity & utilities</div>
+                </div>
+                
+                <div class="submenu-card" data-submenu="admin_research">
+                    <div class="icon">📚</div>
+                    <div class="title">Administrative Research</div>
+                    <div class="description">City planning & development info</div>
+                </div>
+            </div>
+            
+            <!-- Content Area -->
+            <div class="content-area" id="admin-dynamic-content"></div>
+        </div>
+    </div>
+    
+    <!-- JavaScript -->
+    <script src="js/tour-guide-data.js"></script>
+    <script src="js/questions-data.js"></script>
+    <script src="js/app-main.js"></script>
+</body>
+</html>
