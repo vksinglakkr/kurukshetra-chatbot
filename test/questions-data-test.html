@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questions Data Test - Kurukshetra Mitra</title>
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: system-ui; padding: 2rem; max-width: 1200px; margin: 0 auto; }
+        .qa-card { padding: 1.5rem; background: #fffaf0; border-left: 4px solid #8B4513; border-radius: 8px; margin-bottom: 1rem; }
+        .qa-question { font-weight: 600; color: #8B4513; margin-bottom: 0.5rem; font-size: 1.1rem; }
+        .qa-answer { color: #555; line-height: 1.6; }
+        .qa-category { display: inline-block; background: #d4af37; padding: 0.2rem 0.8rem; border-radius: 20px; font-size: 0.85rem; margin-top: 0.5rem; }
+        .search-box { width: 100%; padding: 1rem; font-size: 1.1rem; border: 2px solid #8B4513; border-radius: 8px; margin-bottom: 2rem; }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 2rem 0; }
+        .stat-card { text-align: center; padding: 2rem; background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%); color: white; border-radius: 10px; }
+        .stat-number { font-size: 3rem; font-weight: bold; }
+        .btn { padding: 0.8rem 1.5rem; background: #8B4513; color: white; border: none; border-radius: 6px; cursor: pointer; margin: 0.5rem; }
+        .btn:hover { background: #A0522D; }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center; color: #8B4513;">❓ Questions Data Test</h1>
+    <p style="text-align: center; color: #666; margin-bottom: 2rem;">150+ Q&A Pairs for Kurukshetra Tourism</p>
+    
+    <div class="stats" id="stats"></div>
+    
+    <input type="search" class="search-box" id="search" placeholder="Search questions... (try 'brahma', 'gita', 'reach')">
+    
+    <div style="text-align: center; margin: 2rem 0;">
+        <button class="btn" onclick="testRandom()"><i class="fas fa-random"></i> Random Q</button>
+        <button class="btn" onclick="testStats()"><i class="fas fa-chart-bar"></i> Stats</button>
+        <button class="btn" onclick="testAutocomplete()"><i class="fas fa-magic"></i> Autocomplete</button>
+    </div>
+    
+    <div id="results"></div>
+    
+    <script src="js/questions-data.js"></script>
+    <script>
+        const api = QuestionsData.init();
+        
+        function render(qa) {
+            return `<div class="qa-card">
+                <div class="qa-question"><i class="fas fa-question-circle"></i> ${qa.question}</div>
+                <div class="qa-answer">${qa.answer}</div>
+                <span class="qa-category">${qa.category}</span>
+            </div>`;
+        }
+        
+        // Stats
+        const stats = api.getStats();
+        document.getElementById('stats').innerHTML = `
+            <div class="stat-card"><div class="stat-number">${stats.totalQuestions}</div><div>Questions</div></div>
+            <div class="stat-card"><div class="stat-number">${Object.keys(stats.categories).length}</div><div>Categories</div></div>
+        `;
+        
+        // Search
+        document.getElementById('search').addEventListener('input', e => {
+            const q = e.target.value;
+            if (q.length < 2) { document.getElementById('results').innerHTML = ''; return; }
+            const results = api.searchQuestions(q);
+            document.getElementById('results').innerHTML = results.length ? 
+                results.map(render).join('') : '<p style="text-align:center">No results</p>';
+        });
+        
+        // Show all
+        document.getElementById('results').innerHTML = api.getAllQuestions().map(render).join('');
+        
+        // Tests
+        function testRandom() {
+            const q = api.getRandomQuestion();
+            alert(`Random: ${q.question}`);
+            console.log(q);
+        }
+        function testStats() {
+            console.table(api.getStats().categories);
+            alert('Check console (F12)!');
+        }
+        function testAutocomplete() {
+            const s = api.getAutocompleteSuggestions('how', 5);
+            alert('Autocomplete "how": ' + s.join(', '));
+        }
+    </script>
+</body>
+</html>

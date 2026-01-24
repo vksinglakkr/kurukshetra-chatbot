@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Integration Test - Kurukshetra Mitra</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #fdfbf7 0%, #e6d5c3 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            color: #8B4513;
+            margin-bottom: 0.5rem;
+        }
+        
+        .mode-badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: #d4af37;
+            color: white;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(139, 69, 19, 0.15);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e6d5c3;
+        }
+        
+        .card-icon {
+            font-size: 2rem;
+        }
+        
+        .card-title {
+            font-size: 1.3rem;
+            color: #8B4513;
+            font-weight: 600;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .result-box {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: #fffaf0;
+            border-left: 4px solid #d4af37;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .result-box.show {
+            display: block;
+        }
+        
+        .result-title {
+            font-weight: 600;
+            color: #8B4513;
+            margin-bottom: 1rem;
+        }
+        
+        .weather-display {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 1.5rem;
+            align-items: center;
+        }
+        
+        .weather-icon {
+            font-size: 4rem;
+        }
+        
+        .weather-info {
+            line-height: 1.8;
+            color: #555;
+        }
+        
+        .weather-temp {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #8B4513;
+        }
+        
+        .event-item {
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        
+        .event-title {
+            font-weight: 600;
+            color: #8B4513;
+            margin-bottom: 0.5rem;
+        }
+        
+        .event-date {
+            color: #d4af37;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .event-desc {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .site-detail {
+            line-height: 1.8;
+            color: #555;
+        }
+        
+        .facility-tag {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background: #e6d5c3;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            margin: 0.25rem;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #999;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .hero h1 { font-size: 1.8rem; }
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Hero -->
+        <div class="hero">
+            <h1>🌐 API Integration Test</h1>
+            <p style="color: #666; margin: 1rem 0;">External Data & Services</p>
+            <span class="mode-badge" id="modeBadge">🎭 MOCK DATA MODE</span>
+        </div>
+        
+        <!-- Stats -->
+        <div class="stats-grid" id="statsGrid"></div>
+        
+        <!-- API Cards Grid -->
+        <div class="grid">
+            <!-- Weather Card -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">🌤️</span>
+                    <h2 class="card-title">Weather</h2>
+                </div>
+                <button class="btn" onclick="fetchWeather()">
+                    <i class="fas fa-cloud-sun"></i> Get Weather
+                </button>
+                <div class="result-box" id="weatherResult"></div>
+            </div>
+            
+            <!-- Site Details Card -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">🗺️</span>
+                    <h2 class="card-title">Site Details</h2>
+                </div>
+                <select id="siteSelect" style="width: 100%; padding: 0.8rem; margin-bottom: 1rem; border: 2px solid #8B4513; border-radius: 8px;">
+                    <option value="1">Jyotisar</option>
+                    <option value="2">Brahma Sarovar</option>
+                </select>
+                <button class="btn" onclick="fetchSiteDetails()">
+                    <i class="fas fa-info-circle"></i> Get Details
+                </button>
+                <div class="result-box" id="siteResult"></div>
+            </div>
+            
+            <!-- Events Card -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">🎪</span>
+                    <h2 class="card-title">Events</h2>
+                </div>
+                <button class="btn" onclick="fetchEvents()">
+                    <i class="fas fa-calendar-alt"></i> Get Events
+                </button>
+                <div class="result-box" id="eventsResult"></div>
+            </div>
+            
+            <!-- Directions Card -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">🚗</span>
+                    <h2 class="card-title">Directions</h2>
+                </div>
+                <button class="btn" onclick="fetchDirections()">
+                    <i class="fas fa-route"></i> Get Directions
+                </button>
+                <div class="result-box" id="directionsResult"></div>
+            </div>
+            
+            <!-- Geocoding Card -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">📍</span>
+                    <h2 class="card-title">Geocoding</h2>
+                </div>
+                <input type="text" id="locationInput" placeholder="Enter location..." style="width: 100%; padding: 0.8rem; margin-bottom: 1rem; border: 2px solid #8B4513; border-radius: 8px;">
+                <button class="btn" onclick="fetchCoordinates()">
+                    <i class="fas fa-map-pin"></i> Get Coordinates
+                </button>
+                <div class="result-box" id="geocodeResult"></div>
+            </div>
+            
+            <!-- Cache Management Card -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">💾</span>
+                    <h2 class="card-title">Cache</h2>
+                </div>
+                <div id="cacheStats" style="margin-bottom: 1rem; padding: 1rem; background: #f8f9fa; border-radius: 8px;"></div>
+                <button class="btn" onclick="clearApiCache()">
+                    <i class="fas fa-trash"></i> Clear Cache
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- JavaScript -->
+    <script src="js/api.js"></script>
+    <script>
+        console.log('🎉 API Integration Test Page Loading...');
+        
+        // Initialize API Module
+        const api = APIModule.init({
+            useMockData: true,  // Using mock data for testing
+            cacheEnabled: true
+        });
+        
+        console.log('✅ API Module initialized');
+        
+        // Update mode badge
+        const modeBadge = document.getElementById('modeBadge');
+        modeBadge.textContent = api.isMockMode() ? '🎭 MOCK DATA MODE' : '🌐 LIVE API MODE';
+        
+        // Populate stats
+        function populateStats() {
+            const cacheStats = api.getCacheStats();
+            document.getElementById('statsGrid').innerHTML = `
+                <div class="stat-card">
+                    <span class="stat-number">${api.isMockMode() ? '🎭' : '🌐'}</span>
+                    <span style="font-size: 0.9rem;">${api.isMockMode() ? 'Mock Mode' : 'Live Mode'}</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">${cacheStats.enabled ? '✅' : '❌'}</span>
+                    <span style="font-size: 0.9rem;">Cache</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">${cacheStats.size}</span>
+                    <span style="font-size: 0.9rem;">Cached Items</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">${Math.round(cacheStats.ttl / 1000)}s</span>
+                    <span style="font-size: 0.9rem;">Cache TTL</span>
+                </div>
+            `;
+            updateCacheStats();
+        }
+        
+        function updateCacheStats() {
+            const stats = api.getCacheStats();
+            document.getElementById('cacheStats').innerHTML = `
+                <strong>Cache Status:</strong><br>
+                Items: ${stats.size}<br>
+                Enabled: ${stats.enabled ? 'Yes' : 'No'}<br>
+                TTL: ${Math.round(stats.ttl / 1000)} seconds
+            `;
+        }
+        
+        // Weather
+        async function fetchWeather() {
+            const resultBox = document.getElementById('weatherResult');
+            resultBox.innerHTML = '<div class="loading">Loading...</div>';
+            resultBox.classList.add('show');
+            
+            try {
+                const data = await api.getWeather('Kurukshetra');
+                resultBox.innerHTML = `
+                    <div class="result-title">${data.location}</div>
+                    <div class="weather-display">
+                        <div class="weather-icon">☀️</div>
+                        <div class="weather-info">
+                            <div class="weather-temp">${data.temp}°C</div>
+                            <div>${data.description}</div>
+                            <div>Feels like: ${data.feels_like}°C</div>
+                            <div>Humidity: ${data.humidity}%</div>
+                            <div>Wind: ${data.wind_speed} m/s</div>
+                            <div>🌅 ${data.sunrise} | 🌇 ${data.sunset}</div>
+                        </div>
+                    </div>
+                `;
+            } catch (error) {
+                resultBox.innerHTML = `<div style="color: #e74c3c;">Error: ${error.message}</div>`;
+            }
+            
+            populateStats();
+        }
+        
+        // Site Details
+        async function fetchSiteDetails() {
+            const siteId = document.getElementById('siteSelect').value;
+            const resultBox = document.getElementById('siteResult');
+            resultBox.innerHTML = '<div class="loading">Loading...</div>';
+            resultBox.classList.add('show');
+            
+            try {
+                const data = await api.getSiteDetails(parseInt(siteId));
+                resultBox.innerHTML = `
+                    <div class="result-title">${data.name}</div>
+                    <div class="site-detail">
+                        <p>${data.description}</p>
+                        <p><strong>📍 Location:</strong> ${data.location.address}</p>
+                        <p><strong>🕐 Timings:</strong> ${data.timings}</p>
+                        <p><strong>💰 Entry:</strong> ${data.entryFee}</p>
+                        <p><strong>⏱️ Duration:</strong> ${data.duration}</p>
+                        <p><strong>🌟 Best Time:</strong> ${data.bestTimeToVisit}</p>
+                        <p><strong>🏢 Facilities:</strong></p>
+                        <div>
+                            ${data.facilities.map(f => `<span class="facility-tag">${f}</span>`).join('')}
+                        </div>
+                    </div>
+                `;
+            } catch (error) {
+                resultBox.innerHTML = `<div style="color: #e74c3c;">Error: ${error.message}</div>`;
+            }
+            
+            populateStats();
+        }
+        
+        // Events
+        async function fetchEvents() {
+            const resultBox = document.getElementById('eventsResult');
+            resultBox.innerHTML = '<div class="loading">Loading...</div>';
+            resultBox.classList.add('show');
+            
+            try {
+                const events = await api.getEvents(5);
+                resultBox.innerHTML = `
+                    <div class="result-title">Upcoming Events</div>
+                    ${events.map(event => `
+                        <div class="event-item">
+                            <div class="event-title">${event.title}</div>
+                            <div class="event-date">📅 ${event.date}</div>
+                            <div class="event-desc">${event.description}</div>
+                        </div>
+                    `).join('')}
+                `;
+            } catch (error) {
+                resultBox.innerHTML = `<div style="color: #e74c3c;">Error: ${error.message}</div>`;
+            }
+            
+            populateStats();
+        }
+        
+        // Directions
+        async function fetchDirections() {
+            const resultBox = document.getElementById('directionsResult');
+            resultBox.innerHTML = '<div class="loading">Loading...</div>';
+            resultBox.classList.add('show');
+            
+            try {
+                const data = await api.getDirections('Delhi');
+                resultBox.innerHTML = `
+                    <div class="result-title">From Delhi to Kurukshetra</div>
+                    <div class="site-detail">
+                        <p><strong>📏 Distance:</strong> ${data.distance}</p>
+                        <p><strong>⏱️ Duration:</strong> ${data.duration}</p>
+                        ${data.routes.map(route => `
+                            <div style="margin-top: 1rem; padding: 1rem; background: white; border-radius: 8px;">
+                                <strong>${route.name}</strong><br>
+                                Distance: ${route.distance}<br>
+                                Duration: ${route.duration}<br>
+                                <ol style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                                    ${route.steps.map(step => `<li>${step}</li>`).join('')}
+                                </ol>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } catch (error) {
+                resultBox.innerHTML = `<div style="color: #e74c3c;">Error: ${error.message}</div>`;
+            }
+            
+            populateStats();
+        }
+        
+        // Geocoding
+        async function fetchCoordinates() {
+            const location = document.getElementById('locationInput').value || 'Kurukshetra';
+            const resultBox = document.getElementById('geocodeResult');
+            resultBox.innerHTML = '<div class="loading">Loading...</div>';
+            resultBox.classList.add('show');
+            
+            try {
+                const data = await api.getCoordinates(location);
+                resultBox.innerHTML = `
+                    <div class="result-title">Coordinates Found</div>
+                    <div class="site-detail">
+                        <p><strong>Location:</strong> ${data.display_name}</p>
+                        <p><strong>Latitude:</strong> ${data.lat}</p>
+                        <p><strong>Longitude:</strong> ${data.lng}</p>
+                        <p><a href="https://www.google.com/maps?q=${data.lat},${data.lng}" target="_blank" style="color: #8B4513;">View on Google Maps →</a></p>
+                    </div>
+                `;
+            } catch (error) {
+                resultBox.innerHTML = `<div style="color: #e74c3c;">Error: ${error.message}</div>`;
+            }
+            
+            populateStats();
+        }
+        
+        // Clear Cache
+        function clearApiCache() {
+            api.clearCache();
+            alert('Cache cleared!');
+            populateStats();
+        }
+        
+        // Initial load
+        populateStats();
+        
+        console.log('✅ Page ready! Try fetching some data!');
+    </script>
+</body>
+</html>
