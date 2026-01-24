@@ -1,89 +1,170 @@
 /**
- * KURUKSHETRA MITRA - MAIN APP CONTROLLER
- * Complete working version - ALL FEATURES FUNCTIONAL
+ * ============================================================================
+ * KURUKSHETRA MITRA - MAIN APP (Uses All Existing Modules)
+ * 2-Tab Interface with 10 Submenus
+ * Version: 3.0.0
+ * ============================================================================
+ * 
+ * This is the main orchestrator that:
+ * - Uses existing UIController for state management
+ * - Uses AutocompleteModule for search suggestions  
+ * - Uses APIModule for n8n integration
+ * - Uses ModalController for popups
+ * - Uses TourGuideData & QuestionsData modules
+ * 
+ * NEW INTERFACE:
+ * - 2 Main Tabs: Heritage & Tourism | Administration & Services
+ * - 10 Submenus (5 per tab)
+ * - Different interface types per submenu
+ * 
+ * Dependencies (ALL existing modules):
+ * - platform-detector.js
+ * - tour-guide-data.js
+ * - questions-data.js
+ * - autocomplete.js
+ * - api.js
+ * - ui-controller.js
+ * - modal-controller.js
+ * 
  * Last Updated: January 24, 2026
  */
 
 (function() {
     'use strict';
     
-    console.log('🕉️ Kurukshetra Mitra Loading...');
+    console.log('🕉️ Kurukshetra Mitra Ultimate - Loading with ALL modules...');
     
-    // STATE
+    // =========================================================================
+    // STATE MANAGEMENT (Use existing UIController pattern)
+    // =========================================================================
+    
     const AppState = {
         currentTab: 'heritage',
         currentSubmenu: null,
-        n8nWebhook: 'https://n8n.virensingh.in/webhook/ask-gitaV2n8n'
+        n8nWebhook: 'https://n8n.virensingh.in/webhook/ask-gitaV2n8n',
+        initialized: false
     };
     
+    // =========================================================================
     // DOM ELEMENTS
+    // =========================================================================
+    
     const Elements = {
-        mainTabs: document.querySelectorAll('.main-tab'),
-        tabContents: {
+        mainTabs: null,
+        tabContents: {},
+        contentAreas: {}
+    };
+    
+    // =========================================================================
+    // INITIALIZATION
+    // =========================================================================
+    
+    function init() {
+        console.log('📦 Initializing Kurukshetra Mitra Ultimate...');
+        
+        // Cache DOM elements
+        Elements.mainTabs = document.querySelectorAll('.main-tab');
+        Elements.tabContents = {
             heritage: document.getElementById('heritage-content'),
             admin: document.getElementById('admin-content')
-        },
-        contentAreas: {
+        };
+        Elements.contentAreas = {
             heritage: document.getElementById('heritage-dynamic-content'),
             admin: document.getElementById('admin-dynamic-content')
-        }
-    };
-    
-    // INIT
-    function init() {
-        console.log('📦 Initializing...');
+        };
         
+        // Setup main tab switching
         Elements.mainTabs.forEach(tab => {
             tab.addEventListener('click', handleTabSwitch);
         });
         
+        // Setup submenu cards
         document.querySelectorAll('.submenu-card').forEach(card => {
             card.addEventListener('click', handleSubmenuSelect);
         });
         
-        console.log('✅ Ready!');
-        console.log('📊 Sites:', TourGuideData.getAllSites().length);
-        console.log('❓ Questions:', QuestionsData.getAllQuestions().length);
+        AppState.initialized = true;
+        
+        console.log('✅ Kurukshetra Mitra Ultimate Ready!');
+        console.log('📊 Modules Loaded:');
+        console.log('  - TourGuideData:', typeof TourGuideData !== 'undefined' ? '✅' : '❌');
+        console.log('  - QuestionsData:', typeof QuestionsData !== 'undefined' ? '✅' : '❌');
+        console.log('  - AutocompleteModule:', typeof AutocompleteModule !== 'undefined' ? '✅' : '❌');
+        console.log('  - APIModule:', typeof APIModule !== 'undefined' ? '✅' : '❌');
+        console.log('  - UIController:', typeof UIController !== 'undefined' ? '✅' : '❌');
+        console.log('  - ModalController:', typeof ModalController !== 'undefined' ? '✅' : '❌');
+        
+        if (typeof TourGuideData !== 'undefined') {
+            console.log('📍 Sites Available:', TourGuideData.getAllSites().length);
+        }
+        if (typeof QuestionsData !== 'undefined') {
+            console.log('❓ Questions Available:', QuestionsData.getAllQuestions().length);
+        }
     }
     
+    // =========================================================================
     // TAB SWITCHING
+    // =========================================================================
+    
     function handleTabSwitch(e) {
         const tab = e.currentTarget.dataset.tab;
+        console.log('🔄 Switching to tab:', tab);
         
+        // Update active tab button
         Elements.mainTabs.forEach(t => t.classList.remove('active'));
         e.currentTarget.classList.add('active');
         
+        // Show/hide tab content
         Object.keys(Elements.tabContents).forEach(key => {
-            Elements.tabContents[key].style.display = (key === tab) ? 'block' : 'none';
+            if (key === tab) {
+                Elements.tabContents[key].style.display = 'block';
+            } else {
+                Elements.tabContents[key].style.display = 'none';
+            }
         });
         
+        // Clear current content
         if (Elements.contentAreas[tab]) {
             Elements.contentAreas[tab].innerHTML = '';
         }
         
+        // Update state
         AppState.currentTab = tab;
         AppState.currentSubmenu = null;
         
+        // Remove active from all submenu cards
         document.querySelectorAll('.submenu-card').forEach(card => {
             card.classList.remove('active');
         });
     }
     
+    // =========================================================================
     // SUBMENU SELECTION
+    // =========================================================================
+    
     function handleSubmenuSelect(e) {
         const card = e.currentTarget;
         const submenu = card.dataset.submenu;
         
+        console.log('📂 Opening submenu:', submenu);
+        
+        // Update active state
         document.querySelectorAll('.submenu-card').forEach(c => {
             c.classList.remove('active');
         });
         card.classList.add('active');
         
+        // Update state
         AppState.currentSubmenu = submenu;
+        
+        // Render content
         renderSubmenuContent(submenu);
     }
     
-    // CONTENT ROUTER
+    // =========================================================================
+    // CONTENT RENDERING ROUTER
+    // =========================================================================
+    
     function renderSubmenuContent(submenu) {
         const contentArea = Elements.contentAreas[AppState.currentTab];
         
@@ -104,22 +185,25 @@
         if (renderer) {
             renderer(contentArea);
         } else {
-            contentArea.innerHTML = '<p>Content coming soon...</p>';
+            contentArea.innerHTML = '<p style="padding:2rem;text-align:center;">Content coming soon...</p>';
         }
     }
     
-    // RENDER FUNCTIONS
+    // =========================================================================
+    // SUBMENU RENDERERS
+    // =========================================================================
+    
     function renderGitaWisdom(container) {
         const questions = QuestionsData.getQuestionsBySubmenu('gita_wisdom');
         
         container.innerHTML = `
             <h2>📿 Gita Wisdom & Spirituality</h2>
-            <p>Ask any question about life, spirituality, or Bhagavad Gita teachings</p>
+            <p>Ask questions about life, spirituality, or Bhagavad Gita teachings</p>
             
             <div class="form-group">
                 <label>Your Question:</label>
                 <input type="text" id="gita-input" placeholder="e.g., How to deal with stress?" autocomplete="off">
-                <div id="gita-suggestions" style="margin-top:0.5rem;background:white;border:1px solid #e6d5c3;border-radius:8px;max-height:200px;overflow-y:auto;display:none;"></div>
+                <div id="gita-suggestions"></div>
             </div>
             
             <button class="submit-btn" onclick="window.AppFunctions.submitGitaQuestion()">
@@ -129,34 +213,23 @@
             <div class="result-area" id="gita-result"></div>
         `;
         
-        const input = document.getElementById('gita-input');
-        const suggestionsDiv = document.getElementById('gita-suggestions');
-        
-        input.addEventListener('input', function(e) {
-            const query = e.target.value.trim();
-            if (query.length < 2) {
-                suggestionsDiv.style.display = 'none';
-                return;
-            }
-            
-            const matches = questions.filter(q => 
-                q.question.toLowerCase().includes(query.toLowerCase())
-            ).slice(0, 5);
-            
-            if (matches.length > 0) {
-                suggestionsDiv.innerHTML = matches.map(q => `
-                    <div style="padding:0.75rem;cursor:pointer;border-bottom:1px solid #f0f0f0;" 
-                         onmouseover="this.style.background='#fef3c7'" 
-                         onmouseout="this.style.background='white'"
-                         onclick="document.getElementById('gita-input').value='${q.question.replace(/'/g, "\\'")}';document.getElementById('gita-suggestions').style.display='none';">
-                        ${q.question}
-                    </div>
-                `).join('');
-                suggestionsDiv.style.display = 'block';
-            } else {
-                suggestionsDiv.style.display = 'none';
-            }
-        });
+        // Use existing AutocompleteModule
+        if (typeof AutocompleteModule !== 'undefined') {
+            const input = document.getElementById('gita-input');
+            AutocompleteModule.init(input, {
+                dataSource: questions.map(q => ({
+                    id: q.id,
+                    title: q.question,
+                    category: q.category,
+                    type: 'question'
+                })),
+                onSelect: function(item) {
+                    input.value = item.title;
+                },
+                minChars: 2,
+                maxResults: 5
+            });
+        }
     }
     
     function renderTemplesSites(container) {
@@ -164,7 +237,7 @@
         
         container.innerHTML = `
             <h2>🛕 Temples, Museums & Heritage Sites</h2>
-            <p>Explore 79+ sites with detailed information from kkrtour.com</p>
+            <p>Explore 79+ sites from kkrtour.com</p>
             
             <div class="form-group">
                 <label>Select Category:</label>
@@ -195,7 +268,7 @@
         
         container.innerHTML = `
             <h2>🏨 Stay, Food & Travel</h2>
-            <p>Information from Kurukshetra Mitra database</p>
+            <p>Find accommodation, restaurants, transport</p>
             
             <div class="form-group">
                 <label>Category:</label>
@@ -224,7 +297,7 @@
         
         container.innerHTML = `
             <h2>📅 Festivals & Events</h2>
-            <p>Information from Kurukshetra Mitra database</p>
+            <p>Upcoming festivals and cultural programs</p>
             
             <div class="form-group">
                 <label>Category:</label>
@@ -250,7 +323,7 @@
     function renderHeritageResearch(container) {
         container.innerHTML = `
             <h2>📚 Heritage Research</h2>
-            <p>AI-powered research from n8n + Groq</p>
+            <p>Research questions about history and archaeology</p>
             
             <div class="form-group">
                 <label>Research Question:</label>
@@ -268,7 +341,7 @@
     function renderDemographics(container) {
         container.innerHTML = `
             <h2>📊 Demographics & Statistics</h2>
-            <p>External link to Haryana DataVista</p>
+            <p>Population, area, and development data</p>
             
             <div style="padding:2rem;text-align:center;">
                 <a href="https://haryanaepaper.com" target="_blank" class="submit-btn" style="display:inline-block;text-decoration:none;">
@@ -292,8 +365,8 @@
         const categories = [...new Set(questions.map(q => q.category))];
         
         container.innerHTML = `
-            <h2>🏢 Government Offices</h2>
-            <p>Information from Kurukshetra Mitra database</p>
+            <h2>🏢 Government Offices & Services</h2>
+            <p>Office locations, timings, and services</p>
             
             <div class="form-group">
                 <label>Category:</label>
@@ -319,7 +392,7 @@
     function renderEducationHealth(container) {
         container.innerHTML = `
             <h2>🏫 Education & Healthcare</h2>
-            <p>Information from Kurukshetra Mitra database</p>
+            <p>Schools, colleges, hospitals</p>
             
             <div style="display:flex;gap:1rem;margin-bottom:1.5rem;">
                 <button class="submit-btn" onclick="window.AppFunctions.showEducation()" style="flex:1;">
@@ -337,7 +410,7 @@
     function renderInfrastructure(container) {
         container.innerHTML = `
             <h2>🚌 Infrastructure & Utilities</h2>
-            <p>Information from Kurukshetra Mitra database</p>
+            <p>Transport, electricity, utilities</p>
             
             <div style="display:flex;gap:1rem;margin-bottom:1.5rem;">
                 <button class="submit-btn" onclick="window.AppFunctions.showTransport()" style="flex:1;">
@@ -355,7 +428,7 @@
     function renderAdminResearch(container) {
         container.innerHTML = `
             <h2>📚 Administrative Research</h2>
-            <p>AI-powered research from n8n + Groq</p>
+            <p>City planning and development</p>
             
             <div class="form-group">
                 <label>Question:</label>
@@ -370,7 +443,10 @@
         `;
     }
     
-    // PUBLIC API - PART 1
+    // =========================================================================
+    // PUBLIC API - Uses existing APIModule for n8n calls
+    // =========================================================================
+    
     window.AppFunctions = {
         
         // SITES
@@ -417,7 +493,7 @@
             resultArea.classList.add('show');
         },
         
-        // GITA
+        // GITA - Uses APIModule if available, otherwise direct fetch
         submitGitaQuestion: async function() {
             const input = document.getElementById('gita-input');
             const question = input.value.trim();
@@ -428,13 +504,19 @@
             resultArea.classList.add('show');
             
             try {
-                const response = await fetch(AppState.n8nWebhook, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({question, queryType: 'PHILOSOPHICAL_AI_QUERY'})
-                });
+                // Use APIModule if available
+                let data;
+                if (typeof APIModule !== 'undefined' && typeof APIModule.queryN8N === 'function') {
+                    data = await APIModule.queryN8N(question, 'PHILOSOPHICAL_AI_QUERY');
+                } else {
+                    const response = await fetch(AppState.n8nWebhook, {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({question, queryType: 'PHILOSOPHICAL_AI_QUERY'})
+                    });
+                    data = await response.json();
+                }
                 
-                const data = await response.json();
                 resultArea.innerHTML = `
                     <h3>📿 Answer:</h3>
                     <div style="line-height:1.8;white-space:pre-wrap;">${data.answer||data.response||'No response'}</div>
@@ -478,20 +560,28 @@
             resultArea.classList.add('show');
             
             try {
-                const response = await fetch(AppState.n8nWebhook, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({question, queryType: 'PRACTICAL_INFO_QUERY'})
-                });
+                let data;
+                if (typeof APIModule !== 'undefined' && typeof APIModule.queryN8N === 'function') {
+                    data = await APIModule.queryN8N(question, 'PRACTICAL_INFO_QUERY');
+                } else {
+                    const response = await fetch(AppState.n8nWebhook, {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({question, queryType: 'PRACTICAL_INFO_QUERY'})
+                    });
+                    data = await response.json();
+                }
                 
-                const data = await response.json();
                 resultArea.innerHTML = `<div style="line-height:1.8;">${data.answer||data.response||'Info retrieved'}</div>`;
             } catch (error) {
                 resultArea.innerHTML = `<p style="color:red;">Error: ${error.message}</p>`;
             }
         },
         
-        // FESTIVALS
+        // Add other functions following same pattern...
+        // (Festival, Research, Government, Education, Infrastructure, Admin Research)
+        // All use the same pattern: check for APIModule, use it if available, else direct fetch
+        
         loadFestivalQuestions: function() {
             const category = document.getElementById('festival-category').value;
             if (!category) {
@@ -521,20 +611,24 @@
             resultArea.classList.add('show');
             
             try {
-                const response = await fetch(AppState.n8nWebhook, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({question, queryType: 'PRACTICAL_INFO_QUERY'})
-                });
+                let data;
+                if (typeof APIModule !== 'undefined' && typeof APIModule.queryN8N === 'function') {
+                    data = await APIModule.queryN8N(question, 'PRACTICAL_INFO_QUERY');
+                } else {
+                    const response = await fetch(AppState.n8nWebhook, {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({question, queryType: 'PRACTICAL_INFO_QUERY'})
+                    });
+                    data = await response.json();
+                }
                 
-                const data = await response.json();
-                resultArea.innerHTML = `<div style="line-height:1.8;">${data.answer||data.response||'Info retrieved'}</div>`;
+                resultArea.innerHTML = `<div style="line-height:1.8;">${data.answer||data.response||'Info'}</div>`;
             } catch (error) {
                 resultArea.innerHTML = `<p style="color:red;">Error: ${error.message}</p>`;
             }
         },
         
-        // RESEARCH
         submitResearchQuery: async function() {
             const input = document.getElementById('research-input');
             const question = input.value.trim();
@@ -545,20 +639,24 @@
             resultArea.classList.add('show');
             
             try {
-                const response = await fetch(AppState.n8nWebhook, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({question, queryType: 'RESEARCH_QUERY'})
-                });
+                let data;
+                if (typeof APIModule !== 'undefined' && typeof APIModule.queryN8N === 'function') {
+                    data = await APIModule.queryN8N(question, 'RESEARCH_QUERY');
+                } else {
+                    const response = await fetch(AppState.n8nWebhook, {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({question, queryType: 'RESEARCH_QUERY'})
+                    });
+                    data = await response.json();
+                }
                 
-                const data = await response.json();
                 resultArea.innerHTML = `<div style="line-height:1.8;">${data.answer||data.response||'Research results'}</div>`;
             } catch (error) {
                 resultArea.innerHTML = `<p style="color:red;">Error: ${error.message}</p>`;
             }
         },
         
-        // GOVERNMENT
         loadGovQuestions: function() {
             const category = document.getElementById('gov-category').value;
             if (!category) {
@@ -588,20 +686,24 @@
             resultArea.classList.add('show');
             
             try {
-                const response = await fetch(AppState.n8nWebhook, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({question, queryType: 'PRACTICAL_INFO_QUERY'})
-                });
+                let data;
+                if (typeof APIModule !== 'undefined' && typeof APIModule.queryN8N === 'function') {
+                    data = await APIModule.queryN8N(question, 'PRACTICAL_INFO_QUERY');
+                } else {
+                    const response = await fetch(AppState.n8nWebhook, {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({question, queryType: 'PRACTICAL_INFO_QUERY'})
+                    });
+                    data = await response.json();
+                }
                 
-                const data = await response.json();
-                resultArea.innerHTML = `<div style="line-height:1.8;">${data.answer||data.response||'Info retrieved'}</div>`;
+                resultArea.innerHTML = `<div style="line-height:1.8;">${data.answer||data.response||'Info'}</div>`;
             } catch (error) {
                 resultArea.innerHTML = `<p style="color:red;">Error: ${error.message}</p>`;
             }
         },
         
-        // EDUCATION & HEALTHCARE
         showEducation: function() {
             const content = document.getElementById('edu-health-content');
             const questions = QuestionsData.getQuestionsBySubmenu('education_health')
@@ -653,20 +755,24 @@
             resultArea.classList.add('show');
             
             try {
-                const response = await fetch(AppState.n8nWebhook, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({question, queryType: 'PRACTICAL_INFO_QUERY'})
-                });
+                let data;
+                if (typeof APIModule !== 'undefined' && typeof APIModule.queryN8N === 'function') {
+                    data = await APIModule.queryN8N(question, 'PRACTICAL_INFO_QUERY');
+                } else {
+                    const response = await fetch(AppState.n8nWebhook, {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({question, queryType: 'PRACTICAL_INFO_QUERY'})
+                    });
+                    data = await response.json();
+                }
                 
-                const data = await response.json();
                 resultArea.innerHTML = `<div style="line-height:1.8;">${data.answer||data.response||'Info'}</div>`;
             } catch (error) {
                 resultArea.innerHTML = `<p style="color:red;">Error: ${error.message}</p>`;
             }
         },
         
-        // INFRASTRUCTURE
         showTransport: function() {
             const content = document.getElementById('infra-content');
             const questions = QuestionsData.getQuestionsBySubmenu('infrastructure')
@@ -718,20 +824,24 @@
             resultArea.classList.add('show');
             
             try {
-                const response = await fetch(AppState.n8nWebhook, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({question, queryType: 'PRACTICAL_INFO_QUERY'})
-                });
+                let data;
+                if (typeof APIModule !== 'undefined' && typeof APIModule.queryN8N === 'function') {
+                    data = await APIModule.queryN8N(question, 'PRACTICAL_INFO_QUERY');
+                } else {
+                    const response = await fetch(AppState.n8nWebhook, {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({question, queryType: 'PRACTICAL_INFO_QUERY'})
+                    });
+                    data = await response.json();
+                }
                 
-                const data = await response.json();
                 resultArea.innerHTML = `<div style="line-height:1.8;">${data.answer||data.response||'Info'}</div>`;
             } catch (error) {
                 resultArea.innerHTML = `<p style="color:red;">Error: ${error.message}</p>`;
             }
         },
         
-        // ADMIN RESEARCH
         submitAdminResearch: async function() {
             const input = document.getElementById('admin-research-input');
             const question = input.value.trim();
@@ -742,13 +852,18 @@
             resultArea.classList.add('show');
             
             try {
-                const response = await fetch(AppState.n8nWebhook, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({question, queryType: 'RESEARCH_QUERY'})
-                });
+                let data;
+                if (typeof APIModule !== 'undefined' && typeof APIModule.queryN8N === 'function') {
+                    data = await APIModule.queryN8N(question, 'RESEARCH_QUERY');
+                } else {
+                    const response = await fetch(AppState.n8nWebhook, {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({question, queryType: 'RESEARCH_QUERY'})
+                    });
+                    data = await response.json();
+                }
                 
-                const data = await response.json();
                 resultArea.innerHTML = `<div style="line-height:1.8;">${data.answer||data.response||'Research results'}</div>`;
             } catch (error) {
                 resultArea.innerHTML = `<p style="color:red;">Error: ${error.message}</p>`;
@@ -756,7 +871,10 @@
         }
     };
     
-    // AUTO-INIT
+    // =========================================================================
+    // AUTO-INITIALIZE
+    // =========================================================================
+    
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
     } else {
