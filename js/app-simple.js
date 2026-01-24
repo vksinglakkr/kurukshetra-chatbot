@@ -125,7 +125,7 @@ function loadCategories(sites) {
     };
     
     grid.innerHTML = Object.entries(cats).slice(0, 8).map(([cat, count]) => `
-        <div class="category-card" onclick="filterCategory('${cat}')">
+        <div class="category-card" onclick="window.filterCategory('${cat}')">
             <div class="category-icon">${icons[cat] || '📍'}</div>
             <div class="category-name">${cat}</div>
             <div class="category-count">${count} sites</div>
@@ -144,17 +144,17 @@ function loadFeaturedSites(sites, modal, whatsapp) {
     };
     
     grid.innerHTML = featured.map(site => `
-        <div class="site-card" onclick="showSite('${site.id}')">
+        <div class="site-card" onclick="window.showSite('${site.id}')">
             <div class="site-image">${icons[site.category] || '📍'}</div>
             <div class="site-content">
                 <h3 class="site-title">${site.name}</h3>
                 <span class="site-category">${site.category}</span>
                 <p class="site-description">${(site.description || 'No description available').substring(0, 120)}...</p>
                 <div class="site-actions">
-                    <button class="site-action-btn primary" onclick="event.stopPropagation(); showSite('${site.id}')">
+                    <button class="site-action-btn primary" onclick="event.stopPropagation(); window.showSite('${site.id}')">
                         <i class="fas fa-info-circle"></i> Details
                     </button>
-                    <button class="site-action-btn secondary" onclick="event.stopPropagation(); shareSite('${site.id}')">
+                    <button class="site-action-btn secondary" onclick="event.stopPropagation(); window.shareSite('${site.id}')">
                         <i class="fab fa-whatsapp"></i> Share
                     </button>
                 </div>
@@ -207,21 +207,21 @@ function setupButtons(voice, chat, whatsapp) {
 }
 
 // Global functions
-function showSite(id) {
+window.showSite = function(id) {
     window.app.modal.showSiteDetail(window.app.sites.getSiteById(id));
 }
 
-function shareSite(id) {
+window.shareSite = function(id) {
     window.app.whatsapp.shareSite(window.app.sites.getSiteById(id));
 }
 
-function filterCategory(cat) {
+window.filterCategory = function(cat) {
     const sites = window.app.sites.getSitesByCategory(cat);
     window.app.modal.open({
         title: `${cat} Sites`,
         size: 'large',
         content: `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem">
-            ${sites.map(s => `<div style="background:#f8f9fa;padding:1rem;border-radius:10px;cursor:pointer" onclick="showSite('${s.id}')">
+            ${sites.map(s => `<div style="background:#f8f9fa;padding:1rem;border-radius:10px;cursor:pointer" onclick="window.showSite('${s.id}')">
                 <h4 style="color:#8B4513">${s.name}</h4>
                 <p style="font-size:0.9rem;color:#666">${(s.description || 'No description').substring(0,80)}...</p>
             </div>`).join('')}
