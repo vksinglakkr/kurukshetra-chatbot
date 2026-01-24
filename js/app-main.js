@@ -41,7 +41,7 @@
     const AppState = {
         currentTab: 'heritage',
         currentSubmenu: null,
-        n8nWebhook: 'https://n8n-workflow-test.duckdns.org/webhook/ask-gitaV2n8n',
+        n8nWebhook: 'https://n8n.virensingh.in/webhook/ask-gitaV2n8n',
         initialized: false
     };
     
@@ -63,14 +63,14 @@
         console.log('📦 Initializing Kurukshetra Mitra Ultimate...');
         
         // Cache DOM elements
-        Elements.mainTabs = document.querySelectorAll('.main-tab');
+        Elements.mainTabs = document.querySelectorAll('.tab-btn');
         Elements.tabContents = {
-            heritage: document.getElementById('heritage-content'),
-            admin: document.getElementById('admin-content')
+            heritage: document.getElementById('heritage-tab'),
+            admin: document.getElementById('admin-tab')
         };
         Elements.contentAreas = {
-            heritage: document.getElementById('heritage-dynamic-content'),
-            admin: document.getElementById('admin-dynamic-content')
+            heritage: document.getElementById('heritage-content'),
+            admin: document.getElementById('admin-content')
         };
         
         // Setup main tab switching
@@ -95,7 +95,8 @@
         console.log('  - ModalController:', typeof ModalController !== 'undefined' ? '✅' : '❌');
         
         if (typeof TourGuideData !== 'undefined') {
-            console.log('📍 Sites Available:', TourGuideData.getAllSites().length);
+            const api = TourGuideData.get();
+            console.log('📍 Sites Available:', api.getAllSites().length);
         }
         if (typeof QuestionsData !== 'undefined') {
             console.log('❓ Questions Available:', QuestionsData.getAllQuestions().length);
@@ -233,7 +234,8 @@
     }
     
     function renderTemplesSites(container) {
-        const categories = TourGuideData.getAllCategories();
+        const api = TourGuideData.get();
+        const categories = api.getAllCategories();
         
         container.innerHTML = `
             <h2>🛕 Temples, Museums & Heritage Sites</h2>
@@ -454,7 +456,8 @@
             const category = document.getElementById('site-category').value;
             if (!category) return;
             
-            const sites = TourGuideData.getSitesByCategory(category);
+            const api = TourGuideData.get();
+            const sites = api.getSitesByCategory(category);
             const select = document.getElementById('site-select');
             
             select.innerHTML = '<option value="">-- Choose Site --</option>' +
@@ -468,7 +471,8 @@
             const siteId = document.getElementById('site-select').value;
             if (!siteId) { alert('Please select a site'); return; }
             
-            const site = TourGuideData.getSiteById(parseInt(siteId));
+            const api = TourGuideData.get();
+            const site = api.getSiteById(parseInt(siteId));
             if (!site) { alert('Site not found!'); return; }
             
             const siteUrl = `https://kkrtour.com/List.php?id=${site.id}`;
