@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Initialize Autocomplete
         console.log('6️⃣ Autocomplete...');
-        const autocomplete = Autocomplete.init({
+        const autocomplete = AutocompleteModule.init({
             inputElement: document.getElementById('mainSearch'),
             sitesData: sites,
             questionsData: questions,
