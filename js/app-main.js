@@ -1,25 +1,22 @@
 /**
  * KURUKSHETRA MITRA - MAIN APP CONTROLLER
- * Handles tab switching, submenu selection, and content rendering
+ * Complete working version - ALL FEATURES FUNCTIONAL
+ * Last Updated: January 24, 2026
  */
 
 (function() {
     'use strict';
     
-    // =========================================
-    // STATE MANAGEMENT
-    // =========================================
+    console.log('🕉️ Kurukshetra Mitra Loading...');
     
+    // STATE
     const AppState = {
         currentTab: 'heritage',
         currentSubmenu: null,
-        n8nWebhook: 'https://yourn8n.com/webhook/ask-gitaV2n8n' // Replace with actual webhook
+        n8nWebhook: 'https://n8n.virensingh.in/webhook/ask-gitaV2n8n'
     };
     
-    // =========================================
     // DOM ELEMENTS
-    // =========================================
-    
     const Elements = {
         mainTabs: document.querySelectorAll('.main-tab'),
         tabContents: {
@@ -32,136 +29,97 @@
         }
     };
     
-    // =========================================
-    // INITIALIZATION
-    // =========================================
-    
+    // INIT
     function init() {
-        console.log('🕉️ Kurukshetra Mitra initializing...');
+        console.log('📦 Initializing...');
         
-        // Setup main tab switching
         Elements.mainTabs.forEach(tab => {
             tab.addEventListener('click', handleTabSwitch);
         });
         
-        // Setup submenu cards
         document.querySelectorAll('.submenu-card').forEach(card => {
             card.addEventListener('click', handleSubmenuSelect);
         });
         
-        console.log('✅ Kurukshetra Mitra ready!');
+        console.log('✅ Ready!');
+        console.log('📊 Sites:', TourGuideData.getAllSites().length);
+        console.log('❓ Questions:', QuestionsData.getAllQuestions().length);
     }
     
-    // =========================================
     // TAB SWITCHING
-    // =========================================
-    
     function handleTabSwitch(e) {
         const tab = e.currentTarget.dataset.tab;
         
-        // Update tab buttons
         Elements.mainTabs.forEach(t => t.classList.remove('active'));
         e.currentTarget.classList.add('active');
         
-        // Update content visibility
         Object.keys(Elements.tabContents).forEach(key => {
-            if (key === tab) {
-                Elements.tabContents[key].style.display = 'block';
-            } else {
-                Elements.tabContents[key].style.display = 'none';
-            }
+            Elements.tabContents[key].style.display = (key === tab) ? 'block' : 'none';
         });
         
-        // Clear content
-        Elements.contentAreas[tab].innerHTML = '';
+        if (Elements.contentAreas[tab]) {
+            Elements.contentAreas[tab].innerHTML = '';
+        }
         
-        // Update state
         AppState.currentTab = tab;
         AppState.currentSubmenu = null;
         
-        // Remove active class from all submenu cards
         document.querySelectorAll('.submenu-card').forEach(card => {
             card.classList.remove('active');
         });
     }
     
-    // =========================================
     // SUBMENU SELECTION
-    // =========================================
-    
     function handleSubmenuSelect(e) {
         const card = e.currentTarget;
         const submenu = card.dataset.submenu;
         
-        // Update active state
         document.querySelectorAll('.submenu-card').forEach(c => {
             c.classList.remove('active');
         });
         card.classList.add('active');
         
-        // Update state
         AppState.currentSubmenu = submenu;
-        
-        // Render content based on submenu
         renderSubmenuContent(submenu);
     }
     
-    // =========================================
-    // CONTENT RENDERING
-    // =========================================
-    
+    // CONTENT ROUTER
     function renderSubmenuContent(submenu) {
         const contentArea = Elements.contentAreas[AppState.currentTab];
         
-        switch(submenu) {
-            case 'gita_wisdom':
-                renderGitaWisdom(contentArea);
-                break;
-            case 'temples_sites':
-                renderTemplesSites(contentArea);
-                break;
-            case 'stay_travel':
-                renderStayTravel(contentArea);
-                break;
-            case 'festivals':
-                renderFestivals(contentArea);
-                break;
-            case 'heritage_research':
-                renderHeritageResearch(contentArea);
-                break;
-            case 'demographics':
-                renderDemographics(contentArea);
-                break;
-            case 'government':
-                renderGovernment(contentArea);
-                break;
-            case 'education_health':
-                renderEducationHealth(contentArea);
-                break;
-            case 'infrastructure':
-                renderInfrastructure(contentArea);
-                break;
-            case 'admin_research':
-                renderAdminResearch(contentArea);
-                break;
-            default:
-                contentArea.innerHTML = '<p>Content coming soon...</p>';
+        const renderers = {
+            'gita_wisdom': renderGitaWisdom,
+            'temples_sites': renderTemplesSites,
+            'stay_travel': renderStayTravel,
+            'festivals': renderFestivals,
+            'heritage_research': renderHeritageResearch,
+            'demographics': renderDemographics,
+            'government': renderGovernment,
+            'education_health': renderEducationHealth,
+            'infrastructure': renderInfrastructure,
+            'admin_research': renderAdminResearch
+        };
+        
+        const renderer = renderers[submenu];
+        if (renderer) {
+            renderer(contentArea);
+        } else {
+            contentArea.innerHTML = '<p>Content coming soon...</p>';
         }
     }
     
-    // =========================================
-    // SUBMENU 1: GITA WISDOM
-    // =========================================
-    
+    // RENDER FUNCTIONS
     function renderGitaWisdom(container) {
+        const questions = QuestionsData.getQuestionsBySubmenu('gita_wisdom');
+        
         container.innerHTML = `
             <h2>📿 Gita Wisdom & Spirituality</h2>
             <p>Ask any question about life, spirituality, or Bhagavad Gita teachings</p>
             
             <div class="form-group">
                 <label>Your Question:</label>
-                <input type="text" id="gita-input" placeholder="e.g., How to deal with stress according to Gita?" autocomplete="off">
-                <div id="gita-suggestions" style="margin-top: 0.5rem;"></div>
+                <input type="text" id="gita-input" placeholder="e.g., How to deal with stress?" autocomplete="off">
+                <div id="gita-suggestions" style="margin-top:0.5rem;background:white;border:1px solid #e6d5c3;border-radius:8px;max-height:200px;overflow-y:auto;display:none;"></div>
             </div>
             
             <button class="submit-btn" onclick="window.AppFunctions.submitGitaQuestion()">
@@ -171,26 +129,48 @@
             <div class="result-area" id="gita-result"></div>
         `;
         
-        // Setup autocomplete
-        setupAutocomplete('gita-input', 'gita-suggestions', 'gita_wisdom');
+        const input = document.getElementById('gita-input');
+        const suggestionsDiv = document.getElementById('gita-suggestions');
+        
+        input.addEventListener('input', function(e) {
+            const query = e.target.value.trim();
+            if (query.length < 2) {
+                suggestionsDiv.style.display = 'none';
+                return;
+            }
+            
+            const matches = questions.filter(q => 
+                q.question.toLowerCase().includes(query.toLowerCase())
+            ).slice(0, 5);
+            
+            if (matches.length > 0) {
+                suggestionsDiv.innerHTML = matches.map(q => `
+                    <div style="padding:0.75rem;cursor:pointer;border-bottom:1px solid #f0f0f0;" 
+                         onmouseover="this.style.background='#fef3c7'" 
+                         onmouseout="this.style.background='white'"
+                         onclick="document.getElementById('gita-input').value='${q.question.replace(/'/g, "\\'")}';document.getElementById('gita-suggestions').style.display='none';">
+                        ${q.question}
+                    </div>
+                `).join('');
+                suggestionsDiv.style.display = 'block';
+            } else {
+                suggestionsDiv.style.display = 'none';
+            }
+        });
     }
-    
-    // =========================================
-    // SUBMENU 2: TEMPLES & SITES
-    // =========================================
     
     function renderTemplesSites(container) {
         const categories = TourGuideData.getAllCategories();
         
         container.innerHTML = `
             <h2>🛕 Temples, Museums & Heritage Sites</h2>
-            <p>Explore 80+ sites with virtual tours, maps, and detailed information</p>
+            <p>Explore 79+ sites with detailed information from kkrtour.com</p>
             
             <div class="form-group">
                 <label>Select Category:</label>
                 <select id="site-category" onchange="window.AppFunctions.loadSitesByCategory()">
                     <option value="">-- Choose Category --</option>
-                    ${categories.map(cat => `<option value="${cat.name}">${cat.icon} ${cat.name} (${cat.count} sites)</option>`).join('')}
+                    ${categories.map(cat => `<option value="${cat.name}">${cat.icon} ${cat.name} (${cat.count})</option>`).join('')}
                 </select>
             </div>
             
@@ -209,24 +189,13 @@
         `;
     }
     
-    // =========================================
-    // SUBMENU 3: STAY & TRAVEL
-    // =========================================
-    
     function renderStayTravel(container) {
         const questions = QuestionsData.getQuestionsBySubmenu('stay_travel');
         const categories = [...new Set(questions.map(q => q.category))];
         
         container.innerHTML = `
             <h2>🏨 Stay, Food & Travel</h2>
-            <p>Find accommodation, restaurants, transport, and facilities</p>
-            
-            <div class="form-group">
-                <label>Ask or Select:</label>
-                <input type="text" id="stay-input" placeholder="e.g., Best hotels near Brahma Sarovar?" autocomplete="off">
-            </div>
-            
-            <p style="text-align: center; margin: 1rem 0; color: #999;">OR</p>
+            <p>Information from Kurukshetra Mitra database</p>
             
             <div class="form-group">
                 <label>Category:</label>
@@ -247,13 +216,7 @@
             
             <div class="result-area" id="stay-result"></div>
         `;
-        
-        setupAutocomplete('stay-input', null, 'stay_travel');
     }
-    
-    // =========================================
-    // SUBMENU 4: FESTIVALS & EVENTS
-    // =========================================
     
     function renderFestivals(container) {
         const questions = QuestionsData.getQuestionsBySubmenu('festivals_events');
@@ -261,7 +224,7 @@
         
         container.innerHTML = `
             <h2>📅 Festivals & Events</h2>
-            <p>Find upcoming festivals, events, and cultural programs</p>
+            <p>Information from Kurukshetra Mitra database</p>
             
             <div class="form-group">
                 <label>Category:</label>
@@ -277,25 +240,21 @@
             </div>
             
             <button class="submit-btn" onclick="window.AppFunctions.submitFestivalQuery()">
-                <i class="fas fa-calendar"></i> Get Event Info
+                <i class="fas fa-calendar"></i> Get Info
             </button>
             
             <div class="result-area" id="festival-result"></div>
         `;
     }
     
-    // =========================================
-    // SUBMENU 5: HERITAGE RESEARCH
-    // =========================================
-    
     function renderHeritageResearch(container) {
         container.innerHTML = `
             <h2>📚 Heritage Research</h2>
-            <p>Ask research questions about history, archaeology, and culture</p>
+            <p>AI-powered research from n8n + Groq</p>
             
             <div class="form-group">
                 <label>Research Question:</label>
-                <input type="text" id="research-input" placeholder="e.g., Archaeological evidence of Mahabharata war?" autocomplete="off">
+                <input type="text" id="research-input" placeholder="e.g., Archaeological evidence?" autocomplete="off">
             </div>
             
             <button class="submit-btn" onclick="window.AppFunctions.submitResearchQuery()">
@@ -304,55 +263,42 @@
             
             <div class="result-area" id="research-result"></div>
         `;
-        
-        setupAutocomplete('research-input', null, 'heritage_research');
     }
-    
-    // =========================================
-    // SUBMENU 6: DEMOGRAPHICS
-    // =========================================
     
     function renderDemographics(container) {
         container.innerHTML = `
             <h2>📊 Demographics & Statistics</h2>
-            <p>Population, area, literacy, and development data</p>
+            <p>External link to Haryana DataVista</p>
             
-            <div style="padding: 2rem; text-align: center;">
-                <p style="margin-bottom: 2rem;">View comprehensive demographic data and statistics:</p>
-                
-                <a href="https://haryanaepaper.com" target="_blank" class="submit-btn" style="display: inline-block; text-decoration: none;">
+            <div style="padding:2rem;text-align:center;">
+                <a href="https://haryanaepaper.com" target="_blank" class="submit-btn" style="display:inline-block;text-decoration:none;">
                     <i class="fas fa-external-link-alt"></i> View Haryana DataVista
                 </a>
             </div>
             
-            <div style="margin-top: 2rem; padding: 1.5rem; background: #f8f9fa; border-radius: 12px;">
-                <h3 style="color: #d97706; margin-bottom: 1rem;">Quick Facts:</h3>
-                <ul style="list-style: none; padding-left: 0;">
-                    <li style="padding: 0.5rem 0;">📍 <strong>District:</strong> Kurukshetra</li>
-                    <li style="padding: 0.5rem 0;">📏 <strong>Area:</strong> 1,530 km²</li>
-                    <li style="padding: 0.5rem 0;">👥 <strong>Population:</strong> ~10 lakhs (approx)</li>
-                    <li style="padding: 0.5rem 0;">📚 <strong>Literacy:</strong> High literacy district</li>
+            <div style="margin-top:2rem;padding:1.5rem;background:#f8f9fa;border-radius:12px;">
+                <h3 style="color:#d97706;margin-bottom:1rem;">Quick Facts:</h3>
+                <ul style="list-style:none;padding-left:0;">
+                    <li style="padding:0.5rem 0;">📍 <strong>District:</strong> Kurukshetra</li>
+                    <li style="padding:0.5rem 0;">📏 <strong>Area:</strong> 1,530 km²</li>
+                    <li style="padding:0.5rem 0;">👥 <strong>Population:</strong> ~10 lakhs</li>
                 </ul>
             </div>
         `;
     }
-    
-    // =========================================
-    // SUBMENU 7-10: Similar patterns...
-    // =========================================
     
     function renderGovernment(container) {
         const questions = QuestionsData.getQuestionsBySubmenu('government');
         const categories = [...new Set(questions.map(q => q.category))];
         
         container.innerHTML = `
-            <h2>🏢 Government Offices & Services</h2>
-            <p>Find office locations, timings, and services</p>
+            <h2>🏢 Government Offices</h2>
+            <p>Information from Kurukshetra Mitra database</p>
             
             <div class="form-group">
-                <label>Service Category:</label>
+                <label>Category:</label>
                 <select id="gov-category" onchange="window.AppFunctions.loadGovQuestions()">
-                    <option value="">-- Choose Category --</option>
+                    <option value="">-- Choose --</option>
                     ${categories.map(cat => `<option value="${cat}">${cat}</option>`).join('')}
                 </select>
             </div>
@@ -363,7 +309,7 @@
             </div>
             
             <button class="submit-btn" onclick="window.AppFunctions.submitGovQuery()">
-                <i class="fas fa-building"></i> Get Information
+                <i class="fas fa-building"></i> Get Info
             </button>
             
             <div class="result-area" id="gov-result"></div>
@@ -373,13 +319,13 @@
     function renderEducationHealth(container) {
         container.innerHTML = `
             <h2>🏫 Education & Healthcare</h2>
-            <p>Schools, colleges, hospitals, and healthcare facilities</p>
+            <p>Information from Kurukshetra Mitra database</p>
             
-            <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
-                <button class="submit-btn" onclick="window.AppFunctions.showEducation()" style="flex: 1;">
+            <div style="display:flex;gap:1rem;margin-bottom:1.5rem;">
+                <button class="submit-btn" onclick="window.AppFunctions.showEducation()" style="flex:1;">
                     🏫 Education
                 </button>
-                <button class="submit-btn" onclick="window.AppFunctions.showHealthcare()" style="flex: 1;">
+                <button class="submit-btn" onclick="window.AppFunctions.showHealthcare()" style="flex:1;">
                     🏥 Healthcare
                 </button>
             </div>
@@ -391,13 +337,13 @@
     function renderInfrastructure(container) {
         container.innerHTML = `
             <h2>🚌 Infrastructure & Utilities</h2>
-            <p>Transport, electricity, water, and other utilities</p>
+            <p>Information from Kurukshetra Mitra database</p>
             
-            <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
-                <button class="submit-btn" onclick="window.AppFunctions.showTransport()" style="flex: 1;">
+            <div style="display:flex;gap:1rem;margin-bottom:1.5rem;">
+                <button class="submit-btn" onclick="window.AppFunctions.showTransport()" style="flex:1;">
                     🚌 Transport
                 </button>
-                <button class="submit-btn" onclick="window.AppFunctions.showUtilities()" style="flex: 1;">
+                <button class="submit-btn" onclick="window.AppFunctions.showUtilities()" style="flex:1;">
                     💡 Utilities
                 </button>
             </div>
@@ -409,11 +355,11 @@
     function renderAdminResearch(container) {
         container.innerHTML = `
             <h2>📚 Administrative Research</h2>
-            <p>City planning, development projects, and governance</p>
+            <p>AI-powered research from n8n + Groq</p>
             
             <div class="form-group">
-                <label>Research Question:</label>
-                <input type="text" id="admin-research-input" placeholder="e.g., Smart city projects in Kurukshetra?" autocomplete="off">
+                <label>Question:</label>
+                <input type="text" id="admin-research-input" placeholder="e.g., Smart city projects?" autocomplete="off">
             </div>
             
             <button class="submit-btn" onclick="window.AppFunctions.submitAdminResearch()">
@@ -424,66 +370,44 @@
         `;
     }
     
-    // =========================================
-    // AUTOCOMPLETE SETUP
-    // =========================================
-    
-    function setupAutocomplete(inputId, suggestionsId, submenu) {
-        const input = document.getElementById(inputId);
-        if (!input) return;
-        
-        input.addEventListener('input', function(e) {
-            const query = e.target.value;
-            if (query.length < 2) return;
-            
-            const suggestions = QuestionsData.getAutocompleteSuggestions(query, submenu, 5);
-            console.log('Suggestions:', suggestions);
-            // Add autocomplete UI here
-        });
-    }
-    
-    // =========================================
-    // PUBLIC FUNCTIONS
-    // =========================================
-    
+    // PUBLIC API - PART 1
     window.AppFunctions = {
-        // Site functions
+        
+        // SITES
         loadSitesByCategory: function() {
             const category = document.getElementById('site-category').value;
             if (!category) return;
             
             const sites = TourGuideData.getSitesByCategory(category);
             const select = document.getElementById('site-select');
+            
             select.innerHTML = '<option value="">-- Choose Site --</option>' +
-                sites.map(site => `<option value="${site.id}">${site.name}</option>`).join('');
+                sites.map(site => `<option value="${site.id}">${site.name}${site.mustVisit?' ⭐':''}</option>`).join('');
             
             document.getElementById('site-selection').style.display = 'block';
-            document.getElementById('view-site-btn').style.display = 'block';
+            document.getElementById('view-site-btn').style.display = 'inline-block';
         },
         
         viewSiteDetails: function() {
             const siteId = document.getElementById('site-select').value;
-            if (!siteId) return;
+            if (!siteId) { alert('Please select a site'); return; }
             
             const site = TourGuideData.getSiteById(parseInt(siteId));
-            if (!site) {
-                alert('Site not found!');
-                return;
-            }
+            if (!site) { alert('Site not found!'); return; }
             
-            const siteUrl = site.url || `https://kkrtour.com/List.php?id=${site.id}`;
+            const siteUrl = `https://kkrtour.com/List.php?id=${site.id}`;
             const resultArea = document.getElementById('site-result');
             
             resultArea.innerHTML = `
                 <h3>${site.name}</h3>
                 <p><strong>Category:</strong> ${site.category}</p>
-                ${site.mustVisit ? '<span style="color: gold;">⭐ Must Visit Site</span>' : ''}
+                ${site.mustVisit?'<p style="color:gold;font-weight:bold;">⭐ Must Visit Site</p>':''}
                 
                 <div class="iframe-container">
                     <iframe src="${siteUrl}"></iframe>
                 </div>
                 
-                <div style="margin-top: 1rem; text-align: center;">
+                <div style="margin-top:1rem;text-align:center;">
                     <a href="${siteUrl}" target="_blank" class="submit-btn">
                         <i class="fas fa-external-link-alt"></i> Open Full Page
                     </a>
@@ -493,53 +417,346 @@
             resultArea.classList.add('show');
         },
         
-        // Gita functions
+        // GITA
         submitGitaQuestion: async function() {
             const input = document.getElementById('gita-input');
             const question = input.value.trim();
-            if (!question) return;
+            if (!question) { alert('Please enter a question'); return; }
             
             const resultArea = document.getElementById('gita-result');
             resultArea.innerHTML = '<div class="loading"><div class="spinner"></div><p>Seeking wisdom...</p></div>';
             resultArea.classList.add('show');
             
-            // Call n8n webhook
             try {
                 const response = await fetch(AppState.n8nWebhook, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({
-                        question: question,
-                        queryType: 'PHILOSOPHICAL_AI_QUERY'
-                    })
+                    body: JSON.stringify({question, queryType: 'PHILOSOPHICAL_AI_QUERY'})
                 });
                 
                 const data = await response.json();
                 resultArea.innerHTML = `
-                    <h3>Answer:</h3>
-                    <p>${data.answer || 'Response received'}</p>
+                    <h3>📿 Answer:</h3>
+                    <div style="line-height:1.8;white-space:pre-wrap;">${data.answer||data.response||'No response'}</div>
+                    <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid #e6d5c3;font-size:0.9rem;color:#666;">
+                        <em>Based on Bhagavad Gita teachings</em>
+                    </div>
                 `;
             } catch (error) {
-                resultArea.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+                console.error('Error:', error);
+                resultArea.innerHTML = `<p style="color:red;">❌ Error: ${error.message}</p>`;
             }
         },
         
-        // Add other functions similarly...
-        submitStayQuery: function() { console.log('Stay query submitted'); },
-        loadStayQuestions: function() {},
-        submitFestivalQuery: function() {},
-        loadFestivalQuestions: function() {},
-        submitResearchQuery: function() {},
-        submitGovQuery: function() {},
-        loadGovQuestions: function() {},
-        showEducation: function() {},
-        showHealthcare: function() {},
-        showTransport: function() {},
-        showUtilities: function() {},
-        submitAdminResearch: function() {}
+        // STAY & TRAVEL
+        loadStayQuestions: function() {
+            const category = document.getElementById('stay-category').value;
+            if (!category) {
+                document.getElementById('stay-questions').style.display = 'none';
+                return;
+            }
+            
+            const questions = QuestionsData.getQuestionsBySubmenu('stay_travel')
+                .filter(q => q.category === category);
+            
+            const select = document.getElementById('stay-question-select');
+            select.innerHTML = '<option value="">-- Choose --</option>' +
+                questions.map(q => `<option value="${q.id}">${q.question}</option>`).join('');
+            
+            document.getElementById('stay-questions').style.display = 'block';
+        },
+        
+        submitStayQuery: async function() {
+            const select = document.getElementById('stay-question-select');
+            if (!select||!select.value) { alert('Please select'); return; }
+            
+            const q = QuestionsData.getAllQuestions().find(q => q.id === select.value);
+            const question = q ? q.question : '';
+            
+            const resultArea = document.getElementById('stay-result');
+            resultArea.innerHTML = '<div class="loading"><div class="spinner"></div><p>Searching...</p></div>';
+            resultArea.classList.add('show');
+            
+            try {
+                const response = await fetch(AppState.n8nWebhook, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({question, queryType: 'PRACTICAL_INFO_QUERY'})
+                });
+                
+                const data = await response.json();
+                resultArea.innerHTML = `<div style="line-height:1.8;">${data.answer||data.response||'Info retrieved'}</div>`;
+            } catch (error) {
+                resultArea.innerHTML = `<p style="color:red;">Error: ${error.message}</p>`;
+            }
+        },
+        
+        // FESTIVALS
+        loadFestivalQuestions: function() {
+            const category = document.getElementById('festival-category').value;
+            if (!category) {
+                document.getElementById('festival-questions').style.display = 'none';
+                return;
+            }
+            
+            const questions = QuestionsData.getQuestionsBySubmenu('festivals_events')
+                .filter(q => q.category === category);
+            
+            const select = document.getElementById('festival-question-select');
+            select.innerHTML = '<option value="">-- Choose --</option>' +
+                questions.map(q => `<option value="${q.id}">${q.question}</option>`).join('');
+            
+            document.getElementById('festival-questions').style.display = 'block';
+        },
+        
+        submitFestivalQuery: async function() {
+            const select = document.getElementById('festival-question-select');
+            if (!select||!select.value) { alert('Please select'); return; }
+            
+            const q = QuestionsData.getAllQuestions().find(q => q.id === select.value);
+            const question = q ? q.question : '';
+            
+            const resultArea = document.getElementById('festival-result');
+            resultArea.innerHTML = '<div class="loading"><div class="spinner"></div><p>Fetching...</p></div>';
+            resultArea.classList.add('show');
+            
+            try {
+                const response = await fetch(AppState.n8nWebhook, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({question, queryType: 'PRACTICAL_INFO_QUERY'})
+                });
+                
+                const data = await response.json();
+                resultArea.innerHTML = `<div style="line-height:1.8;">${data.answer||data.response||'Info retrieved'}</div>`;
+            } catch (error) {
+                resultArea.innerHTML = `<p style="color:red;">Error: ${error.message}</p>`;
+            }
+        },
+        
+        // RESEARCH
+        submitResearchQuery: async function() {
+            const input = document.getElementById('research-input');
+            const question = input.value.trim();
+            if (!question) { alert('Please enter question'); return; }
+            
+            const resultArea = document.getElementById('research-result');
+            resultArea.innerHTML = '<div class="loading"><div class="spinner"></div><p>Researching...</p></div>';
+            resultArea.classList.add('show');
+            
+            try {
+                const response = await fetch(AppState.n8nWebhook, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({question, queryType: 'RESEARCH_QUERY'})
+                });
+                
+                const data = await response.json();
+                resultArea.innerHTML = `<div style="line-height:1.8;">${data.answer||data.response||'Research results'}</div>`;
+            } catch (error) {
+                resultArea.innerHTML = `<p style="color:red;">Error: ${error.message}</p>`;
+            }
+        },
+        
+        // GOVERNMENT
+        loadGovQuestions: function() {
+            const category = document.getElementById('gov-category').value;
+            if (!category) {
+                document.getElementById('gov-questions').style.display = 'none';
+                return;
+            }
+            
+            const questions = QuestionsData.getQuestionsBySubmenu('government')
+                .filter(q => q.category === category);
+            
+            const select = document.getElementById('gov-question-select');
+            select.innerHTML = '<option value="">-- Choose --</option>' +
+                questions.map(q => `<option value="${q.id}">${q.question}</option>`).join('');
+            
+            document.getElementById('gov-questions').style.display = 'block';
+        },
+        
+        submitGovQuery: async function() {
+            const select = document.getElementById('gov-question-select');
+            if (!select||!select.value) { alert('Please select'); return; }
+            
+            const q = QuestionsData.getAllQuestions().find(q => q.id === select.value);
+            const question = q ? q.question : '';
+            
+            const resultArea = document.getElementById('gov-result');
+            resultArea.innerHTML = '<div class="loading"><div class="spinner"></div><p>Fetching...</p></div>';
+            resultArea.classList.add('show');
+            
+            try {
+                const response = await fetch(AppState.n8nWebhook, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({question, queryType: 'PRACTICAL_INFO_QUERY'})
+                });
+                
+                const data = await response.json();
+                resultArea.innerHTML = `<div style="line-height:1.8;">${data.answer||data.response||'Info retrieved'}</div>`;
+            } catch (error) {
+                resultArea.innerHTML = `<p style="color:red;">Error: ${error.message}</p>`;
+            }
+        },
+        
+        // EDUCATION & HEALTHCARE
+        showEducation: function() {
+            const content = document.getElementById('edu-health-content');
+            const questions = QuestionsData.getQuestionsBySubmenu('education_health')
+                .filter(q => q.category === 'Education');
+            
+            content.innerHTML = `
+                <h3>🏫 Education</h3>
+                <div class="form-group">
+                    <select id="edu-select">
+                        <option value="">-- Choose --</option>
+                        ${questions.map(q => `<option value="${q.id}">${q.question}</option>`).join('')}
+                    </select>
+                </div>
+                <button class="submit-btn" onclick="window.AppFunctions.submitEduHealthQuery('edu')">Get Info</button>
+                <div class="result-area" id="edu-result"></div>
+            `;
+        },
+        
+        showHealthcare: function() {
+            const content = document.getElementById('edu-health-content');
+            const questions = QuestionsData.getQuestionsBySubmenu('education_health')
+                .filter(q => q.category === 'Healthcare');
+            
+            content.innerHTML = `
+                <h3>🏥 Healthcare</h3>
+                <div class="form-group">
+                    <select id="health-select">
+                        <option value="">-- Choose --</option>
+                        ${questions.map(q => `<option value="${q.id}">${q.question}</option>`).join('')}
+                    </select>
+                </div>
+                <button class="submit-btn" onclick="window.AppFunctions.submitEduHealthQuery('health')">Get Info</button>
+                <div class="result-area" id="health-result"></div>
+            `;
+        },
+        
+        submitEduHealthQuery: async function(type) {
+            const selectId = type==='edu'?'edu-select':'health-select';
+            const resultId = type==='edu'?'edu-result':'health-result';
+            
+            const select = document.getElementById(selectId);
+            if (!select||!select.value) { alert('Please select'); return; }
+            
+            const q = QuestionsData.getAllQuestions().find(q => q.id === select.value);
+            const question = q ? q.question : '';
+            
+            const resultArea = document.getElementById(resultId);
+            resultArea.innerHTML = '<div class="loading"><div class="spinner"></div><p>Fetching...</p></div>';
+            resultArea.classList.add('show');
+            
+            try {
+                const response = await fetch(AppState.n8nWebhook, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({question, queryType: 'PRACTICAL_INFO_QUERY'})
+                });
+                
+                const data = await response.json();
+                resultArea.innerHTML = `<div style="line-height:1.8;">${data.answer||data.response||'Info'}</div>`;
+            } catch (error) {
+                resultArea.innerHTML = `<p style="color:red;">Error: ${error.message}</p>`;
+            }
+        },
+        
+        // INFRASTRUCTURE
+        showTransport: function() {
+            const content = document.getElementById('infra-content');
+            const questions = QuestionsData.getQuestionsBySubmenu('infrastructure')
+                .filter(q => q.category === 'Transport');
+            
+            content.innerHTML = `
+                <h3>🚌 Transport</h3>
+                <div class="form-group">
+                    <select id="transport-select">
+                        <option value="">-- Choose --</option>
+                        ${questions.map(q => `<option value="${q.id}">${q.question}</option>`).join('')}
+                    </select>
+                </div>
+                <button class="submit-btn" onclick="window.AppFunctions.submitInfraQuery('transport')">Get Info</button>
+                <div class="result-area" id="transport-result"></div>
+            `;
+        },
+        
+        showUtilities: function() {
+            const content = document.getElementById('infra-content');
+            const questions = QuestionsData.getQuestionsBySubmenu('infrastructure')
+                .filter(q => q.category === 'Utilities');
+            
+            content.innerHTML = `
+                <h3>💡 Utilities</h3>
+                <div class="form-group">
+                    <select id="utilities-select">
+                        <option value="">-- Choose --</option>
+                        ${questions.map(q => `<option value="${q.id}">${q.question}</option>`).join('')}
+                    </select>
+                </div>
+                <button class="submit-btn" onclick="window.AppFunctions.submitInfraQuery('utilities')">Get Info</button>
+                <div class="result-area" id="utilities-result"></div>
+            `;
+        },
+        
+        submitInfraQuery: async function(type) {
+            const selectId = type==='transport'?'transport-select':'utilities-select';
+            const resultId = type==='transport'?'transport-result':'utilities-result';
+            
+            const select = document.getElementById(selectId);
+            if (!select||!select.value) { alert('Please select'); return; }
+            
+            const q = QuestionsData.getAllQuestions().find(q => q.id === select.value);
+            const question = q ? q.question : '';
+            
+            const resultArea = document.getElementById(resultId);
+            resultArea.innerHTML = '<div class="loading"><div class="spinner"></div><p>Fetching...</p></div>';
+            resultArea.classList.add('show');
+            
+            try {
+                const response = await fetch(AppState.n8nWebhook, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({question, queryType: 'PRACTICAL_INFO_QUERY'})
+                });
+                
+                const data = await response.json();
+                resultArea.innerHTML = `<div style="line-height:1.8;">${data.answer||data.response||'Info'}</div>`;
+            } catch (error) {
+                resultArea.innerHTML = `<p style="color:red;">Error: ${error.message}</p>`;
+            }
+        },
+        
+        // ADMIN RESEARCH
+        submitAdminResearch: async function() {
+            const input = document.getElementById('admin-research-input');
+            const question = input.value.trim();
+            if (!question) { alert('Please enter question'); return; }
+            
+            const resultArea = document.getElementById('admin-research-result');
+            resultArea.innerHTML = '<div class="loading"><div class="spinner"></div><p>Researching...</p></div>';
+            resultArea.classList.add('show');
+            
+            try {
+                const response = await fetch(AppState.n8nWebhook, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({question, queryType: 'RESEARCH_QUERY'})
+                });
+                
+                const data = await response.json();
+                resultArea.innerHTML = `<div style="line-height:1.8;">${data.answer||data.response||'Research results'}</div>`;
+            } catch (error) {
+                resultArea.innerHTML = `<p style="color:red;">Error: ${error.message}</p>`;
+            }
+        }
     };
     
-    // Initialize on DOM ready
+    // AUTO-INIT
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
     } else {
