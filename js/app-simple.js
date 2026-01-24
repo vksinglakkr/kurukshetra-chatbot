@@ -214,11 +214,27 @@ function setupButtons(voice, chat, whatsapp) {
 
 // Global functions
 window.showSite = function(id) {
-    window.app.modal.showSiteDetail(window.app.sites.getSiteById(id));
+    // Convert to number if it's a numeric string
+    const siteId = isNaN(id) ? id : parseInt(id);
+    const site = window.app.sites.getSiteById(siteId);
+    if (site) {
+        window.app.modal.showSiteDetail(site);
+    } else {
+        console.error('Site not found:', id);
+        alert('Site not found!');
+    }
 }
 
 window.shareSite = function(id) {
-    window.app.whatsapp.shareSite(window.app.sites.getSiteById(id));
+    // Convert to number if it's a numeric string
+    const siteId = isNaN(id) ? id : parseInt(id);
+    const site = window.app.sites.getSiteById(siteId);
+    if (site) {
+        window.app.whatsapp.shareSite(site);
+    } else {
+        console.error('Site not found:', id);
+        alert('Site not found!');
+    }
 }
 
 window.filterCategory = function(cat) {
