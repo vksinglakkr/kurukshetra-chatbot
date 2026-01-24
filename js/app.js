@@ -33,54 +33,47 @@ const KurukshetraMitra = (function() {
         try {
             // 1. Platform Detector
             console.log('🖥️ Initializing Platform Detector...');
-            PlatformDetector.init();
-            state.modules.platform = PlatformDetector.get();
+            state.modules.platform = PlatformDetector.init();
             console.log(`   Device: ${state.modules.platform.getDeviceType()}`);
             console.log(`   OS: ${state.modules.platform.getOS()}`);
             console.log(`   Browser: ${state.modules.platform.getBrowser()}`);
             
             // 2. Data Modules
             console.log('🗺️ Initializing Tour Guide Data...');
-            TourGuideData.init();
-            state.modules.sites = TourGuideData.get();
+            state.modules.sites = TourGuideData.init();
             console.log(`   Loaded ${state.modules.sites.getAllSites().length} sites`);
             
             console.log('❓ Initializing Questions Data...');
-            QuestionsData.init();
-            state.modules.questions = QuestionsData.get();
+            state.modules.questions = QuestionsData.init();
             console.log(`   Loaded ${state.modules.questions.getAllQuestions().length} questions`);
             
             // 3. API Module
             console.log('🌐 Initializing API Module...');
-            APIModule.init({
+            state.modules.api = APIModule.init({
                 useMockData: true
             });
-            state.modules.api = APIModule.get();
             
             // 4. Modal Controller
             console.log('🪟 Initializing Modal Controller...');
-            ModalController.init();
-            state.modules.modal = ModalController.get();
+            state.modules.modal = ModalController.init();
             
             // 5. Autocomplete
             console.log('🔍 Initializing Autocomplete...');
-            Autocomplete.init({
+            state.modules.autocomplete = Autocomplete.init({
                 inputElement: document.getElementById('mainSearch'),
                 sitesData: state.modules.sites,
                 questionsData: state.modules.questions,
                 onSelect: handleAutocompleteSelect
             });
-            state.modules.autocomplete = Autocomplete.get();
             
             // 6. Voice Recognition
             console.log('🎤 Initializing Voice Recognition...');
-            VoiceRecognition.init({
+            state.modules.voice = VoiceRecognition.init({
                 onCommand: handleVoiceCommand,
                 onError: (error) => {
                     console.warn('Voice error:', error.message);
                 }
             });
-            state.modules.voice = VoiceRecognition.get();
             
             if (state.modules.voice.isSupported()) {
                 console.log('   Voice Recognition: Supported');
@@ -90,28 +83,26 @@ const KurukshetraMitra = (function() {
             
             // 7. Chat Mode
             console.log('💬 Initializing Chat Mode...');
-            ChatMode.init({
+            state.modules.chat = ChatMode.init({
                 container: document.getElementById('chat-widget'),
                 tourGuideData: state.modules.sites,
                 questionsData: state.modules.questions,
                 sendWelcome: false,
                 onAction: handleChatAction
             });
-            state.modules.chat = ChatMode.get();
             
             // 8. WhatsApp Adapter
             console.log('📱 Initializing WhatsApp Adapter...');
-            WhatsAppAdapter.init({
+            state.modules.whatsapp = WhatsAppAdapter.init({
                 baseUrl: window.location.origin,
                 onShare: (data) => {
                     console.log('Shared via WhatsApp:', data.type);
                 }
             });
-            state.modules.whatsapp = WhatsAppAdapter.get();
             
             // 9. UI Controller
             console.log('🎮 Initializing UI Controller...');
-            UIController.init({
+            state.modules.ui = UIController.init({
                 searchInput: document.getElementById('mainSearch'),
                 modules: {
                     sites: state.modules.sites,
@@ -121,7 +112,6 @@ const KurukshetraMitra = (function() {
                     autocomplete: state.modules.autocomplete
                 }
             });
-            state.modules.ui = UIController.get();
             
             console.log('✅ All modules initialized successfully!');
             return true;
