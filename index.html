@@ -102,9 +102,9 @@
         /* Submenu Grid */
         .submenu-grid {
             display: none;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
-            padding: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 0.75rem;
+            padding: 1.5rem;
             background: white;
         }
         
@@ -113,12 +113,16 @@
         }
         
         .submenu-card {
-            padding: 1.5rem;
+            padding: 1rem;
             border: 2px solid #e6d5c3;
             border-radius: 12px;
             cursor: pointer;
             transition: all 0.3s;
             background: #fffaf0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            min-height: 90px;
         }
         
         .submenu-card:hover {
@@ -130,56 +134,68 @@
         .submenu-card.active {
             border-color: #d97706;
             background: #fef3c7;
+            box-shadow: 0 2px 8px rgba(217, 119, 6, 0.15);
         }
         
         .submenu-card .icon {
-            font-size: 2rem;
+            font-size: 1.8rem;
             margin-bottom: 0.5rem;
         }
         
         .submenu-card .title {
             font-weight: 600;
             color: #333;
-            margin-bottom: 0.3rem;
+            font-size: 0.95rem;
+            margin-bottom: 0.25rem;
+            line-height: 1.3;
         }
         
         .submenu-card .description {
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             color: #666;
+            line-height: 1.3;
         }
         
         /* Content Area */
         .content-area {
-            padding: 2rem;
+            padding: 1.5rem;
             min-height: 400px;
             background: white;
         }
         
         .content-area h2 {
             color: #d97706;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+        }
+        
+        .content-area p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
         }
         
         /* Form Elements */
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
         }
         
         .form-group label {
             display: block;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.4rem;
             font-weight: 600;
             color: #333;
+            font-size: 0.9rem;
         }
         
         .form-group select,
         .form-group input[type="text"] {
             width: 100%;
-            padding: 0.75rem;
+            padding: 0.65rem 0.85rem;
             border: 2px solid #e6d5c3;
             border-radius: 8px;
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-family: 'Poppins', sans-serif;
         }
         
@@ -192,10 +208,10 @@
         .submit-btn {
             background: linear-gradient(135deg, #d97706 0%, #dc2626 100%);
             color: white;
-            padding: 1rem 3rem;
+            padding: 0.75rem 2rem;
             border: none;
             border-radius: 50px;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
@@ -251,12 +267,34 @@
             }
             
             .submenu-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, 1fr);
                 padding: 1rem;
+                gap: 0.6rem;
+            }
+            
+            .submenu-card {
+                padding: 0.85rem;
+                min-height: 85px;
+            }
+            
+            .submenu-card .icon {
+                font-size: 1.5rem;
+            }
+            
+            .submenu-card .title {
+                font-size: 0.85rem;
+            }
+            
+            .submenu-card .description {
+                font-size: 0.7rem;
             }
             
             .content-area {
                 padding: 1rem;
+            }
+            
+            .content-area h2 {
+                font-size: 1.3rem;
             }
             
             .iframe-container {
