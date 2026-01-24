@@ -1,0 +1,332 @@
+/**
+ * CUSTOM STYLES FOR 2-TAB INTERFACE
+ * Compact NyayaMitra-inspired design
+ */
+
+/* App Container */
+.app-container {
+    max-width: 100%;
+    margin: 0;
+    background: #fff;
+    min-height: 100vh;
+}
+
+/* Header - Compact */
+.app-header {
+    background: linear-gradient(135deg, #d97706 0%, #dc2626 100%);
+    color: white;
+    text-align: center;
+    padding: 1.2rem 1rem;
+}
+
+.app-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin: 0 0 0.3rem 0;
+}
+
+.app-header .subtitle {
+    font-size: 0.9rem;
+    opacity: 0.95;
+    margin: 0;
+}
+
+/* Main Tabs */
+.main-tabs {
+    display: flex;
+    background: #f5e6d3;
+    border-bottom: 3px solid #d97706;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 1rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #666;
+    transition: all 0.3s;
+    border-bottom: 4px solid transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.tab-btn i {
+    font-size: 1.1rem;
+}
+
+.tab-btn:hover {
+    background: rgba(217, 119, 6, 0.1);
+}
+
+.tab-btn.active {
+    background: white;
+    color: #d97706;
+    border-bottom-color: #d97706;
+}
+
+/* Tab Content */
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Submenu Grid - Compact like NyayaMitra */
+.submenu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.75rem;
+    padding: 1rem;
+    background: #faf8f5;
+}
+
+/* Submenu Cards - Using existing card classes + custom compact styles */
+.submenu-card {
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    background: #fffcf7;
+    cursor: pointer;
+}
+
+.submenu-card.active {
+    border-color: #d97706;
+    background: #fef3c7;
+    box-shadow: 0 2px 8px rgba(217, 119, 6, 0.2);
+}
+
+.submenu-card .card-icon {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.submenu-card .card-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 0.25rem 0;
+    line-height: 1.2;
+}
+
+.submenu-card .card-subtitle {
+    font-size: 0.7rem;
+    color: #777;
+    margin: 0;
+    line-height: 1.3;
+}
+
+/* Content Area */
+.content-area {
+    padding: 1.5rem 1rem;
+    background: white;
+    min-height: 300px;
+}
+
+.content-area h2 {
+    color: #d97706;
+    font-size: 1.4rem;
+    margin: 0 0 0.5rem 0;
+    font-family: 'Playfair Display', serif;
+}
+
+.content-area > p {
+    color: #666;
+    font-size: 0.85rem;
+    margin: 0 0 1.2rem 0;
+}
+
+/* Form Elements - Compact */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-weight: 600;
+    color: #333;
+    font-size: 0.85rem;
+}
+
+.form-group select,
+.form-group input[type="text"] {
+    width: 100%;
+    padding: 0.6rem 0.8rem;
+    border: 2px solid #e6d5c3;
+    border-radius: 8px;
+    font-size: 0.85rem;
+}
+
+.form-group select:focus,
+.form-group input[type="text"]:focus {
+    outline: none;
+    border-color: #d97706;
+}
+
+/* Submit Button - Compact */
+.submit-btn {
+    background: linear-gradient(135deg, #d97706 0%, #dc2626 100%);
+    color: white;
+    padding: 0.7rem 1.8rem;
+    border: none;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.submit-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(217, 119, 6, 0.3);
+}
+
+/* Result Area */
+.result-area {
+    margin-top: 1.5rem;
+    padding: 1.2rem;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border-left: 4px solid #d97706;
+    display: none;
+}
+
+.result-area.show {
+    display: block;
+}
+
+.result-area h3 {
+    color: #d97706;
+    font-size: 1.1rem;
+    margin: 0 0 0.8rem 0;
+}
+
+/* Iframe Container */
+.iframe-container {
+    width: 100%;
+    height: 500px;
+    border: 2px solid #e6d5c3;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 1rem;
+}
+
+.iframe-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Loading Spinner */
+.loading {
+    text-align: center;
+    padding: 1.5rem;
+}
+
+.spinner {
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #d97706;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 0.8rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .app-header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .app-header .subtitle {
+        font-size: 0.8rem;
+    }
+    
+    .main-tabs {
+        flex-direction: column;
+    }
+    
+    .tab-btn {
+        padding: 0.9rem;
+        font-size: 0.9rem;
+    }
+    
+    .submenu-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.6rem;
+        padding: 0.8rem;
+    }
+    
+    .submenu-card {
+        min-height: 90px;
+    }
+    
+    .submenu-card .card-icon {
+        font-size: 1.6rem;
+    }
+    
+    .submenu-card .card-title {
+        font-size: 0.8rem;
+    }
+    
+    .submenu-card .card-subtitle {
+        font-size: 0.65rem;
+    }
+    
+    .content-area {
+        padding: 1rem;
+    }
+    
+    .content-area h2 {
+        font-size: 1.2rem;
+    }
+    
+    .iframe-container {
+        height: 350px;
+    }
+}
+
+/* Very Small Mobile */
+@media (max-width: 480px) {
+    .submenu-grid {
+        gap: 0.5rem;
+        padding: 0.6rem;
+    }
+    
+    .submenu-card {
+        min-height: 85px;
+        padding: 0.7rem;
+    }
+    
+    .submenu-card .card-icon {
+        font-size: 1.4rem;
+        margin-bottom: 0.4rem;
+    }
+    
+    .submenu-card .card-title {
+        font-size: 0.75rem;
+    }
+    
+    .submenu-card .card-subtitle {
+        font-size: 0.6rem;
+    }
+}
