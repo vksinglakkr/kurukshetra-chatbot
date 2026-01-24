@@ -41,7 +41,7 @@
     const AppState = {
         currentTab: 'heritage',
         currentSubmenu: null,
-        n8nWebhook: 'https://n8n.virensingh.in/webhook/ask-gitaV2n8n',
+        n8nWebhook: 'https://n8n-workflow-test.duckdns.org/webhook/ask-gitaV2n8n',
         initialized: false
     };
     
