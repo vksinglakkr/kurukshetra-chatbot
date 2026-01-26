@@ -194,6 +194,27 @@
     box-shadow: 0 4px 12px rgba(217, 119, 6, 0.3);
 }
 
+/* Ready Question Buttons - NEW */
+.ready-question-btn {
+    background: #fffcf7;
+    border: 1.5px solid #e6d5c3;
+    border-radius: 8px;
+    padding: 0.65rem 0.85rem;
+    text-align: left;
+    font-size: 0.85rem;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.25s;
+    width: 100%;
+}
+
+.ready-question-btn:hover {
+    background: #fef3c7;
+    border-color: #d97706;
+    transform: translateX(3px);
+    box-shadow: 0 2px 6px rgba(217, 119, 6, 0.15);
+}
+
 /* Result Area */
 .result-area {
     margin-top: 1.5rem;
