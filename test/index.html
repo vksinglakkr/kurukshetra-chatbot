@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Kurukshetra Chatbot – Test Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f7f7f7;
+    }
+    header {
+      background: #b71c1c;
+      color: #fff;
+      padding: 16px;
+      text-align: center;
+    }
+    .container {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      height: calc(100vh - 64px);
+    }
+    .sidebar {
+      background: #fff;
+      border-right: 1px solid #ddd;
+      padding: 12px;
+      overflow-y: auto;
+    }
+    .sidebar h3 {
+      margin-top: 0;
+      font-size: 16px;
+      color: #333;
+    }
+    .sidebar button {
+      width: 100%;
+      margin-bottom: 8px;
+      padding: 10px;
+      border: none;
+      background: #eee;
+      cursor: pointer;
+      text-align: left;
+      font-size: 14px;
+    }
+    .sidebar button:hover {
+      background: #ffd54f;
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #fff;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h2>Kurukshetra Chatbot – Test & Integration Dashboard</h2>
+</header>
+
+<div class="container">
+  <!-- LEFT MENU -->
+  <div class="sidebar">
+    <h3>Test Modules</h3>
+
+    <button onclick="loadTest('api-test.html')">🔌 API Test</button>
+    <button onclick="loadTest('autocomplete-test.html')">⌨️ Autocomplete Test</button>
+    <button onclick="loadTest('chat-mode-test.html')">💬 Chat Mode</button>
+    <button onclick="loadTest('component-showcase.html')">🧩 Component Showcase</button>
+    <button onclick="loadTest('modal-controller-test.html')">📦 Modal Controller</button>
+    <button onclick="loadTest('platform-detector-test.html')">🖥️ Platform Detector</button>
+    <button onclick="loadTest('questions-data-test.html')">📘 Questions Data</button>
+    <button onclick="loadTest('tour-guide-test.html')">🗺️ Tour Guide</button>
+    <button onclick="loadTest('ui-controller-test.html')">🎛️ UI Controller</button>
+    <button onclick="loadTest('voice-recognition-test.html')">🎙️ Voice Recognition</button>
+    <button onclick="loadTest('whatsapp-adapter-test.html')">📱 WhatsApp Adapter</button>
+  </div>
+
+  <!-- MAIN VIEW -->
+  <iframe id="testFrame" src=""></iframe>
+</div>
+
+<script>
+  function loadTest(page) {
+    document.getElementById("testFrame").src = page;
+  }
+</script>
+
+</body>
+</html>
