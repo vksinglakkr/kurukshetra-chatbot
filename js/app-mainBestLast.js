@@ -1,4 +1,3 @@
-
 /**
  * ============================================================================
  * KURUKSHETRA MITRA - MAIN APP (Uses All Existing Modules)
@@ -200,48 +199,78 @@
         
         // Organized ready-made questions
         const readyQuestions = {
-            '🌟 Basic Teachings': [
-                "What is the main message of Bhagavad Gita?",
-                "Who spoke the Bhagavad Gita and to whom?",
-                "What is Karma according to Gita?",
-                "What is Dharma in simple words?",
-                "What does Gita say about soul?"
-            ],
-            '💡 Daily Life': [
-                "How to stay peaceful in difficult times?",
-                "How to control anger according to Gita?",
-                "What does Gita say about hard work?",
-                "How to be happy according to Gita?",
-                "How to handle fear according to Gita?"
-            ],
-            '❤️ Relationships': [
-                "How should we treat our parents?",
-                "What does Gita say about respecting elders?",
-                "Should we forgive others per Gita?",
-                "What does Gita say about kindness?",
-                "What is true love according to Gita?"
-            ],
-            '📚 Studies & Work': [
-                "What does Gita teach about learning?",
-                "How to handle exam stress per Gita?",
-                "What does Gita say about hard work?",
-                "How to handle failure in exams?",
-                "How to stay disciplined in studies?"
-            ],
-            '💭 Emotions': [
-                "How to control negative thoughts?",
-                "What to do when feeling sad?",
-                "How to overcome jealousy per Gita?",
-                "What does Gita say about patience?",
-                "How to develop positive thinking?"
-            ],
-            '🕉️ Spirituality': [
-                "Who is God according to Bhagavad Gita?",
-                "What is devotion or Bhakti?",
-                "How to pray according to Gita?",
-                "What is the purpose of life per Gita?",
-                "How to become a better person?"
-            ]
+            '🌟 BASIC TEACHINGS': [
+      "What is the main message of Bhagavad Gita?",
+      "Who spoke the Bhagavad Gita and to whom?",
+      "Where was the Bhagavad Gita spoken?",
+      "What is Karma according to Gita?",
+      "What is Dharma in simple words?",
+      "What does Gita say about soul?",
+      "What is the difference between body and soul?",
+      "What are the three paths taught in Gita?",
+      "What is Yoga according to Gita?",
+      "What does Gita teach about mind control?"
+    ],
+       '💡 PRACTICAL WISDOM': [
+      "How to stay peaceful in difficult times?",
+      "What to do when we fail in something?",
+      "How to control anger according to Gita?",
+      "What does Gita say about hard work?",
+      "Should we worry about results of our actions?",
+      "How to be happy according to Gita?",
+      "What is the right way to do our duty?",
+      "How to handle fear according to Gita?",
+      "What does Gita say about self-confidence?",
+      "How to stay focused on our goals?"
+    ],
+        '👨‍👩‍👧‍👦 FAMILY AND FRIENDS': [
+      "How should we treat our parents?",
+      "What does Gita say about respecting elders?",
+      "How to be a good friend according to Gita?",
+      "What to do when someone hurts us?",
+      "Should we forgive others per Gita?",
+      "How to help people in need?",
+      "What does Gita say about kindness?",
+      "How to handle disagreements with friends?",
+      "What is true love according to Gita?",
+      "How to maintain good relationships?"
+    ],
+     '✍️ LEARNING AND EFFORT': [
+      "What does Gita teach about learning?",
+      "How to handle exam stress per Gita?",
+      "What to do when studies feel difficult?",
+      "How to stay disciplined in studies?",
+      "What does Gita say about hard work?",
+      "Should we compete with others?",
+      "How to handle failure in exams?",
+      "What is the value of knowledge per Gita?",
+      "How to balance studies and play?",
+      "What makes a true teacher according to Gita?"
+    ],
+       '🎭 FEELINGS AND MIND': [
+      "How to control negative thoughts?",
+      "What to do when feeling sad?",
+      "How to overcome jealousy per Gita?",
+      "What does Gita say about patience?",
+      "How to develop positive thinking?",
+      "What is the cause of sadness per Gita?",
+      "How to deal with disappointment?",
+      "What does Gita teach about courage?",
+      "How to build inner strength?",
+      "What is peace of mind according to Gita?"
+    ],
+       '🙏 SPIRITUAL BASICS': [
+      "Who is God according to Bhagavad Gita?",
+      "What is devotion or Bhakti?",
+      "How to pray according to Gita?",
+      "What is meditation in simple words?",
+      "Why should we read holy books?",
+      "What is the purpose of life per Gita?",
+      "What happens after death according to Gita?",
+      "What are good qualities to develop?",
+      "What is true happiness per Gita?",
+      "How to become a better person?"
+    ]
         };
         
         container.innerHTML = `
