@@ -247,21 +247,12 @@
             <h2>📿 Gita Wisdom & Spirituality</h2>
             <p>Ask questions about life, spirituality, or Bhagavad Gita teachings</p>
             
-            <!-- Mode Toggle -->
-            <div style="display:flex;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap;">
-                <label style="display:flex;align-items:center;gap:0.5rem;padding:0.75rem 1.25rem;border:2px solid #e6d5c3;border-radius:50px;cursor:pointer;background:#fffbf0;transition:all 0.3s;" id="explore-label">
-                    <input type="radio" name="gita-mode" id="explore-mode" value="explore" checked onchange="window.AppFunctions.toggleGitaMode('explore')" style="width:18px;height:18px;cursor:pointer;">
-                    <span style="font-weight:600;color:#d97706;">📖 Explore Questions</span>
-                </label>
+            <!-- Explore Questions Section (Top) -->
+            <div id="explore-section" style="margin-bottom:2rem;">
+                <h3 style="color:#d97706;font-size:1.1rem;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem;">
+                    📖 <span>Popular Questions:</span>
+                </h3>
                 
-                <label style="display:flex;align-items:center;gap:0.5rem;padding:0.75rem 1.25rem;border:2px solid #dee2e6;border-radius:50px;cursor:pointer;background:white;transition:all 0.3s;" id="custom-label">
-                    <input type="radio" name="gita-mode" id="custom-mode" value="custom" onchange="window.AppFunctions.toggleGitaMode('custom')" style="width:18px;height:18px;cursor:pointer;">
-                    <span style="font-weight:600;color:#495057;">✍️ Ask My Own</span>
-                </label>
-            </div>
-            
-            <!-- Explore Questions Section -->
-            <div id="explore-section" style="display:block;">
                 <div style="background:#fffbf0;border:2px solid #e6d5c3;border-radius:12px;padding:1.5rem;">
                     <div class="form-group" style="margin-bottom:0.8rem;">
                         <label>Select Category:</label>
@@ -284,12 +275,16 @@
                 </div>
             </div>
             
-            <!-- Custom Question Section -->
-            <div id="custom-section" style="display:none;">
+            <!-- Custom Question Section (Bottom) -->
+            <div id="custom-section">
+                <h3 style="color:#495057;font-size:1.1rem;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem;">
+                    ✍️ <span>Ask Your Own Question:</span>
+                </h3>
+                
                 <div style="background:#f8f9fa;border:2px solid #dee2e6;border-radius:12px;padding:1.5rem;">
                     <div class="form-group" style="margin-bottom:0.8rem;">
                         <label>Your Question:</label>
-                        <input type="text" id="gita-input" placeholder="e.g., How to deal with stress according to Gita?" autocomplete="off">
+                        <input type="text" id="gita-input" placeholder="Type your question here..." autocomplete="off">
                         <div id="gita-suggestions" style="margin-top:0.5rem;background:white;border:1px solid #e6d5c3;border-radius:8px;max-height:200px;overflow-y:auto;display:none;"></div>
                     </div>
                     
@@ -298,9 +293,6 @@
                     </button>
                 </div>
             </div>
-            
-            <!-- Answer Section -->
-            <div class="result-area" id="gita-result"></div>
         `;
         
         // Store questions in window for access
@@ -570,37 +562,6 @@
     
     window.AppFunctions = {
         
-        // Toggle between Explore and Custom modes
-        toggleGitaMode: function(mode) {
-            const exploreSection = document.getElementById('explore-section');
-            const customSection = document.getElementById('custom-section');
-            const exploreLabel = document.getElementById('explore-label');
-            const customLabel = document.getElementById('custom-label');
-            
-            if (mode === 'explore') {
-                exploreSection.style.display = 'block';
-                customSection.style.display = 'none';
-                
-                exploreLabel.style.background = '#fffbf0';
-                exploreLabel.style.borderColor = '#e6d5c3';
-                exploreLabel.querySelector('span').style.color = '#d97706';
-                
-                customLabel.style.background = 'white';
-                customLabel.style.borderColor = '#dee2e6';
-                customLabel.querySelector('span').style.color = '#495057';
-            } else {
-                exploreSection.style.display = 'none';
-                customSection.style.display = 'block';
-                
-                exploreLabel.style.background = 'white';
-                exploreLabel.style.borderColor = '#dee2e6';
-                exploreLabel.querySelector('span').style.color = '#495057';
-                
-                customLabel.style.background = '#f8f9fa';
-                customLabel.style.borderColor = '#dee2e6';
-                customLabel.querySelector('span').style.color = '#d97706';
-            }
-        },
         
         // Load Gita Questions by Category
         loadGitaQuestions: function() {
@@ -696,10 +657,8 @@
             const question = input.value.trim();
             if (!question) { alert('Please enter a question'); return; }
             
-            // Show loading in result area (temporary)
-            const resultArea = document.getElementById('gita-result');
-            resultArea.innerHTML = '<div class="loading"><div class="spinner"></div><p>Seeking wisdom from Bhagavad Gita...</p></div>';
-            resultArea.classList.add('show');
+            // Show modal with loading
+            this.showLoadingModal(question);
             
             try {
                 // Use APIModule if available
@@ -720,46 +679,301 @@
                     data = await response.json();
                 }
                 
-                // Hide loading
-                resultArea.classList.remove('show');
-                resultArea.innerHTML = '';
-                
-                // Show modal with answer
+                // Update modal with answer
                 this.showAnswerModal(question, data.answer || data.response || 'No response received');
                 
             } catch (error) {
                 console.error('Error:', error);
-                
-                // Hide loading
-                resultArea.classList.remove('show');
+                this.closeAnswerModal();
                 
                 let errorMessage = '';
                 if (error.message.includes('Failed to fetch') || error.message.includes('ERR_NAME_NOT_RESOLVED')) {
-                    errorMessage = `
-                        <h3 style="color:#dc2626;">🔌 Connection Error</h3>
-                        <p>Unable to connect to the server. Please check:</p>
-                        <ul style="margin-left:1.5rem;line-height:1.8;">
-                            <li>Your internet connection</li>
-                            <li>The n8n server is running</li>
-                            <li>The webhook URL is correct</li>
-                        </ul>
-                        <p style="margin-top:1rem;"><strong>Question asked:</strong> "${question}"</p>
-                    `;
+                    errorMessage = 'Unable to connect to server. Please check your internet connection.';
                 } else {
-                    errorMessage = `
-                        <h3 style="color:#dc2626;">❌ Error</h3>
-                        <p>${error.message}</p>
-                        <p style="margin-top:1rem;"><strong>Question:</strong> "${question}"</p>
-                    `;
+                    errorMessage = error.message;
                 }
                 
-                resultArea.innerHTML = errorMessage;
-                resultArea.classList.add('show');
+                alert('❌ Error: ' + errorMessage);
             }
+        },
+        
+        // Show Loading Modal
+        showLoadingModal: function(question) {
+            const modalHTML = `
+                <div id="answer-modal" style="
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: rgba(0,0,0,0.7);
+                    z-index: 9999;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 1rem;
+                    animation: fadeIn 0.3s ease-in-out;
+                ">
+                    <div style="
+                        background: white;
+                        border-radius: 16px;
+                        max-width: 600px;
+                        width: 100%;
+                        padding: 3rem;
+                        text-align: center;
+                        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+                        animation: slideUp 0.3s ease-out;
+                    ">
+                        <div class="spinner" style="margin: 0 auto 1.5rem;"></div>
+                        <h3 style="color: #d97706; margin: 0 0 0.5rem 0; font-size: 1.1rem;">
+                            🕉️ Seeking Wisdom from Bhagavad Gita...
+                        </h3>
+                        <p style="color: #666; font-size: 0.9rem; margin: 0;">
+                            Please wait while we find the answer
+                        </p>
+                    </div>
+                </div>
+                
+                <style>
+                    @keyframes fadeIn {
+                        from { opacity: 0; }
+                        to { opacity: 1; }
+                    }
+                    @keyframes slideUp {
+                        from { transform: translateY(50px); opacity: 0; }
+                        to { transform: translateY(0); opacity: 1; }
+                    }
+                </style>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
+            document.body.style.overflow = 'hidden';
         },
         
         // Show Answer Modal
         showAnswerModal: function(question, answer) {
+            // Remove existing modal
+            const existing = document.getElementById('answer-modal');
+            if (existing) existing.remove();
+            
+            // Create modal HTML
+            const modalHTML = `
+                <div id="answer-modal" style="
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: rgba(0,0,0,0.7);
+                    z-index: 9999;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 1rem;
+                    animation: fadeIn 0.3s ease-in-out;
+                ">
+                    <div style="
+                        background: white;
+                        border-radius: 16px;
+                        max-width: 650px;
+                        width: 100%;
+                        max-height: 90vh;
+                        overflow-y: auto;
+                        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+                        animation: slideUp 0.3s ease-out;
+                    ">
+                        <!-- Modal Header -->
+                        <div style="
+                            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+                            padding: 1.2rem 1.5rem;
+                            border-radius: 16px 16px 0 0;
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                        ">
+                            <h3 style="
+                                color: white;
+                                margin: 0;
+                                font-size: 1.1rem;
+                                display: flex;
+                                align-items: center;
+                                gap: 0.5rem;
+                            ">
+                                <i class="fas fa-robot"></i>
+                                AI Response
+                            </h3>
+                            
+                            <!-- Icon Buttons in Header -->
+                            <div style="display:flex;align-items:center;gap:0.5rem;">
+                                <button onclick="window.AppFunctions.listenAnswer()" title="Listen" style="
+                                    background: rgba(255,255,255,0.2);
+                                    border: none;
+                                    color: white;
+                                    width: 36px;
+                                    height: 36px;
+                                    border-radius: 50%;
+                                    cursor: pointer;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    transition: all 0.2s;
+                                " onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">
+                                    <i class="fas fa-volume-up" id="listen-icon"></i>
+                                </button>
+                                
+                                <button onclick="window.AppFunctions.shareWhatsApp()" title="Share on WhatsApp" style="
+                                    background: rgba(255,255,255,0.2);
+                                    border: none;
+                                    color: white;
+                                    width: 36px;
+                                    height: 36px;
+                                    border-radius: 50%;
+                                    cursor: pointer;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    transition: all 0.2s;
+                                " onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">
+                                    <i class="fab fa-whatsapp" style="font-size:1.2rem;"></i>
+                                </button>
+                                
+                                <button onclick="window.AppFunctions.printAnswer()" title="Print" style="
+                                    background: rgba(255,255,255,0.2);
+                                    border: none;
+                                    color: white;
+                                    width: 36px;
+                                    height: 36px;
+                                    border-radius: 50%;
+                                    cursor: pointer;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    transition: all 0.2s;
+                                " onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">
+                                    <i class="fas fa-print"></i>
+                                </button>
+                                
+                                <button onclick="window.AppFunctions.closeAnswerModal()" title="Close" style="
+                                    background: rgba(255,255,255,0.2);
+                                    border: none;
+                                    color: white;
+                                    width: 36px;
+                                    height: 36px;
+                                    border-radius: 50%;
+                                    cursor: pointer;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    transition: all 0.2s;
+                                " onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Modal Body -->
+                        <div style="padding: 1.5rem;">
+                            <!-- Question Section -->
+                            <div style="
+                                background: #f0f9ff;
+                                border: 1px solid #bfdbfe;
+                                border-radius: 10px;
+                                padding: 1rem;
+                                margin-bottom: 1.2rem;
+                            ">
+                                <div style="display: flex; align-items: flex-start; gap: 0.75rem;">
+                                    <i class="fas fa-question-circle" style="color: #3b82f6; font-size: 1.1rem; margin-top: 0.2rem;"></i>
+                                    <div style="flex:1;">
+                                        <h4 style="margin: 0 0 0.4rem 0; color: #1e40af; font-size: 0.85rem; font-weight: 600;">Question:</h4>
+                                        <p style="margin: 0; color: #1e3a8a; line-height: 1.5; font-size: 0.9rem;">${question}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Answer Section -->
+                            <div style="
+                                background: #fffbeb;
+                                border: 1px solid #fde68a;
+                                border-radius: 10px;
+                                padding: 1rem;
+                                margin-bottom: 1.2rem;
+                            ">
+                                <div style="display: flex; align-items: flex-start; gap: 0.75rem;">
+                                    <i class="fas fa-lightbulb" style="color: #d97706; font-size: 1.1rem; margin-top: 0.2rem;"></i>
+                                    <div style="flex: 1;">
+                                        <h4 style="margin: 0 0 0.5rem 0; color: #92400e; font-size: 0.85rem; font-weight: 600;">Answer:</h4>
+                                        <div id="answer-text" style="color: #78350f; line-height: 1.7; white-space: pre-wrap; font-size: 0.9rem;">${answer}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Disclaimer -->
+                            <div style="
+                                background: #fef2f2;
+                                border: 1px solid #fecaca;
+                                border-radius: 8px;
+                                padding: 0.7rem;
+                                font-size: 0.8rem;
+                                color: #991b1b;
+                                display: flex;
+                                align-items: flex-start;
+                                gap: 0.5rem;
+                            ">
+                                <i class="fas fa-exclamation-triangle" style="margin-top: 0.1rem; font-size: 0.9rem;"></i>
+                                <div>
+                                    <strong>Disclaimer:</strong> This is an AI-generated response for guidance purposes only. Please verify important information from official sources.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <style>
+                    @keyframes fadeIn {
+                        from { opacity: 0; }
+                        to { opacity: 1; }
+                    }
+                    @keyframes slideUp {
+                        from { transform: translateY(50px); opacity: 0; }
+                        to { transform: translateY(0); opacity: 1; }
+                    }
+                    
+                    @media (max-width: 640px) {
+                        #answer-modal > div {
+                            margin: 0.5rem;
+                            border-radius: 12px !important;
+                        }
+                        #answer-modal > div > div:first-child {
+                            padding: 1rem !important;
+                            border-radius: 12px 12px 0 0 !important;
+                        }
+                        #answer-modal > div > div:first-child h3 {
+                            font-size: 0.95rem !important;
+                        }
+                        #answer-modal > div > div:first-child button {
+                            width: 32px !important;
+                            height: 32px !important;
+                        }
+                        #answer-modal > div > div:nth-child(2) {
+                            padding: 1rem !important;
+                        }
+                        #answer-modal .fab.fa-whatsapp {
+                            font-size: 1rem !important;
+                        }
+                    }
+                </style>
+            `;
+            
+            // Add modal to body
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
+            
+            // Store question and answer for actions
+            window.currentQuestion = question;
+            window.currentAnswer = answer;
+            
+            // Prevent body scroll
+            document.body.style.overflow = 'hidden';
+        },
             // Create modal HTML
             const modalHTML = `
                 <div id="answer-modal" style="
@@ -1030,13 +1244,15 @@
         
         // Listen to Answer (Text-to-Speech)
         listenAnswer: function() {
-            const listenBtn = document.getElementById('listen-text');
+            const listenIcon = document.getElementById('listen-icon');
             
             if (window.currentSpeech && window.speechSynthesis.speaking) {
                 // Stop speaking
                 window.speechSynthesis.cancel();
                 window.currentSpeech = null;
-                listenBtn.textContent = 'Listen';
+                if (listenIcon) {
+                    listenIcon.className = 'fas fa-volume-up';
+                }
             } else {
                 // Start speaking
                 const utterance = new SpeechSynthesisUtterance(window.currentAnswer);
@@ -1045,13 +1261,17 @@
                 utterance.pitch = 1;
                 
                 utterance.onend = function() {
-                    listenBtn.textContent = 'Listen';
+                    if (listenIcon) {
+                        listenIcon.className = 'fas fa-volume-up';
+                    }
                     window.currentSpeech = null;
                 };
                 
                 window.speechSynthesis.speak(utterance);
                 window.currentSpeech = utterance;
-                listenBtn.textContent = 'Stop';
+                if (listenIcon) {
+                    listenIcon.className = 'fas fa-stop';
+                }
             }
         },
         
@@ -1098,16 +1318,6 @@
             printWindow.print();
         },
         
-        // Copy Answer
-        copyAnswer: function() {
-            const text = `Question: ${window.currentQuestion}\n\nAnswer:\n${window.currentAnswer}`;
-            navigator.clipboard.writeText(text).then(() => {
-                alert('✅ Copied to clipboard!');
-            }).catch(err => {
-                console.error('Copy failed:', err);
-                alert('❌ Copy failed. Please try again.');
-            });
-        },
         
         // STAY & TRAVEL
         loadStayQuestions: function() {
