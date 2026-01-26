@@ -247,47 +247,56 @@
             <h2>📿 Gita Wisdom & Spirituality</h2>
             <p>Ask questions about life, spirituality, or Bhagavad Gita teachings</p>
             
-            <!-- Ready-made Questions Section -->
-            <div style="background:#fffbf0;border:2px solid #e6d5c3;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
-                <h3 style="color:#d97706;font-size:1rem;margin:0 0 1rem 0;display:flex;align-items:center;gap:0.5rem;">
-                    📖 <span>Popular Questions:</span>
-                </h3>
+            <!-- Mode Toggle -->
+            <div style="display:flex;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap;">
+                <label style="display:flex;align-items:center;gap:0.5rem;padding:0.75rem 1.25rem;border:2px solid #e6d5c3;border-radius:50px;cursor:pointer;background:#fffbf0;transition:all 0.3s;" id="explore-label">
+                    <input type="radio" name="gita-mode" id="explore-mode" value="explore" checked onchange="window.AppFunctions.toggleGitaMode('explore')" style="width:18px;height:18px;cursor:pointer;">
+                    <span style="font-weight:600;color:#d97706;">📖 Explore Questions</span>
+                </label>
                 
-                <div class="form-group" style="margin-bottom:0.8rem;">
-                    <label>Select Category:</label>
-                    <select id="gita-category" onchange="window.AppFunctions.loadGitaQuestions()">
-                        <option value="">-- Choose Category --</option>
-                        ${Object.keys(readyQuestions).map(cat => `<option value="${cat}">${cat}</option>`).join('')}
-                    </select>
+                <label style="display:flex;align-items:center;gap:0.5rem;padding:0.75rem 1.25rem;border:2px solid #dee2e6;border-radius:50px;cursor:pointer;background:white;transition:all 0.3s;" id="custom-label">
+                    <input type="radio" name="gita-mode" id="custom-mode" value="custom" onchange="window.AppFunctions.toggleGitaMode('custom')" style="width:18px;height:18px;cursor:pointer;">
+                    <span style="font-weight:600;color:#495057;">✍️ Ask My Own</span>
+                </label>
+            </div>
+            
+            <!-- Explore Questions Section -->
+            <div id="explore-section" style="display:block;">
+                <div style="background:#fffbf0;border:2px solid #e6d5c3;border-radius:12px;padding:1.5rem;">
+                    <div class="form-group" style="margin-bottom:0.8rem;">
+                        <label>Select Category:</label>
+                        <select id="gita-category" onchange="window.AppFunctions.loadGitaQuestions()">
+                            <option value="">-- Choose Category --</option>
+                            ${Object.keys(readyQuestions).map(cat => `<option value="${cat}">${cat}</option>`).join('')}
+                        </select>
+                    </div>
+                    
+                    <div class="form-group" id="gita-questions-dropdown" style="display:none;margin-bottom:0.8rem;">
+                        <label>Select Question:</label>
+                        <select id="gita-question-select">
+                            <option value="">-- Choose Question --</option>
+                        </select>
+                    </div>
+                    
+                    <button class="submit-btn" id="gita-ready-submit-btn" onclick="window.AppFunctions.askReadyQuestion(document.getElementById('gita-question-select').value)" style="display:none;">
+                        <i class="fas fa-paper-plane"></i> Ask This Question
+                    </button>
                 </div>
-                
-                <div class="form-group" id="gita-questions-dropdown" style="display:none;margin-bottom:0.8rem;">
-                    <label>Select Question:</label>
-                    <select id="gita-question-select">
-                        <option value="">-- Choose Question --</option>
-                    </select>
-                </div>
-                
-                <button class="submit-btn" id="gita-ready-submit-btn" onclick="window.AppFunctions.askReadyQuestion(document.getElementById('gita-question-select').value)" style="display:none;">
-                    <i class="fas fa-paper-plane"></i> Ask This Question
-                </button>
             </div>
             
             <!-- Custom Question Section -->
-            <div style="background:#f8f9fa;border:2px solid #dee2e6;border-radius:12px;padding:1.5rem;">
-                <h3 style="color:#495057;font-size:1rem;margin:0 0 1rem 0;display:flex;align-items:center;gap:0.5rem;">
-                    ✍️ <span>Ask Your Own Question:</span>
-                </h3>
-                
-                <div class="form-group" style="margin-bottom:0.8rem;">
-                    <label>Your Question:</label>
-                    <input type="text" id="gita-input" placeholder="e.g., How to deal with stress according to Gita?" autocomplete="off">
-                    <div id="gita-suggestions" style="margin-top:0.5rem;background:white;border:1px solid #e6d5c3;border-radius:8px;max-height:200px;overflow-y:auto;display:none;"></div>
+            <div id="custom-section" style="display:none;">
+                <div style="background:#f8f9fa;border:2px solid #dee2e6;border-radius:12px;padding:1.5rem;">
+                    <div class="form-group" style="margin-bottom:0.8rem;">
+                        <label>Your Question:</label>
+                        <input type="text" id="gita-input" placeholder="e.g., How to deal with stress according to Gita?" autocomplete="off">
+                        <div id="gita-suggestions" style="margin-top:0.5rem;background:white;border:1px solid #e6d5c3;border-radius:8px;max-height:200px;overflow-y:auto;display:none;"></div>
+                    </div>
+                    
+                    <button class="submit-btn" onclick="window.AppFunctions.submitGitaQuestion()">
+                        <i class="fas fa-paper-plane"></i> Ask Question
+                    </button>
                 </div>
-                
-                <button class="submit-btn" onclick="window.AppFunctions.submitGitaQuestion()">
-                    <i class="fas fa-paper-plane"></i> Ask Question
-                </button>
             </div>
             
             <!-- Answer Section -->
@@ -560,6 +569,38 @@
     // =========================================================================
     
     window.AppFunctions = {
+        
+        // Toggle between Explore and Custom modes
+        toggleGitaMode: function(mode) {
+            const exploreSection = document.getElementById('explore-section');
+            const customSection = document.getElementById('custom-section');
+            const exploreLabel = document.getElementById('explore-label');
+            const customLabel = document.getElementById('custom-label');
+            
+            if (mode === 'explore') {
+                exploreSection.style.display = 'block';
+                customSection.style.display = 'none';
+                
+                exploreLabel.style.background = '#fffbf0';
+                exploreLabel.style.borderColor = '#e6d5c3';
+                exploreLabel.querySelector('span').style.color = '#d97706';
+                
+                customLabel.style.background = 'white';
+                customLabel.style.borderColor = '#dee2e6';
+                customLabel.querySelector('span').style.color = '#495057';
+            } else {
+                exploreSection.style.display = 'none';
+                customSection.style.display = 'block';
+                
+                exploreLabel.style.background = 'white';
+                exploreLabel.style.borderColor = '#dee2e6';
+                exploreLabel.querySelector('span').style.color = '#495057';
+                
+                customLabel.style.background = '#f8f9fa';
+                customLabel.style.borderColor = '#dee2e6';
+                customLabel.querySelector('span').style.color = '#d97706';
+            }
+        },
         
         // Load Gita Questions by Category
         loadGitaQuestions: function() {
