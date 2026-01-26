@@ -1,3 +1,4 @@
+
 /**
  * ============================================================================
  * KURUKSHETRA MITRA - MAIN APP (Uses All Existing Modules)
@@ -247,22 +248,22 @@
             <h2>📿 Gita Wisdom & Spirituality</h2>
             <p>Ask questions about life, spirituality, or Bhagavad Gita teachings</p>
             
-            <!-- Mode Toggle with Radio Buttons -->
-            <div style="display:flex;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap;">
-                <label style="display:flex;align-items:center;gap:0.5rem;padding:0.75rem 1.25rem;border:2px solid #e6d5c3;border-radius:50px;cursor:pointer;background:#fffbf0;transition:all 0.3s;" id="explore-label">
+            <!-- Mode Toggle with Radio Buttons - HORIZONTAL on all devices -->
+            <div style="display:flex;gap:0.75rem;margin-bottom:1.5rem;">
+                <label style="display:flex;align-items:center;gap:0.5rem;padding:0.7rem 1rem;border:2px solid #e6d5c3;border-radius:50px;cursor:pointer;background:#fffbf0;transition:all 0.3s;flex:1;justify-content:center;" id="explore-label">
                     <input type="radio" name="gita-mode" id="explore-mode" value="explore" checked onchange="window.AppFunctions.toggleGitaMode('explore')" style="width:18px;height:18px;cursor:pointer;">
-                    <span style="font-weight:600;color:#d97706;">📖 Explore Questions</span>
+                    <span style="font-weight:600;color:#d97706;font-size:0.9rem;">📖 Explore Questions</span>
                 </label>
                 
-                <label style="display:flex;align-items:center;gap:0.5rem;padding:0.75rem 1.25rem;border:2px solid #dee2e6;border-radius:50px;cursor:pointer;background:white;transition:all 0.3s;" id="custom-label">
+                <label style="display:flex;align-items:center;gap:0.5rem;padding:0.7rem 1rem;border:2px solid #dee2e6;border-radius:50px;cursor:pointer;background:white;transition:all 0.3s;flex:1;justify-content:center;" id="custom-label">
                     <input type="radio" name="gita-mode" id="custom-mode" value="custom" onchange="window.AppFunctions.toggleGitaMode('custom')" style="width:18px;height:18px;cursor:pointer;">
-                    <span style="font-weight:600;color:#495057;">✍️ Ask My Own</span>
+                    <span style="font-weight:600;color:#495057;font-size:0.9rem;">✍️ Ask My Own</span>
                 </label>
             </div>
             
-            <!-- Explore Questions Section -->
+            <!-- Explore Questions Section (shows first, at TOP) -->
             <div id="explore-section" style="display:block;">
-                <div style="background:#fffbf0;border:2px solid #e6d5c3;border-radius:12px;padding:1.5rem;">
+                <div style="background:#fffbf0;border:2px solid #e6d5c3;border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
                     <div class="form-group" style="margin-bottom:0.8rem;">
                         <label>Select Category:</label>
                         <select id="gita-category" onchange="window.AppFunctions.loadGitaQuestions()">
@@ -284,7 +285,7 @@
                 </div>
             </div>
             
-            <!-- Custom Question Section -->
+            <!-- Custom Question Section (shows when toggled, at BOTTOM of page flow) -->
             <div id="custom-section" style="display:none;">
                 <div style="background:#f8f9fa;border:2px solid #dee2e6;border-radius:12px;padding:1.5rem;">
                     <div class="form-group" style="margin-bottom:0.8rem;">
