@@ -41,7 +41,7 @@
     const AppState = {
         currentTab: 'heritage',
         currentSubmenu: null,
-        n8nWebhook: 'https://n8n.virensingh.in/webhook/ask-gitaV2n8n',
+        n8nWebhook: 'https://n8n-workflow-test.duckdns.org/webhook/ask-gitaV2n8n',
         initialized: false
     };
     
@@ -247,21 +247,28 @@
             <h2>📿 Gita Wisdom & Spirituality</h2>
             <p>Ask questions about life, spirituality, or Bhagavad Gita teachings</p>
             
-            <!-- Ready-made Questions -->
+            <!-- Ready-made Questions with Dropdowns -->
             <div style="margin-bottom: 2rem;">
                 <h3 style="color: #d97706; font-size: 1.1rem; margin-bottom: 1rem;">📖 Popular Questions:</h3>
-                ${Object.entries(readyQuestions).map(([category, qs]) => `
-                    <div style="margin-bottom: 1.5rem;">
-                        <h4 style="color: #333; font-size: 0.95rem; margin-bottom: 0.8rem; font-weight: 600;">${category}</h4>
-                        <div style="display: grid; gap: 0.5rem;">
-                            ${qs.map(q => `
-                                <button class="ready-question-btn" onclick="window.AppFunctions.askReadyQuestion('${q.replace(/'/g, "\\'")}')">
-                                    ${q}
-                                </button>
-                            `).join('')}
-                        </div>
-                    </div>
-                `).join('')}
+                
+                <div class="form-group">
+                    <label>Select Category:</label>
+                    <select id="gita-category" onchange="window.AppFunctions.loadGitaQuestions()">
+                        <option value="">-- Choose Category --</option>
+                        ${Object.keys(readyQuestions).map(cat => `<option value="${cat}">${cat}</option>`).join('')}
+                    </select>
+                </div>
+                
+                <div class="form-group" id="gita-questions-dropdown" style="display:none;">
+                    <label>Select Question:</label>
+                    <select id="gita-question-select">
+                        <option value="">-- Choose Question --</option>
+                    </select>
+                </div>
+                
+                <button class="submit-btn" id="gita-ready-submit-btn" onclick="window.AppFunctions.askReadyQuestion(document.getElementById('gita-question-select').value)" style="display:none;">
+                    <i class="fas fa-paper-plane"></i> Ask This Question
+                </button>
             </div>
             
             <!-- Custom Question Section at Bottom -->
@@ -271,7 +278,7 @@
                 <div class="form-group">
                     <label>Your Question:</label>
                     <input type="text" id="gita-input" placeholder="e.g., How to deal with stress?" autocomplete="off">
-                    <div id="gita-suggestions"></div>
+                    <div id="gita-suggestions" style="margin-top:0.5rem;background:white;border:1px solid #e6d5c3;border-radius:8px;max-height:200px;overflow-y:auto;display:none;"></div>
                 </div>
                 
                 <button class="submit-btn" onclick="window.AppFunctions.submitGitaQuestion()">
@@ -282,29 +289,53 @@
             <div class="result-area" id="gita-result"></div>
         `;
         
-        // Setup autocomplete after DOM is ready
+        // Store questions in window for access
+        window.gitaReadyQuestions = readyQuestions;
+        
+        // Setup autocomplete after DOM is ready with longer delay
         setTimeout(() => {
             const input = document.getElementById('gita-input');
-            if (input && typeof AutocompleteModule !== 'undefined') {
-                try {
-                    AutocompleteModule.init(input, {
-                        dataSource: questions.map(q => ({
-                            id: q.id,
-                            title: q.question,
-                            category: q.category,
-                            type: 'question'
-                        })),
-                        onSelect: function(item) {
-                            input.value = item.title;
-                        },
-                        minChars: 2,
-                        maxResults: 5
-                    });
-                } catch (error) {
-                    console.warn('Autocomplete init failed:', error);
-                }
+            const suggestionsDiv = document.getElementById('gita-suggestions');
+            
+            if (input) {
+                // Manual autocomplete implementation
+                input.addEventListener('input', function(e) {
+                    const query = e.target.value.trim();
+                    
+                    if (query.length < 2) {
+                        suggestionsDiv.style.display = 'none';
+                        return;
+                    }
+                    
+                    const matches = questions.filter(q => 
+                        q.question.toLowerCase().includes(query.toLowerCase())
+                    ).slice(0, 5);
+                    
+                    if (matches.length > 0) {
+                        suggestionsDiv.innerHTML = matches.map(q => `
+                            <div style="padding:0.75rem;cursor:pointer;border-bottom:1px solid #f0f0f0;" 
+                                 onmouseover="this.style.background='#fef3c7'" 
+                                 onmouseout="this.style.background='white'"
+                                 onclick="document.getElementById('gita-input').value='${q.question.replace(/'/g, "\\'")}';document.getElementById('gita-suggestions').style.display='none';">
+                                ${q.question}
+                            </div>
+                        `).join('');
+                        suggestionsDiv.style.display = 'block';
+                    } else {
+                        suggestionsDiv.style.display = 'none';
+                    }
+                });
+                
+                // Close suggestions when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!input.contains(e.target) && !suggestionsDiv.contains(e.target)) {
+                        suggestionsDiv.style.display = 'none';
+                    }
+                });
+                
+                console.log('✅ Manual autocomplete setup complete');
             }
-        }, 100);
+        }, 200);
     }
     
     function renderTemplesSites(container) {
@@ -525,15 +556,46 @@
     
     window.AppFunctions = {
         
-        // Ready Question Handler
+        // Load Gita Questions by Category
+        loadGitaQuestions: function() {
+            const category = document.getElementById('gita-category').value;
+            const questionsDropdown = document.getElementById('gita-questions-dropdown');
+            const submitBtn = document.getElementById('gita-ready-submit-btn');
+            
+            if (!category) {
+                questionsDropdown.style.display = 'none';
+                submitBtn.style.display = 'none';
+                return;
+            }
+            
+            const questions = window.gitaReadyQuestions[category];
+            const select = document.getElementById('gita-question-select');
+            
+            select.innerHTML = '<option value="">-- Choose Question --</option>' +
+                questions.map(q => `<option value="${q}">${q}</option>`).join('');
+            
+            questionsDropdown.style.display = 'block';
+            submitBtn.style.display = 'inline-block';
+        },
+        
+        // Ready Question Handler (now takes question directly)
         askReadyQuestion: function(question) {
+            if (!question) {
+                alert('Please select a question');
+                return;
+            }
+            
+            // Set the question in the input field
             document.getElementById('gita-input').value = question;
-            // Scroll to input
-            document.getElementById('gita-input').scrollIntoView({ behavior: 'smooth', block: 'center' });
-            // Auto-submit after 500ms
+            
+            // Scroll to result area
+            const resultArea = document.getElementById('gita-result');
+            resultArea.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            
+            // Auto-submit
             setTimeout(() => {
                 this.submitGitaQuestion();
-            }, 500);
+            }, 300);
         },
         
         // SITES
@@ -589,7 +651,7 @@
             if (!question) { alert('Please enter a question'); return; }
             
             const resultArea = document.getElementById('gita-result');
-            resultArea.innerHTML = '<div class="loading"><div class="spinner"></div><p>Seeking wisdom...</p></div>';
+            resultArea.innerHTML = '<div class="loading"><div class="spinner"></div><p>Seeking wisdom from Bhagavad Gita...</p></div>';
             resultArea.classList.add('show');
             
             try {
@@ -603,19 +665,45 @@
                         headers: {'Content-Type': 'application/json'},
                         body: JSON.stringify({question, queryType: 'PHILOSOPHICAL_AI_QUERY'})
                     });
+                    
+                    if (!response.ok) {
+                        throw new Error(`Server error: ${response.status}`);
+                    }
+                    
                     data = await response.json();
                 }
                 
                 resultArea.innerHTML = `
                     <h3>📿 Answer:</h3>
-                    <div style="line-height:1.8;white-space:pre-wrap;">${data.answer||data.response||'No response'}</div>
+                    <div style="line-height:1.8;white-space:pre-wrap;">${data.answer||data.response||'No response received'}</div>
                     <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid #e6d5c3;font-size:0.9rem;color:#666;">
                         <em>Based on Bhagavad Gita teachings</em>
                     </div>
                 `;
             } catch (error) {
                 console.error('Error:', error);
-                resultArea.innerHTML = `<p style="color:red;">❌ Error: ${error.message}</p>`;
+                
+                let errorMessage = '';
+                if (error.message.includes('Failed to fetch') || error.message.includes('ERR_NAME_NOT_RESOLVED')) {
+                    errorMessage = `
+                        <h3 style="color:#dc2626;">🔌 Connection Error</h3>
+                        <p>Unable to connect to the server. Please check:</p>
+                        <ul style="margin-left:1.5rem;line-height:1.8;">
+                            <li>Your internet connection</li>
+                            <li>The n8n server is running</li>
+                            <li>The webhook URL is correct: <code style="background:#f3f4f6;padding:0.2rem 0.4rem;border-radius:4px;font-size:0.8rem;">${AppState.n8nWebhook}</code></li>
+                        </ul>
+                        <p style="margin-top:1rem;"><strong>Question asked:</strong> "${question}"</p>
+                    `;
+                } else {
+                    errorMessage = `
+                        <h3 style="color:#dc2626;">❌ Error</h3>
+                        <p>${error.message}</p>
+                        <p style="margin-top:1rem;"><strong>Question:</strong> "${question}"</p>
+                    `;
+                }
+                
+                resultArea.innerHTML = errorMessage;
             }
         },
         
