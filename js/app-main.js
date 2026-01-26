@@ -247,11 +247,13 @@
             <h2>📿 Gita Wisdom & Spirituality</h2>
             <p>Ask questions about life, spirituality, or Bhagavad Gita teachings</p>
             
-            <!-- Ready-made Questions with Dropdowns -->
-            <div style="margin-bottom: 2rem;">
-                <h3 style="color: #d97706; font-size: 1.1rem; margin-bottom: 1rem;">📖 Popular Questions:</h3>
+            <!-- Ready-made Questions Section -->
+            <div style="background:#fffbf0;border:2px solid #e6d5c3;border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+                <h3 style="color:#d97706;font-size:1rem;margin:0 0 1rem 0;display:flex;align-items:center;gap:0.5rem;">
+                    📖 <span>Popular Questions:</span>
+                </h3>
                 
-                <div class="form-group">
+                <div class="form-group" style="margin-bottom:0.8rem;">
                     <label>Select Category:</label>
                     <select id="gita-category" onchange="window.AppFunctions.loadGitaQuestions()">
                         <option value="">-- Choose Category --</option>
@@ -259,7 +261,7 @@
                     </select>
                 </div>
                 
-                <div class="form-group" id="gita-questions-dropdown" style="display:none;">
+                <div class="form-group" id="gita-questions-dropdown" style="display:none;margin-bottom:0.8rem;">
                     <label>Select Question:</label>
                     <select id="gita-question-select">
                         <option value="">-- Choose Question --</option>
@@ -271,13 +273,15 @@
                 </button>
             </div>
             
-            <!-- Custom Question Section at Bottom -->
-            <div style="margin-top: 2rem; padding-top: 2rem; border-top: 2px solid #e6d5c3;">
-                <h3 style="color: #d97706; font-size: 1.1rem; margin-bottom: 1rem;">✍️ Ask Your Own Question:</h3>
+            <!-- Custom Question Section -->
+            <div style="background:#f8f9fa;border:2px solid #dee2e6;border-radius:12px;padding:1.5rem;">
+                <h3 style="color:#495057;font-size:1rem;margin:0 0 1rem 0;display:flex;align-items:center;gap:0.5rem;">
+                    ✍️ <span>Ask Your Own Question:</span>
+                </h3>
                 
-                <div class="form-group">
+                <div class="form-group" style="margin-bottom:0.8rem;">
                     <label>Your Question:</label>
-                    <input type="text" id="gita-input" placeholder="e.g., How to deal with stress?" autocomplete="off">
+                    <input type="text" id="gita-input" placeholder="e.g., How to deal with stress according to Gita?" autocomplete="off">
                     <div id="gita-suggestions" style="margin-top:0.5rem;background:white;border:1px solid #e6d5c3;border-radius:8px;max-height:200px;overflow-y:auto;display:none;"></div>
                 </div>
                 
@@ -286,6 +290,7 @@
                 </button>
             </div>
             
+            <!-- Answer Section -->
             <div class="result-area" id="gita-result"></div>
         `;
         
