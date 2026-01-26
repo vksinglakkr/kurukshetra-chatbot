@@ -197,40 +197,114 @@
     function renderGitaWisdom(container) {
         const questions = QuestionsData.getQuestionsBySubmenu('gita_wisdom');
         
+        // Organized ready-made questions
+        const readyQuestions = {
+            '🌟 Basic Teachings': [
+                "What is the main message of Bhagavad Gita?",
+                "Who spoke the Bhagavad Gita and to whom?",
+                "What is Karma according to Gita?",
+                "What is Dharma in simple words?",
+                "What does Gita say about soul?"
+            ],
+            '💡 Daily Life': [
+                "How to stay peaceful in difficult times?",
+                "How to control anger according to Gita?",
+                "What does Gita say about hard work?",
+                "How to be happy according to Gita?",
+                "How to handle fear according to Gita?"
+            ],
+            '❤️ Relationships': [
+                "How should we treat our parents?",
+                "What does Gita say about respecting elders?",
+                "Should we forgive others per Gita?",
+                "What does Gita say about kindness?",
+                "What is true love according to Gita?"
+            ],
+            '📚 Studies & Work': [
+                "What does Gita teach about learning?",
+                "How to handle exam stress per Gita?",
+                "What does Gita say about hard work?",
+                "How to handle failure in exams?",
+                "How to stay disciplined in studies?"
+            ],
+            '💭 Emotions': [
+                "How to control negative thoughts?",
+                "What to do when feeling sad?",
+                "How to overcome jealousy per Gita?",
+                "What does Gita say about patience?",
+                "How to develop positive thinking?"
+            ],
+            '🕉️ Spirituality': [
+                "Who is God according to Bhagavad Gita?",
+                "What is devotion or Bhakti?",
+                "How to pray according to Gita?",
+                "What is the purpose of life per Gita?",
+                "How to become a better person?"
+            ]
+        };
+        
         container.innerHTML = `
             <h2>📿 Gita Wisdom & Spirituality</h2>
             <p>Ask questions about life, spirituality, or Bhagavad Gita teachings</p>
             
-            <div class="form-group">
-                <label>Your Question:</label>
-                <input type="text" id="gita-input" placeholder="e.g., How to deal with stress?" autocomplete="off">
-                <div id="gita-suggestions"></div>
+            <!-- Ready-made Questions -->
+            <div style="margin-bottom: 2rem;">
+                <h3 style="color: #d97706; font-size: 1.1rem; margin-bottom: 1rem;">📖 Popular Questions:</h3>
+                ${Object.entries(readyQuestions).map(([category, qs]) => `
+                    <div style="margin-bottom: 1.5rem;">
+                        <h4 style="color: #333; font-size: 0.95rem; margin-bottom: 0.8rem; font-weight: 600;">${category}</h4>
+                        <div style="display: grid; gap: 0.5rem;">
+                            ${qs.map(q => `
+                                <button class="ready-question-btn" onclick="window.AppFunctions.askReadyQuestion('${q.replace(/'/g, "\\'")}')">
+                                    ${q}
+                                </button>
+                            `).join('')}
+                        </div>
+                    </div>
+                `).join('')}
             </div>
             
-            <button class="submit-btn" onclick="window.AppFunctions.submitGitaQuestion()">
-                <i class="fas fa-paper-plane"></i> Ask Question
-            </button>
+            <!-- Custom Question Section at Bottom -->
+            <div style="margin-top: 2rem; padding-top: 2rem; border-top: 2px solid #e6d5c3;">
+                <h3 style="color: #d97706; font-size: 1.1rem; margin-bottom: 1rem;">✍️ Ask Your Own Question:</h3>
+                
+                <div class="form-group">
+                    <label>Your Question:</label>
+                    <input type="text" id="gita-input" placeholder="e.g., How to deal with stress?" autocomplete="off">
+                    <div id="gita-suggestions"></div>
+                </div>
+                
+                <button class="submit-btn" onclick="window.AppFunctions.submitGitaQuestion()">
+                    <i class="fas fa-paper-plane"></i> Ask Question
+                </button>
+            </div>
             
             <div class="result-area" id="gita-result"></div>
         `;
         
-        // Use existing AutocompleteModule
-        if (typeof AutocompleteModule !== 'undefined') {
+        // Setup autocomplete after DOM is ready
+        setTimeout(() => {
             const input = document.getElementById('gita-input');
-            AutocompleteModule.init(input, {
-                dataSource: questions.map(q => ({
-                    id: q.id,
-                    title: q.question,
-                    category: q.category,
-                    type: 'question'
-                })),
-                onSelect: function(item) {
-                    input.value = item.title;
-                },
-                minChars: 2,
-                maxResults: 5
-            });
-        }
+            if (input && typeof AutocompleteModule !== 'undefined') {
+                try {
+                    AutocompleteModule.init(input, {
+                        dataSource: questions.map(q => ({
+                            id: q.id,
+                            title: q.question,
+                            category: q.category,
+                            type: 'question'
+                        })),
+                        onSelect: function(item) {
+                            input.value = item.title;
+                        },
+                        minChars: 2,
+                        maxResults: 5
+                    });
+                } catch (error) {
+                    console.warn('Autocomplete init failed:', error);
+                }
+            }
+        }, 100);
     }
     
     function renderTemplesSites(container) {
@@ -450,6 +524,17 @@
     // =========================================================================
     
     window.AppFunctions = {
+        
+        // Ready Question Handler
+        askReadyQuestion: function(question) {
+            document.getElementById('gita-input').value = question;
+            // Scroll to input
+            document.getElementById('gita-input').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            // Auto-submit after 500ms
+            setTimeout(() => {
+                this.submitGitaQuestion();
+            }, 500);
+        },
         
         // SITES
         loadSitesByCategory: function() {
