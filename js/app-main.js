@@ -247,12 +247,21 @@
             <h2>📿 Gita Wisdom & Spirituality</h2>
             <p>Ask questions about life, spirituality, or Bhagavad Gita teachings</p>
             
-            <!-- Explore Questions Section (Top) -->
-            <div id="explore-section" style="margin-bottom:2rem;">
-                <h3 style="color:#d97706;font-size:1.1rem;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem;">
-                    📖 <span>Popular Questions:</span>
-                </h3>
+            <!-- Mode Toggle with Radio Buttons -->
+            <div style="display:flex;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap;">
+                <label style="display:flex;align-items:center;gap:0.5rem;padding:0.75rem 1.25rem;border:2px solid #e6d5c3;border-radius:50px;cursor:pointer;background:#fffbf0;transition:all 0.3s;" id="explore-label">
+                    <input type="radio" name="gita-mode" id="explore-mode" value="explore" checked onchange="window.AppFunctions.toggleGitaMode('explore')" style="width:18px;height:18px;cursor:pointer;">
+                    <span style="font-weight:600;color:#d97706;">📖 Explore Questions</span>
+                </label>
                 
+                <label style="display:flex;align-items:center;gap:0.5rem;padding:0.75rem 1.25rem;border:2px solid #dee2e6;border-radius:50px;cursor:pointer;background:white;transition:all 0.3s;" id="custom-label">
+                    <input type="radio" name="gita-mode" id="custom-mode" value="custom" onchange="window.AppFunctions.toggleGitaMode('custom')" style="width:18px;height:18px;cursor:pointer;">
+                    <span style="font-weight:600;color:#495057;">✍️ Ask My Own</span>
+                </label>
+            </div>
+            
+            <!-- Explore Questions Section -->
+            <div id="explore-section" style="display:block;">
                 <div style="background:#fffbf0;border:2px solid #e6d5c3;border-radius:12px;padding:1.5rem;">
                     <div class="form-group" style="margin-bottom:0.8rem;">
                         <label>Select Category:</label>
@@ -275,12 +284,8 @@
                 </div>
             </div>
             
-            <!-- Custom Question Section (Bottom) -->
-            <div id="custom-section">
-                <h3 style="color:#495057;font-size:1.1rem;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem;">
-                    ✍️ <span>Ask Your Own Question:</span>
-                </h3>
-                
+            <!-- Custom Question Section -->
+            <div id="custom-section" style="display:none;">
                 <div style="background:#f8f9fa;border:2px solid #dee2e6;border-radius:12px;padding:1.5rem;">
                     <div class="form-group" style="margin-bottom:0.8rem;">
                         <label>Your Question:</label>
@@ -562,6 +567,37 @@
     
     window.AppFunctions = {
         
+        // Toggle between Explore and Custom modes
+        toggleGitaMode: function(mode) {
+            const exploreSection = document.getElementById('explore-section');
+            const customSection = document.getElementById('custom-section');
+            const exploreLabel = document.getElementById('explore-label');
+            const customLabel = document.getElementById('custom-label');
+            
+            if (mode === 'explore') {
+                exploreSection.style.display = 'block';
+                customSection.style.display = 'none';
+                
+                exploreLabel.style.background = '#fffbf0';
+                exploreLabel.style.borderColor = '#e6d5c3';
+                exploreLabel.querySelector('span').style.color = '#d97706';
+                
+                customLabel.style.background = 'white';
+                customLabel.style.borderColor = '#dee2e6';
+                customLabel.querySelector('span').style.color = '#495057';
+            } else {
+                exploreSection.style.display = 'none';
+                customSection.style.display = 'block';
+                
+                exploreLabel.style.background = 'white';
+                exploreLabel.style.borderColor = '#dee2e6';
+                exploreLabel.querySelector('span').style.color = '#495057';
+                
+                customLabel.style.background = '#f8f9fa';
+                customLabel.style.borderColor = '#dee2e6';
+                customLabel.querySelector('span').style.color = '#d97706';
+            }
+        },
         
         // Load Gita Questions by Category
         loadGitaQuestions: function() {
@@ -593,11 +629,10 @@
             }
             
             // Set the question in the input field
-            document.getElementById('gita-input').value = question;
-            
-            // Scroll to result area
-            const resultArea = document.getElementById('gita-result');
-            resultArea.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            const input = document.getElementById('gita-input');
+            if (input) {
+                input.value = question;
+            }
             
             // Auto-submit
             setTimeout(() => {
