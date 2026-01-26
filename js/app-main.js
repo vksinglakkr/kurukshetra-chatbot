@@ -199,78 +199,48 @@
         
         // Organized ready-made questions
         const readyQuestions = {
-            '🌟 BASIC TEACHINGS': [
-      "What is the main message of Bhagavad Gita?",
-      "Who spoke the Bhagavad Gita and to whom?",
-      "Where was the Bhagavad Gita spoken?",
-      "What is Karma according to Gita?",
-      "What is Dharma in simple words?",
-      "What does Gita say about soul?",
-      "What is the difference between body and soul?",
-      "What are the three paths taught in Gita?",
-      "What is Yoga according to Gita?",
-      "What does Gita teach about mind control?"
-    ],
-       '💡 PRACTICAL WISDOM': [
-      "How to stay peaceful in difficult times?",
-      "What to do when we fail in something?",
-      "How to control anger according to Gita?",
-      "What does Gita say about hard work?",
-      "Should we worry about results of our actions?",
-      "How to be happy according to Gita?",
-      "What is the right way to do our duty?",
-      "How to handle fear according to Gita?",
-      "What does Gita say about self-confidence?",
-      "How to stay focused on our goals?"
-    ],
-        '👨‍👩‍👧‍👦 FAMILY AND FRIENDS': [
-      "How should we treat our parents?",
-      "What does Gita say about respecting elders?",
-      "How to be a good friend according to Gita?",
-      "What to do when someone hurts us?",
-      "Should we forgive others per Gita?",
-      "How to help people in need?",
-      "What does Gita say about kindness?",
-      "How to handle disagreements with friends?",
-      "What is true love according to Gita?",
-      "How to maintain good relationships?"
-    ],
-     '✍️ LEARNING AND EFFORT': [
-      "What does Gita teach about learning?",
-      "How to handle exam stress per Gita?",
-      "What to do when studies feel difficult?",
-      "How to stay disciplined in studies?",
-      "What does Gita say about hard work?",
-      "Should we compete with others?",
-      "How to handle failure in exams?",
-      "What is the value of knowledge per Gita?",
-      "How to balance studies and play?",
-      "What makes a true teacher according to Gita?"
-    ],
-       '🎭 FEELINGS AND MIND': [
-      "How to control negative thoughts?",
-      "What to do when feeling sad?",
-      "How to overcome jealousy per Gita?",
-      "What does Gita say about patience?",
-      "How to develop positive thinking?",
-      "What is the cause of sadness per Gita?",
-      "How to deal with disappointment?",
-      "What does Gita teach about courage?",
-      "How to build inner strength?",
-      "What is peace of mind according to Gita?"
-    ],
-       '🙏 SPIRITUAL BASICS': [
-      "Who is God according to Bhagavad Gita?",
-      "What is devotion or Bhakti?",
-      "How to pray according to Gita?",
-      "What is meditation in simple words?",
-      "Why should we read holy books?",
-      "What is the purpose of life per Gita?",
-      "What happens after death according to Gita?",
-      "What are good qualities to develop?",
-      "What is true happiness per Gita?",
-      "How to become a better person?"
-    ]
+            '🌟 Basic Teachings': [
+                "What is the main message of Bhagavad Gita?",
+                "Who spoke the Bhagavad Gita and to whom?",
+                "What is Karma according to Gita?",
+                "What is Dharma in simple words?",
+                "What does Gita say about soul?"
+            ],
+            '💡 Daily Life': [
+                "How to stay peaceful in difficult times?",
+                "How to control anger according to Gita?",
+                "What does Gita say about hard work?",
+                "How to be happy according to Gita?",
+                "How to handle fear according to Gita?"
+            ],
+            '❤️ Relationships': [
+                "How should we treat our parents?",
+                "What does Gita say about respecting elders?",
+                "Should we forgive others per Gita?",
+                "What does Gita say about kindness?",
+                "What is true love according to Gita?"
+            ],
+            '📚 Studies & Work': [
+                "What does Gita teach about learning?",
+                "How to handle exam stress per Gita?",
+                "What does Gita say about hard work?",
+                "How to handle failure in exams?",
+                "How to stay disciplined in studies?"
+            ],
+            '💭 Emotions': [
+                "How to control negative thoughts?",
+                "What to do when feeling sad?",
+                "How to overcome jealousy per Gita?",
+                "What does Gita say about patience?",
+                "How to develop positive thinking?"
+            ],
+            '🕉️ Spirituality': [
+                "Who is God according to Bhagavad Gita?",
+                "What is devotion or Bhakti?",
+                "How to pray according to Gita?",
+                "What is the purpose of life per Gita?",
+                "How to become a better person?"
+            ]
         };
         
         container.innerHTML = `
@@ -382,32 +352,112 @@
     function renderTemplesSites(container) {
         const api = TourGuideData.get();
         const categories = api.getAllCategories();
+        const allSites = api.getAllSites();
         
         container.innerHTML = `
             <h2>🛕 Temples, Museums & Heritage Sites</h2>
-            <p>Explore 79+ sites from kkrtour.com</p>
+            <p>Explore 79+ heritage sites from kkrtour.com</p>
             
-            <div class="form-group">
-                <label>Select Category:</label>
-                <select id="site-category" onchange="window.AppFunctions.loadSitesByCategory()">
-                    <option value="">-- Choose Category --</option>
-                    ${categories.map(cat => `<option value="${cat.name}">${cat.icon} ${cat.name} (${cat.count})</option>`).join('')}
-                </select>
+            <!-- Mode Toggle with Radio Buttons -->
+            <div style="display:flex;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap;">
+                <label style="display:flex;align-items:center;gap:0.5rem;padding:0.75rem 1.25rem;border:2px solid #e6d5c3;border-radius:50px;cursor:pointer;background:#fffbf0;transition:all 0.3s;" id="browse-label">
+                    <input type="radio" name="site-mode" id="browse-mode" value="browse" checked onchange="window.AppFunctions.toggleSiteMode('browse')" style="width:18px;height:18px;cursor:pointer;">
+                    <span style="font-weight:600;color:#d97706;">🗺️ Browse Sites</span>
+                </label>
+                
+                <label style="display:flex;align-items:center;gap:0.5rem;padding:0.75rem 1.25rem;border:2px solid #dee2e6;border-radius:50px;cursor:pointer;background:white;transition:all 0.3s;" id="search-label">
+                    <input type="radio" name="site-mode" id="search-mode" value="search" onchange="window.AppFunctions.toggleSiteMode('search')" style="width:18px;height:18px;cursor:pointer;">
+                    <span style="font-weight:600;color:#495057;">🔍 Search by Name</span>
+                </label>
             </div>
             
-            <div class="form-group" id="site-selection" style="display:none;">
-                <label>Select Site:</label>
-                <select id="site-select">
-                    <option value="">-- Choose Site --</option>
-                </select>
+            <!-- Browse Sites Section -->
+            <div id="browse-section" style="display:block;">
+                <div style="background:#fffbf0;border:2px solid #e6d5c3;border-radius:12px;padding:1.5rem;">
+                    <div class="form-group" style="margin-bottom:0.8rem;">
+                        <label>Select Category:</label>
+                        <select id="site-category" onchange="window.AppFunctions.loadSitesByCategory()">
+                            <option value="">-- Choose Category --</option>
+                            ${categories.map(cat => `<option value="${cat.name}">${cat.icon} ${cat.name} (${cat.count})</option>`).join('')}
+                        </select>
+                    </div>
+                    
+                    <div class="form-group" id="site-selection" style="display:none;margin-bottom:0.8rem;">
+                        <label>Select Site:</label>
+                        <select id="site-select">
+                            <option value="">-- Choose Site --</option>
+                        </select>
+                    </div>
+                    
+                    <button class="submit-btn" onclick="window.AppFunctions.viewSiteDetails()" style="display:none;" id="view-site-btn">
+                        <i class="fas fa-eye"></i> View Site Details
+                    </button>
+                </div>
             </div>
             
-            <button class="submit-btn" onclick="window.AppFunctions.viewSiteDetails()" style="display:none;" id="view-site-btn">
-                <i class="fas fa-eye"></i> View Site Details
-            </button>
-            
-            <div class="result-area" id="site-result"></div>
+            <!-- Search by Name Section -->
+            <div id="search-section" style="display:none;">
+                <div style="background:#f8f9fa;border:2px solid #dee2e6;border-radius:12px;padding:1.5rem;">
+                    <div class="form-group" style="margin-bottom:0.8rem;">
+                        <label>Search Site Name:</label>
+                        <input type="text" id="site-search-input" placeholder="Type site name (e.g., Brahma Sarovar)..." autocomplete="off">
+                        <div id="site-suggestions" style="margin-top:0.5rem;background:white;border:1px solid #e6d5c3;border-radius:8px;max-height:200px;overflow-y:auto;display:none;"></div>
+                        <input type="hidden" id="selected-site-id">
+                    </div>
+                    
+                    <button class="submit-btn" onclick="window.AppFunctions.viewSearchedSite()">
+                        <i class="fas fa-eye"></i> View Site Details
+                    </button>
+                </div>
+            </div>
         `;
+        
+        // Setup autocomplete for search after DOM is ready
+        setTimeout(() => {
+            const searchInput = document.getElementById('site-search-input');
+            const suggestionsDiv = document.getElementById('site-suggestions');
+            const selectedIdInput = document.getElementById('selected-site-id');
+            
+            if (searchInput) {
+                searchInput.addEventListener('input', function(e) {
+                    const query = e.target.value.trim();
+                    
+                    if (query.length < 2) {
+                        suggestionsDiv.style.display = 'none';
+                        selectedIdInput.value = '';
+                        return;
+                    }
+                    
+                    const matches = allSites.filter(site => 
+                        site.name.toLowerCase().includes(query.toLowerCase())
+                    ).slice(0, 8);
+                    
+                    if (matches.length > 0) {
+                        suggestionsDiv.innerHTML = matches.map(site => `
+                            <div style="padding:0.75rem;cursor:pointer;border-bottom:1px solid #f0f0f0;" 
+                                 onmouseover="this.style.background='#fef3c7'" 
+                                 onmouseout="this.style.background='white'"
+                                 onclick="window.AppFunctions.selectSiteFromSearch(${site.id}, '${site.name.replace(/'/g, "\\'")}')">
+                                <strong>${site.name}</strong>${site.mustVisit?' ⭐':''}
+                                <br><small style="color:#666;">${site.category}</small>
+                            </div>
+                        `).join('');
+                        suggestionsDiv.style.display = 'block';
+                    } else {
+                        suggestionsDiv.style.display = 'none';
+                    }
+                });
+                
+                // Close suggestions when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!searchInput.contains(e.target) && !suggestionsDiv.contains(e.target)) {
+                        suggestionsDiv.style.display = 'none';
+                    }
+                });
+                
+                console.log('✅ Site search autocomplete setup complete');
+            }
+        }, 200);
     }
     
     function renderStayTravel(container) {
@@ -670,7 +720,39 @@
             }, 300);
         },
         
-        // SITES
+        // SITES - Toggle between Browse and Search modes
+        toggleSiteMode: function(mode) {
+            const browseSection = document.getElementById('browse-section');
+            const searchSection = document.getElementById('search-section');
+            const browseLabel = document.getElementById('browse-label');
+            const searchLabel = document.getElementById('search-label');
+            
+            if (mode === 'browse') {
+                browseSection.style.display = 'block';
+                searchSection.style.display = 'none';
+                
+                browseLabel.style.background = '#fffbf0';
+                browseLabel.style.borderColor = '#e6d5c3';
+                browseLabel.querySelector('span').style.color = '#d97706';
+                
+                searchLabel.style.background = 'white';
+                searchLabel.style.borderColor = '#dee2e6';
+                searchLabel.querySelector('span').style.color = '#495057';
+            } else {
+                browseSection.style.display = 'none';
+                searchSection.style.display = 'block';
+                
+                browseLabel.style.background = 'white';
+                browseLabel.style.borderColor = '#dee2e6';
+                browseLabel.querySelector('span').style.color = '#495057';
+                
+                searchLabel.style.background = '#f8f9fa';
+                searchLabel.style.borderColor = '#dee2e6';
+                searchLabel.querySelector('span').style.color = '#d97706';
+            }
+        },
+        
+        // SITES - Browse Mode
         loadSitesByCategory: function() {
             const category = document.getElementById('site-category').value;
             if (!category) return;
@@ -686,6 +768,32 @@
             document.getElementById('view-site-btn').style.display = 'inline-block';
         },
         
+        // SITES - Search Mode: Select from autocomplete
+        selectSiteFromSearch: function(siteId, siteName) {
+            document.getElementById('site-search-input').value = siteName;
+            document.getElementById('selected-site-id').value = siteId;
+            document.getElementById('site-suggestions').style.display = 'none';
+        },
+        
+        // SITES - Search Mode: View selected site
+        viewSearchedSite: function() {
+            const siteId = document.getElementById('selected-site-id').value;
+            if (!siteId) {
+                alert('Please search and select a site first');
+                return;
+            }
+            
+            const api = TourGuideData.get();
+            const site = api.getSiteById(parseInt(siteId));
+            if (!site) {
+                alert('Site not found!');
+                return;
+            }
+            
+            this.showSiteModal(site);
+        },
+        
+        // SITES - Browse Mode: View site details
         viewSiteDetails: function() {
             const siteId = document.getElementById('site-select').value;
             if (!siteId) { alert('Please select a site'); return; }
@@ -694,26 +802,279 @@
             const site = api.getSiteById(parseInt(siteId));
             if (!site) { alert('Site not found!'); return; }
             
+            this.showSiteModal(site);
+        },
+        
+        // Show Site Modal
+        showSiteModal: function(site) {
             const siteUrl = `https://kkrtour.com/List.php?id=${site.id}`;
-            const resultArea = document.getElementById('site-result');
             
-            resultArea.innerHTML = `
-                <h3>${site.name}</h3>
-                <p><strong>Category:</strong> ${site.category}</p>
-                ${site.mustVisit?'<p style="color:gold;font-weight:bold;">⭐ Must Visit Site</p>':''}
-                
-                <div class="iframe-container">
-                    <iframe src="${siteUrl}"></iframe>
+            const modalHTML = `
+                <div id="site-modal" style="
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: rgba(0,0,0,0.7);
+                    z-index: 9999;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 1rem;
+                    animation: fadeIn 0.3s ease-in-out;
+                ">
+                    <div style="
+                        background: white;
+                        border-radius: 16px;
+                        max-width: 900px;
+                        width: 100%;
+                        max-height: 90vh;
+                        overflow-y: auto;
+                        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+                        animation: slideUp 0.3s ease-out;
+                    ">
+                        <!-- Modal Header -->
+                        <div style="
+                            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+                            padding: 1.2rem 1.5rem;
+                            border-radius: 16px 16px 0 0;
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                        ">
+                            <h3 style="
+                                color: white;
+                                margin: 0;
+                                font-size: 1.1rem;
+                                display: flex;
+                                align-items: center;
+                                gap: 0.5rem;
+                            ">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Site Details
+                            </h3>
+                            
+                            <!-- Icon Buttons in Header -->
+                            <div style="display:flex;align-items:center;gap:0.5rem;">
+                                <button onclick="window.AppFunctions.shareSiteWhatsApp()" title="Share on WhatsApp" style="
+                                    background: rgba(255,255,255,0.2);
+                                    border: none;
+                                    color: white;
+                                    width: 36px;
+                                    height: 36px;
+                                    border-radius: 50%;
+                                    cursor: pointer;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    transition: all 0.2s;
+                                " onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">
+                                    <i class="fab fa-whatsapp" style="font-size:1.2rem;"></i>
+                                </button>
+                                
+                                <button onclick="window.AppFunctions.printSiteDetails()" title="Print" style="
+                                    background: rgba(255,255,255,0.2);
+                                    border: none;
+                                    color: white;
+                                    width: 36px;
+                                    height: 36px;
+                                    border-radius: 50%;
+                                    cursor: pointer;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    transition: all 0.2s;
+                                " onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">
+                                    <i class="fas fa-print"></i>
+                                </button>
+                                
+                                <a href="${siteUrl}" target="_blank" title="Open Full Page" style="
+                                    background: rgba(255,255,255,0.2);
+                                    border: none;
+                                    color: white;
+                                    width: 36px;
+                                    height: 36px;
+                                    border-radius: 50%;
+                                    cursor: pointer;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    transition: all 0.2s;
+                                    text-decoration: none;
+                                " onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                                
+                                <button onclick="window.AppFunctions.closeSiteModal()" title="Close" style="
+                                    background: rgba(255,255,255,0.2);
+                                    border: none;
+                                    color: white;
+                                    width: 36px;
+                                    height: 36px;
+                                    border-radius: 50%;
+                                    cursor: pointer;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    transition: all 0.2s;
+                                " onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Modal Body -->
+                        <div style="padding: 1.5rem;">
+                            <!-- Site Info Section -->
+                            <div style="
+                                background: #f0f9ff;
+                                border: 1px solid #bfdbfe;
+                                border-radius: 10px;
+                                padding: 1rem;
+                                margin-bottom: 1.2rem;
+                            ">
+                                <h4 style="margin: 0 0 0.5rem 0; color: #1e40af; font-size: 1.1rem; font-weight: 600;">
+                                    ${site.name} ${site.mustVisit?'⭐':''}
+                                </h4>
+                                <p style="margin: 0.3rem 0; color: #1e3a8a; font-size: 0.9rem;">
+                                    <strong>📂 Category:</strong> ${site.category}
+                                </p>
+                                ${site.mustVisit?'<p style="margin:0.3rem 0;color:#d97706;font-weight:600;font-size:0.9rem;">⭐ Must Visit Site</p>':''}
+                            </div>
+                            
+                            <!-- Iframe Section -->
+                            <div style="
+                                border: 2px solid #e5e7eb;
+                                border-radius: 10px;
+                                overflow: hidden;
+                                margin-bottom: 1.2rem;
+                            ">
+                                <iframe src="${siteUrl}" style="
+                                    width: 100%;
+                                    height: 500px;
+                                    border: none;
+                                "></iframe>
+                            </div>
+                            
+                            <!-- Disclaimer -->
+                            <div style="
+                                background: #fef2f2;
+                                border: 1px solid #fecaca;
+                                border-radius: 8px;
+                                padding: 0.7rem;
+                                font-size: 0.8rem;
+                                color: #991b1b;
+                                display: flex;
+                                align-items: flex-start;
+                                gap: 0.5rem;
+                            ">
+                                <i class="fas fa-info-circle" style="margin-top: 0.1rem; font-size: 0.9rem;"></i>
+                                <div>
+                                    <strong>Source:</strong> Information displayed from kkrtour.com
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
-                <div style="margin-top:1rem;text-align:center;">
-                    <a href="${siteUrl}" target="_blank" class="submit-btn">
-                        <i class="fas fa-external-link-alt"></i> Open Full Page
-                    </a>
-                </div>
+                <style>
+                    @keyframes fadeIn {
+                        from { opacity: 0; }
+                        to { opacity: 1; }
+                    }
+                    @keyframes slideUp {
+                        from { transform: translateY(50px); opacity: 0; }
+                        to { transform: translateY(0); opacity: 1; }
+                    }
+                    
+                    @media (max-width: 640px) {
+                        #site-modal > div {
+                            margin: 0.5rem;
+                            border-radius: 12px !important;
+                        }
+                        #site-modal > div > div:first-child {
+                            padding: 1rem !important;
+                            border-radius: 12px 12px 0 0 !important;
+                        }
+                        #site-modal > div > div:first-child h3 {
+                            font-size: 0.95rem !important;
+                        }
+                        #site-modal > div > div:first-child button,
+                        #site-modal > div > div:first-child a {
+                            width: 32px !important;
+                            height: 32px !important;
+                        }
+                        #site-modal iframe {
+                            height: 400px !important;
+                        }
+                    }
+                </style>
             `;
             
-            resultArea.classList.add('show');
+            // Add modal to body
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
+            
+            // Store site for actions
+            window.currentSite = site;
+            window.currentSiteUrl = siteUrl;
+            
+            // Prevent body scroll
+            document.body.style.overflow = 'hidden';
+        },
+        
+        // Close Site Modal
+        closeSiteModal: function() {
+            const modal = document.getElementById('site-modal');
+            if (modal) {
+                modal.remove();
+                document.body.style.overflow = '';
+            }
+        },
+        
+        // Share Site on WhatsApp
+        shareSiteWhatsApp: function() {
+            const site = window.currentSite;
+            const url = window.currentSiteUrl;
+            const text = `*${site.name}*${site.mustVisit?' ⭐':''}\n\n📂 Category: ${site.category}\n\n🔗 View Details: ${url}\n\n_From Kurukshetra Mitra - Heritage Guide_`;
+            const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(text)}`;
+            window.open(whatsappUrl, '_blank');
+        },
+        
+        // Print Site Details
+        printSiteDetails: function() {
+            const site = window.currentSite;
+            const url = window.currentSiteUrl;
+            
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <html>
+                <head>
+                    <title>${site.name} - Details</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; padding: 2rem; max-width: 800px; margin: 0 auto; }
+                        h1 { color: #d97706; border-bottom: 3px solid #d97706; padding-bottom: 0.5rem; }
+                        .info { background: #f0f9ff; padding: 1rem; border-radius: 8px; margin: 1rem 0; }
+                        .footer { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #ccc; font-size: 0.9rem; color: #666; }
+                    </style>
+                </head>
+                <body>
+                    <h1>🛕 ${site.name} ${site.mustVisit?'⭐':''}</h1>
+                    <div class="info">
+                        <p><strong>Category:</strong> ${site.category}</p>
+                        ${site.mustVisit?'<p style="color:#d97706;font-weight:bold;">⭐ Must Visit Site</p>':''}
+                        <p><strong>More Info:</strong> <a href="${url}">${url}</a></p>
+                    </div>
+                    <div class="footer">
+                        <p><em>Generated by Kurukshetra Mitra - Your Complete Guide</em></p>
+                        <p><em>Date: ${new Date().toLocaleDateString()}</em></p>
+                        <p><em>Source: kkrtour.com</em></p>
+                    </div>
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+            printWindow.print();
         },
         
         // GITA - Uses APIModule if available, otherwise direct fetch
