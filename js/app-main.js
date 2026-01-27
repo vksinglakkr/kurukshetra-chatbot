@@ -42,7 +42,7 @@
     const AppState = {
         currentTab: 'heritage',
         currentSubmenu: null,
-        n8nWebhook: 'https://n8n-workflow-test.duckdns.org/webhook/ask-gitaV2n8n',
+        n8nWebhook: 'https://n8n-workflow-test.duckdns.org/webhook/kurukshetra-chatbot',
         initialized: false
     };
     
