@@ -41,7 +41,7 @@
     const AppState = {
         currentTab: 'heritage',
         currentSubmenu: null,
-        n8nWebhook: 'https://n8n-workflow-test.duckdns.org/webhook-test/kurukshetra-chatbot',
+        n8nWebhook: 'https://n8n-workflow-test.duckdns.org/webhook/kurukshetra-chatbot',
         n8nHeritageResearch: 'https://n8n-workflow-test.duckdns.org/webhook/kurukshetra-heritage-research',
         initialized: false
     };
