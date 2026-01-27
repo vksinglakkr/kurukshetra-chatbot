@@ -602,43 +602,68 @@
     
     function renderHeritageResearch(container) {
         // Ready-made Heritage Research questions
-        const readyQuestions = {
-            '🏛️ Archaeological': [
-                "What archaeological evidence exists of the Mahabharata war?",
-                "Which ancient sites have been excavated in Kurukshetra?",
-                "What artifacts have been discovered in the region?",
-                "How old are the temples in Kurukshetra?",
-                "What do archaeological studies say about ancient Kurukshetra?"
-            ],
-            '📜 Historical': [
-                "What is the historical significance of Kurukshetra?",
-                "Which dynasties ruled Kurukshetra?",
-                "What historical events occurred in Kurukshetra?",
-                "How has Kurukshetra changed over centuries?",
-                "What do ancient texts say about Kurukshetra?"
-            ],
-            '🕉️ Religious': [
-                "Why is Kurukshetra considered sacred in Hinduism?",
-                "What is the spiritual significance of the 48 kos parikrama?",
-                "Which sacred texts mention Kurukshetra?",
-                "What is the importance of holy water bodies here?",
-                "Why is Kurukshetra called 'Dharmakshetra'?"
-            ],
-            '🎨 Cultural': [
-                "What is the cultural heritage of Kurukshetra?",
-                "What traditional arts and crafts exist here?",
-                "What festivals have historical significance?",
-                "How has local culture evolved over time?",
-                "What unique traditions are practiced in Kurukshetra?"
-            ],
-            '📚 Academic': [
-                "What research has been done on Kurukshetra's history?",
-                "Which universities study Kurukshetra's heritage?",
-                "What academic papers exist about the Mahabharata war?",
-                "How do historians view the Kurukshetra battle?",
-                "What scholarly debates exist about Kurukshetra?"
-            ]
-        };
+const readyQuestions = {
+  '🏛️ Archaeological Evidence': [
+    "What archaeological evidence exists related to the Mahabharata war in Kurukshetra?",
+    "Which sites in Kurukshetra have been excavated by the Archaeological Survey of India (ASI)?",
+    "What types of material remains (pottery, structures, artifacts) have been found in Kurukshetra?",
+    "Are there any stratified archaeological layers indicating ancient habitation in Kurukshetra?",
+    "What archaeological findings are associated with Brahma Sarovar, Jyotisar, or nearby sites?",
+    "What limitations exist in establishing archaeological proof of the Mahabharata war?",
+    "How do archaeologists interpret the absence or presence of evidence in Kurukshetra?"
+  ],
+
+  '📜 Historical Analysis': [
+    "What is the historical significance of Kurukshetra across different periods?",
+    "Which historical dynasties or rulers are associated with Kurukshetra?",
+    "How was Kurukshetra described in early historical and medieval sources?",
+    "What role did Kurukshetra play in ancient trade, pilgrimage, or settlement patterns?",
+    "How did Kurukshetra evolve from ancient to modern times?",
+    "What historical records mention Kurukshetra outside religious texts?"
+  ],
+
+  '🕉️ Textual & Literary Sources': [
+    "Which ancient texts mention Kurukshetra and in what context?",
+    "How does the Mahabharata describe Kurukshetra as a geographical and cultural space?",
+    "Are there references to Kurukshetra in the Puranas or other Sanskrit literature?",
+    "How do literary descriptions of Kurukshetra differ from archaeological findings?",
+    "What are the challenges in correlating textual references with physical locations?"
+  ],
+
+  '🛕 Sacred Geography & Sites': [
+    "Why is Kurukshetra referred to as ‘Dharmakshetra’ in ancient texts?",
+    "What is the historical and symbolic significance of Jyotisar?",
+    "What is known about the origin and development of Brahma Sarovar?",
+    "How are water bodies in Kurukshetra linked to ritual and historical traditions?",
+    "What is the concept of the 48 Kos Parikrama and its historical basis?"
+  ],
+
+  '🎨 Cultural & Intangible Heritage': [
+    "What forms of cultural heritage are traditionally associated with Kurukshetra?",
+    "How have fairs, pilgrimages, and festivals shaped Kurukshetra’s cultural identity?",
+    "What role does oral tradition play in preserving Kurukshetra’s heritage?",
+    "How has modern development impacted traditional cultural practices?",
+    "What elements of Kurukshetra’s heritage are considered intangible?"
+  ],
+
+  '📚 Academic & Scholarly Research': [
+    "What academic research has been conducted on Kurukshetra’s archaeology?",
+    "How do historians and archaeologists academically assess the Mahabharata war?",
+    "What are the major scholarly debates regarding the historicity of Kurukshetra?",
+    "Which institutions or universities actively research Kurukshetra’s heritage?",
+    "What peer-reviewed studies discuss Kurukshetra in historical or archaeological context?",
+    "How do modern research methodologies approach ancient Indian epic traditions?"
+  ],
+
+  '⚖️ Evidence Evaluation & Methodology': [
+    "What constitutes archaeological evidence in ancient Indian history?",
+    "Why is it difficult to conclusively prove epic events archaeologically?",
+    "How do historians differentiate between mythology, tradition, and history?",
+    "What standards of evidence are used in heritage research?",
+    "How should conflicting interpretations of Kurukshetra’s past be evaluated?"
+  ]
+
+};
         
         container.innerHTML = `
             <h2>📚 Heritage Research</h2>
