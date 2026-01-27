@@ -2248,13 +2248,32 @@
                 let data;
                 try {
                     data = JSON.parse(text);
+                    
+                    // Handle array response (n8n returns array)
+                    if (Array.isArray(data) && data.length > 0) {
+                        data = data[0]; // Extract first item from array
+                    }
                 } catch (e) {
                     console.error('Invalid JSON response:', text.substring(0, 200));
                     throw new Error('Invalid response format from server');
                 }
                 
                 // Extract response from n8n structure
-                const answer = data.response || data.answer || 'No response received';
+                // Handle Groq AI response format from your n8n workflow
+                let answer;
+                if (data.choices && data.choices[0] && data.choices[0].message) {
+                    // Groq AI format (what your n8n returns)
+                    answer = data.choices[0].message.content;
+                } else if (data.response) {
+                    // Direct response format
+                    answer = data.response;
+                } else if (data.answer) {
+                    // Alternative format
+                    answer = data.answer;
+                } else {
+                    answer = 'No response received';
+                }
+                
                 this.showHeritageAnswerModal(question, answer);
                 
             } catch (error) {
@@ -2310,13 +2329,32 @@
                 let data;
                 try {
                     data = JSON.parse(text);
+                    
+                    // Handle array response (n8n returns array)
+                    if (Array.isArray(data) && data.length > 0) {
+                        data = data[0]; // Extract first item from array
+                    }
                 } catch (e) {
                     console.error('Invalid JSON response:', text.substring(0, 200));
                     throw new Error('Invalid response format from server');
                 }
                 
                 // Extract response from n8n structure
-                const answer = data.response || data.answer || 'No response received';
+                // Handle Groq AI response format from your n8n workflow
+                let answer;
+                if (data.choices && data.choices[0] && data.choices[0].message) {
+                    // Groq AI format (what your n8n returns)
+                    answer = data.choices[0].message.content;
+                } else if (data.response) {
+                    // Direct response format
+                    answer = data.response;
+                } else if (data.answer) {
+                    // Alternative format
+                    answer = data.answer;
+                } else {
+                    answer = 'No response received';
+                }
+                
                 this.showHeritageAnswerModal(question, answer);
                 
             } catch (error) {
