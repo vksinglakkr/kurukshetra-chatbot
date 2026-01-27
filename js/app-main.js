@@ -41,7 +41,7 @@
     const AppState = {
         currentTab: 'heritage',
         currentSubmenu: null,
-        n8nWebhook: 'https://n8n-workflow-test.duckdns.org/webhook/kurukshetra-chatbot',
+        n8nWebhook: 'https://n8n-workflow-test.duckdns.org/webhook-test/kurukshetra-chatbot',
         n8nHeritageResearch: 'https://n8n-workflow-test.duckdns.org/webhook/kurukshetra-heritage-research',
         initialized: false
     };
@@ -2227,29 +2227,52 @@
             this.showHeritageLoadingModal();
             
             try {
-                let data;
-                if (typeof APIModule !== 'undefined' && typeof APIModule.queryN8N === 'function') {
-                    data = await APIModule.queryN8N(question, 'RESEARCH_QUERY');
-                } else {
-                    const response = await fetch(AppState.n8nWebhook, {
-                        method: 'POST',
-                        headers: {'Content-Type': 'application/json'},
-                        body: JSON.stringify({question, queryType: 'RESEARCH_QUERY'})
-                    });
-                    
-                    if (!response.ok) {
-                        throw new Error(`Server error: ${response.status}`);
-                    }
-                    
-                    data = await response.json();
+                // Heritage Research uses separate webhook with 'queryQuestion' field
+                const response = await fetch(AppState.n8nHeritageResearch, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({queryQuestion: question})
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Server error: ${response.status}`);
                 }
                 
-                this.showHeritageAnswerModal(question, data.answer || data.response || 'No response received');
+                // Check if response has content
+                const text = await response.text();
+                if (!text || text.trim() === '') {
+                    throw new Error('Empty response from server');
+                }
+                
+                // Try to parse JSON
+                let data;
+                try {
+                    data = JSON.parse(text);
+                } catch (e) {
+                    console.error('Invalid JSON response:', text.substring(0, 200));
+                    throw new Error('Invalid response format from server');
+                }
+                
+                // Extract response from n8n structure
+                const answer = data.response || data.answer || 'No response received';
+                this.showHeritageAnswerModal(question, answer);
                 
             } catch (error) {
                 console.error('Error:', error);
                 this.closeHeritageModal();
-                alert('❌ Error: Unable to fetch research data. Please check your connection.');
+                
+                let errorMessage = 'Unable to fetch research data. ';
+                if (error.message.includes('Empty response')) {
+                    errorMessage += 'The server returned an empty response. Please check your n8n workflow.';
+                } else if (error.message.includes('Invalid response format')) {
+                    errorMessage += 'The server returned invalid data. Please check your n8n workflow output.';
+                } else if (error.message.includes('Failed to fetch')) {
+                    errorMessage += 'Please check your internet connection.';
+                } else {
+                    errorMessage += error.message;
+                }
+                
+                alert('❌ Error: ' + errorMessage);
             }
         },
         
@@ -2266,29 +2289,52 @@
             this.showHeritageLoadingModal();
             
             try {
-                let data;
-                if (typeof APIModule !== 'undefined' && typeof APIModule.queryN8N === 'function') {
-                    data = await APIModule.queryN8N(question, 'RESEARCH_QUERY');
-                } else {
-                    const response = await fetch(AppState.n8nWebhook, {
-                        method: 'POST',
-                        headers: {'Content-Type': 'application/json'},
-                        body: JSON.stringify({question, queryType: 'RESEARCH_QUERY'})
-                    });
-                    
-                    if (!response.ok) {
-                        throw new Error(`Server error: ${response.status}`);
-                    }
-                    
-                    data = await response.json();
+                // Heritage Research uses separate webhook with 'queryQuestion' field
+                const response = await fetch(AppState.n8nHeritageResearch, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({queryQuestion: question})
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Server error: ${response.status}`);
                 }
                 
-                this.showHeritageAnswerModal(question, data.answer || data.response || 'No response received');
+                // Check if response has content
+                const text = await response.text();
+                if (!text || text.trim() === '') {
+                    throw new Error('Empty response from server');
+                }
+                
+                // Try to parse JSON
+                let data;
+                try {
+                    data = JSON.parse(text);
+                } catch (e) {
+                    console.error('Invalid JSON response:', text.substring(0, 200));
+                    throw new Error('Invalid response format from server');
+                }
+                
+                // Extract response from n8n structure
+                const answer = data.response || data.answer || 'No response received';
+                this.showHeritageAnswerModal(question, answer);
                 
             } catch (error) {
                 console.error('Error:', error);
                 this.closeHeritageModal();
-                alert('❌ Error: Unable to fetch research data. Please check your connection.');
+                
+                let errorMessage = 'Unable to fetch research data. ';
+                if (error.message.includes('Empty response')) {
+                    errorMessage += 'The server returned an empty response. Please check your n8n workflow.';
+                } else if (error.message.includes('Invalid response format')) {
+                    errorMessage += 'The server returned invalid data. Please check your n8n workflow output.';
+                } else if (error.message.includes('Failed to fetch')) {
+                    errorMessage += 'Please check your internet connection.';
+                } else {
+                    errorMessage += error.message;
+                }
+                
+                alert('❌ Error: ' + errorMessage);
             }
         },
         
