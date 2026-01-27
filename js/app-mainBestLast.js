@@ -1,3 +1,4 @@
+
 /**
  * ============================================================================
  * KURUKSHETRA MITRA - MAIN APP (Uses All Existing Modules)
@@ -466,27 +467,108 @@
         
         container.innerHTML = `
             <h2>🏨 Stay, Food & Travel</h2>
-            <p>Find accommodation, restaurants, transport</p>
+            <p>Find accommodation, restaurants, and transport information</p>
             
-            <div class="form-group">
-                <label>Category:</label>
-                <select id="stay-category" onchange="window.AppFunctions.loadStayQuestions()">
-                    <option value="">-- Choose Category --</option>
-                    ${categories.map(cat => `<option value="${cat}">${cat}</option>`).join('')}
-                </select>
+            <!-- Mode Toggle with Radio Buttons -->
+            <div style="display:flex;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap;">
+                <label style="display:flex;align-items:center;gap:0.5rem;padding:0.75rem 1.25rem;border:2px solid #e6d5c3;border-radius:50px;cursor:pointer;background:#fffbf0;transition:all 0.3s;" id="stay-browse-label">
+                    <input type="radio" name="stay-mode" id="stay-browse-mode" value="browse" checked onchange="window.AppFunctions.toggleStayMode('browse')" style="width:18px;height:18px;cursor:pointer;">
+                    <span style="font-weight:600;color:#d97706;">📋 Browse by Category</span>
+                </label>
+                
+                <label style="display:flex;align-items:center;gap:0.5rem;padding:0.75rem 1.25rem;border:2px solid #dee2e6;border-radius:50px;cursor:pointer;background:white;transition:all 0.3s;" id="stay-search-label">
+                    <input type="radio" name="stay-mode" id="stay-search-mode" value="search" onchange="window.AppFunctions.toggleStayMode('search')" style="width:18px;height:18px;cursor:pointer;">
+                    <span style="font-weight:600;color:#495057;">🔍 Search Question</span>
+                </label>
             </div>
             
-            <div class="form-group" id="stay-questions" style="display:none;">
-                <label>Question:</label>
-                <select id="stay-question-select"></select>
+            <!-- Browse by Category Section -->
+            <div id="stay-browse-section" style="display:block;">
+                <div style="background:#fffbf0;border:2px solid #e6d5c3;border-radius:12px;padding:1.5rem;">
+                    <div class="form-group" style="margin-bottom:0.8rem;">
+                        <label>Select Category:</label>
+                        <select id="stay-category" onchange="window.AppFunctions.loadStayQuestions()">
+                            <option value="">-- Choose Category --</option>
+                            ${categories.map(cat => `<option value="${cat}">${cat}</option>`).join('')}
+                        </select>
+                    </div>
+                    
+                    <div class="form-group" id="stay-questions" style="display:none;margin-bottom:0.8rem;">
+                        <label>Select Question:</label>
+                        <select id="stay-question-select">
+                            <option value="">-- Choose Question --</option>
+                        </select>
+                    </div>
+                    
+                    <button class="submit-btn" onclick="window.AppFunctions.submitStayQuery()" style="display:none;" id="stay-submit-btn">
+                        <i class="fas fa-search"></i> Get Information
+                    </button>
+                </div>
             </div>
             
-            <button class="submit-btn" onclick="window.AppFunctions.submitStayQuery()">
-                <i class="fas fa-search"></i> Get Information
-            </button>
-            
-            <div class="result-area" id="stay-result"></div>
+            <!-- Search Question Section -->
+            <div id="stay-search-section" style="display:none;">
+                <div style="background:#f8f9fa;border:2px solid #dee2e6;border-radius:12px;padding:1.5rem;">
+                    <div class="form-group" style="margin-bottom:0.8rem;">
+                        <label>Search Your Question:</label>
+                        <input type="text" id="stay-search-input" placeholder="Type your question (e.g., Best hotels near...)..." autocomplete="off">
+                        <div id="stay-suggestions" style="margin-top:0.5rem;background:white;border:1px solid #e6d5c3;border-radius:8px;max-height:200px;overflow-y:auto;display:none;"></div>
+                        <input type="hidden" id="selected-stay-question-id">
+                    </div>
+                    
+                    <button class="submit-btn" onclick="window.AppFunctions.submitSearchedStayQuery()">
+                        <i class="fas fa-search"></i> Get Information
+                    </button>
+                </div>
+            </div>
         `;
+        
+        // Setup autocomplete for search after DOM is ready
+        setTimeout(() => {
+            const searchInput = document.getElementById('stay-search-input');
+            const suggestionsDiv = document.getElementById('stay-suggestions');
+            const selectedIdInput = document.getElementById('selected-stay-question-id');
+            
+            if (searchInput) {
+                searchInput.addEventListener('input', function(e) {
+                    const query = e.target.value.trim();
+                    
+                    if (query.length < 2) {
+                        suggestionsDiv.style.display = 'none';
+                        selectedIdInput.value = '';
+                        return;
+                    }
+                    
+                    const matches = questions.filter(q => 
+                        q.question.toLowerCase().includes(query.toLowerCase())
+                    ).slice(0, 8);
+                    
+                    if (matches.length > 0) {
+                        suggestionsDiv.innerHTML = matches.map(q => `
+                            <div style="padding:0.75rem;cursor:pointer;border-bottom:1px solid #f0f0f0;" 
+                                 onmouseover="this.style.background='#fef3c7'" 
+                                 onmouseout="this.style.background='white'"
+                                 onclick="window.AppFunctions.selectStayFromSearch('${q.id}', '${q.question.replace(/'/g, "\\'")}')">
+                                <strong>${q.question}</strong>
+                                <br><small style="color:#666;">${q.category}</small>
+                            </div>
+                        `).join('');
+                        suggestionsDiv.style.display = 'block';
+                    } else {
+                        suggestionsDiv.style.display = 'none';
+                    }
+                });
+                
+                // Close suggestions when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!searchInput.contains(e.target) && !suggestionsDiv.contains(e.target)) {
+                        suggestionsDiv.style.display = 'none';
+                    }
+                });
+                
+                console.log('✅ Stay search autocomplete setup complete');
+            }
+        }, 200);
     }
     
     function renderFestivals(container) {
@@ -1493,11 +1575,44 @@
         },
         
         
-        // STAY & TRAVEL
+        // STAY & TRAVEL - Toggle between Browse and Search modes
+        toggleStayMode: function(mode) {
+            const browseSection = document.getElementById('stay-browse-section');
+            const searchSection = document.getElementById('stay-search-section');
+            const browseLabel = document.getElementById('stay-browse-label');
+            const searchLabel = document.getElementById('stay-search-label');
+            
+            if (mode === 'browse') {
+                browseSection.style.display = 'block';
+                searchSection.style.display = 'none';
+                
+                browseLabel.style.background = '#fffbf0';
+                browseLabel.style.borderColor = '#e6d5c3';
+                browseLabel.querySelector('span').style.color = '#d97706';
+                
+                searchLabel.style.background = 'white';
+                searchLabel.style.borderColor = '#dee2e6';
+                searchLabel.querySelector('span').style.color = '#495057';
+            } else {
+                browseSection.style.display = 'none';
+                searchSection.style.display = 'block';
+                
+                browseLabel.style.background = 'white';
+                browseLabel.style.borderColor = '#dee2e6';
+                browseLabel.querySelector('span').style.color = '#495057';
+                
+                searchLabel.style.background = '#f8f9fa';
+                searchLabel.style.borderColor = '#dee2e6';
+                searchLabel.querySelector('span').style.color = '#d97706';
+            }
+        },
+        
+        // STAY & TRAVEL - Browse Mode: Load questions by category
         loadStayQuestions: function() {
             const category = document.getElementById('stay-category').value;
             if (!category) {
                 document.getElementById('stay-questions').style.display = 'none';
+                document.getElementById('stay-submit-btn').style.display = 'none';
                 return;
             }
             
@@ -1505,22 +1620,80 @@
                 .filter(q => q.category === category);
             
             const select = document.getElementById('stay-question-select');
-            select.innerHTML = '<option value="">-- Choose --</option>' +
+            select.innerHTML = '<option value="">-- Choose Question --</option>' +
                 questions.map(q => `<option value="${q.id}">${q.question}</option>`).join('');
             
             document.getElementById('stay-questions').style.display = 'block';
+            document.getElementById('stay-submit-btn').style.display = 'inline-block';
         },
         
+        // STAY & TRAVEL - Search Mode: Select from autocomplete
+        selectStayFromSearch: function(questionId, questionText) {
+            document.getElementById('stay-search-input').value = questionText;
+            document.getElementById('selected-stay-question-id').value = questionId;
+            document.getElementById('stay-suggestions').style.display = 'none';
+        },
+        
+        // STAY & TRAVEL - Search Mode: Submit searched question
+        submitSearchedStayQuery: async function() {
+            const questionId = document.getElementById('selected-stay-question-id').value;
+            if (!questionId) {
+                alert('Please search and select a question first');
+                return;
+            }
+            
+            const q = QuestionsData.getAllQuestions().find(q => q.id === questionId);
+            if (!q) {
+                alert('Question not found');
+                return;
+            }
+            
+            this.showStayLoadingModal(q.question);
+            
+            try {
+                let data;
+                if (typeof APIModule !== 'undefined' && typeof APIModule.queryN8N === 'function') {
+                    data = await APIModule.queryN8N(q.question, 'PRACTICAL_INFO_QUERY');
+                } else {
+                    const response = await fetch(AppState.n8nWebhook, {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({question: q.question, queryType: 'PRACTICAL_INFO_QUERY'})
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`Server error: ${response.status}`);
+                    }
+                    
+                    data = await response.json();
+                }
+                
+                this.showStayAnswerModal(q.question, data.answer || data.response || 'No response received');
+                
+            } catch (error) {
+                console.error('Error:', error);
+                this.closeStayModal();
+                alert('❌ Error: Unable to fetch information. Please check your connection.');
+            }
+        },
+        
+        // STAY & TRAVEL - Browse Mode: Submit query
         submitStayQuery: async function() {
             const select = document.getElementById('stay-question-select');
-            if (!select||!select.value) { alert('Please select'); return; }
+            if (!select || !select.value) { 
+                alert('Please select a question'); 
+                return; 
+            }
             
             const q = QuestionsData.getAllQuestions().find(q => q.id === select.value);
             const question = q ? q.question : '';
             
-            const resultArea = document.getElementById('stay-result');
-            resultArea.innerHTML = '<div class="loading"><div class="spinner"></div><p>Searching...</p></div>';
-            resultArea.classList.add('show');
+            if (!question) {
+                alert('Question not found');
+                return;
+            }
+            
+            this.showStayLoadingModal(question);
             
             try {
                 let data;
@@ -1532,13 +1705,325 @@
                         headers: {'Content-Type': 'application/json'},
                         body: JSON.stringify({question, queryType: 'PRACTICAL_INFO_QUERY'})
                     });
+                    
+                    if (!response.ok) {
+                        throw new Error(`Server error: ${response.status}`);
+                    }
+                    
                     data = await response.json();
                 }
                 
-                resultArea.innerHTML = `<div style="line-height:1.8;">${data.answer||data.response||'Info retrieved'}</div>`;
+                this.showStayAnswerModal(question, data.answer || data.response || 'No response received');
+                
             } catch (error) {
-                resultArea.innerHTML = `<p style="color:red;">Error: ${error.message}</p>`;
+                console.error('Error:', error);
+                this.closeStayModal();
+                alert('❌ Error: Unable to fetch information. Please check your connection.');
             }
+        },
+        
+        // Show Stay Loading Modal
+        showStayLoadingModal: function(question) {
+            const modalHTML = `
+                <div id="stay-modal" style="
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: rgba(0,0,0,0.7);
+                    z-index: 9999;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 1rem;
+                    animation: fadeIn 0.3s ease-in-out;
+                ">
+                    <div style="
+                        background: white;
+                        border-radius: 16px;
+                        max-width: 600px;
+                        width: 100%;
+                        padding: 3rem;
+                        text-align: center;
+                        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+                        animation: slideUp 0.3s ease-out;
+                    ">
+                        <div class="spinner" style="margin: 0 auto 1.5rem;"></div>
+                        <h3 style="color: #d97706; margin: 0 0 0.5rem 0; font-size: 1.1rem;">
+                            🔍 Searching Information...
+                        </h3>
+                        <p style="color: #666; font-size: 0.9rem; margin: 0;">
+                            Please wait while we find the information
+                        </p>
+                    </div>
+                </div>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
+            document.body.style.overflow = 'hidden';
+        },
+        
+        // Show Stay Answer Modal
+        showStayAnswerModal: function(question, answer) {
+            // Remove existing modal
+            const existing = document.getElementById('stay-modal');
+            if (existing) existing.remove();
+            
+            const modalHTML = `
+                <div id="stay-modal" style="
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: rgba(0,0,0,0.7);
+                    z-index: 9999;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 1rem;
+                    animation: fadeIn 0.3s ease-in-out;
+                ">
+                    <div style="
+                        background: white;
+                        border-radius: 16px;
+                        max-width: 650px;
+                        width: 100%;
+                        max-height: 90vh;
+                        overflow-y: auto;
+                        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+                        animation: slideUp 0.3s ease-out;
+                    ">
+                        <!-- Modal Header -->
+                        <div style="
+                            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+                            padding: 1.2rem 1.5rem;
+                            border-radius: 16px 16px 0 0;
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                        ">
+                            <h3 style="
+                                color: white;
+                                margin: 0;
+                                font-size: 1.1rem;
+                                display: flex;
+                                align-items: center;
+                                gap: 0.5rem;
+                            ">
+                                <i class="fas fa-info-circle"></i>
+                                Information
+                            </h3>
+                            
+                            <!-- Icon Buttons in Header -->
+                            <div style="display:flex;align-items:center;gap:0.5rem;">
+                                <button onclick="window.AppFunctions.shareStayWhatsApp()" title="Share on WhatsApp" style="
+                                    background: rgba(255,255,255,0.2);
+                                    border: none;
+                                    color: white;
+                                    width: 36px;
+                                    height: 36px;
+                                    border-radius: 50%;
+                                    cursor: pointer;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    transition: all 0.2s;
+                                " onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">
+                                    <i class="fab fa-whatsapp" style="font-size:1.2rem;"></i>
+                                </button>
+                                
+                                <button onclick="window.AppFunctions.printStayInfo()" title="Print" style="
+                                    background: rgba(255,255,255,0.2);
+                                    border: none;
+                                    color: white;
+                                    width: 36px;
+                                    height: 36px;
+                                    border-radius: 50%;
+                                    cursor: pointer;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    transition: all 0.2s;
+                                " onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">
+                                    <i class="fas fa-print"></i>
+                                </button>
+                                
+                                <button onclick="window.AppFunctions.closeStayModal()" title="Close" style="
+                                    background: rgba(255,255,255,0.2);
+                                    border: none;
+                                    color: white;
+                                    width: 36px;
+                                    height: 36px;
+                                    border-radius: 50%;
+                                    cursor: pointer;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    transition: all 0.2s;
+                                " onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Modal Body -->
+                        <div style="padding: 1.5rem;">
+                            <!-- Question Section -->
+                            <div style="
+                                background: #f0f9ff;
+                                border: 1px solid #bfdbfe;
+                                border-radius: 10px;
+                                padding: 1rem;
+                                margin-bottom: 1.2rem;
+                            ">
+                                <div style="display: flex; align-items: flex-start; gap: 0.75rem;">
+                                    <i class="fas fa-question-circle" style="color: #3b82f6; font-size: 1.1rem; margin-top: 0.2rem;"></i>
+                                    <div style="flex:1;">
+                                        <h4 style="margin: 0 0 0.4rem 0; color: #1e40af; font-size: 0.85rem; font-weight: 600;">Question:</h4>
+                                        <p style="margin: 0; color: #1e3a8a; line-height: 1.5; font-size: 0.9rem;">${question}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Answer Section -->
+                            <div style="
+                                background: #fffbeb;
+                                border: 1px solid #fde68a;
+                                border-radius: 10px;
+                                padding: 1rem;
+                                margin-bottom: 1.2rem;
+                            ">
+                                <div style="display: flex; align-items: flex-start; gap: 0.75rem;">
+                                    <i class="fas fa-lightbulb" style="color: #d97706; font-size: 1.1rem; margin-top: 0.2rem;"></i>
+                                    <div style="flex: 1;">
+                                        <h4 style="margin: 0 0 0.5rem 0; color: #92400e; font-size: 0.85rem; font-weight: 600;">Information:</h4>
+                                        <div style="color: #78350f; line-height: 1.7; white-space: pre-wrap; font-size: 0.9rem;">${answer}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Disclaimer -->
+                            <div style="
+                                background: #fef2f2;
+                                border: 1px solid #fecaca;
+                                border-radius: 8px;
+                                padding: 0.7rem;
+                                font-size: 0.8rem;
+                                color: #991b1b;
+                                display: flex;
+                                align-items: flex-start;
+                                gap: 0.5rem;
+                            ">
+                                <i class="fas fa-exclamation-triangle" style="margin-top: 0.1rem; font-size: 0.9rem;"></i>
+                                <div>
+                                    <strong>Disclaimer:</strong> This is an AI-generated response. Please verify important information before making decisions.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <style>
+                    @keyframes fadeIn {
+                        from { opacity: 0; }
+                        to { opacity: 1; }
+                    }
+                    @keyframes slideUp {
+                        from { transform: translateY(50px); opacity: 0; }
+                        to { transform: translateY(0); opacity: 1; }
+                    }
+                    
+                    @media (max-width: 640px) {
+                        #stay-modal > div {
+                            margin: 0.5rem;
+                            border-radius: 12px !important;
+                        }
+                        #stay-modal > div > div:first-child {
+                            padding: 1rem !important;
+                            border-radius: 12px 12px 0 0 !important;
+                        }
+                        #stay-modal > div > div:first-child h3 {
+                            font-size: 0.95rem !important;
+                        }
+                        #stay-modal > div > div:first-child button {
+                            width: 32px !important;
+                            height: 32px !important;
+                        }
+                        #stay-modal > div > div:nth-child(2) {
+                            padding: 1rem !important;
+                        }
+                    }
+                </style>
+            `;
+            
+            // Add modal to body
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
+            
+            // Store for actions
+            window.currentStayQuestion = question;
+            window.currentStayAnswer = answer;
+            
+            // Prevent body scroll
+            document.body.style.overflow = 'hidden';
+        },
+        
+        // Close Stay Modal
+        closeStayModal: function() {
+            const modal = document.getElementById('stay-modal');
+            if (modal) {
+                modal.remove();
+                document.body.style.overflow = '';
+            }
+        },
+        
+        // Share Stay on WhatsApp
+        shareStayWhatsApp: function() {
+            const question = window.currentStayQuestion;
+            const answer = window.currentStayAnswer;
+            const text = `*Question:* ${question}\n\n*Information:*\n${answer}\n\n_From Kurukshetra Mitra - Stay & Travel Guide_`;
+            const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
+            window.open(url, '_blank');
+        },
+        
+        // Print Stay Info
+        printStayInfo: function() {
+            const question = window.currentStayQuestion;
+            const answer = window.currentStayAnswer;
+            
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <html>
+                <head>
+                    <title>Stay, Food & Travel - Information</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; padding: 2rem; max-width: 800px; margin: 0 auto; }
+                        h1 { color: #d97706; border-bottom: 3px solid #d97706; padding-bottom: 0.5rem; }
+                        .question { background: #f0f9ff; padding: 1rem; border-radius: 8px; margin: 1rem 0; }
+                        .answer { background: #fffbeb; padding: 1rem; border-radius: 8px; margin: 1rem 0; line-height: 1.8; white-space: pre-wrap; }
+                        .footer { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #ccc; font-size: 0.9rem; color: #666; }
+                    </style>
+                </head>
+                <body>
+                    <h1>🏨 Stay, Food & Travel Information</h1>
+                    <div class="question">
+                        <h3>Question:</h3>
+                        <p>${question}</p>
+                    </div>
+                    <div class="answer">
+                        <h3>Information:</h3>
+                        <div>${answer}</div>
+                    </div>
+                    <div class="footer">
+                        <p><em>Generated by Kurukshetra Mitra - Your Complete Guide</em></p>
+                        <p><em>Date: ${new Date().toLocaleDateString()}</em></p>
+                    </div>
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+            printWindow.print();
         },
         
         // Add other functions following same pattern...
