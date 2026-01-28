@@ -1,5 +1,3 @@
-
-
 /**
  * ============================================================================
  * KURUKSHETRA MITRA - MAIN APP (Uses All Existing Modules)
@@ -43,7 +41,8 @@
     const AppState = {
         currentTab: 'heritage',
         currentSubmenu: null,
-        n8nWebhook: 'https://n8n-workflow-test.duckdns.org/webhook/kurukshetra-chatbot',
+        n8nWebhook: 'https://n8n-workflow-test.duckdns.org/webhook-test/kurukshetra-chatbot',
+        n8nHeritageResearch: 'https://n8n-workflow-test.duckdns.org/webhook/kurukshetra-heritage-research',
         initialized: false
     };
     
@@ -602,21 +601,103 @@
     }
     
     function renderHeritageResearch(container) {
+        // Ready-made Heritage Research questions
+        const readyQuestions = {
+            '🏛️ Archaeological': [
+                "What archaeological evidence exists of the Mahabharata war?",
+                "Which ancient sites have been excavated in Kurukshetra?",
+                "What artifacts have been discovered in the region?",
+                "How old are the temples in Kurukshetra?",
+                "What do archaeological studies say about ancient Kurukshetra?"
+            ],
+            '📜 Historical': [
+                "What is the historical significance of Kurukshetra?",
+                "Which dynasties ruled Kurukshetra?",
+                "What historical events occurred in Kurukshetra?",
+                "How has Kurukshetra changed over centuries?",
+                "What do ancient texts say about Kurukshetra?"
+            ],
+            '🕉️ Religious': [
+                "Why is Kurukshetra considered sacred in Hinduism?",
+                "What is the spiritual significance of the 48 kos parikrama?",
+                "Which sacred texts mention Kurukshetra?",
+                "What is the importance of holy water bodies here?",
+                "Why is Kurukshetra called 'Dharmakshetra'?"
+            ],
+            '🎨 Cultural': [
+                "What is the cultural heritage of Kurukshetra?",
+                "What traditional arts and crafts exist here?",
+                "What festivals have historical significance?",
+                "How has local culture evolved over time?",
+                "What unique traditions are practiced in Kurukshetra?"
+            ],
+            '📚 Academic': [
+                "What research has been done on Kurukshetra's history?",
+                "Which universities study Kurukshetra's heritage?",
+                "What academic papers exist about the Mahabharata war?",
+                "How do historians view the Kurukshetra battle?",
+                "What scholarly debates exist about Kurukshetra?"
+            ]
+        };
+        
         container.innerHTML = `
             <h2>📚 Heritage Research</h2>
-            <p>Research questions about history and archaeology</p>
+            <p>Research questions about history, archaeology, and cultural heritage</p>
             
-            <div class="form-group">
-                <label>Research Question:</label>
-                <input type="text" id="research-input" placeholder="e.g., Archaeological evidence?" autocomplete="off">
+            <!-- Mode Toggle with Radio Buttons -->
+            <div style="display:flex;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap;">
+                <label style="display:flex;align-items:center;gap:0.5rem;padding:0.75rem 1.25rem;border:2px solid #e6d5c3;border-radius:50px;cursor:pointer;background:#fffbf0;transition:all 0.3s;" id="heritage-explore-label">
+                    <input type="radio" name="heritage-mode" id="heritage-explore-mode" value="explore" checked onchange="window.AppFunctions.toggleHeritageMode('explore')" style="width:18px;height:18px;cursor:pointer;">
+                    <span style="font-weight:600;color:#d97706;">📖 Ready Questions</span>
+                </label>
+                
+                <label style="display:flex;align-items:center;gap:0.5rem;padding:0.75rem 1.25rem;border:2px solid #dee2e6;border-radius:50px;cursor:pointer;background:white;transition:all 0.3s;" id="heritage-custom-label">
+                    <input type="radio" name="heritage-mode" id="heritage-custom-mode" value="custom" onchange="window.AppFunctions.toggleHeritageMode('custom')" style="width:18px;height:18px;cursor:pointer;">
+                    <span style="font-weight:600;color:#495057;">✍️ Ask Your Own</span>
+                </label>
             </div>
             
-            <button class="submit-btn" onclick="window.AppFunctions.submitResearchQuery()">
-                <i class="fas fa-search"></i> Research
-            </button>
+            <!-- Ready Questions Section -->
+            <div id="heritage-explore-section" style="display:block;">
+                <div style="background:#fffbf0;border:2px solid #e6d5c3;border-radius:12px;padding:1.5rem;">
+                    <div class="form-group" style="margin-bottom:0.8rem;">
+                        <label>Select Category:</label>
+                        <select id="heritage-category" onchange="window.AppFunctions.loadHeritageQuestions()">
+                            <option value="">-- Choose Category --</option>
+                            ${Object.keys(readyQuestions).map(cat => `<option value="${cat}">${cat}</option>`).join('')}
+                        </select>
+                    </div>
+                    
+                    <div class="form-group" id="heritage-questions-dropdown" style="display:none;margin-bottom:0.8rem;">
+                        <label>Select Question:</label>
+                        <select id="heritage-question-select">
+                            <option value="">-- Choose Question --</option>
+                        </select>
+                    </div>
+                    
+                    <button class="submit-btn" id="heritage-ready-submit-btn" onclick="window.AppFunctions.submitHeritageReady()" style="display:none;">
+                        <i class="fas fa-search"></i> Research This
+                    </button>
+                </div>
+            </div>
             
-            <div class="result-area" id="research-result"></div>
+            <!-- Custom Question Section -->
+            <div id="heritage-custom-section" style="display:none;">
+                <div style="background:#f8f9fa;border:2px solid #dee2e6;border-radius:12px;padding:1.5rem;">
+                    <div class="form-group" style="margin-bottom:0.8rem;">
+                        <label>Your Research Question:</label>
+                        <input type="text" id="heritage-research-input" placeholder="e.g., Archaeological evidence of Mahabharata war?" autocomplete="off">
+                    </div>
+                    
+                    <button class="submit-btn" onclick="window.AppFunctions.submitHeritageResearch()">
+                        <i class="fas fa-search"></i> Research
+                    </button>
+                </div>
+            </div>
         `;
+        
+        // Store questions in window for access
+        window.heritageReadyQuestions = readyQuestions;
     }
     
     function renderDemographics(container) {
@@ -2078,6 +2159,646 @@
             }
         },
         
+        
+        // HERITAGE RESEARCH - Toggle modes
+        toggleHeritageMode: function(mode) {
+            const exploreSection = document.getElementById('heritage-explore-section');
+            const customSection = document.getElementById('heritage-custom-section');
+            const exploreLabel = document.getElementById('heritage-explore-label');
+            const customLabel = document.getElementById('heritage-custom-label');
+            
+            if (mode === 'explore') {
+                exploreSection.style.display = 'block';
+                customSection.style.display = 'none';
+                
+                exploreLabel.style.background = '#fffbf0';
+                exploreLabel.style.borderColor = '#e6d5c3';
+                exploreLabel.querySelector('span').style.color = '#d97706';
+                
+                customLabel.style.background = 'white';
+                customLabel.style.borderColor = '#dee2e6';
+                customLabel.querySelector('span').style.color = '#495057';
+            } else {
+                exploreSection.style.display = 'none';
+                customSection.style.display = 'block';
+                
+                exploreLabel.style.background = 'white';
+                exploreLabel.style.borderColor = '#dee2e6';
+                exploreLabel.querySelector('span').style.color = '#495057';
+                
+                customLabel.style.background = '#f8f9fa';
+                customLabel.style.borderColor = '#dee2e6';
+                customLabel.querySelector('span').style.color = '#d97706';
+            }
+        },
+        
+        // HERITAGE RESEARCH - Load questions by category
+        loadHeritageQuestions: function() {
+            const category = document.getElementById('heritage-category').value;
+            const questionsDropdown = document.getElementById('heritage-questions-dropdown');
+            const submitBtn = document.getElementById('heritage-ready-submit-btn');
+            
+            if (!category) {
+                questionsDropdown.style.display = 'none';
+                submitBtn.style.display = 'none';
+                return;
+            }
+            
+            const questions = window.heritageReadyQuestions[category];
+            const select = document.getElementById('heritage-question-select');
+            
+            select.innerHTML = '<option value="">-- Choose Question --</option>' +
+                questions.map(q => `<option value="${q}">${q}</option>`).join('');
+            
+            questionsDropdown.style.display = 'block';
+            submitBtn.style.display = 'inline-block';
+        },
+        
+        // HERITAGE RESEARCH - Submit ready-made question
+        submitHeritageReady: async function() {
+            const select = document.getElementById('heritage-question-select');
+            const question = select.value;
+            
+            if (!question) {
+                alert('Please select a question');
+                return;
+            }
+            
+            this.showHeritageLoadingModal();
+            
+            try {
+                console.log('=== Heritage Research Debug Start ===');
+                console.log('Question:', question);
+                console.log('Webhook URL:', AppState.n8nHeritageResearch);
+                
+                // Prepare request body in the format n8n expects
+                const requestBody = {
+                    query: question,
+                    language: "English",
+                    category: "Heritage_Research"
+                };
+                
+                console.log('Request body:', requestBody);
+                
+                // Heritage Research uses separate webhook
+                const response = await fetch(AppState.n8nHeritageResearch, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(requestBody)
+                });
+                
+                console.log('Response status:', response.status);
+                console.log('Response ok:', response.ok);
+                
+                if (!response.ok) {
+                    throw new Error(`Server error: ${response.status}`);
+                }
+                
+                // Check if response has content
+                const text = await response.text();
+                console.log('Response text length:', text.length);
+                console.log('Response preview:', text.substring(0, 200));
+                
+                if (!text || text.trim() === '') {
+                    console.error('EMPTY RESPONSE!');
+                    throw new Error('Empty response from server');
+                }
+                
+                // Try to parse JSON
+                let data;
+                try {
+                    data = JSON.parse(text);
+                    console.log('Parsed data - Is array?:', Array.isArray(data));
+                    
+                    // Handle array response (n8n returns array)
+                    if (Array.isArray(data) && data.length > 0) {
+                        console.log('Extracting first element from array');
+                        data = data[0]; // Extract first item from array
+                    }
+                    
+                    console.log('Data has choices?:', !!data.choices);
+                } catch (e) {
+                    console.error('JSON PARSE ERROR:', e);
+                    console.error('Invalid JSON:', text.substring(0, 200));
+                    throw new Error('Invalid response format from server');
+                }
+                
+                // Extract response from n8n structure
+                let answer;
+                
+                // Check for new structured format with primaryFinding
+                if (data.primaryFinding) {
+                    console.log('✅ Using new structured Heritage Research format');
+                    
+                    // Build formatted answer from structured data
+                    const finding = data.primaryFinding;
+                    
+                    answer = `**Topic:** ${finding.topic}\n\n`;
+                    answer += `**Evidence Status:**\n`;
+                    answer += `• Archaeological Evidence: ${finding.evidenceStatus}\n`;
+                    answer += `• Evidence Type: ${finding.evidenceType}\n`;
+                    answer += `• Literary Reference: ${finding.literaryReference}\n`;
+                    answer += `• Source Authority: ${finding.sourceAuthority}\n`;
+                    
+                    if (finding.evidenceNotes) {
+                        answer += `\n**Notes:**\n${finding.evidenceNotes}\n`;
+                    }
+                    
+                    if (finding.periodAssociated) {
+                        answer += `\n**Period:** ${finding.periodAssociated}\n`;
+                    }
+                    
+                    // Add supporting context if available
+                    if (data.supportingContext && data.supportingContext.length > 0) {
+                        answer += `\n**Additional Context:**\n`;
+                        data.supportingContext.forEach(ctx => {
+                            answer += `• ${ctx.topic}: ${ctx.notes}\n`;
+                        });
+                    }
+                    
+                    if (data.disclaimer) {
+                        answer += `\n---\n**Disclaimer:** ${data.disclaimer}`;
+                    }
+                }
+                // Fallback to old formats
+                else if (data.choices && data.choices[0] && data.choices[0].message) {
+                    console.log('✅ Using Groq AI format');
+                    answer = data.choices[0].message.content;
+                } else if (data.response) {
+                    console.log('✅ Using response format');
+                    answer = data.response;
+                } else if (data.answer) {
+                    console.log('✅ Using answer format');
+                    answer = data.answer;
+                } else if (data.directAnswer) {
+                    console.log('✅ Using directAnswer format');
+                    answer = data.directAnswer;
+                } else {
+                    console.error('❌ NO RECOGNIZED FORMAT!');
+                    console.error('Data keys:', Object.keys(data));
+                    answer = 'No response received';
+                }
+                
+                console.log('Final answer length:', answer ? answer.length : 0);
+                console.log('=== Heritage Research Debug End ===');
+                
+                this.showHeritageAnswerModal(question, answer);
+                
+            } catch (error) {
+                console.error('Error:', error);
+                this.closeHeritageModal();
+                
+                let errorMessage = 'Unable to fetch research data. ';
+                if (error.message.includes('Empty response')) {
+                    errorMessage += 'The server returned an empty response. Please check your n8n workflow.';
+                } else if (error.message.includes('Invalid response format')) {
+                    errorMessage += 'The server returned invalid data. Please check your n8n workflow output.';
+                } else if (error.message.includes('Failed to fetch')) {
+                    errorMessage += 'Please check your internet connection.';
+                } else {
+                    errorMessage += error.message;
+                }
+                
+                alert('❌ Error: ' + errorMessage);
+            }
+        },
+        
+        // HERITAGE RESEARCH - Submit custom question
+        submitHeritageResearch: async function() {
+            const input = document.getElementById('heritage-research-input');
+            const question = input.value.trim();
+            
+            if (!question) {
+                alert('Please enter a research question');
+                return;
+            }
+            
+            this.showHeritageLoadingModal();
+            
+            try {
+                console.log('=== Heritage Research Custom Debug Start ===');
+                console.log('Question:', question);
+                
+                // Prepare request body in the format n8n expects
+                const requestBody = {
+                    query: question,
+                    language: "English",
+                    category: "Heritage_Research"
+                };
+                
+                console.log('Request body:', requestBody);
+                
+                // Heritage Research uses separate webhook
+                const response = await fetch(AppState.n8nHeritageResearch, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(requestBody)
+                });
+                
+                console.log('Response status:', response.status);
+                
+                if (!response.ok) {
+                    throw new Error(`Server error: ${response.status}`);
+                }
+                
+                // Check if response has content
+                const text = await response.text();
+                console.log('Response text length:', text.length);
+                
+                if (!text || text.trim() === '') {
+                    throw new Error('Empty response from server');
+                }
+                
+                // Try to parse JSON
+                let data;
+                try {
+                    data = JSON.parse(text);
+                    
+                    // Handle array response (n8n returns array)
+                    if (Array.isArray(data) && data.length > 0) {
+                        data = data[0];
+                    }
+                } catch (e) {
+                    console.error('Invalid JSON response:', text.substring(0, 200));
+                    throw new Error('Invalid response format from server');
+                }
+                
+                // Extract response from n8n structure
+                let answer;
+                
+                // Check for new structured format with primaryFinding
+                if (data.primaryFinding) {
+                    console.log('✅ Using new structured Heritage Research format');
+                    
+                    // Build formatted answer from structured data
+                    const finding = data.primaryFinding;
+                    
+                    answer = `**Topic:** ${finding.topic}\n\n`;
+                    answer += `**Evidence Status:**\n`;
+                    answer += `• Archaeological Evidence: ${finding.evidenceStatus}\n`;
+                    answer += `• Evidence Type: ${finding.evidenceType}\n`;
+                    answer += `• Literary Reference: ${finding.literaryReference}\n`;
+                    answer += `• Source Authority: ${finding.sourceAuthority}\n`;
+                    
+                    if (finding.evidenceNotes) {
+                        answer += `\n**Notes:**\n${finding.evidenceNotes}\n`;
+                    }
+                    
+                    if (finding.periodAssociated) {
+                        answer += `\n**Period:** ${finding.periodAssociated}\n`;
+                    }
+                    
+                    // Add supporting context if available
+                    if (data.supportingContext && data.supportingContext.length > 0) {
+                        answer += `\n**Additional Context:**\n`;
+                        data.supportingContext.forEach(ctx => {
+                            answer += `• ${ctx.topic}: ${ctx.notes}\n`;
+                        });
+                    }
+                    
+                    if (data.disclaimer) {
+                        answer += `\n---\n**Disclaimer:** ${data.disclaimer}`;
+                    }
+                }
+                // Fallback to old formats
+                else if (data.choices && data.choices[0] && data.choices[0].message) {
+                    answer = data.choices[0].message.content;
+                } else if (data.response) {
+                    answer = data.response;
+                } else if (data.answer) {
+                    answer = data.answer;
+                } else if (data.directAnswer) {
+                    answer = data.directAnswer;
+                } else {
+                    answer = 'No response received';
+                }
+                
+                this.showHeritageAnswerModal(question, answer);
+                
+            } catch (error) {
+                console.error('Error:', error);
+                this.closeHeritageModal();
+                
+                let errorMessage = 'Unable to fetch research data. ';
+                if (error.message.includes('Empty response')) {
+                    errorMessage += 'The server returned an empty response. Please check your n8n workflow.';
+                } else if (error.message.includes('Invalid response format')) {
+                    errorMessage += 'The server returned invalid data. Please check your n8n workflow output.';
+                } else if (error.message.includes('Failed to fetch')) {
+                    errorMessage += 'Please check your internet connection.';
+                } else {
+                    errorMessage += error.message;
+                }
+                
+                alert('❌ Error: ' + errorMessage);
+            }
+        },
+        
+        // Show Heritage Loading Modal
+        showHeritageLoadingModal: function() {
+            const modalHTML = `
+                <div id="heritage-modal" style="
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: rgba(0,0,0,0.7);
+                    z-index: 9999;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 1rem;
+                    animation: fadeIn 0.3s ease-in-out;
+                ">
+                    <div style="
+                        background: white;
+                        border-radius: 16px;
+                        max-width: 600px;
+                        width: 100%;
+                        padding: 3rem;
+                        text-align: center;
+                        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+                        animation: slideUp 0.3s ease-out;
+                    ">
+                        <div class="spinner" style="margin: 0 auto 1.5rem;"></div>
+                        <h3 style="color: #d97706; margin: 0 0 0.5rem 0; font-size: 1.1rem;">
+                            📚 Researching Heritage Data...
+                        </h3>
+                        <p style="color: #666; font-size: 0.9rem; margin: 0;">
+                            Please wait while we gather information
+                        </p>
+                    </div>
+                </div>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
+            document.body.style.overflow = 'hidden';
+        },
+        
+        // Show Heritage Answer Modal
+        showHeritageAnswerModal: function(question, answer) {
+            // Remove existing modal
+            const existing = document.getElementById('heritage-modal');
+            if (existing) existing.remove();
+            
+            const modalHTML = `
+                <div id="heritage-modal" style="
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: rgba(0,0,0,0.7);
+                    z-index: 9999;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 1rem;
+                    animation: fadeIn 0.3s ease-in-out;
+                ">
+                    <div style="
+                        background: white;
+                        border-radius: 16px;
+                        max-width: 650px;
+                        width: 100%;
+                        max-height: 90vh;
+                        overflow-y: auto;
+                        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+                        animation: slideUp 0.3s ease-out;
+                    ">
+                        <!-- Modal Header -->
+                        <div style="
+                            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+                            padding: 1.2rem 1.5rem;
+                            border-radius: 16px 16px 0 0;
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                        ">
+                            <h3 style="
+                                color: white;
+                                margin: 0;
+                                font-size: 1.1rem;
+                                display: flex;
+                                align-items: center;
+                                gap: 0.5rem;
+                            ">
+                                <i class="fas fa-book"></i>
+                                Research Results
+                            </h3>
+                            
+                            <!-- Icon Buttons in Header -->
+                            <div style="display:flex;align-items:center;gap:0.5rem;">
+                                <button onclick="window.AppFunctions.shareHeritageWhatsApp()" title="Share on WhatsApp" style="
+                                    background: rgba(255,255,255,0.2);
+                                    border: none;
+                                    color: white;
+                                    width: 36px;
+                                    height: 36px;
+                                    border-radius: 50%;
+                                    cursor: pointer;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    transition: all 0.2s;
+                                " onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">
+                                    <i class="fab fa-whatsapp" style="font-size:1.2rem;"></i>
+                                </button>
+                                
+                                <button onclick="window.AppFunctions.printHeritageInfo()" title="Print" style="
+                                    background: rgba(255,255,255,0.2);
+                                    border: none;
+                                    color: white;
+                                    width: 36px;
+                                    height: 36px;
+                                    border-radius: 50%;
+                                    cursor: pointer;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    transition: all 0.2s;
+                                " onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">
+                                    <i class="fas fa-print"></i>
+                                </button>
+                                
+                                <button onclick="window.AppFunctions.closeHeritageModal()" title="Close" style="
+                                    background: rgba(255,255,255,0.2);
+                                    border: none;
+                                    color: white;
+                                    width: 36px;
+                                    height: 36px;
+                                    border-radius: 50%;
+                                    cursor: pointer;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    transition: all 0.2s;
+                                " onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Modal Body -->
+                        <div style="padding: 1.5rem;">
+                            <!-- Question Section -->
+                            <div style="
+                                background: #f0f9ff;
+                                border: 1px solid #bfdbfe;
+                                border-radius: 10px;
+                                padding: 1rem;
+                                margin-bottom: 1.2rem;
+                            ">
+                                <div style="display: flex; align-items: flex-start; gap: 0.75rem;">
+                                    <i class="fas fa-question-circle" style="color: #3b82f6; font-size: 1.1rem; margin-top: 0.2rem;"></i>
+                                    <div style="flex:1;">
+                                        <h4 style="margin: 0 0 0.4rem 0; color: #1e40af; font-size: 0.85rem; font-weight: 600;">Research Question:</h4>
+                                        <p style="margin: 0; color: #1e3a8a; line-height: 1.5; font-size: 0.9rem;">${question}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Answer Section -->
+                            <div style="
+                                background: #fffbeb;
+                                border: 1px solid #fde68a;
+                                border-radius: 10px;
+                                padding: 1rem;
+                                margin-bottom: 1.2rem;
+                            ">
+                                <div style="display: flex; align-items: flex-start; gap: 0.75rem;">
+                                    <i class="fas fa-scroll" style="color: #d97706; font-size: 1.1rem; margin-top: 0.2rem;"></i>
+                                    <div style="flex: 1;">
+                                        <h4 style="margin: 0 0 0.5rem 0; color: #92400e; font-size: 0.85rem; font-weight: 600;">Research Findings:</h4>
+                                        <div style="color: #78350f; line-height: 1.7; white-space: pre-wrap; font-size: 0.9rem;">${answer}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Disclaimer -->
+                            <div style="
+                                background: #fef2f2;
+                                border: 1px solid #fecaca;
+                                border-radius: 8px;
+                                padding: 0.7rem;
+                                font-size: 0.8rem;
+                                color: #991b1b;
+                                display: flex;
+                                align-items: flex-start;
+                                gap: 0.5rem;
+                            ">
+                                <i class="fas fa-exclamation-triangle" style="margin-top: 0.1rem; font-size: 0.9rem;"></i>
+                                <div>
+                                    <strong>Disclaimer:</strong> This is AI-generated research. Please verify from academic sources for scholarly work.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <style>
+                    @keyframes fadeIn {
+                        from { opacity: 0; }
+                        to { opacity: 1; }
+                    }
+                    @keyframes slideUp {
+                        from { transform: translateY(50px); opacity: 0; }
+                        to { transform: translateY(0); opacity: 1; }
+                    }
+                    
+                    @media (max-width: 640px) {
+                        #heritage-modal > div {
+                            margin: 0.5rem;
+                            border-radius: 12px !important;
+                        }
+                        #heritage-modal > div > div:first-child {
+                            padding: 1rem !important;
+                            border-radius: 12px 12px 0 0 !important;
+                        }
+                        #heritage-modal > div > div:first-child h3 {
+                            font-size: 0.95rem !important;
+                        }
+                        #heritage-modal > div > div:first-child button {
+                            width: 32px !important;
+                            height: 32px !important;
+                        }
+                        #heritage-modal > div > div:nth-child(2) {
+                            padding: 1rem !important;
+                        }
+                    }
+                </style>
+            `;
+            
+            // Add modal to body
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
+            
+            // Store for actions
+            window.currentHeritageQuestion = question;
+            window.currentHeritageAnswer = answer;
+            
+            // Prevent body scroll
+            document.body.style.overflow = 'hidden';
+        },
+        
+        // Close Heritage Modal
+        closeHeritageModal: function() {
+            const modal = document.getElementById('heritage-modal');
+            if (modal) {
+                modal.remove();
+                document.body.style.overflow = '';
+            }
+        },
+        
+        // Share Heritage on WhatsApp
+        shareHeritageWhatsApp: function() {
+            const question = window.currentHeritageQuestion;
+            const answer = window.currentHeritageAnswer;
+            const text = `*Research Question:* ${question}\n\n*Findings:*\n${answer}\n\n_From Kurukshetra Mitra - Heritage Research_`;
+            const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
+            window.open(url, '_blank');
+        },
+        
+        // Print Heritage Info
+        printHeritageInfo: function() {
+            const question = window.currentHeritageQuestion;
+            const answer = window.currentHeritageAnswer;
+            
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <html>
+                <head>
+                    <title>Heritage Research - Results</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; padding: 2rem; max-width: 800px; margin: 0 auto; }
+                        h1 { color: #d97706; border-bottom: 3px solid #d97706; padding-bottom: 0.5rem; }
+                        .question { background: #f0f9ff; padding: 1rem; border-radius: 8px; margin: 1rem 0; }
+                        .answer { background: #fffbeb; padding: 1rem; border-radius: 8px; margin: 1rem 0; line-height: 1.8; white-space: pre-wrap; }
+                        .footer { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #ccc; font-size: 0.9rem; color: #666; }
+                    </style>
+                </head>
+                <body>
+                    <h1>📚 Heritage Research</h1>
+                    <div class="question">
+                        <h3>Research Question:</h3>
+                        <p>${question}</p>
+                    </div>
+                    <div class="answer">
+                        <h3>Research Findings:</h3>
+                        <div>${answer}</div>
+                    </div>
+                    <div class="footer">
+                        <p><em>Generated by Kurukshetra Mitra - Heritage Research</em></p>
+                        <p><em>Date: ${new Date().toLocaleDateString()}</em></p>
+                        <p><em>Note: Please verify from academic sources for scholarly work</em></p>
+                    </div>
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+            printWindow.print();
+        },
+        
         submitResearchQuery: async function() {
             const input = document.getElementById('research-input');
             const question = input.value.trim();
@@ -2331,4 +3052,3 @@
     }
     
 })();
-
