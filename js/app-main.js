@@ -2285,7 +2285,43 @@
                 
                 // Extract response from n8n structure
                 let answer;
-                if (data.choices && data.choices[0] && data.choices[0].message) {
+                
+                // Check for new structured format with primaryFinding
+                if (data.primaryFinding) {
+                    console.log('✅ Using new structured Heritage Research format');
+                    
+                    // Build formatted answer from structured data
+                    const finding = data.primaryFinding;
+                    
+                    answer = `**Topic:** ${finding.topic}\n\n`;
+                    answer += `**Evidence Status:**\n`;
+                    answer += `• Archaeological Evidence: ${finding.evidenceStatus}\n`;
+                    answer += `• Evidence Type: ${finding.evidenceType}\n`;
+                    answer += `• Literary Reference: ${finding.literaryReference}\n`;
+                    answer += `• Source Authority: ${finding.sourceAuthority}\n`;
+                    
+                    if (finding.evidenceNotes) {
+                        answer += `\n**Notes:**\n${finding.evidenceNotes}\n`;
+                    }
+                    
+                    if (finding.periodAssociated) {
+                        answer += `\n**Period:** ${finding.periodAssociated}\n`;
+                    }
+                    
+                    // Add supporting context if available
+                    if (data.supportingContext && data.supportingContext.length > 0) {
+                        answer += `\n**Additional Context:**\n`;
+                        data.supportingContext.forEach(ctx => {
+                            answer += `• ${ctx.topic}: ${ctx.notes}\n`;
+                        });
+                    }
+                    
+                    if (data.disclaimer) {
+                        answer += `\n---\n**Disclaimer:** ${data.disclaimer}`;
+                    }
+                }
+                // Fallback to old formats
+                else if (data.choices && data.choices[0] && data.choices[0].message) {
                     console.log('✅ Using Groq AI format');
                     answer = data.choices[0].message.content;
                 } else if (data.response) {
@@ -2299,10 +2335,11 @@
                     answer = data.directAnswer;
                 } else {
                     console.error('❌ NO RECOGNIZED FORMAT!');
+                    console.error('Data keys:', Object.keys(data));
                     answer = 'No response received';
                 }
                 
-                console.log('Final answer length:', answer.length);
+                console.log('Final answer length:', answer ? answer.length : 0);
                 console.log('=== Heritage Research Debug End ===');
                 
                 this.showHeritageAnswerModal(question, answer);
@@ -2387,17 +2424,51 @@
                 }
                 
                 // Extract response from n8n structure
-                // Handle Groq AI response format from your n8n workflow
                 let answer;
-                if (data.choices && data.choices[0] && data.choices[0].message) {
-                    // Groq AI format (what your n8n returns)
+                
+                // Check for new structured format with primaryFinding
+                if (data.primaryFinding) {
+                    console.log('✅ Using new structured Heritage Research format');
+                    
+                    // Build formatted answer from structured data
+                    const finding = data.primaryFinding;
+                    
+                    answer = `**Topic:** ${finding.topic}\n\n`;
+                    answer += `**Evidence Status:**\n`;
+                    answer += `• Archaeological Evidence: ${finding.evidenceStatus}\n`;
+                    answer += `• Evidence Type: ${finding.evidenceType}\n`;
+                    answer += `• Literary Reference: ${finding.literaryReference}\n`;
+                    answer += `• Source Authority: ${finding.sourceAuthority}\n`;
+                    
+                    if (finding.evidenceNotes) {
+                        answer += `\n**Notes:**\n${finding.evidenceNotes}\n`;
+                    }
+                    
+                    if (finding.periodAssociated) {
+                        answer += `\n**Period:** ${finding.periodAssociated}\n`;
+                    }
+                    
+                    // Add supporting context if available
+                    if (data.supportingContext && data.supportingContext.length > 0) {
+                        answer += `\n**Additional Context:**\n`;
+                        data.supportingContext.forEach(ctx => {
+                            answer += `• ${ctx.topic}: ${ctx.notes}\n`;
+                        });
+                    }
+                    
+                    if (data.disclaimer) {
+                        answer += `\n---\n**Disclaimer:** ${data.disclaimer}`;
+                    }
+                }
+                // Fallback to old formats
+                else if (data.choices && data.choices[0] && data.choices[0].message) {
                     answer = data.choices[0].message.content;
                 } else if (data.response) {
-                    // Direct response format
                     answer = data.response;
                 } else if (data.answer) {
-                    // Alternative format
                     answer = data.answer;
+                } else if (data.directAnswer) {
+                    answer = data.directAnswer;
                 } else {
                     answer = 'No response received';
                 }
