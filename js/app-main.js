@@ -2231,11 +2231,20 @@
                 console.log('Question:', question);
                 console.log('Webhook URL:', AppState.n8nHeritageResearch);
                 
-                // Heritage Research uses separate webhook with 'queryQuestion' field
+                // Prepare request body in the format n8n expects
+                const requestBody = {
+                    query: question,
+                    language: "English",
+                    category: "Heritage_Research"
+                };
+                
+                console.log('Request body:', requestBody);
+                
+                // Heritage Research uses separate webhook
                 const response = await fetch(AppState.n8nHeritageResearch, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({queryQuestion: question})
+                    body: JSON.stringify(requestBody)
                 });
                 
                 console.log('Response status:', response.status);
@@ -2285,6 +2294,9 @@
                 } else if (data.answer) {
                     console.log('✅ Using answer format');
                     answer = data.answer;
+                } else if (data.directAnswer) {
+                    console.log('✅ Using directAnswer format');
+                    answer = data.directAnswer;
                 } else {
                     console.error('❌ NO RECOGNIZED FORMAT!');
                     answer = 'No response received';
@@ -2327,12 +2339,26 @@
             this.showHeritageLoadingModal();
             
             try {
-                // Heritage Research uses separate webhook with 'queryQuestion' field
+                console.log('=== Heritage Research Custom Debug Start ===');
+                console.log('Question:', question);
+                
+                // Prepare request body in the format n8n expects
+                const requestBody = {
+                    query: question,
+                    language: "English",
+                    category: "Heritage_Research"
+                };
+                
+                console.log('Request body:', requestBody);
+                
+                // Heritage Research uses separate webhook
                 const response = await fetch(AppState.n8nHeritageResearch, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({queryQuestion: question})
+                    body: JSON.stringify(requestBody)
                 });
+                
+                console.log('Response status:', response.status);
                 
                 if (!response.ok) {
                     throw new Error(`Server error: ${response.status}`);
@@ -2340,6 +2366,8 @@
                 
                 // Check if response has content
                 const text = await response.text();
+                console.log('Response text length:', text.length);
+                
                 if (!text || text.trim() === '') {
                     throw new Error('Empty response from server');
                 }
@@ -2351,7 +2379,7 @@
                     
                     // Handle array response (n8n returns array)
                     if (Array.isArray(data) && data.length > 0) {
-                        data = data[0]; // Extract first item from array
+                        data = data[0];
                     }
                 } catch (e) {
                     console.error('Invalid JSON response:', text.substring(0, 200));
