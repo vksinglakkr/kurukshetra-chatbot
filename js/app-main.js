@@ -2286,9 +2286,61 @@
                 // Extract response from n8n structure
                 let answer;
                 
+                // Check for AI explanation with markdown code blocks
+                if (data.aiExplanation) {
+                    console.log('✅ Using AI explanation format');
+                    
+                    let explanation = data.aiExplanation;
+                    
+                    // Remove markdown code blocks if present
+                    explanation = explanation.replace(/```json\n?/g, '').replace(/```\n?/g, '');
+                    
+                    try {
+                        // Try to parse the JSON inside
+                        const parsed = JSON.parse(explanation);
+                        
+                        // Build formatted answer
+                        answer = '';
+                        
+                        if (parsed.research_question) {
+                            answer += `**Research Question:** ${parsed.research_question}\n\n`;
+                        }
+                        
+                        if (parsed.response) {
+                            answer += `**Findings:**\n${parsed.response}\n\n`;
+                        }
+                        
+                        if (parsed.evidence) {
+                            answer += `**Evidence Found:**\n${parsed.evidence}\n\n`;
+                        }
+                        
+                        if (parsed.time_period) {
+                            answer += `**Time Period:** ${parsed.time_period}\n`;
+                        }
+                        
+                        if (parsed.location) {
+                            answer += `**Location:** ${parsed.location}\n`;
+                        }
+                        
+                        if (parsed.note) {
+                            answer += `\n**Note:** ${parsed.note}\n`;
+                        }
+                        
+                        if (data.disclaimer) {
+                            answer += `\n---\n**Disclaimer:** ${data.disclaimer}`;
+                        }
+                    } catch (e) {
+                        // If can't parse, just show the raw explanation
+                        console.warn('Could not parse aiExplanation as JSON:', e);
+                        answer = explanation;
+                        if (data.disclaimer) {
+                            answer += `\n\n---\n**Disclaimer:** ${data.disclaimer}`;
+                        }
+                    }
+                }
                 // Check for new structured format with primaryFinding
-                if (data.primaryFinding) {
-                    console.log('✅ Using new structured Heritage Research format');
+                else if (data.primaryFinding) {
+                    console.log('✅ Using structured Heritage Research format (DB validated)');
                     
                     // Build formatted answer from structured data
                     const finding = data.primaryFinding;
@@ -2320,6 +2372,11 @@
                         answer += `\n---\n**Disclaimer:** ${data.disclaimer}`;
                     }
                 }
+                // Check for NO_RESPONSE safety fallback
+                else if (data.responseType === 'NO_RESPONSE' || data.status === 'NO_DATA') {
+                    console.log('⚠️ No response available');
+                    answer = data.message || 'No research data could be generated for this query. Please try rephrasing your question or contact support.';
+                }
                 // Fallback to old formats
                 else if (data.choices && data.choices[0] && data.choices[0].message) {
                     console.log('✅ Using Groq AI format');
@@ -2336,7 +2393,8 @@
                 } else {
                     console.error('❌ NO RECOGNIZED FORMAT!');
                     console.error('Data keys:', Object.keys(data));
-                    answer = 'No response received';
+                    console.error('Response type:', data.responseType);
+                    answer = 'No response received from the heritage research system.';
                 }
                 
                 console.log('Final answer length:', answer ? answer.length : 0);
@@ -2426,11 +2484,62 @@
                 // Extract response from n8n structure
                 let answer;
                 
-                // Check for new structured format with primaryFinding
-                if (data.primaryFinding) {
-                    console.log('✅ Using new structured Heritage Research format');
+                // Check for AI explanation with markdown code blocks
+                if (data.aiExplanation) {
+                    console.log('✅ Using AI explanation format');
                     
-                    // Build formatted answer from structured data
+                    let explanation = data.aiExplanation;
+                    
+                    // Remove markdown code blocks if present
+                    explanation = explanation.replace(/```json\n?/g, '').replace(/```\n?/g, '');
+                    
+                    try {
+                        // Try to parse the JSON inside
+                        const parsed = JSON.parse(explanation);
+                        
+                        // Build formatted answer
+                        answer = '';
+                        
+                        if (parsed.research_question) {
+                            answer += `**Research Question:** ${parsed.research_question}\n\n`;
+                        }
+                        
+                        if (parsed.response) {
+                            answer += `**Findings:**\n${parsed.response}\n\n`;
+                        }
+                        
+                        if (parsed.evidence) {
+                            answer += `**Evidence Found:**\n${parsed.evidence}\n\n`;
+                        }
+                        
+                        if (parsed.time_period) {
+                            answer += `**Time Period:** ${parsed.time_period}\n`;
+                        }
+                        
+                        if (parsed.location) {
+                            answer += `**Location:** ${parsed.location}\n`;
+                        }
+                        
+                        if (parsed.note) {
+                            answer += `\n**Note:** ${parsed.note}\n`;
+                        }
+                        
+                        if (data.disclaimer) {
+                            answer += `\n---\n**Disclaimer:** ${data.disclaimer}`;
+                        }
+                    } catch (e) {
+                        // If can't parse, just show the raw explanation
+                        console.warn('Could not parse aiExplanation as JSON:', e);
+                        answer = explanation;
+                        if (data.disclaimer) {
+                            answer += `\n\n---\n**Disclaimer:** ${data.disclaimer}`;
+                        }
+                    }
+                }
+                // Check for new structured format with primaryFinding
+                else if (data.primaryFinding) {
+                    console.log('✅ Using structured Heritage Research format (DB validated)');
+                    
                     const finding = data.primaryFinding;
                     
                     answer = `**Topic:** ${finding.topic}\n\n`;
@@ -2448,7 +2557,6 @@
                         answer += `\n**Period:** ${finding.periodAssociated}\n`;
                     }
                     
-                    // Add supporting context if available
                     if (data.supportingContext && data.supportingContext.length > 0) {
                         answer += `\n**Additional Context:**\n`;
                         data.supportingContext.forEach(ctx => {
@@ -2460,6 +2568,11 @@
                         answer += `\n---\n**Disclaimer:** ${data.disclaimer}`;
                     }
                 }
+                // Check for NO_RESPONSE safety fallback
+                else if (data.responseType === 'NO_RESPONSE' || data.status === 'NO_DATA') {
+                    console.log('⚠️ No response available');
+                    answer = data.message || 'No research data could be generated for this query. Please try rephrasing your question or contact support.';
+                }
                 // Fallback to old formats
                 else if (data.choices && data.choices[0] && data.choices[0].message) {
                     answer = data.choices[0].message.content;
@@ -2470,7 +2583,8 @@
                 } else if (data.directAnswer) {
                     answer = data.directAnswer;
                 } else {
-                    answer = 'No response received';
+                    console.error('❌ NO RECOGNIZED FORMAT!');
+                    answer = 'No response received from the heritage research system.';
                 }
                 
                 this.showHeritageAnswerModal(question, answer);
