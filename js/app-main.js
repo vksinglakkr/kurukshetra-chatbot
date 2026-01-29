@@ -2322,8 +2322,13 @@
                 // Extract response from n8n structure
                 let answer;
                 
+                // Check for new formattedAnswer (HTML format from n8n)
+                if (data.formattedAnswer) {
+                    console.log('✅ Using formattedAnswer HTML format');
+                    answer = data.formattedAnswer;
+                }
                 // Check for AI explanation with markdown code blocks
-                if (data.aiExplanation) {
+                else if (data.aiExplanation) {
                     console.log('✅ Using AI explanation format');
                     
                     let explanation = data.aiExplanation;
@@ -2339,73 +2344,73 @@
                         answer = '';
                         
                         if (parsed.research_question) {
-                            answer += `**Research Question:** ${parsed.research_question}\n\n`;
+                            answer += `<b>Research Question:</b> ${parsed.research_question}<br><br>`;
                         }
                         
                         if (parsed.response) {
-                            answer += `**Findings:**\n${parsed.response}\n\n`;
+                            answer += `<b>Findings:</b><br>${parsed.response}<br><br>`;
                         }
                         
                         if (parsed.evidence) {
-                            answer += `**Evidence Found:**\n${parsed.evidence}\n\n`;
+                            answer += `<b>Evidence Found:</b><br>${parsed.evidence}<br><br>`;
                         }
                         
                         if (parsed.time_period) {
-                            answer += `**Time Period:** ${parsed.time_period}\n`;
+                            answer += `<b>Time Period:</b> ${parsed.time_period}<br>`;
                         }
                         
                         if (parsed.location) {
-                            answer += `**Location:** ${parsed.location}\n`;
+                            answer += `<b>Location:</b> ${parsed.location}<br>`;
                         }
                         
                         if (parsed.note) {
-                            answer += `\n**Note:** ${parsed.note}\n`;
+                            answer += `<br><b>Note:</b> ${parsed.note}<br>`;
                         }
                         
                         if (data.disclaimer) {
-                            answer += `\n---\n**Disclaimer:** ${data.disclaimer}`;
+                            answer += `<br>---<br><b>Disclaimer:</b> ${data.disclaimer}`;
                         }
                     } catch (e) {
                         // If can't parse, just show the raw explanation
                         console.warn('Could not parse aiExplanation as JSON:', e);
                         answer = explanation;
                         if (data.disclaimer) {
-                            answer += `\n\n---\n**Disclaimer:** ${data.disclaimer}`;
+                            answer += `<br><br>---<br><b>Disclaimer:</b> ${data.disclaimer}`;
                         }
                     }
                 }
-                // Check for new structured format with primaryFinding
+                // Check for old structured format with primaryFinding
                 else if (data.primaryFinding) {
                     console.log('✅ Using structured Heritage Research format (DB validated)');
                     
                     // Build formatted answer from structured data
                     const finding = data.primaryFinding;
                     
-                    answer = `**Topic:** ${finding.topic}\n\n`;
-                    answer += `**Evidence Status:**\n`;
-                    answer += `• Archaeological Evidence: ${finding.evidenceStatus}\n`;
-                    answer += `• Evidence Type: ${finding.evidenceType}\n`;
-                    answer += `• Literary Reference: ${finding.literaryReference}\n`;
-                    answer += `• Source Authority: ${finding.sourceAuthority}\n`;
+                    answer = `<b>Topic:</b> ${finding.topic}<br><br>`;
+                    answer += `<b>Evidence Status:</b><br>`;
+                    answer += `• Archaeological Evidence: ${finding.evidenceStatus}<br>`;
+                    answer += `• Evidence Type: ${finding.evidenceType}<br>`;
+                    answer += `• Literary Reference: ${finding.literaryReference}<br>`;
+                    answer += `• Source Authority: ${finding.sourceAuthority}<br>`;
                     
                     if (finding.evidenceNotes) {
-                        answer += `\n**Notes:**\n${finding.evidenceNotes}\n`;
+                        answer += `<br><b>Notes:</b><br>${finding.evidenceNotes}<br>`;
                     }
                     
                     if (finding.periodAssociated) {
-                        answer += `\n**Period:** ${finding.periodAssociated}\n`;
+                        answer += `<br><b>Period:</b> ${finding.periodAssociated}<br>`;
                     }
                     
                     // Add supporting context if available
                     if (data.supportingContext && data.supportingContext.length > 0) {
-                        answer += `\n**Additional Context:**\n`;
+                        answer += `<br><b>Additional Context:</b><br>`;
                         data.supportingContext.forEach(ctx => {
-                            answer += `• ${ctx.topic}: ${ctx.notes}\n`;
+                            answer += `• ${ctx.topic}: ${ctx.notes}<br>`;
                         });
                     }
                     
                     if (data.disclaimer) {
-                        answer += `\n---\n**Disclaimer:** ${data.disclaimer}`;
+                        answer += `<br>---<br><b>Disclaimer:</b> ${data.disclaimer}`;
                     }
                 }
                 // Check for NO_RESPONSE safety fallback
@@ -2520,8 +2525,13 @@
                 // Extract response from n8n structure
                 let answer;
                 
+                // Check for new formattedAnswer (HTML format from n8n)
+                if (data.formattedAnswer) {
+                    console.log('✅ Using formattedAnswer HTML format');
+                    answer = data.formattedAnswer;
+                }
                 // Check for AI explanation with markdown code blocks
-                if (data.aiExplanation) {
+                else if (data.aiExplanation) {
                     console.log('✅ Using AI explanation format');
                     
                     let explanation = data.aiExplanation;
@@ -2533,75 +2543,75 @@
                         // Try to parse the JSON inside
                         const parsed = JSON.parse(explanation);
                         
-                        // Build formatted answer
+                        // Build formatted answer with HTML
                         answer = '';
                         
                         if (parsed.research_question) {
-                            answer += `**Research Question:** ${parsed.research_question}\n\n`;
+                            answer += `<b>Research Question:</b> ${parsed.research_question}<br><br>`;
                         }
                         
                         if (parsed.response) {
-                            answer += `**Findings:**\n${parsed.response}\n\n`;
+                            answer += `<b>Findings:</b><br>${parsed.response}<br><br>`;
                         }
                         
                         if (parsed.evidence) {
-                            answer += `**Evidence Found:**\n${parsed.evidence}\n\n`;
+                            answer += `<b>Evidence Found:</b><br>${parsed.evidence}<br><br>`;
                         }
                         
                         if (parsed.time_period) {
-                            answer += `**Time Period:** ${parsed.time_period}\n`;
+                            answer += `<b>Time Period:</b> ${parsed.time_period}<br>`;
                         }
                         
                         if (parsed.location) {
-                            answer += `**Location:** ${parsed.location}\n`;
+                            answer += `<b>Location:</b> ${parsed.location}<br>`;
                         }
                         
                         if (parsed.note) {
-                            answer += `\n**Note:** ${parsed.note}\n`;
+                            answer += `<br><b>Note:</b> ${parsed.note}<br>`;
                         }
                         
                         if (data.disclaimer) {
-                            answer += `\n---\n**Disclaimer:** ${data.disclaimer}`;
+                            answer += `<br>---<br><b>Disclaimer:</b> ${data.disclaimer}`;
                         }
                     } catch (e) {
                         // If can't parse, just show the raw explanation
                         console.warn('Could not parse aiExplanation as JSON:', e);
                         answer = explanation;
                         if (data.disclaimer) {
-                            answer += `\n\n---\n**Disclaimer:** ${data.disclaimer}`;
+                            answer += `<br><br>---<br><b>Disclaimer:</b> ${data.disclaimer}`;
                         }
                     }
                 }
-                // Check for new structured format with primaryFinding
+                // Check for old structured format with primaryFinding
                 else if (data.primaryFinding) {
                     console.log('✅ Using structured Heritage Research format (DB validated)');
                     
                     const finding = data.primaryFinding;
                     
-                    answer = `**Topic:** ${finding.topic}\n\n`;
-                    answer += `**Evidence Status:**\n`;
-                    answer += `• Archaeological Evidence: ${finding.evidenceStatus}\n`;
-                    answer += `• Evidence Type: ${finding.evidenceType}\n`;
-                    answer += `• Literary Reference: ${finding.literaryReference}\n`;
-                    answer += `• Source Authority: ${finding.sourceAuthority}\n`;
+                    answer = `<b>Topic:</b> ${finding.topic}<br><br>`;
+                    answer += `<b>Evidence Status:</b><br>`;
+                    answer += `• Archaeological Evidence: ${finding.evidenceStatus}<br>`;
+                    answer += `• Evidence Type: ${finding.evidenceType}<br>`;
+                    answer += `• Literary Reference: ${finding.literaryReference}<br>`;
+                    answer += `• Source Authority: ${finding.sourceAuthority}<br>`;
                     
                     if (finding.evidenceNotes) {
-                        answer += `\n**Notes:**\n${finding.evidenceNotes}\n`;
+                        answer += `<br><b>Notes:</b><br>${finding.evidenceNotes}<br>`;
                     }
                     
                     if (finding.periodAssociated) {
-                        answer += `\n**Period:** ${finding.periodAssociated}\n`;
+                        answer += `<br><b>Period:</b> ${finding.periodAssociated}<br>`;
                     }
                     
                     if (data.supportingContext && data.supportingContext.length > 0) {
-                        answer += `\n**Additional Context:**\n`;
+                        answer += `<br><b>Additional Context:</b><br>`;
                         data.supportingContext.forEach(ctx => {
-                            answer += `• ${ctx.topic}: ${ctx.notes}\n`;
+                            answer += `• ${ctx.topic}: ${ctx.notes}<br>`;
                         });
                     }
                     
                     if (data.disclaimer) {
-                        answer += `\n---\n**Disclaimer:** ${data.disclaimer}`;
+                        answer += `<br>---<br><b>Disclaimer:</b> ${data.disclaimer}`;
                     }
                 }
                 // Check for NO_RESPONSE safety fallback
@@ -2821,7 +2831,7 @@
                                     <i class="fas fa-scroll" style="color: #d97706; font-size: 1.1rem; margin-top: 0.2rem;"></i>
                                     <div style="flex: 1;">
                                         <h4 style="margin: 0 0 0.5rem 0; color: #92400e; font-size: 0.85rem; font-weight: 600;">Research Findings:</h4>
-                                        <div style="color: #78350f; line-height: 1.7; white-space: pre-wrap; font-size: 0.9rem;">${answer}</div>
+                                        <div id="heritage-answer-content" style="color: #78350f; line-height: 1.7; font-size: 0.9rem;"></div>
                                     </div>
                                 </div>
                             </div>
@@ -2882,6 +2892,14 @@
             
             // Add modal to body
             document.body.insertAdjacentHTML('beforeend', modalHTML);
+            
+            // Populate answer content (supports both HTML and plain text)
+            const answerDiv = document.getElementById('heritage-answer-content');
+            if (answerDiv) {
+                // Convert \n to <br> for plain text formatting
+                const formattedAnswer = answer.replace(/\n/g, '<br>');
+                answerDiv.innerHTML = formattedAnswer;
+            }
             
             // Store for actions
             window.currentHeritageQuestion = question;
