@@ -43,6 +43,7 @@
         currentSubmenu: null,
         n8nWebhook: 'https://n8n-workflow-test.duckdns.org/webhook-test/kurukshetra-chatbot',
         n8nHeritageResearch: 'https://n8n-workflow-test.duckdns.org/webhook/kurukshetra-heritage-research',
+        n8nDemographics: 'https://n8n-workflow-test.duckdns.org/webhook/kurukshetra-demographics',
         initialized: false
     };
     
@@ -3149,7 +3150,7 @@
             this.showDemoLoadingModal();
             
             try {
-                const response = await fetch(AppState.n8nWebhook, {
+                const response = await fetch(AppState.n8nDemographics, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({
@@ -3202,7 +3203,7 @@
             this.showDemoLoadingModal();
             
             try {
-                const response = await fetch(AppState.n8nWebhook, {
+                const response = await fetch(AppState.n8nDemographics, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({
