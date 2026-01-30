@@ -737,25 +737,154 @@
     }
     
     function renderDemographics(container) {
+        // Ready-made Demographics questions
+        const readyQuestions = {
+            '📍 Population Data': [
+                "What is the current population of Kurukshetra district?",
+                "How has Kurukshetra's population grown over the decades?",
+                "What is the population density of Kurukshetra?",
+                "What is the urban vs rural population distribution?",
+                "What is the gender ratio (sex ratio) in Kurukshetra?",
+                "Which are the most populated towns and villages?"
+            ],
+            
+            '🗺️ Geographic & Administrative': [
+                "What is the total area of Kurukshetra district?",
+                "How many blocks and tehsils are in Kurukshetra?",
+                "What are the district boundaries of Kurukshetra?",
+                "How many villages are in Kurukshetra district?",
+                "What is the administrative structure of the district?"
+            ],
+            
+            '📈 Development Indicators': [
+                "What is the literacy rate in Kurukshetra?",
+                "What is the Human Development Index (HDI) of Kurukshetra?",
+                "How does Kurukshetra rank among Haryana districts in development?",
+                "What is the per capita income in Kurukshetra?",
+                "What percentage of population has access to basic amenities?",
+                "What is the unemployment rate in Kurukshetra?",
+                "How has district infrastructure developed in recent years?"
+            ],
+            
+            '🏥 Health & Education': [
+                "How many hospitals and primary health centers exist?",
+                "What is the infant mortality rate in Kurukshetra?",
+                "How many schools and educational institutions are there?",
+                "What is the child sex ratio in the district?",
+                "What percentage of children are enrolled in schools?",
+                "What are the major health indicators in Kurukshetra?"
+            ],
+            
+            '💼 Economic Statistics': [
+                "What are the main economic sectors in Kurukshetra?",
+                "What percentage of population works in agriculture?",
+                "What is the industrial contribution to district economy?",
+                "How many people work in the services sector?",
+                "What is the poverty rate in Kurukshetra district?"
+            ],
+            
+            '🏘️ Urbanization & Infrastructure': [
+                "What percentage of Kurukshetra is urbanized?",
+                "How many households are in the district?",
+                "What is the average household size?",
+                "What percentage have electricity and piped water supply?",
+                "How has urban growth progressed in recent decades?",
+                "What is the status of road and transport infrastructure?"
+            ]
+        };
+        
+        const categories = Object.keys(readyQuestions);
+        
         container.innerHTML = `
             <h2>📊 Demographics & Statistics</h2>
             <p>Population, area, and development data</p>
             
-            <div style="padding:2rem;text-align:center;">
-                <a href="https://haryanaepaper.com" target="_blank" class="submit-btn" style="display:inline-block;text-decoration:none;">
-                    <i class="fas fa-external-link-alt"></i> View Haryana DataVista
-                </a>
+            <!-- Selection Mode -->
+            <div style="margin: 1.5rem 0;">
+                <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                        <input type="radio" name="demo-mode" value="ready" checked 
+                               onchange="window.AppFunctions.toggleDemoMode('ready')">
+                        <span style="display: flex; align-items: center; gap: 0.3rem;">
+                            <i class="fas fa-list-ul"></i> Ready Questions
+                        </span>
+                    </label>
+                    
+                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                        <input type="radio" name="demo-mode" value="custom" 
+                               onchange="window.AppFunctions.toggleDemoMode('custom')">
+                        <span style="display: flex; align-items: center; gap: 0.3rem;">
+                            <i class="fas fa-edit"></i> Ask Your Own
+                        </span>
+                    </label>
+                </div>
             </div>
             
-            <div style="margin-top:2rem;padding:1.5rem;background:#f8f9fa;border-radius:12px;">
-                <h3 style="color:#d97706;margin-bottom:1rem;">Quick Facts:</h3>
-                <ul style="list-style:none;padding-left:0;">
-                    <li style="padding:0.5rem 0;">📍 <strong>District:</strong> Kurukshetra</li>
-                    <li style="padding:0.5rem 0;">📏 <strong>Area:</strong> 1,530 km²</li>
-                    <li style="padding:0.5rem 0;">👥 <strong>Population:</strong> ~10 lakhs</li>
-                </ul>
+            <!-- Ready Questions Section -->
+            <div id="demo-ready-section">
+                <div class="form-group">
+                    <label for="demo-category-select">
+                        <i class="fas fa-folder"></i> Select Category:
+                    </label>
+                    <select id="demo-category-select" onchange="window.AppFunctions.loadDemoQuestions()">
+                        <option value="">-- Choose a Category --</option>
+                        ${categories.map(cat => `<option value="${cat}">${cat}</option>`).join('')}
+                    </select>
+                </div>
+                
+                <div class="form-group" id="demo-question-group" style="display:none;">
+                    <label for="demo-question-select">
+                        <i class="fas fa-question-circle"></i> Select Question:
+                    </label>
+                    <select id="demo-question-select"></select>
+                </div>
+                
+                <button id="demo-submit-ready" onclick="window.AppFunctions.submitDemoReady()" 
+                        class="submit-btn" style="display:none;">
+                    <i class="fas fa-search"></i> Get Statistics
+                </button>
+            </div>
+            
+            <!-- Custom Question Section -->
+            <div id="demo-custom-section" style="display:none;">
+                <div class="form-group">
+                    <label for="demo-custom-input">
+                        <i class="fas fa-edit"></i> Enter Your Question:
+                    </label>
+                    <textarea id="demo-custom-input" rows="3" 
+                              placeholder="Example: What is the literacy rate in rural Kurukshetra?"
+                              style="width:100%;padding:0.75rem;border:2px solid #e5e7eb;border-radius:8px;font-size:0.95rem;"></textarea>
+                </div>
+                
+                <button onclick="window.AppFunctions.submitDemoCustom()" class="submit-btn">
+                    <i class="fas fa-search"></i> Get Statistics
+                </button>
+            </div>
+            
+            <!-- Quick Facts -->
+            <div style="margin-top:2rem;padding:1.5rem;background:#f0f9ff;border-radius:12px;border:2px solid #bfdbfe;">
+                <h3 style="color:#1e40af;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem;">
+                    <i class="fas fa-info-circle"></i> Quick Facts
+                </h3>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;">
+                    <div style="padding:0.75rem;background:white;border-radius:8px;">
+                        <div style="color:#6b7280;font-size:0.85rem;margin-bottom:0.25rem;">District</div>
+                        <div style="color:#1e40af;font-weight:600;font-size:1.1rem;">Kurukshetra</div>
+                    </div>
+                    <div style="padding:0.75rem;background:white;border-radius:8px;">
+                        <div style="color:#6b7280;font-size:0.85rem;margin-bottom:0.25rem;">Area</div>
+                        <div style="color:#1e40af;font-weight:600;font-size:1.1rem;">1,530 km²</div>
+                    </div>
+                    <div style="padding:0.75rem;background:white;border-radius:8px;">
+                        <div style="color:#6b7280;font-size:0.85rem;margin-bottom:0.25rem;">Population</div>
+                        <div style="color:#1e40af;font-weight:600;font-size:1.1rem;">~10 lakhs</div>
+                    </div>
+                </div>
             </div>
         `;
+        
+        // Store questions for later use
+        window.demographicsQuestions = readyQuestions;
     }
     
     function renderGovernment(container) {
@@ -2965,6 +3094,359 @@
             `);
             printWindow.document.close();
             printWindow.print();
+        },
+        
+        // ==================== DEMOGRAPHICS & STATISTICS ====================
+        
+        // Toggle Demographics mode
+        toggleDemoMode: function(mode) {
+            const readySection = document.getElementById('demo-ready-section');
+            const customSection = document.getElementById('demo-custom-section');
+            
+            if (mode === 'ready') {
+                readySection.style.display = 'block';
+                customSection.style.display = 'none';
+            } else {
+                readySection.style.display = 'none';
+                customSection.style.display = 'block';
+            }
+        },
+        
+        // Load Demographics questions
+        loadDemoQuestions: function() {
+            const categorySelect = document.getElementById('demo-category-select');
+            const questionGroup = document.getElementById('demo-question-group');
+            const questionSelect = document.getElementById('demo-question-select');
+            const submitBtn = document.getElementById('demo-submit-ready');
+            
+            const category = categorySelect.value;
+            
+            if (!category) {
+                questionGroup.style.display = 'none';
+                submitBtn.style.display = 'none';
+                return;
+            }
+            
+            const questions = window.demographicsQuestions[category] || [];
+            
+            questionSelect.innerHTML = '<option value="">-- Choose a Question --</option>' +
+                questions.map(q => `<option value="${q}">${q}</option>`).join('');
+            
+            questionGroup.style.display = 'block';
+            submitBtn.style.display = 'inline-flex';
+        },
+        
+        // Submit Demographics ready question
+        submitDemoReady: async function() {
+            const questionSelect = document.getElementById('demo-question-select');
+            const question = questionSelect.value;
+            
+            if (!question) {
+                alert('Please select a question');
+                return;
+            }
+            
+            this.showDemoLoadingModal();
+            
+            try {
+                const response = await fetch(AppState.n8nWebhook, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        question: question,
+                        queryType: 'DEMOGRAPHICS'
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Server error: ${response.status}`);
+                }
+                
+                const text = await response.text();
+                if (!text || text.trim() === '') {
+                    throw new Error('Empty response from server');
+                }
+                
+                let data;
+                try {
+                    data = JSON.parse(text);
+                    if (Array.isArray(data) && data.length > 0) {
+                        data = data[0];
+                    }
+                } catch (e) {
+                    throw new Error('Invalid response format from server');
+                }
+                
+                // Extract answer
+                const answer = data.answer || data.response || data.formattedAnswer || 'No data available';
+                
+                this.showDemoAnswerModal(question, answer);
+                
+            } catch (error) {
+                console.error('Error:', error);
+                this.closeDemoModal();
+                alert('❌ Error: Unable to fetch statistics. Please try again.');
+            }
+        },
+        
+        // Submit Demographics custom question
+        submitDemoCustom: async function() {
+            const input = document.getElementById('demo-custom-input');
+            const question = input.value.trim();
+            
+            if (!question) {
+                alert('Please enter a question');
+                return;
+            }
+            
+            this.showDemoLoadingModal();
+            
+            try {
+                const response = await fetch(AppState.n8nWebhook, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        question: question,
+                        queryType: 'DEMOGRAPHICS'
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Server error: ${response.status}`);
+                }
+                
+                const text = await response.text();
+                if (!text || text.trim() === '') {
+                    throw new Error('Empty response from server');
+                }
+                
+                let data;
+                try {
+                    data = JSON.parse(text);
+                    if (Array.isArray(data) && data.length > 0) {
+                        data = data[0];
+                    }
+                } catch (e) {
+                    throw new Error('Invalid response format from server');
+                }
+                
+                const answer = data.answer || data.response || data.formattedAnswer || 'No data available';
+                
+                this.showDemoAnswerModal(question, answer);
+                
+            } catch (error) {
+                console.error('Error:', error);
+                this.closeDemoModal();
+                alert('❌ Error: Unable to fetch statistics. Please try again.');
+            }
+        },
+        
+        // Show Demographics loading modal
+        showDemoLoadingModal: function() {
+            const existing = document.getElementById('demo-modal');
+            if (existing) existing.remove();
+            
+            const modalHTML = `
+                <div id="demo-modal" style="
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: rgba(0,0,0,0.7);
+                    z-index: 9999;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    animation: fadeIn 0.3s ease-in-out;
+                ">
+                    <div style="
+                        background: white;
+                        border-radius: 16px;
+                        padding: 2rem;
+                        text-align: center;
+                        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+                    ">
+                        <div class="spinner" style="
+                            width: 50px;
+                            height: 50px;
+                            border: 4px solid #f3f4f6;
+                            border-top: 4px solid #3b82f6;
+                            border-radius: 50%;
+                            animation: spin 1s linear infinite;
+                            margin: 0 auto 1rem auto;
+                        "></div>
+                        <p style="color: #1e40af; font-weight: 600; margin: 0;">
+                            <i class="fas fa-chart-bar"></i> Fetching Statistics...
+                        </p>
+                        <p style="color: #6b7280; font-size: 0.9rem; margin: 0.5rem 0 0 0;">
+                            Please wait while we gather the data
+                        </p>
+                    </div>
+                </div>
+                
+                <style>
+                    @keyframes spin {
+                        0% { transform: rotate(0deg); }
+                        100% { transform: rotate(360deg); }
+                    }
+                </style>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
+        },
+        
+        // Show Demographics answer modal
+        showDemoAnswerModal: function(question, answer) {
+            const existing = document.getElementById('demo-modal');
+            if (existing) existing.remove();
+            
+            const modalHTML = `
+                <div id="demo-modal" style="
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: rgba(0,0,0,0.7);
+                    z-index: 9999;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 1rem;
+                    animation: fadeIn 0.3s ease-in-out;
+                ">
+                    <div style="
+                        background: white;
+                        border-radius: 16px;
+                        max-width: 650px;
+                        width: 100%;
+                        max-height: 90vh;
+                        overflow-y: auto;
+                        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+                        animation: slideUp 0.3s ease-out;
+                    ">
+                        <!-- Header -->
+                        <div style="
+                            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+                            padding: 1.2rem 1.5rem;
+                            border-radius: 16px 16px 0 0;
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                        ">
+                            <h3 style="
+                                color: white;
+                                margin: 0;
+                                font-size: 1.1rem;
+                                display: flex;
+                                align-items: center;
+                                gap: 0.5rem;
+                            ">
+                                <i class="fas fa-chart-bar"></i>
+                                Statistics Results
+                            </h3>
+                            
+                            <button onclick="window.AppFunctions.closeDemoModal()" title="Close" style="
+                                background: rgba(255,255,255,0.2);
+                                border: none;
+                                color: white;
+                                width: 36px;
+                                height: 36px;
+                                border-radius: 50%;
+                                cursor: pointer;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                transition: all 0.2s;
+                            " onmouseover="this.style.background='rgba(255,255,255,0.3)'" 
+                               onmouseout="this.style.background='rgba(255,255,255,0.2)'">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- Body -->
+                        <div style="padding: 1.5rem;">
+                            <!-- Question -->
+                            <div style="
+                                background: #f0f9ff;
+                                border: 1px solid #bfdbfe;
+                                border-radius: 10px;
+                                padding: 1rem;
+                                margin-bottom: 1.2rem;
+                            ">
+                                <div style="display: flex; align-items: flex-start; gap: 0.75rem;">
+                                    <i class="fas fa-question-circle" style="color: #3b82f6; font-size: 1.1rem; margin-top: 0.2rem;"></i>
+                                    <div style="flex:1;">
+                                        <h4 style="margin: 0 0 0.4rem 0; color: #1e40af; font-size: 0.85rem; font-weight: 600;">Question:</h4>
+                                        <p style="margin: 0; color: #1e3a8a; line-height: 1.5; font-size: 0.9rem;">${question}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Answer -->
+                            <div style="
+                                background: #fffbeb;
+                                border: 1px solid #fde68a;
+                                border-radius: 10px;
+                                padding: 1rem;
+                                margin-bottom: 1.2rem;
+                            ">
+                                <div style="display: flex; align-items: flex-start; gap: 0.75rem;">
+                                    <i class="fas fa-database" style="color: #d97706; font-size: 1.1rem; margin-top: 0.2rem;"></i>
+                                    <div style="flex: 1;">
+                                        <h4 style="margin: 0 0 0.5rem 0; color: #92400e; font-size: 0.85rem; font-weight: 600;">Data:</h4>
+                                        <div id="demo-answer-content" style="color: #78350f; line-height: 1.7; font-size: 0.9rem;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Disclaimer -->
+                            <div style="
+                                background: #fef2f2;
+                                border: 1px solid #fecaca;
+                                border-radius: 8px;
+                                padding: 0.7rem;
+                                font-size: 0.8rem;
+                                color: #991b1b;
+                                display: flex;
+                                align-items: flex-start;
+                                gap: 0.5rem;
+                            ">
+                                <i class="fas fa-exclamation-triangle" style="margin-top: 0.1rem; font-size: 0.9rem;"></i>
+                                <div>
+                                    <strong>Note:</strong> Data is based on official sources. For latest statistics, refer to census and government reports.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <style>
+                    @keyframes slideUp {
+                        from { transform: translateY(50px); opacity: 0; }
+                        to { transform: translateY(0); opacity: 1; }
+                    }
+                </style>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
+            
+            // Populate answer content
+            const answerDiv = document.getElementById('demo-answer-content');
+            if (answerDiv) {
+                const formattedAnswer = answer.replace(/\n/g, '<br>');
+                answerDiv.innerHTML = formattedAnswer;
+            }
+        },
+        
+        // Close Demographics modal
+        closeDemoModal: function() {
+            const modal = document.getElementById('demo-modal');
+            if (modal) {
+                modal.remove();
+                document.body.style.overflow = '';
+            }
         },
         
         submitResearchQuery: async function() {
