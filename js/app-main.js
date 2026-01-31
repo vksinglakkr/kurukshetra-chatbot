@@ -32,6 +32,12 @@ function navigateTo(menu, submenu = null) {
 function renderContent() {
     const contentArea = document.getElementById('content-area');
     
+    // Safety check - if content-area doesn't exist, wait
+    if (!contentArea) {
+        console.warn('Content area not found, waiting for DOM...');
+        return;
+    }
+    
     if (AppState.currentMenu === 'main') {
         contentArea.innerHTML = renderMainMenu();
     } else if (AppState.currentSubmenu) {
@@ -728,22 +734,47 @@ window.closeDemoModal = function() {
 };
 
 // ============================================
-// 6. INITIALIZE APP
+// 6. INITIALIZE APP (AT THE VERY END)
 // ============================================
 
-document.addEventListener('DOMContentLoaded', function() {
-    renderContent();
+// Wait for DOM to be fully loaded
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeApp);
+} else {
+    initializeApp();
+}
+
+function initializeApp() {
+    console.log('Initializing Kurukshetra Mitra App...');
     
     // Add spinner animation
     const style = document.createElement('style');
     style.textContent = '@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }';
     document.head.appendChild(style);
-});
+    
+    // Check if content-area exists
+    const contentArea = document.getElementById('content-area');
+    if (contentArea) {
+        renderContent();
+        console.log('Kurukshetra Mitra App Loaded Successfully! 🕉️');
+    } else {
+        console.error('❌ ERROR: #content-area element not found in HTML!');
+        console.error('Please make sure your HTML has: <div id="content-area"></div>');
+        
+        // Try to create content-area if body exists
+        if (document.body) {
+            console.log('Attempting to create content-area...');
+            const contentDiv = document.createElement('div');
+            contentDiv.id = 'content-area';
+            document.body.appendChild(contentDiv);
+            renderContent();
+            console.log('✅ Content-area created and app initialized!');
+        }
+    }
+}
 
 // Export functions to window
 window.navigateTo = navigateTo;
 window.renderMainMenu = renderMainMenu;
 window.renderHeritageResearch = renderHeritageResearch;
 window.renderDemographics = renderDemographics;
-
-console.log('Kurukshetra Mitra App Loaded Successfully! 🕉️');
