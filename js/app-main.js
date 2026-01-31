@@ -1,7 +1,10 @@
 // ============================================
 // SECTION 1: AppState (Lines ~40-50)
 // ============================================
-
+// Initialize AppFunctions FIRST (line 1)
+if (typeof window.AppFunctions === 'undefined') {
+    window.AppFunctions = {};
+}
 const AppState = {
     currentMenu: 'main',
     currentSubmenu: null,
@@ -486,19 +489,34 @@ function closeDemoModal() {
 // SECTION 6: AppFunctions Export (Verify these exist)
 // ============================================
 
-// Make functions available globally
-window.AppFunctions = {
-    ...AppFunctions,
+// Export all functions (at the very end)
+window.AppFunctions = Object.assign(window.AppFunctions || {}, {
+    toggleHeritageMode,
+    loadHeritageQuestions,
     submitHeritageReady,
     submitHeritageCustom,
-    submitDemoReady,
-    submitDemoCustom,
     showHeritageLoadingModal,
     closeHeritageLoadingModal,
     showHeritageAnswerModal,
     closeHeritageAnswerModal,
+    toggleDemoMode,
+    loadDemoQuestions,
+    submitDemoReady,
+    submitDemoCustom,
     showDemoLoadingModal,
     closeDemoLoadingModal,
     showDemoAnswerModal,
     closeDemoModal
-};
+});
+
+// Also make available globally
+window.toggleHeritageMode = toggleHeritageMode;
+window.loadHeritageQuestions = loadHeritageQuestions;
+window.submitHeritageReady = submitHeritageReady;
+window.submitHeritageCustom = submitHeritageCustom;
+window.closeHeritageAnswerModal = closeHeritageAnswerModal;
+window.toggleDemoMode = toggleDemoMode;
+window.loadDemoQuestions = loadDemoQuestions;
+window.submitDemoReady = submitDemoReady;
+window.submitDemoCustom = submitDemoCustom;
+window.closeDemoModal = closeDemoModal;
