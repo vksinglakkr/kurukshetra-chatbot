@@ -3,41 +3,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kurukshetra Mitra - Your AI Guide</title>
+    <title>🕉️ Kurukshetra Mitra - Your Complete Guide</title>
     
-    <!-- Your Existing CSS Files -->
-    <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/variables.css">
-    <link rel="stylesheet" href="css/typography.css">
-    <link rel="stylesheet" href="css/layout.css">
-    <link rel="stylesheet" href="css/components.css">
-    <link rel="stylesheet" href="css/chat-mode.css">
-    <link rel="stylesheet" href="css/tablet.css">
-    <link rel="stylesheet" href="css/mobile.css">
-    <link rel="stylesheet" href="css/desktop.css">
-    <link rel="stylesheet" href="css/animations.css">
-    <link rel="stylesheet" href="css/custom-tabs.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Existing CSS Files (in correct order) -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/typography.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/desktop.css">
+    <link rel="stylesheet" href="css/tablet.css">
+    <link rel="stylesheet" href="css/mobile.css">
+    <link rel="stylesheet" href="css/animations.css">
+    
+    <!-- Custom styles for 2-tab interface -->
+    <link rel="stylesheet" href="css/custom-tabs.css">
 </head>
 <body>
+    <!-- App Container -->
     <div class="app-container">
+        
+        <!-- Header -->
         <header class="app-header">
-            <h1 class="app-title">🕉️ Kurukshetra Mitra</h1>
-            <p class="app-subtitle">Your AI-Powered Guide to the Sacred Land</p>
+            <h1>🕉️ KURUKSHETRA MITRA</h1>
+            <p class="subtitle">कुरुक्षेत्र मित्र - Your Complete Guide</p>
         </header>
         
-        <main id="content-area" class="content-area">
-            <!-- Content will be dynamically loaded here -->
-        </main>
+        <!-- Main Tabs -->
+        <div class="main-tabs">
+            <button class="tab-btn active" data-tab="heritage">
+                <i class="fas fa-om"></i>
+                <span>Heritage & Tourism</span>
+            </button>
+            <button class="tab-btn" data-tab="admin">
+                <i class="fas fa-building"></i>
+                <span>Administration & Services</span>
+            </button>
+        </div>
         
-        <footer class="app-footer">
-            <p>&copy; 2025 Kurukshetra Mitra. All rights reserved.</p>
-        </footer>
+        <!-- Heritage Tab Content -->
+        <div class="tab-content active" id="heritage-tab">
+            
+            <!-- Submenu Grid -->
+            <div class="submenu-grid">
+                
+                <div class="card card-interactive card-sm submenu-card" data-submenu="gita_wisdom">
+                    <div class="card-icon">📿</div>
+                    <h3 class="card-title">Gita Wisdom & Spirituality</h3>
+                    <p class="card-subtitle">Ask spiritual questions & life guidance</p>
+                </div>
+                
+                <div class="card card-interactive card-sm submenu-card" data-submenu="temples_sites">
+                    <div class="card-icon">🛕</div>
+                    <h3 class="card-title">Temples, Museums & Sites</h3>
+                    <p class="card-subtitle">80+ heritage sites with virtual tours</p>
+                </div>
+                
+                <div class="card card-interactive card-sm submenu-card" data-submenu="stay_travel">
+                    <div class="card-icon">🏨</div>
+                    <h3 class="card-title">Stay, Food & Travel</h3>
+                    <p class="card-subtitle">Hotels, restaurants & transport info</p>
+                </div>
+                
+                <div class="card card-interactive card-sm submenu-card" data-submenu="festivals">
+                    <div class="card-icon">📅</div>
+                    <h3 class="card-title">Festivals & Events</h3>
+                    <p class="card-subtitle">Upcoming festivals & programs</p>
+                </div>
+                
+                <div class="card card-interactive card-sm submenu-card" data-submenu="heritage_research">
+                    <div class="card-icon">📚</div>
+                    <h3 class="card-title">Heritage Research</h3>
+                    <p class="card-subtitle">Historical & archaeological info</p>
+                </div>
+                
+            </div>
+            
+            <!-- Dynamic Content Area -->
+            <div class="content-area" id="heritage-content"></div>
+            
+        </div>
+        
+        <!-- Admin Tab Content -->
+        <div class="tab-content" id="admin-tab">
+            
+            <!-- Submenu Grid -->
+            <div class="submenu-grid">
+                
+                <div class="card card-interactive card-sm submenu-card" data-submenu="demographics">
+                    <div class="card-icon">📊</div>
+                    <h3 class="card-title">Demographics & Statistics</h3>
+                    <p class="card-subtitle">Population, area & development</p>
+                </div>
+                
+                <div class="card card-interactive card-sm submenu-card" data-submenu="government">
+                    <div class="card-icon">🏢</div>
+                    <h3 class="card-title">Government Offices</h3>
+                    <p class="card-subtitle">Office locations & services</p>
+                </div>
+                
+                <div class="card card-interactive card-sm submenu-card" data-submenu="education_health">
+                    <div class="card-icon">🏫</div>
+                    <h3 class="card-title">Education & Healthcare</h3>
+                    <p class="card-subtitle">Schools, colleges & hospitals</p>
+                </div>
+                
+                <div class="card card-interactive card-sm submenu-card" data-submenu="infrastructure">
+                    <div class="card-icon">🚌</div>
+                    <h3 class="card-title">Infrastructure & Utilities</h3>
+                    <p class="card-subtitle">Transport & utilities</p>
+                </div>
+                
+                <div class="card card-interactive card-sm submenu-card" data-submenu="admin_research">
+                    <div class="card-icon">📚</div>
+                    <h3 class="card-title">Administrative Research</h3>
+                    <p class="card-subtitle">City planning & development</p>
+                </div>
+                
+            </div>
+            
+            <!-- Dynamic Content Area -->
+            <div class="content-area" id="admin-content"></div>
+            
+        </div>
+        
     </div>
     
-    <!-- Load JavaScript -->
+    <!-- JavaScript Modules (existing files) -->
+    <script src="js/platform-detector.js"></script>
+    <script src="js/tour-guide-data.js"></script>
+    <script src="js/questions-data.js"></script>
+    <script src="js/autocomplete.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/ui-controller.js"></script>
+    <script src="js/modal-controller.js"></script>
+    <script src="js/chat-mode.js"></script>
+    <script src="js/voice-recognition.js"></script>
+    <script src="js/whatsapp-adapter.js"></script>
     <script src="js/app-main.js"></script>
 </body>
 </html>
