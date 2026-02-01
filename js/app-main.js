@@ -43,7 +43,7 @@
         currentSubmenu: null,
         n8nWebhook: 'https://n8n-workflow-test.duckdns.org/webhook-test/kurukshetra-chatbot',
         n8nHeritageResearch: 'https://n8n-workflow-test.duckdns.org/webhook/kurukshetra-heritage-research',
-        n8nDemographics: 'https://n8n-workflow-test.duckdns.org/webhook/kurukshetra-demographics',
+        n8nDemographics: 'https://n8n-workflow-test.duckdns.org/webhook/kurukshetra-demographics', // Now universal - handles all categories via AI
         initialized: false
     };
     
@@ -3178,8 +3178,8 @@
                     throw new Error('Invalid response format from server');
                 }
                 
-                // Extract answer
-                const answer = data.answer || data.response || data.formattedAnswer || 'No data available';
+                // Extract answer (formattedAnswer first — universal workflow returns it there)
+                const answer = data.formattedAnswer || data.answer || data.response || 'No data available';
                 
                 this.showDemoAnswerModal(question, answer);
                 
@@ -3231,7 +3231,7 @@
                     throw new Error('Invalid response format from server');
                 }
                 
-                const answer = data.answer || data.response || data.formattedAnswer || 'No data available';
+                const answer = data.formattedAnswer || data.answer || data.response || 'No data available';
                 
                 this.showDemoAnswerModal(question, answer);
                 
