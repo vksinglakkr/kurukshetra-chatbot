@@ -7,16 +7,20 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
+        /* Reset and base styles */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { 
+            margin: 0; 
+            padding: 0; 
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        
         /* WhatsApp-specific tweaks */
-<body class="min-h-screen md:flex md:justify-center md:items-center" style="margin: 0; padding: 0; background: #008069;">
-
-    <div class="w-full h-[100dvh] md:max-w-md md:h-[90vh] bg-[#efeae2] relative flex flex-col md:shadow-2xl md:rounded-xl overflow-hidden">
-    html {
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-}
-        .wa-bg { background-image: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png'); background-opacity: 0.4; }
+        .wa-bg { 
+            background-image: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png'); 
+            background-opacity: 0.4; 
+        }
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .message-box { box-shadow: 0 1px 0.5px rgba(0,0,0,0.13); }
         .triangle-left::before {
@@ -29,7 +33,7 @@
         }
     </style>
 </head>
-<body class="h-screen flex justify-center items-center">
+<body class="min-h-screen md:flex md:justify-center md:items-center" style="background: #008069;">
 
     <div class="w-full h-[100dvh] md:max-w-md md:h-[90vh] bg-[#efeae2] relative flex flex-col md:shadow-2xl md:rounded-xl overflow-hidden">
         
@@ -70,7 +74,7 @@
         </div>
 
         <div id="chips-container" class="absolute bottom-[70px] left-0 w-full px-2 py-2 flex gap-2 overflow-x-auto hide-scrollbar z-10 transition-all">
-            </div>
+        </div>
 
         <div class="bg-[#f0f2f5] p-2 flex items-center gap-2 z-20">
             <i data-lucide="smile" class="text-gray-500 w-6 h-6"></i>
@@ -119,10 +123,6 @@
         }
 
         function renderChips() {
-            if (messages.length > 0) { // Only show chips if chat is empty or upon user request logic
-               // Optional: Decide when to show/hide chips. For now, let's keep them always or hide after chat starts.
-               // Let's hide them if there are many messages to declutter, or keep them for quick access.
-            }
             const container = document.getElementById('chips-container');
             container.innerHTML = SAMPLE_QUESTIONS.map(q => `
                 <button onclick="handleChipClick('${q}')" class="whitespace-nowrap bg-white text-[#008069] border border-[#e2e2e2] px-3 py-1.5 rounded-full text-xs shadow-sm font-medium hover:bg-gray-50 transition">
@@ -132,11 +132,9 @@
         }
 
         function formatText(text) {
-                // Safety check
-                if (!text) return '';
-            // Convert URLs to links and newlines to breaks
+            if (!text) return '';
             let formatted = text.replace(/\n/g, '<br>');
-            formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>'); // Bold
+            formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
             const urlRegex = /(https?:\/\/[^\s]+)/g;
             return formatted.replace(urlRegex, '<a href="$1" target="_blank" class="text-[#027eb5] hover:underline">$1</a>');
         }
@@ -151,54 +149,54 @@
             sendMessage();
         }
 
-async function sendMessage() {
-    const inputEl = document.getElementById('user-input');
-    const text = inputEl.value.trim();
-    if (!text) return;
+        async function sendMessage() {
+            const inputEl = document.getElementById('user-input');
+            const text = inputEl.value.trim();
+            if (!text) return;
 
-    // 1. Add User Message
-    const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-    messages.push({ role: 'user', content: text, time: time });
-    saveChat();
-    renderMessages();
-    scrollToBottom();
-    inputEl.value = '';
+            // 1. Add User Message
+            const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            messages.push({ role: 'user', content: text, time: time });
+            saveChat();
+            renderMessages();
+            scrollToBottom();
+            inputEl.value = '';
 
-    // 2. Show Loading
-    document.getElementById('loading-indicator').classList.remove('hidden');
-    document.getElementById('chips-container').classList.add('hidden');
-    scrollToBottom();
+            // 2. Show Loading
+            document.getElementById('loading-indicator').classList.remove('hidden');
+            document.getElementById('chips-container').classList.add('hidden');
+            scrollToBottom();
 
-    try {
-        // 3. Call n8n
-        const response = await fetch(N8N_WEBHOOK_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: text })
-        });
-        
-        const data = await response.json();
-        console.log('API Response:', data); // DEBUG LINE
-        
-        // 4. Add Bot Message - FIXED
-       let botContent = (Array.isArray(data) ? data[0].response : data.response) || 'No response received';
-        
-        const botTime = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-        messages.push({ role: 'bot', content: botContent, time: botTime });
-        saveChat();
+            try {
+                // 3. Call n8n
+                const response = await fetch(N8N_WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: text })
+                });
+                
+                const data = await response.json();
+                console.log('API Response:', data);
+                
+                // 4. Add Bot Message
+                let botContent = (Array.isArray(data) ? data[0].response : data.response) || 'No response received';
+                
+                const botTime = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                messages.push({ role: 'bot', content: botContent, time: botTime });
+                saveChat();
 
-    } catch (error) {
-        console.error('Error:', error);
-        const errorTime = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-        messages.push({ role: 'bot', content: "⚠️ Unable to connect to server. Please try again.", time: errorTime });
-        saveChat();
-    } finally {
-        document.getElementById('loading-indicator').classList.add('hidden');
-        document.getElementById('chips-container').classList.remove('hidden');
-        renderMessages();
-        scrollToBottom();
-    }
-}
+            } catch (error) {
+                console.error('Error:', error);
+                const errorTime = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                messages.push({ role: 'bot', content: "⚠️ Unable to connect to server. Please try again.", time: errorTime });
+                saveChat();
+            } finally {
+                document.getElementById('loading-indicator').classList.add('hidden');
+                document.getElementById('chips-container').classList.remove('hidden');
+                renderMessages();
+                scrollToBottom();
+            }
+        }
 
         // --- Utilities ---
         function saveChat() {
