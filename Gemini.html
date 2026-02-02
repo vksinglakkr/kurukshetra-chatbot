@@ -174,7 +174,7 @@ async function sendMessage() {
         console.log('API Response:', data); // DEBUG LINE
         
         // 4. Add Bot Message - FIXED
-        let botContent = data.response || 'No response received';
+       let botContent = (Array.isArray(data) ? data[0].response : data.response) || 'No response received';
         
         const botTime = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
         messages.push({ role: 'bot', content: botContent, time: botTime });
