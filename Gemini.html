@@ -125,6 +125,8 @@
         }
 
         function formatText(text) {
+                // Safety check
+    if (!text) return '';
             // Convert URLs to links and newlines to breaks
             let formatted = text.replace(/\n/g, '<br>');
             formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>'); // Bold
