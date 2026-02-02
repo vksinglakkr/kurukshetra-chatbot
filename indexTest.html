@@ -34,20 +34,24 @@
         
         /* Enhanced chip styles */
         .chip-button {
-            transition: all 0.3s ease;
-            min-width: fit-content;
+            transition: all 0.25s ease;
+            font-weight: 600;
         }
         .chip-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0, 128, 105, 0.3);
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 128, 105, 0.25);
         }
         .chip-button:active {
-            transform: translateY(-1px);
+            transform: scale(0.98);
         }
         
         /* Chips container gradient background */
         #chips-container {
-            background: linear-gradient(to top, #efeae2 70%, transparent);
+            pointer-events: auto;
+        }
+        
+        #chips-grid {
+            pointer-events: auto;
         }
         
         /* Gradient header */
@@ -131,7 +135,8 @@
         </div>
 
         <!-- Enhanced Quick Questions Chips -->
-        <div id="chips-container" class="absolute bottom-[68px] left-0 w-full px-3 py-3 flex gap-2.5 overflow-x-auto hide-scrollbar z-10 transition-all">
+        <div id="chips-container" class="absolute bottom-[75px] left-0 right-0 px-4 py-3 bg-gradient-to-t from-[#efeae2] from-85% to-transparent z-10 transition-all">
+            <div class="grid grid-cols-2 gap-2.5" id="chips-grid"></div>
         </div>
 
         <!-- Input Area -->
@@ -152,13 +157,12 @@
         // CONFIGURATION
         const N8N_WEBHOOK_URL = "https://n8n-workflow-test.duckdns.org/webhook/chat"; 
 
-        // ENHANCED SAMPLE QUESTIONS - Top 5 most useful queries
+        // TOP 4 QUICK QUESTIONS - Optimized for 2x2 grid
         const SAMPLE_QUESTIONS = [
-            { icon: "👤", text: "Who is the DC?" },
-            { icon: "🚨", text: "Emergency numbers" },
-            { icon: "🏛️", text: "Tourist places" },
-            { icon: "📋", text: "Birth certificate" },
-            { icon: "🏥", text: "Hospitals" }
+            { icon: "👤", text: "Who is DC?" },
+            { icon: "🚨", text: "Emergency" },
+            { icon: "🏛️", text: "Tourist Places" },
+            { icon: "📋", text: "Services" }
         ];
 
         let messages = JSON.parse(localStorage.getItem('kwr_chat_history')) || [];
@@ -194,12 +198,12 @@
         }
 
         function renderChips() {
-            const container = document.getElementById('chips-container');
-            container.innerHTML = SAMPLE_QUESTIONS.map(q => `
+            const grid = document.getElementById('chips-grid');
+            grid.innerHTML = SAMPLE_QUESTIONS.map(q => `
                 <button onclick="handleChipClick('${q.text.replace(/'/g, "\\'")}')" 
-                    class="chip-button whitespace-nowrap bg-white text-[#008069] border-2 border-[#008069] px-4 py-2 rounded-full text-sm shadow-md font-medium hover:bg-[#008069] hover:text-white flex items-center gap-2 flex-shrink-0">
-                    <span class="text-base">${q.icon}</span>
-                    <span class="font-medium">${q.text}</span>
+                    class="chip-button w-full bg-white text-[#008069] border-2 border-[#008069] px-3 py-2.5 rounded-xl text-sm shadow-md font-semibold hover:bg-[#008069] hover:text-white flex items-center justify-center gap-2">
+                    <span class="text-lg">${q.icon}</span>
+                    <span>${q.text}</span>
                 </button>
             `).join('');
         }
