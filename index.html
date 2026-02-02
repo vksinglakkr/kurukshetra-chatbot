@@ -135,8 +135,10 @@
         </div>
 
         <!-- Enhanced Quick Questions Chips -->
-        <div id="chips-container" class="absolute bottom-[75px] left-0 right-0 px-4 py-3 bg-gradient-to-t from-[#efeae2] from-85% to-transparent z-10 transition-all">
-            <div class="grid grid-cols-2 gap-2.5" id="chips-grid"></div>
+        <div id="chips-container" class="absolute bottom-[75px] left-0 right-0 px-4 py-2 bg-gradient-to-t from-[#efeae2] from-90% to-transparent z-10 transition-all">
+            <div id="chips-title" class="text-center text-xs font-bold text-[#008069]/80 mb-1.5 tracking-wide"></div>
+            <div class="grid grid-cols-2 gap-2.5 mb-1.5" id="chips-grid"></div>
+            <div class="flex justify-center gap-1.5" id="indicators"></div>
         </div>
 
         <!-- Input Area -->
@@ -157,13 +159,52 @@
         // CONFIGURATION
         const N8N_WEBHOOK_URL = "https://n8n-workflow-test.duckdns.org/webhook/chat"; 
 
-        // TOP 4 QUICK QUESTIONS - Optimized for 2x2 grid
-        const SAMPLE_QUESTIONS = [
-            { icon: "👤", text: "Who is DC?" },
-            { icon: "🚨", text: "Emergency" },
-            { icon: "🏛️", text: "Tourist Places" },
-            { icon: "📋", text: "Services" }
+        // ROTATING QUESTION SETS - Auto-cycles through different categories
+        const QUESTION_SETS = [
+            // Set 1: General Info
+            {
+                title: "🏛️ General Info",
+                questions: [
+                    { icon: "👤", text: "Who is DC?" },
+                    { icon: "🚨", text: "Emergency" },
+                    { icon: "🏛️", text: "Tourist Places" },
+                    { icon: "📊", text: "Population" }
+                ]
+            },
+            // Set 2: Services
+            {
+                title: "📋 Services",
+                questions: [
+                    { icon: "📋", text: "Birth Certificate" },
+                    { icon: "🏥", text: "Hospitals" },
+                    { icon: "🎓", text: "Universities" },
+                    { icon: "🚍", text: "How to reach?" }
+                ]
+            },
+            // Set 3: Heritage & Culture
+            {
+                title: "🕉️ Heritage",
+                questions: [
+                    { icon: "🕉️", text: "48 Kos Parikrama" },
+                    { icon: "🛕", text: "Brahma Sarovar" },
+                    { icon: "🏺", text: "Archaeological sites" },
+                    { icon: "📿", text: "Gita Jayanti" }
+                ]
+            },
+            // Set 4: Government
+            {
+                title: "🏢 Government",
+                questions: [
+                    { icon: "🏢", text: "SDM Office" },
+                    { icon: "📝", text: "Latest Tenders" },
+                    { icon: "💼", text: "Job Vacancies" },
+                    { icon: "🌾", text: "Agriculture Dept" }
+                ]
+            }
         ];
+        
+        let currentSetIndex = 0;
+        let rotationInterval;
 
         let messages = JSON.parse(localStorage.getItem('kwr_chat_history')) || [];
 
@@ -178,6 +219,8 @@
             
             renderMessages();
             renderChips();
+            renderIndicators();
+            startRotation(); // Start auto-rotation
             scrollToBottom();
         });
 
@@ -199,13 +242,57 @@
 
         function renderChips() {
             const grid = document.getElementById('chips-grid');
-            grid.innerHTML = SAMPLE_QUESTIONS.map(q => `
-                <button onclick="handleChipClick('${q.text.replace(/'/g, "\\'")}')" 
-                    class="chip-button w-full bg-white text-[#008069] border-2 border-[#008069] px-3 py-2.5 rounded-xl text-sm shadow-md font-semibold hover:bg-[#008069] hover:text-white flex items-center justify-center gap-2">
-                    <span class="text-lg">${q.icon}</span>
-                    <span>${q.text}</span>
-                </button>
+            const titleEl = document.getElementById('chips-title');
+            const currentSet = QUESTION_SETS[currentSetIndex];
+            
+            // Add fade animation
+            grid.style.opacity = '0';
+            titleEl.style.opacity = '0';
+            grid.style.transform = 'translateY(10px)';
+            
+            setTimeout(() => {
+                // Render title
+                titleEl.textContent = currentSet.title;
+                
+                // Render questions
+                grid.innerHTML = currentSet.questions.map(q => `
+                    <button onclick="handleChipClick('${q.text.replace(/'/g, "\\'")}')" 
+                        class="chip-button w-full bg-white text-[#008069] border-2 border-[#008069] px-3 py-2.5 rounded-xl text-sm shadow-md font-semibold hover:bg-[#008069] hover:text-white flex items-center justify-center gap-2">
+                        <span class="text-lg">${q.icon}</span>
+                        <span>${q.text}</span>
+                    </button>
+                `).join('');
+                
+                // Fade in
+                grid.style.transition = 'all 0.5s ease';
+                titleEl.style.transition = 'all 0.5s ease';
+                grid.style.opacity = '1';
+                titleEl.style.opacity = '1';
+                grid.style.transform = 'translateY(0)';
+            }, 300);
+        }
+        
+        function renderIndicators() {
+            const container = document.getElementById('indicators');
+            container.innerHTML = QUESTION_SETS.map((_, index) => `
+                <div class="w-2 h-2 rounded-full transition-all ${index === currentSetIndex ? 'bg-[#008069] w-6' : 'bg-gray-400'}"></div>
             `).join('');
+        }
+        
+        function rotateQuestions() {
+            currentSetIndex = (currentSetIndex + 1) % QUESTION_SETS.length;
+            renderChips();
+            renderIndicators();
+        }
+        
+        function startRotation() {
+            rotationInterval = setInterval(rotateQuestions, 4000); // Change every 4 seconds
+        }
+        
+        function stopRotation() {
+            if (rotationInterval) {
+                clearInterval(rotationInterval);
+            }
         }
 
         function formatText(text) {
@@ -233,6 +320,9 @@
 
             // Hide welcome message after first interaction
             document.getElementById('welcome-message').style.display = 'none';
+            
+            // Stop rotation after first message to avoid distraction
+            stopRotation();
 
             // 1. Add User Message
             const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
