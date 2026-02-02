@@ -126,7 +126,7 @@
 
         function formatText(text) {
                 // Safety check
-    if (!text) return '';
+                if (!text) return '';
             // Convert URLs to links and newlines to breaks
             let formatted = text.replace(/\n/g, '<br>');
             formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>'); // Bold
@@ -144,55 +144,54 @@
             sendMessage();
         }
 
-        async function sendMessage() {
-            const inputEl = document.getElementById('user-input');
-            const text = inputEl.value.trim();
-            if (!text) return;
+async function sendMessage() {
+    const inputEl = document.getElementById('user-input');
+    const text = inputEl.value.trim();
+    if (!text) return;
 
-            // 1. Add User Message
-            const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-            messages.push({ role: 'user', content: text, time: time });
-            saveChat();
-            renderMessages();
-            scrollToBottom();
-            inputEl.value = '';
+    // 1. Add User Message
+    const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    messages.push({ role: 'user', content: text, time: time });
+    saveChat();
+    renderMessages();
+    scrollToBottom();
+    inputEl.value = '';
 
-            // 2. Show Loading
-            document.getElementById('loading-indicator').classList.remove('hidden');
-            document.getElementById('chips-container').classList.add('hidden'); // Hide chips while loading
-            scrollToBottom();
+    // 2. Show Loading
+    document.getElementById('loading-indicator').classList.remove('hidden');
+    document.getElementById('chips-container').classList.add('hidden');
+    scrollToBottom();
 
-            try {
-                // 3. Call n8n
-                const response = await fetch(N8N_WEBHOOK_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: text })
-                });
-                
-                const data = await response.json();
-                
-                // 4. Add Bot Message
-                let botContent = data.response;
-                // Append Source if available and not already in text
-                if (data.source && !botContent.includes(data.source)) {
-                    botContent += `\n\n🔗 Source: ${data.source}`;
-                }
+    try {
+        // 3. Call n8n
+        const response = await fetch(N8N_WEBHOOK_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: text })
+        });
+        
+        const data = await response.json();
+        console.log('API Response:', data); // DEBUG LINE
+        
+        // 4. Add Bot Message - FIXED
+        let botContent = data.response || 'No response received';
+        
+        const botTime = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        messages.push({ role: 'bot', content: botContent, time: botTime });
+        saveChat();
 
-                const botTime = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                messages.push({ role: 'bot', content: botContent, time: botTime });
-                saveChat();
-
-            } catch (error) {
-                console.error(error);
-                messages.push({ role: 'bot', content: "⚠️ Unable to connect to server. Please try again.", time: time });
-            } finally {
-                document.getElementById('loading-indicator').classList.add('hidden');
-                document.getElementById('chips-container').classList.remove('hidden');
-                renderMessages();
-                scrollToBottom();
-            }
-        }
+    } catch (error) {
+        console.error('Error:', error);
+        const errorTime = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        messages.push({ role: 'bot', content: "⚠️ Unable to connect to server. Please try again.", time: errorTime });
+        saveChat();
+    } finally {
+        document.getElementById('loading-indicator').classList.add('hidden');
+        document.getElementById('chips-container').classList.remove('hidden');
+        renderMessages();
+        scrollToBottom();
+    }
+}
 
         // --- Utilities ---
         function saveChat() {
