@@ -529,7 +529,20 @@
             let formatted = text.replace(/\n/g, '<br>');
             formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
             const urlRegex = /(https?:\/\/[^\s]+)/g;
-            return formatted.replace(urlRegex, '<a href="$1" target="_blank" class="text-[#027eb5] hover:underline font-medium">🔗 $1</a>');
+            return formatted.replace(urlRegex, (url) => {
+                try {
+                    // Decode URL to show readable Hindi text
+                    const decodedUrl = decodeURIComponent(url);
+                    // Shorten if too long
+                    const displayText = decodedUrl.length > 60 
+                        ? decodedUrl.substring(0, 57) + '...' 
+                        : decodedUrl;
+                    return `<a href="${url}" target="_blank" class="text-[#027eb5] hover:underline font-medium break-all">🔗 ${displayText}</a>`;
+                } catch (e) {
+                    // If decoding fails, use original
+                    return `<a href="${url}" target="_blank" class="text-[#027eb5] hover:underline font-medium">🔗 ${url}</a>`;
+                }
+            });
         }
 
         // --- Logic ---
