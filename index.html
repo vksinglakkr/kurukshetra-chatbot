@@ -366,7 +366,23 @@
         function renderChips(skipAnimation = false) {
             const grid = document.getElementById('chips-grid');
             const titleEl = document.getElementById('chips-title');
+            
+            // Safety check: ensure valid language and index
+            if (!QUESTION_SETS[currentLanguage]) {
+                console.error('Invalid language:', currentLanguage);
+                currentLanguage = 'en'; // Fallback to English
+            }
+            
+            if (currentSetIndex >= QUESTION_SETS[currentLanguage].length) {
+                currentSetIndex = 0; // Reset to first set
+            }
+            
             const currentSet = QUESTION_SETS[currentLanguage][currentSetIndex];
+            
+            if (!currentSet || !currentSet.questions) {
+                console.error('Invalid question set:', currentSet);
+                return;
+            }
             
             if (skipAnimation) {
                 // Immediate render without animation (for toggling visibility)
@@ -409,13 +425,19 @@
         
         function renderIndicators() {
             const container = document.getElementById('indicators');
+            
+            // Safety check
+            if (!QUESTION_SETS[currentLanguage]) {
+                currentLanguage = 'en'; // Fallback
+            }
+            
             container.innerHTML = QUESTION_SETS[currentLanguage].map((_, index) => `
                 <div class="w-2 h-2 rounded-full transition-all ${index === currentSetIndex ? 'bg-[#008069] w-6' : 'bg-gray-400'}"></div>
             `).join('');
         }
         
         function rotateQuestions() {
-            currentSetIndex = (currentSetIndex + 1) % QUESTION_SETS.length;
+            currentSetIndex = (currentSetIndex + 1) % QUESTION_SETS[currentLanguage].length;
             renderChips();
             renderIndicators();
         }
@@ -459,6 +481,7 @@
         function toggleLanguage() {
             currentLanguage = currentLanguage === 'en' ? 'hi' : 'en';
             localStorage.setItem('preferred_language', currentLanguage);
+            currentSetIndex = 0; // Reset to first set when changing language
             updateUI();
             renderChips();
             renderIndicators();
