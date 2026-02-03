@@ -363,21 +363,14 @@
             `).join('');
         }
 
-        function renderChips() {
+        function renderChips(skipAnimation = false) {
             const grid = document.getElementById('chips-grid');
             const titleEl = document.getElementById('chips-title');
             const currentSet = QUESTION_SETS[currentLanguage][currentSetIndex];
             
-            // Add fade animation
-            grid.style.opacity = '0';
-            titleEl.style.opacity = '0';
-            grid.style.transform = 'translateY(10px)';
-            
-            setTimeout(() => {
-                // Render title
+            if (skipAnimation) {
+                // Immediate render without animation (for toggling visibility)
                 titleEl.textContent = currentSet.title;
-                
-                // Render questions
                 grid.innerHTML = currentSet.questions.map(q => `
                     <button onclick="handleChipClick('${q.text.replace(/'/g, "\\'")}')" 
                         class="chip-button w-full bg-white text-[#008069] border-2 border-[#008069] px-3 py-2.5 rounded-xl text-sm shadow-md font-semibold hover:bg-[#008069] hover:text-white flex items-center justify-center gap-2">
@@ -385,14 +378,33 @@
                         <span>${q.text}</span>
                     </button>
                 `).join('');
-                
-                // Fade in
-                grid.style.transition = 'all 0.5s ease';
-                titleEl.style.transition = 'all 0.5s ease';
                 grid.style.opacity = '1';
                 titleEl.style.opacity = '1';
                 grid.style.transform = 'translateY(0)';
-            }, 300);
+            } else {
+                // Animated render (for rotation)
+                grid.style.opacity = '0';
+                titleEl.style.opacity = '0';
+                grid.style.transform = 'translateY(10px)';
+                
+                setTimeout(() => {
+                    titleEl.textContent = currentSet.title;
+                    grid.innerHTML = currentSet.questions.map(q => `
+                        <button onclick="handleChipClick('${q.text.replace(/'/g, "\\'")}')" 
+                            class="chip-button w-full bg-white text-[#008069] border-2 border-[#008069] px-3 py-2.5 rounded-xl text-sm shadow-md font-semibold hover:bg-[#008069] hover:text-white flex items-center justify-center gap-2">
+                            <span class="text-lg">${q.icon}</span>
+                            <span>${q.text}</span>
+                        </button>
+                    `).join('');
+                    
+                    // Fade in
+                    grid.style.transition = 'all 0.5s ease';
+                    titleEl.style.transition = 'all 0.5s ease';
+                    grid.style.opacity = '1';
+                    titleEl.style.opacity = '1';
+                    grid.style.transform = 'translateY(0)';
+                }, 300);
+            }
         }
         
         function renderIndicators() {
@@ -423,11 +435,14 @@
             const toggleBtn = document.getElementById('toggle-chips-btn');
             
             if (chipsContainer.classList.contains('hidden')) {
-                // Show chips
+                // Render chips first WITHOUT animation, then show container
+                currentSetIndex = 0; // Reset to first set
+                renderChips(true); // Skip animation for instant render
+                renderIndicators();
+                
+                // Show immediately
                 chipsContainer.classList.remove('hidden');
                 toggleBtn.classList.add('hidden');
-                renderChips();
-                renderIndicators();
                 startRotation();
             } else {
                 // Hide chips
